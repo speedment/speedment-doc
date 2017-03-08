@@ -7,61 +7,46 @@ permalink: index.html
 summary: Learn how to connect a Java 8 Stream to a SQL database in an extremely efficient manner.
 ---
 
-```xml
-<build>
-    <plugins>
-        
-        <plugin>
-            <groupId>com.speedment</groupId>
-            <artifactId>speedment-maven-plugin</artifactId>
-            <version>${speedment.version}</version>
-        </plugin>
-        
-    </plugins>
-</build>
-<dependencies>
-    
-    <dependency>
-        <groupId>com.speedment</groupId>
-        <artifactId>runtime</artifactId>
-        <version>${speedment.version}</version>
-        <type>pom</type>
-    </dependency>
-    <dependency>
-        <groupId>org.mariadb.jdbc</groupId>
-        <artifactId>mariadb-java-client</artifactId>
-        <version>1.5.7</version>
-        <scope>runtime</scope>
-    </dependency>
-    
-</dependencies>
+<img src="https://raw.githubusercontent.com/speedment/speedment-resources/master/src/main/resources/wiki/frontpage/Forest.png" alt="Spire the Hare" title="Spire" align="right" width="240px" />
 
+Speedment is a Java Stream ORM toolkit and runtime. 
+The toolkit analyzes the metadata of an existing legacy SQL database 
+and creates a Java representation of the data model which together with 
+the Speedment runtime allows the user to create scalable and efficient 
+Java applications using **standard Java 8** streams without any
+specific query language or any new API. 
+
+### One-liner
+Search for an old hare (of age greater than 5):
+```java
+// Searches are optimized in the background!
+Optional<Hare> oldHare = hares.stream()
+    .filter(Hare.AGE.greaterThan(5))
+    .findAny();
+``` 
+
+Results in the following SQL query:
+```sql
+SELECT id, name, color, age FROM hare 
+    WHERE (age > 5)
+    LIMIT 1;
 ```
 
-Again, make sure that you use the latest `${speedment.version}` available.
+No need for manually writing SQL-queies any more. Remain in a pure Java world!
 
-### Requirements
-Speedment comes with support for the following databases out-of-the-box:
-* MySQL
-* MariaDB
-* PostgreSQL
+Documentation
+-------------
+You can read the [API quick start examples here](https://github.com/speedment/speedment#examples)!
 
+## Tutorials
+* [Tutorial 1 - Set up the IDE](https://github.com/speedment/speedment/wiki/Tutorial:-Set-up-the-IDE)
+* [Tutorial 2 - Get started with the UI](https://github.com/speedment/speedment/wiki/Tutorial:-Get-started-with-the-UI)
+* [Tutorial 3 - Hello Speedment](https://github.com/speedment/speedment/wiki/Tutorial:-Hello-Speedment)
+* [Tutorial 4 - Build a Social Network](https://github.com/speedment/speedment/wiki/Tutorial:-Build-a-Social-Network)
+* [Tutorial 5 - Log errors in a database](https://github.com/speedment/speedment/wiki/Tutorial:-Log-errors-in-a-database)
+* [Tutorial 6 - Use Speedment with Java EE](https://github.com/speedment/speedment/wiki/Tutorial:-Use-Speedment-with-Java-EE)
+* [Tutorial 7 - Writing your own extensions](https://github.com/speedment/speedment/wiki/Tutorial:-Writing-your-own-extensions)
+* [Tutorial 8 - Plug-in a Custom TypeMapper](https://github.com/speedment/speedment/wiki/Tutorial:-Plug-in-a-Custom-TypeMapper)
+* [Tutorial 9 - Create Event Sourced Systems](https://github.com/speedment/speedment/wiki/Tutorial:-Create-an-Event-Sourced-System)
 
-This site covers the **Speedment Open Source** project available under the 
-[Apache 2 license](http://www.apache.org/licenses/LICENSE-2.0). The 
-enterprise product with support for commercial 
-databases (i.e. Oracle, MS SQL Server, DB2, AS400) and in-JVM-memory acceleration can be found at 
-[www.speedment.com](http://speedment.com/).
-
-Speedment requires `Java 8` or later. Make sure your IDE configured to use JDK 8 (version 1.8.0_40 or newer).
-
-License
--------
-
-Speedment is available under the [Apache 2 License](http://www.apache.org/licenses/LICENSE-2.0).
-
-
-#### Copyright
-
-Copyright (c) 2014-2017, Speedment, Inc. All Rights Reserved.
-Visit [www.speedment.org](http://www.speedment.org/) for more info.
+Quick Start
