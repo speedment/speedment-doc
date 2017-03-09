@@ -40,7 +40,7 @@ when used, will always be recognizable by the Speedment query optimizer.
 The following methods are available to all {{site.data.javadoc.ReferenceField}}s
  (i.e. fields that are not primitive fields). In the table below, The "Outcome" is 
 a `Predicate<ENTITY>` that when tested with an object of type `ENTITY` will 
-return `true`if and only if:
+return `true` if and only if:
 
 | Method         | Param Type | Operation          | Outcome                                                |
 | :------------- | :--------- | :----------------- | :----------------------------------------------------- |
@@ -69,8 +69,8 @@ object of type `ENTITY` will return `true`if and only if:
 | .........      | `Set<V>`     | More..         |
 
 
-A {{site.data.javadoc.ComparableField}}`<ENTITY>` implements the interface traits 
-{{site.data.javadoc.HasReferenceOperators}}`<ENTITY>` and {{site.data.javadoc.HasComparableOperators}}`<ENTITY>`.
+A {{site.data.javadoc.ComparableField}} implements the interface traits 
+{{site.data.javadoc.HasReferenceOperators}} and {{site.data.javadoc.HasComparableOperators}}.
 
 ## String Field
 The following additional methods (over Comparable) are available to a `PredicateBuilder` that is associated
@@ -81,9 +81,9 @@ to a `String` field.
 | equalIgnoreCase    | `String`     | String::equalsIgnoreCase   | the field is equal to the given parameter ignoring case     |
 | notEqualIgnoreCase | `String`     | !String::equalsIgnoreCase  | the field is not equal to the given parameter ignoring case |
 
-A {{site.data.javadoc.StringField}}`<ENTITY>` implements the interface traits 
-{{site.data.javadoc.HasReferenceOperators}}`<ENTITY>`, {{site.data.javadoc.HasComparableOperators}}`<ENTITY>`.
- and {{site.data.javadoc.HasReferenceOperators}}`<ENTITY>`.
+A {{site.data.javadoc.StringField}} implements the interface traits 
+{{site.data.javadoc.HasReferenceOperators}}, {{site.data.javadoc.HasComparableOperators}}.
+ and {{site.data.javadoc.HasReferenceOperators}}.
 
 N.B. An informal notation of method references is made in the table above with "!" 
 indicating the `Predicate::negate` method. I.e. it means that the Operation indicates a 
