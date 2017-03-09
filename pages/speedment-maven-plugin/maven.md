@@ -8,13 +8,13 @@ Tags: Installation
 
 ## Maven Targets
 
-The Speedment Mavan Plugin has four Maven targets that can be used to simplify and/or automate your build process. These Maven targets 
+The Speedment Mavan Plugin has four Maven targets that can be used to simplify and/or automate our build process. These Maven targets 
 can be used to read the meta data (e.g. tables and columns) from the database. It is also used to generate code that we can use in 
 our applications. Therefore, before we can use Speedment, we must run at least one of the Maven targes.
 
 ## Installation
 
-To install the Speedment Maven Plugin we just add it as a plugin in our pom.xml file as described hereunder:
+To install the Speedment Maven Plugin, we just add it as a plugin in our pom.xml file as described hereunder:
 
 ``` xml
     <build>
@@ -28,13 +28,13 @@ To install the Speedment Maven Plugin we just add it as a plugin in our pom.xml 
     </build>
 ```
 
-Save the file and the new Maven targets will be available to your project.
+Once the file has been saves, the new Maven targets are immediately available to our project.
 
 N.B. Set the property ${speedment.version} to the latest Speedment version released, currently {{ site.data.speedment.version }}. A list
  of allversions of the Speedment Maven Plugin can be found 
 [here](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.speedment%22%20AND%20a%3A%22speedment-maven-plugin%22).
 
-The Speedment Maven Plugin autmatically depends on relevant version of open-source JDBC database drivers. These dependencies can be overridden 
+The Speedment Maven Plugin automatically depends on relevant version of open-source JDBC database drivers. These dependencies can be overridden 
 should we want to use another version. In the example below, we override the MySql JDBC version with an older one:
 
 ``` xml
@@ -101,12 +101,16 @@ Here is an example of a complete POM file that is setup for a Speedment applicat
 ```
 
 
-## Targets
+## Maven Targets
 There are four Maven targets in the Speedment Maven Plugin
-  * tool - Starts the graphical tool that can connect to an existing database
-  * generate - Generates code (no tool)
-  * reload - Reloads meta data and updates the config file (no tool)
-  * clear - Removes all generated code (no tool)
+
+| Target   | Purpose                                                         |
+| :------- | :-------------------------------------------------------------- |
+| tool     | Starts the graphical tool that connects to an existing database |
+| generate | Generates code (no tool)                                        |
+| reload   | Reloads meta data and updates the config file (no tool)         |
+| clear    | Removes all generated code (no tool)                            |
+
 
 ### Tool (speedment:tool)
 Starts the Speedment Graphical Tool that can be used to connect to the database and generate code. All settings are saved
