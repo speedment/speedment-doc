@@ -48,8 +48,8 @@ return `true`if and only if:
 | isNull         | N/A        | field == null      | the field is null                                      |
 | isNotNull      | N/A        | field != null      | the field is not null                                  |
 
-A [`ReferenceField`]({{site.data.speedment.javadocurl}}/runtime/field/ReferenceField.html) implements the interface trait `HasReferenceOperators<ENTITY>`.
-A [`ReferenceField`]({{site.data.speedment.javadocurl2}}/runtime/field/ReferenceField.html) implements the interface trait `HasReferenceOperators<ENTITY>`.
+A [`ReferenceField`]({{site.data.speedment.javadocurl}}runtime/field/ReferenceField.html) implements the interface trait `HasReferenceOperators<ENTITY>`.
+A [`ReferenceField`]({{site.data.speedment.javadocurl2}}runtime/field/ReferenceField.html) implements the interface trait `HasReferenceOperators<ENTITY>`.
 A [`ReferenceField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/ReferenceField.html) implements the interface trait `HasReferenceOperators<ENTITY>`.
 
 ## Comparable Field
