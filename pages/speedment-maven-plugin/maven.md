@@ -32,7 +32,7 @@ Save the file and the new Maven targets will be available to your project.
 
 N.B. Set the property ${speedment.version} to the latest Speedment version released, currently {{ site.data.speedment.version }}. A list
  of allversions of the Speedment Maven Plugin can be found 
-[here]. (https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.speedment%22%20AND%20a%3A%22speedment-maven-plugin%22)
+[here](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.speedment%22%20AND%20a%3A%22speedment-maven-plugin%22).
 
 The Speedment Maven Plugin autmatically depends on relevant version of open-source JDBC database drivers. These dependencies can be overridden 
 should we want to use another version. In the example below, we override the MySql JDBC version with an older one:
@@ -125,13 +125,13 @@ hash code and will not be removed.
 
 ## Configuration
 
-The Speedment Maven Plugin can be configured in many ways. New functionality can be added dynamically by adding Type Mappers, Components
-and Bundles.
+The Speedment Maven Plugin can be configured in many ways. New functionality can be added dynamically by adding `TypeMapper`s, `Component`s
+and `Bundle`s.
 
 ### Adding a Type Mapper
-Type Mappers are used to map a database type to a Java type. For example, a Timestamp field can be mapped to the Java type ```long``` to
-save memory and reduce the number of objects that are created. Type Mappers can be added to the Maven Targets dynamically and 
-will then be available like any built-in Type Mapper.
+`TypeMapper`s are used to map a database type to a Java type. For example, a `Timestamp` field can be mapped to the Java type `long` to
+save memory and reduce the number of objects that are created during execution. `TypeMapper`s can be added to the Maven Targets dynamically 
+and will then be available like any built-in `TypeMapper`.
 
 ``` xml
     <build>
@@ -173,11 +173,11 @@ will then be available like any built-in Type Mapper.
     </dependencies>
 ```
 
-This example show a fictive German Type Mapper that converts a String that is either "Ja" (Yes) or "Nein" (No) and maps that to
-a boolean that is either ```true``` ("Ja") or `false` ("Nein"). 
+This example show a fictive German `TypeMapper` that converts a `String` that is either "Ja" (Yes) or "Nein" (No) and maps that to
+a `boolean` that is either `true` ("Ja") or `false` ("Nein"). 
 
-N.B. Type Mappers that are added to the plugins must also be on the class path once our application run. Remember to depend on the artifact 
-that contains the Type Mapper in your POM file as shown in the last part of the example above.
+N.B. `TypeMappers` that are added to the plugins must also be on the class path once our application run. Remember to depend on the artifact 
+that contains the `TypeMapper` in your POM file as shown in the last part of the example above.
 
 ### Adding a Component
 TBW
@@ -191,7 +191,7 @@ If we want to follow more closely what is going on in the Speedment Maven Plugin
 what classes are being initiated are shown in the standard logger together with other data. This makes it easier to trouble shoot 
 problems and can provide valuable information in many cases.
 
-Enable debug mode by adding a configuration->debug element in the POM as described here:
+Enable debug mode by adding a `<configuration><debug>true</debug></configuration>` element in the POM as described here:
 
 ``` xml
     <build>
@@ -208,5 +208,5 @@ Enable debug mode by adding a configuration->debug element in the POM as describ
     </build>
 ```
 
-
+Once Debug Mode is enabled, much more information will be printed out on the console when the plugin runs.
 
