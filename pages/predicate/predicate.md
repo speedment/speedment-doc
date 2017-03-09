@@ -8,7 +8,7 @@ Tags: Stream
 
 ## Predicate and Fields
 
-A `Predicate` is... A Field is ...
+A `Predicate` is... A `Field` is ...
 
 ## Examples
 
@@ -60,12 +60,12 @@ object of type `ENTITY` will return `true`if and only if:
 
 | Method         | Param Type | Operation                  | Outcome                                                |
 | :------------- | :--------- | :------------------------- | :----------------------------------------------------- |
-| equal          | V          | Objects.equals(p, field)   | the field is equal to the parameter                    |
-| notEqual       | V          | !Objects.equals(p, field)  | the field is not equal to the parameter                |
-| lessThan       | V          | field < p                  | the field is less than the parameter                   |
-| lessOrEqual    | V          | field <= p                 | the field is less or equal to the the parameter        |
-| greaterThan    | V          | field > p                  | the field is greater than the parameter                |
-| greaterOrEqual | V          | field >= p                 | the field is greater or equal to the parameter         |
+| equal          | `V`          | Objects.equals(p, field)   | the field is equal to the parameter                    |
+| notEqual       | `V`          | !Objects.equals(p, field)  | the field is not equal to the parameter                |
+| lessThan       | `V`          | field < p                  | the field is less than the parameter                   |
+| lessOrEqual    | `V`          | field <= p                 | the field is less or equal to the the parameter        |
+| greaterThan    | `V`          | field > p                  | the field is greater than the parameter                |
+| greaterOrEqual | `V`          | field >= p                 | the field is greater or equal to the parameter         |
 | .........      | `Set<V>`     | More..         |
 
 
@@ -78,8 +78,8 @@ to a `String` field.
 
 | Method             | Param Type | Operation                  | Outcome                                                     |
 | :----------------- | :--------- | :------------------------- | :---------------------------------------------------------- |
-| equalIgnoreCase    | String     | String::equalsIgnoreCase   | the field is equal to the given parameter ignoring case     |
-| notEqualIgnoreCase | String     | !String::equalsIgnoreCase  | the field is not equal to the given parameter ignoring case |
+| equalIgnoreCase    | `String`     | String::equalsIgnoreCase   | the field is equal to the given parameter ignoring case     |
+| notEqualIgnoreCase | `String`     | !String::equalsIgnoreCase  | the field is not equal to the given parameter ignoring case |
 
 A `StringField` implements the interface trait `HasReferenceOperators<ENTITY>`
 and `HasComparableOperators<ENTITY>` and `HasStringOperators<ENTITY>`.
@@ -89,5 +89,18 @@ indicating the Predicate::negate method. I.e. it means that the Operation indica
 Predicate that will return the negated value.
 
 ## Primitive Field
+For performance reasons, there are a number of primitive fields available too.
+By using a primitive field, unnecessary boxing and auto-boxing cam be avoided.
+
+### IntPrimitiveField
+TBW
+
+### LongPrimitiveField
+TBW
+
+### FloatPrimitiveField
+TBW
+
+### DoublePrimitiveField
 TBW
 
