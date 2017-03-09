@@ -2,7 +2,7 @@
 permalink: maven.html
 sidebar: mydoc_sidebar
 title: Speedment Maven Plugin
-keywords: Maven, Plugin
+keywords: Maven, Plugin, Tool, Generate, Reload, Clear
 Tags: Installation
 ---
 
@@ -20,7 +20,7 @@ To install the Speedment Maven Plugin we have to add it as a plugin in our pom.x
             <plugin>
                 <groupId>com.speedment</groupId>
                 <artifactId>speedment-maven-plugin</artifactId>
-                <version>${speedment.version}</version>
+                <version>{{ site.data.speedment.version }}</version>
             </plugin>
         </plugins>
     </build>
@@ -49,10 +49,6 @@ should we want to use another version. In the example below, we override the MyS
 ```
 
 
-## Configuration
-
-You can read the API Quick Start [here](https://github.com/speedment/speedment/wiki/Speedment-API-Quick-Start).
-
 ## Targets
 There are four Maven targets in the Speedment Maven Plugin
   * tool
@@ -71,5 +67,20 @@ Stuff about Reload
 
 ### Clear (speedment:clear)
 Stuff about Clear
+
+
+## Configuration
+
+The Speedment Maven Plugin can be configured in many ways
+
+### Adding Type Mappers
+TBW
+
+##$ Adding Bundles
+TBW
+
+### Enable Debug
+If we want to follow more closely what is going on in the Speedment Maven Plugin, we can enable *Debug Mode*. In this mode, information about 
+what classes are initiated...
 
 
