@@ -58,8 +58,7 @@ objects of the same type.
 In the table below, the "Outcome" is a `Predicate<ENTITY>` that when tested with an 
 object of type `ENTITY` will return `true`if and only if:
 
-| Method         | Param      | Operation                  | Outcome                                                |
-|                | Type       |                            |                                                        |
+| Method         | Param Type | Operation                  | Outcome                                                |
 | :------------- | :--------- | :------------------------- | :----------------------------------------------------- |
 | equal          | V          | Objects.equals(p, field)   | the field is equal to the parameter                    |
 | notEqual       | V          | !Objects.equals(p, field)  | the field is not equal to the parameter                |
@@ -67,7 +66,7 @@ object of type `ENTITY` will return `true`if and only if:
 | lessOrEqual    | V          | field <= p                 | the field is less or equal to the the parameter        |
 | greaterThan    | V          | field > p                  | the field is greater than the parameter                |
 | greaterOrEqual | V          | field >= p                 | the field is greater or equal to the parameter         |
-| .........      | Set<V>     | More..         |
+| .........      | `Set<V>`     | More..         |
 
 
 A `ComparableField` implements the interface traits `HasReferenceOperators<ENTITY>` 
@@ -77,13 +76,17 @@ and `HasComparableOperators<ENTITY>`.
 The following additional methods (over Comparable) are available to a `PredicateBuilder` that is associated
 to a `String` field.
 
-| Method             | Param Type | Outcome                                                |
-| :----------------  | :--------- | :----------------------------------------------------- |
-| equalIgnoreCase    | V          | the field starts with the given parameter              |
-| notEqualIgnoreCase | V          | the field is not null                                  |
+| Method             | Param Type | Operation                  | Outcome                                                     |
+| :----------------- | :--------- | :------------------------- | :---------------------------------------------------------- |
+| equalIgnoreCase    | String     | String::equalsIgnoreCase   | the field is equal to the given parameter ignoring case     |
+| notEqualIgnoreCase | String     | !String::equalsIgnoreCase  | the field is not equal to the given parameter ignoring case |
 
 A `StringField` implements the interface trait `HasReferenceOperators<ENTITY>`
 and `HasComparableOperators<ENTITY>` and `HasStringOperators<ENTITY>`.
+
+N.B. An informal notation of method references is made in the table above with "!" 
+indicating the Predicate::negate method. I.e. it means that the Operation indicates a 
+Predicate that will return the negated value.
 
 ## Primitive Field
 TBW

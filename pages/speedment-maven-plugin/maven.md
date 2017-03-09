@@ -152,7 +152,7 @@ and will then be available like any built-in `TypeMapper`.
             </dependencies> 
             <configuration>
                 <components>
-                    <component>com.company.typemappers.JaNeinStringToBooleanTypeMapper</component>
+                    <component>de.entwicklung.typemapper.JaNeinStringToBooleanTypeMapper</component>
                 </components>
             </configuration>
         </plugin>
