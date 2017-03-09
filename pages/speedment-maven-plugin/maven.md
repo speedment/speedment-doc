@@ -102,14 +102,14 @@ Here is an example of a complete POM file that is setup for a Speedment applicat
 
 
 ## Maven Targets
-There are four Maven targets in the Speedment Maven Plugin
+There are four Maven targets in the Speedment Maven Plugin:
 
-| Target   | Purpose                                                         |
-| :------- | :-------------------------------------------------------------- |
-| tool     | Starts the graphical tool that connects to an existing database |
-| generate | Generates code (no tool)                                        |
-| reload   | Reloads meta data and updates the config file (no tool)         |
-| clear    | Removes all generated code (no tool)                            |
+| Target   | Purpose                                                         | Tool |
+| :------- | :-------------------------------------------------------------- | :--- |
+| tool     | Starts the graphical tool that connects to an existing database | Yes  |
+| generate | Generates code                                                  | No   |
+| reload   | Reloads meta data and updates the config file                   | No   |
+| clear    | Removes all generated code                                      | No   |
 
 
 ### Tool (speedment:tool)
