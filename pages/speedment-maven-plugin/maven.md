@@ -214,3 +214,12 @@ Enable debug mode by adding a `<configuration><debug>true</debug></configuration
 
 Once Debug Mode is enabled, much more information will be printed out on the console when the plugin runs.
 
+### The Configuration File
+Speedment stores the configuration of the database metadata in a special JSON file that, by default, is 
+located in the file src/main/json/speedment.json
+
+### Specifying a Configuration File
+TBW
+
+### Resetting the Configuration File
+If the configuration file is removed, the Tool will be reset and we can start all over with a clean sheet.
