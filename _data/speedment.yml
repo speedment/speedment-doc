@@ -1,3 +1,5 @@
 version: 3.0.4
 
 javadocurl: http://www.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/
+
+javadocurl2: http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/
