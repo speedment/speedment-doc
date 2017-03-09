@@ -4,6 +4,7 @@ sidebar: mydoc_sidebar
 title: Speedment Predicates
 keywords: Predicate, Stream
 Tags: Stream
+StringField: [`ReferenceField`]({{site.data.speedment.javadocurl}}runtime/field/ReferenceField.html)
 ---
 
 ## Predicate and Fields
@@ -12,18 +13,17 @@ A `Predicate` is... A `Field` is ...
 
 ## Examples
 
-Here is an example of how a `StringField` can be used in conjuction with
-a `User` object:
+Here is an example of how a {{page.StringField}} can be used in conjuction with a `User` object:
 
 ``` java
     Optional<User> johnSmith = users.stream()
         .filter(User.NAME.equal("John Smith")
         .findAny();
 ```
-In this example, the `StringField`s method `User.NAME::equal` creates 
-and returns a `Predicate<User>` that, when tested with a User, will 
-return `true` if and only if that User has a name that is equal to "John Smith",
-otherwise it will return `false`.
+In this example, the [`StringField`]({{site.data.speedment.javadocurl}}runtime/field/StringField.html)'s 
+method `User.NAME::equal` creates and returns a `Predicate<User>` that, when 
+tested with a User, will return `true` if and only if that User has a name that 
+is equal to "John Smith", otherwise it will return `false`.
 
 N.B. It would be possible to express the same semantics using a standard lambda:
 ``` java
@@ -32,14 +32,16 @@ N.B. It would be possible to express the same semantics using a standard lambda:
         .findAny();
 ```
 but Speedment would not be able to recognize and optimize vanilla lambdas. Instead,
-developers are encouraged to use the provided `Field`s which, when used,
-will always be recognizable by the Speedment query optimizer.
+developers are encouraged to use the provided 
+[`Field`]({{site.data.speedment.javadocurl}}runtime/field/Field.html)s which, 
+when used, will always be recognizable by the Speedment query optimizer.
 
 
 ## Reference Field
 
-The following methods are available to all `ReferenceField`s (i.e. fields that
-are not primitive fields). In the table below, The "Outcome" is 
+The following methods are available to all 
+[`ReferenceField`]({{site.data.speedment.javadocurl}}runtime/field/ReferenceField.html)s
+ (i.e. fields that are not primitive fields). In the table below, The "Outcome" is 
 a `Predicate<ENTITY>` that when tested with an object of type `ENTITY` will 
 return `true`if and only if:
 
@@ -48,13 +50,13 @@ return `true`if and only if:
 | isNull         | N/A        | field == null      | the field is null                                      |
 | isNotNull      | N/A        | field != null      | the field is not null                                  |
 
-A [`ReferenceField`]({{site.data.speedment.javadocurl}}runtime/field/ReferenceField.html) implements the interface trait `HasReferenceOperators<ENTITY>`.
-A [`ReferenceField`]({{site.data.speedment.javadocurl2}}runtime/field/ReferenceField.html) implements the interface trait `HasReferenceOperators<ENTITY>`.
-A [`ReferenceField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/ReferenceField.html) implements the interface trait `HasReferenceOperators<ENTITY>`.
+A [`ReferenceField`]({{site.data.speedment.javadocurl}}runtime/field/ReferenceField.html) implements the interface trait
+[`HasReferenceOperators<ENTITY>`]({{site.data.speedment.javadocurl}}runtime/field/trait/HasReferenceOperators.html).
 
 ## Comparable Field
-The following additional methods are available to a `ComparableField` that is
-always associated to a `Comparable` field (e.g. Integer, String, Date, Time etc.).
+The following additional methods are available to a 
+[`ReferenceField`]({{site.data.speedment.javadocurl}}runtime/field/ReferenceField.html)
+that is always associated to a `Comparable` field (e.g. Integer, String, Date, Time etc.).
 Comparable fields can be tested for equality and can also be compared to other 
 objects of the same type.
 In the table below, the "Outcome" is a `Predicate<ENTITY>` that when tested with an 
