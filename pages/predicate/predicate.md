@@ -4,7 +4,6 @@ sidebar: mydoc_sidebar
 title: Speedment Predicates
 keywords: Predicate, Stream
 Tags: Stream
-StringField: [`ReferenceField`]({{site.data.speedment.javadocurl}}runtime/field/ReferenceField.html)
 ---
 
 ## Predicate and Fields
@@ -13,7 +12,7 @@ A `Predicate` is... A `Field` is ...
 
 ## Examples
 
-Here is an example of how a {{page.StringField}} can be used in conjuction with a `User` object:
+Here is an example of how a {{site.data.speedment.StringField}} can be used in conjuction with a `User` object:
 
 ``` java
     Optional<User> johnSmith = users.stream()

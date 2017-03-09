@@ -1,3 +1,9 @@
 version: 3.0.4
 
 javadocurl: http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/
+
+ReferenceField: "[`ReferenceField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/ReferenceField.html)"
+
+StringField: "[`StringField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/StringField.html)"
+
+Field: "[`Field`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/Field.html)"
