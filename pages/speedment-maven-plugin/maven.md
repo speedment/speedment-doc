@@ -76,11 +76,15 @@ The Speedment Maven Plugin can be configured in many ways
 ### Adding Type Mappers
 TBW
 
-##$ Adding Bundles
+### Adding Bundles
+TBW
+
+### Adding Components
 TBW
 
 ### Enable Debug
 If we want to follow more closely what is going on in the Speedment Maven Plugin, we can enable *Debug Mode*. In this mode, information about 
-what classes are initiated...
+what classes are being initiated are shown in the standard logger. This makes it easier to trouble shoot problems and can provide valuable 
+information in many cases.
 
 
