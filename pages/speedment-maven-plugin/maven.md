@@ -20,7 +20,7 @@ To install the Speedment Maven Plugin we have to add it as a plugin in our pom.x
             <plugin>
                 <groupId>com.speedment</groupId>
                 <artifactId>speedment-maven-plugin</artifactId>
-                <version>{{ speedment_version }}</version>
+                <version>${speedment.version}</version>
             </plugin>
         </plugins>
     </build>
