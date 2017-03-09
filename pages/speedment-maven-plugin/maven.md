@@ -1,3 +1,11 @@
+---
+permalink: maven.html
+sidebar: mydoc_sidebar
+title: Speedment Maven Plugin
+keywords: Maven, Plugin
+Tags: Installation
+---
+
 # Maven Targets
 
 The Speedment Mavan Plugin has four Maven targets that can be used to simplify and/or automate your build process.
