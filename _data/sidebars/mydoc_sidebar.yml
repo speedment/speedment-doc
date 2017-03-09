@@ -60,6 +60,10 @@ entries:
     output: web, pdf
     folderitems:
 
+    - title: Speedment Maven Plugin
+      url: /speedment-maven-plugin/maven.html
+      output: web, pdf
+
     - title: About Ruby, Gems, Bundler, etc.
       url: /mydoc_about_ruby_gems_etc.html
       output: web, pdf
