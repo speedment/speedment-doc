@@ -48,7 +48,7 @@ return `true`if and only if:
 | isNull         | N/A        | field == null      | the field is null                                      |
 | isNotNull      | N/A        | field != null      | the field is not null                                  |
 
-A `ReferenceField` implements the interface trait `HasReferenceOperators<ENTITY>`.
+A [`ReferenceField`]({{ site.data.speedment.javadocurl }}/runtime/field/ReferenceField.html) implements the interface trait `HasReferenceOperators<ENTITY>`.
 
 ## Comparable Field
 The following additional methods are available to a `ComparableField` that is
@@ -81,7 +81,7 @@ to a `String` field.
 | equalIgnoreCase    | `String`     | String::equalsIgnoreCase   | the field is equal to the given parameter ignoring case     |
 | notEqualIgnoreCase | `String`     | !String::equalsIgnoreCase  | the field is not equal to the given parameter ignoring case |
 
-A `StringField` implements the interface trait `HasReferenceOperators<ENTITY>`
+A `StringField` implements the interface traits `HasReferenceOperators<ENTITY>`
 and `HasComparableOperators<ENTITY>` and `HasStringOperators<ENTITY>`.
 
 N.B. An informal notation of method references is made in the table above with "!" 
