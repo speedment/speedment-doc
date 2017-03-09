@@ -2,8 +2,10 @@ version: 3.0.4
 
 javadocurl: http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/
 
+Field: "[`Field`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/Field.html)"
 ReferenceField: "[`ReferenceField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/ReferenceField.html)"
-
 StringField: "[`StringField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/StringField.html)"
 
-Field: "[`Field`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/Field.html)"
+HasReferenceOperators: "[`HasReferenceOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/trait/HasReferenceOperators.html)"
+HasComparableOperators: "[`HasComparableOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/trait/HasComparableOperators.html)"
+HasStringOperators: "[`HasStringOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/trait/HasStringOperators.html)"
