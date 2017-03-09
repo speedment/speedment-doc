@@ -12,14 +12,14 @@ A `Predicate` is... A `Field` is ...
 
 ## Examples
 
-Here is an example of how a {{site.data.speedment.StringField}} can be used in conjuction with a `User` object:
+Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `User` object:
 
 ``` java
     Optional<User> johnSmith = users.stream()
         .filter(User.NAME.equal("John Smith")
         .findAny();
 ```
-In this example, the [`StringField`]({{site.data.speedment.javadocurl}}runtime/field/StringField.html)'s 
+In this example, the {{site.data.javadoc.StringField}}'s 
 method `User.NAME::equal` creates and returns a `Predicate<User>` that, when 
 tested with a User, will return `true` if and only if that User has a name that 
 is equal to "John Smith", otherwise it will return `false`.
@@ -31,15 +31,13 @@ N.B. It would be possible to express the same semantics using a standard lambda:
         .findAny();
 ```
 but Speedment would not be able to recognize and optimize vanilla lambdas. Instead,
-developers are encouraged to use the provided 
-[`Field`]({{site.data.speedment.javadocurl}}runtime/field/Field.html)s which, 
+developers are encouraged to use the provided {{site.data.javadoc.Field}}s which, 
 when used, will always be recognizable by the Speedment query optimizer.
 
 
 ## Reference Field
 
-The following methods are available to all 
-[`ReferenceField`]({{site.data.speedment.javadocurl}}runtime/field/ReferenceField.html)s
+The following methods are available to all {{site.data.javadoc.ReferenceField}}s
  (i.e. fields that are not primitive fields). In the table below, The "Outcome" is 
 a `Predicate<ENTITY>` that when tested with an object of type `ENTITY` will 
 return `true`if and only if:
@@ -49,13 +47,12 @@ return `true`if and only if:
 | isNull         | N/A        | field == null      | the field is null                                      |
 | isNotNull      | N/A        | field != null      | the field is not null                                  |
 
-A [`ReferenceField`]({{site.data.speedment.javadocurl}}runtime/field/ReferenceField.html) implements the interface trait
-[`HasReferenceOperators<ENTITY>`]({{site.data.speedment.javadocurl}}runtime/field/trait/HasReferenceOperators.html).
+A {{site.data.javadoc.ReferenceField}} implements the interface trait 
+{{site.data.javadoc.HasReferenceOperators}}.
 
 ## Comparable Field
-The following additional methods are available to a 
-[`ReferenceField`]({{site.data.speedment.javadocurl}}runtime/field/ReferenceField.html)
-that is always associated to a `Comparable` field (e.g. Integer, String, Date, Time etc.).
+The following additional methods are available to a {{site.data.javadoc.ReferenceField}}
+that is always associated to a `Comparable` field (e.g. `Integer`, `String`, `Date`, `Time` etc.).
 Comparable fields can be tested for equality and can also be compared to other 
 objects of the same type.
 In the table below, the "Outcome" is a `Predicate<ENTITY>` that when tested with an 
@@ -72,8 +69,8 @@ object of type `ENTITY` will return `true`if and only if:
 | .........      | `Set<V>`     | More..         |
 
 
-A `ComparableField` implements the interface traits `HasReferenceOperators<ENTITY>` 
-and `HasComparableOperators<ENTITY>`.
+A {{site.data.javadoc.ComparableField}}`<ENTITY>` implements the interface traits 
+{{site.data.javadoc.HasReferenceOperators}}`<ENTITY>` and {{site.data.javadoc.HasComparableOperators}}`<ENTITY>`.
 
 ## String Field
 The following additional methods (over Comparable) are available to a `PredicateBuilder` that is associated
@@ -84,12 +81,13 @@ to a `String` field.
 | equalIgnoreCase    | `String`     | String::equalsIgnoreCase   | the field is equal to the given parameter ignoring case     |
 | notEqualIgnoreCase | `String`     | !String::equalsIgnoreCase  | the field is not equal to the given parameter ignoring case |
 
-A `StringField` implements the interface traits `HasReferenceOperators<ENTITY>`
-and `HasComparableOperators<ENTITY>` and `HasStringOperators<ENTITY>`.
+A {{site.data.javadoc.StringField}}`<ENTITY>` implements the interface traits 
+{{site.data.javadoc.HasReferenceOperators}}`<ENTITY>`, {{site.data.javadoc.HasComparableOperators}}`<ENTITY>`.
+ and {{site.data.javadoc.HasReferenceOperators}}`<ENTITY>`.
 
 N.B. An informal notation of method references is made in the table above with "!" 
-indicating the Predicate::negate method. I.e. it means that the Operation indicates a 
-Predicate that will return the negated value.
+indicating the `Predicate::negate` method. I.e. it means that the Operation indicates a 
+`Predicate` that will return the negated value.
 
 ## Primitive Field
 For performance reasons, there are a number of primitive fields available too.
