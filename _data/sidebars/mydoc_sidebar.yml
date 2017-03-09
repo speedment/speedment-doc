@@ -61,7 +61,7 @@ entries:
     folderitems:
 
     - title: Speedment Maven Plugin
-      url: /speedment-maven-plugin/maven.html
+      url: /maven.html
       output: web, pdf
 
     - title: About Ruby, Gems, Bundler, etc.
