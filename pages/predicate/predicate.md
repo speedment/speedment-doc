@@ -48,7 +48,7 @@ return `true`if and only if:
 | isNull         | N/A        | field == null      | the field is null                                      |
 | isNotNull      | N/A        | field != null      | the field is not null                                  |
 
-A [`ReferenceField`]({{ site.data.speedment.javadocurl }}/runtime/field/ReferenceField.html) implements the interface trait `HasReferenceOperators<ENTITY>`.
+A [`ReferenceField`]({{site.data.speedment.javadocurl}}/runtime/field/ReferenceField.html) implements the interface trait `HasReferenceOperators<ENTITY>`.
 
 ## Comparable Field
 The following additional methods are available to a `ComparableField` that is
