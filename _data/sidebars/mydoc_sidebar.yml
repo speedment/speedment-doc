@@ -226,7 +226,7 @@ entries:
       output: web, pdf
       type: homepage
 
-    - title: Clear
+    - title: Clear AAAAAA
       url: /mydoc_about.html
       output: web, pdf
       type: homepage
