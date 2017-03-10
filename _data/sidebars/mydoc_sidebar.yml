@@ -24,12 +24,12 @@ entries:
     folderitems:
 
     - title: Speedment Editions
-      url: /mydoc_about.html
+      url: speedment_editions.html
       output: web, pdf
       type: homepage
 
     - title: Speedment Architecture
-      url: /mydoc_about.html
+      url: /speedment_architecture.html
       output: web, pdf
 
     - title: Speedment Plugins
