@@ -113,18 +113,18 @@ There are four Maven targets in the Speedment Maven Plugin:
 | clear    | Removes all generated code                                      | No   |
 
 
-### Tool (speedment:tool)
-Starts the Speedment Graphical Tool that can be used to connect to the database and generate code. All settings are saved
+### Tool
+By using the `speedment:tool` target we can start the Speedment Graphical Tool that can be used to connect to the database and generate code. All settings are saved
 in a JSON configuration file. Click [here] () to read more about the graphical tool.
 
 ### Generate
-By using the `speedment:generate` target we can generated code directly from the JSON configuration file without connecting to the database and without starting the Tool. 
+By using the `speedment:generate` target we can generate code directly from the JSON configuration file without connecting to the database and without starting the Tool. 
 
-### Reload (speedment:reload)
-Reloads the metadata from the database and merges any changes with the existing JSON configuration file without starting the Tool.
+### Reload
+By using the `(speedment:reload)` target we can reload the metadata from the database and merges any changes with the existing JSON configuration file without starting the Tool.
 
-### Clear (speedment:clear)
-Removes all the generated files from our project without starting the Tool. Files that are manually changed are protected by a cryptographic
+### Clear
+By using the `(speedment:clear)` target we cab remove all the generated files from our project without starting the Tool. Files that are manually changed are protected by a cryptographic
 hash code and will not be removed.
 
 
