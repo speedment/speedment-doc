@@ -24,42 +24,49 @@ entries:
     folderitems:
 
     - title: Speedment Editions
-      url: speedment_editions.html
+      url: speedment_editions.html#speedment-editions
       output: web, pdf
       type: homepage
 
     - title: Speedment Architecture
-      url: /speedment_architecture.html
+      url: preface.html#speedment-architecture
       output: web, pdf
 
     - title: Speedment Plugins
-      url: /mydoc_about.html
+      url: preface.html#speedment-plugins
       output: web, pdf
 
     - title: Licensing
-      url: /mydoc_about.html
+      url: preface.html#licensing
       output: web, pdf
 
     - title: Customer Support
-      url: /mydoc_support.html
+      url: preface.html#customer-support
       output: web, pdf
 
     - title: Release Notes
-      url: /mydoc_support.html
+      url: preface.html#release-notes
       output: web, pdf
 
+    - title: JavaDoc
+      url: preface.html#java-doc
+      output: web, pdf
+
+    - title: Supported Java Versions
+      url: preface.html#supported-java-versions
+      output: web, pdf
+      
     - title: Contributing to Speedment
-      url: /mydoc_support.html
+      url: preface.html#contributing-to-speedment
       output: web, pdf
 
     - title: Phone Home
-      url: /mydoc_support.html
+      url: preface.html#phone-home
       output: web, pdf
 
     - title: Typographic Conventions
-      url: /mydoc_support.html
+      url: preface.html#typographic-conventions
       output: web, pdf
-
 
 
   - title: Getting Started
@@ -215,6 +222,16 @@ entries:
       url: maven.html#installation
       output: web, pdf
       type: homepage
+      
+    - title: Installation Example
+      url: maven.html#installation-example
+      output: web, pdf
+      type: homepage
+
+    - title: Maven Targets
+      url: maven.html#maven-targets
+      output: web, pdf
+      type: homepage
 
     - title: Generate
       url: maven.html#generate
@@ -222,17 +239,17 @@ entries:
       type: homepage
 
     - title: Reload
-      url: /mydoc_about.html
+      url: maven.html#reload
       output: web, pdf
       type: homepage
 
     - title: Clear
-      url: /mydoc_about.html
+      url: maven.html#clear
       output: web, pdf
       type: homepage
 
     - title: Configuration0
-      url: /mydoc_tag_archives_overview.html
+      url: maven.html
       output: web, pdf
       subfolders:
           
@@ -241,27 +258,42 @@ entries:
         subfolderitems:
 
         - title: Debug
-          url: /mydoc_about.html
+          url: maven.html#debug
           output: web, pdf
           type: homepage
 
-        - title: Add a TypeMapper
-          url: /mydoc_about.html
+        - title: Adding a TypeMapper
+          url: maven.html#adding-a-typemapper
           output: web, pdf
           type: homepage
         
-        - title: Add a Component
-          url: /mydoc_about.html
+        - title: Adding a Component
+          url: maven.html#adding-a-component
           output: web, pdf
           type: homepage
         
-        - title: Add aBundle
-          url: /mydoc_about.html
+        - title: Adding a Bundle
+          url: maven.html#adding-a-bundle
           output: web, pdf
           type: homepage
         
         - title: Command Line Parameters
-          url: /mydoc_about.html
+          url: maven.html#command-line-parameters
+          output: web, pdf
+          type: homepage
+
+        - title: The Configuration FIle
+          url: maven.html#the-configuration-file
+          output: web, pdf
+          type: homepage
+
+        - title: Specifying a Configuration File
+          url: maven.html#specifying-a-configuration-file
+          output: web, pdf
+          type: homepage
+
+        - title: Resetting the Configuration File
+          url: maven.html#resetting-the-configuration-file
           output: web, pdf
           type: homepage
 
