@@ -1,4 +1,5 @@
-repository: tomjohnson1492/documentation-theme-jekyll
+#repository: tomjohnson1492/documentation-theme-jekyll
+repository: speedment/speedment-doc
 
 output: web
 # this property is useful for conditional filtering of content that is separate from the PDF.
@@ -6,16 +7,18 @@ output: web
 topnav_title: Jekyll Documentation Theme
 # this appears on the top navigation bar next to the home button
 
-site_title: Jekyll theme for documentation
+site_title: Speedment Documentation
 # this appears in the html browser tab for the site title (seen mostly by search engines, not users)
 
 company_name: Speedment, Inc.
 # this appears in the footer
 
-github_editme_path: tomjohnson1492/documentation-theme-jekyll/blob/gh-pages/
+# github_editme_path: tomjohnson1492/documentation-theme-jekyll/blob/gh-pages/
+github_editme_path: speedment/speedment-doc/tree/master/
 # if you're using Github, provide the basepath to the branch you've created for reviews, following the sample here. if not, leave this value blank.
 
-disqus_shortname: idrbwjekyll
+#disqus_shortname: idrbwjekyll
+disqus_shortname: 
 # if you're using disqus for comments, add the shortname here. if not, leave this value blank.
 
 host: 127.0.0.1
@@ -31,7 +34,7 @@ exclude:
 
 feedback_subject_line: Jekyll documentation theme
 
-feedback_email: tomjohnson1492@gmail.com
+feedback_email: dev@speedment.com
 # used as a contact email for the Feedback link in the top navigation bar
 
 # feedback_disable: true
@@ -99,7 +102,7 @@ sidebars:
 - product2_sidebar
 - other
 
-description: "Intended as a documentation theme based on Jekyll for technical writers documenting software and other technical products, this theme has all the elements you would need to handle multiple products with both multi-level sidebar navigation, tags, and other documentation features."
+description: "Documentation of Speedment. A Java 8 Stream based ORM."
 # the description is used in the feed.xml file
 
 # needed for sitemap.xml file only
