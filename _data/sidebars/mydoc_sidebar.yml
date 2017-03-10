@@ -3,7 +3,7 @@
 entries:
 - title: sidebar
   product: Speedment
-  version: 6.0
+  version: 3.0.4
   folders:
 
   - title:
@@ -18,6 +18,337 @@ entries:
       url: /tocpage
       output: pdf
       type: frontmatter
+
+  - title: Preface
+    output: web, pdf
+    folderitems:
+
+    - title: Speedment Editions
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Speedment Architecture
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Speedment Plugins
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Licensing
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Customer Support
+      url: /mydoc_support.html
+      output: web, pdf
+
+    - title: Release Notes
+      url: /mydoc_support.html
+      output: web, pdf
+
+    - title: Contributing to Speedment
+      url: /mydoc_support.html
+      output: web, pdf
+
+    - title: Phone Home
+      url: /mydoc_support.html
+      output: web, pdf
+
+    - title: Typographic Conventions
+      url: /mydoc_support.html
+      output: web, pdf
+
+
+
+  - title: Getting Started
+    output: web, pdf
+    folderitems:
+
+    - title: Installation
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Speedment Open-Source
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Speedment Enterprise
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Starting the Tool
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Hello World
+      url: /mydoc_support.html
+      output: web, pdf
+
+
+  - title: Speedment Overview
+    output: web, pdf
+    folderitems:
+
+    - title: Streams
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Persist
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Update
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Remove
+      url: /mydoc_about.html
+      output: web, pdf
+      
+    - title: Configuration
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+
+  - title: Application Configuration
+    output: web, pdf
+    folderitems:
+
+    - title: Database Password
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+      
+    - title: Database User
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Database Connection URL
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Logging
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+
+  - title: Speedment Stream Fundamentals
+    output: web, pdf
+    folderitems:
+
+    - title: Filtering
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Sorting
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Mapping
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Grouping
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Limit
+      url: /mydoc_about.html
+      output: web, pdf
+
+
+  - title: Speedment Examples
+    output: web, pdf
+    folderitems:
+
+    - title: One-to-One Relations
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: One-to-Many Relations
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Many-to-One Relations
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Many-to-Many Relations
+      url: /mydoc_about.html
+      output: web, pdf
+
+    - title: Joins
+      url: /mydoc_about.html
+      output: web, pdf
+
+
+  - title: Speedment Advanced
+    output: web, pdf
+    folderitems:
+
+    - title: Parallelism
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Parallel Strategy
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+
+  - title: Speedment Maven Plugin
+    output: web, pdf
+    folderitems:
+
+    - title: Tool
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Generate
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Reload
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Clear
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Configuration
+      output: web, pdf
+    - folderitems:
+
+      - title: Debug
+        url: /mydoc_about.html
+        output: web, pdf
+        type: homepage
+
+      - title: TypeMapper
+        url: /mydoc_about.html
+        output: web, pdf
+        type: homepage
+        
+      - title: Component
+        url: /mydoc_about.html
+        output: web, pdf
+        type: homepage
+        
+      - title: Bundle
+        url: /mydoc_about.html
+        output: web, pdf
+        type: homepage
+        
+      - title: Command Line Parameters
+        url: /mydoc_about.html
+        output: web, pdf
+        type: homepage
+
+  - title: Speedment Lifecycle
+    output: web, pdf
+    folderitems:
+
+    - title: Starting an Application
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+      
+    - title: Stopping an Application
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+      
+    - title: The Injector
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage      
+      
+  - title: Integration
+    output: web, pdf
+    folderitems:      
+
+    - title: JavaEE
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage  
+
+    - title: Spring Boot
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage  
+
+    - title: GSON
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage        
+      
+      
+
+  - title: Management
+    output: web, pdf
+    folderitems:
+
+    - title: Overview
+      url: /index.html
+      output: web, pdf
+      type: homepage
+
+
+
+  - title: Performance
+    output: web, pdf
+    folderitems:
+
+    - title: Benchmarks
+      url: /index.html
+      output: web, pdf
+      type: homepage
+
+
+  - title: Frequently Asked Questions (FAQ)
+    output: web, pdf
+    folderitems:
+
+    - title: Why 1
+      url: /index.html
+      output: web, pdf
+      type: homepage
+
+    - title: How do I 2
+      url: /index.html
+      output: web, pdf
+      type: homepage
+
+    - title: Does Speedment support 3
+      url: /index.html
+      output: web, pdf
+      type: homepage
+
+
+  - title: Aboout the Author
+    url: /mydoc_about.html
+    output: web, pdf
+    type: homepage
+
+
+
+
 
   - title: Overview
     output: web, pdf
@@ -61,19 +392,19 @@ entries:
     folderitems:
 
     - title: Speedment Maven Plugin
-      url: /maven.html
+      url: maven.html
       output: web, pdf
 
     - title: Predicates
-      url: /predicate.html
+      url: predicate.html
       output: web, pdf
 
     - title: Comparators
-      url: /comparator.html
+      url: comparator.html
       output: web, pdf
 
     - title: Demo
-      url: /demo.html
+      url: demo.html
       output: web, pdf
 
     - title: About Ruby, Gems, Bundler, etc.
