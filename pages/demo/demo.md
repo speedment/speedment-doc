@@ -41,8 +41,10 @@ Here is the table:
 
 ## XML code
 
-``` sql
-    <räkmacka>true</räckmacka>
+``` xml
+    <config>
+        <debug>true</debug>
+    </config>
 ```
 
 ## Javadoc Ref
@@ -68,4 +70,4 @@ TBW
 TBW
 
 ## Edit Me On GitHub
-TBW
+Check out this on the top of this page...  :-)
