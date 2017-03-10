@@ -61,14 +61,14 @@ Check out {{site.data.javadoc.ReferenceField}} for info.
 
 {% include important.html content="This is important" %}
 
-{% include callout.html content="This is a callout" %}
+{% include callout.html content="This is a callout" type="primary" %}
 
 
 ## Warning
 TBW
 
 ## Images
-TBW
+{% include image.html file="spire.png" alt="Jekyll" caption="This is a sample caption" %"}
 
 ## Reference to Other Part
 TBW
