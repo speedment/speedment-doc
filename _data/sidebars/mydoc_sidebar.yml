@@ -231,34 +231,34 @@ entries:
       output: web, pdf
       type: homepage
 
-      - title: Configuration
-        output: web
-        subfolderitems:
+    - title: Configuration
+      output: web
+      subfolderitems:
 
-        - title: Debug
-          url: /mydoc_about.html
-          output: web, pdf
-          type: homepage
+      - title: Debug
+        url: /mydoc_about.html
+        output: web, pdf
+        type: homepage
 
-        - title: TypeMapper
-          url: /mydoc_about.html
-          output: web, pdf
-          type: homepage
+      - title: TypeMapper
+        url: /mydoc_about.html
+        output: web, pdf
+        type: homepage
         
-        - title: Component
-          url: /mydoc_about.html
-          output: web, pdf
-          type: homepage
+      - title: Component
+        url: /mydoc_about.html
+        output: web, pdf
+        type: homepage
         
-        - title: Bundle
-          url: /mydoc_about.html
-          output: web, pdf
-          type: homepage
+      - title: Bundle
+        url: /mydoc_about.html
+        output: web, pdf
+        type: homepage
         
-        - title: Command Line Parameters
-          url: /mydoc_about.html
-          output: web, pdf
-          type: homepage
+      - title: Command Line Parameters
+        url: /mydoc_about.html
+        output: web, pdf
+        type: homepage
 
 
   - title: Speedment Lifecycle
