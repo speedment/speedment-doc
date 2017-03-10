@@ -1,7 +1,7 @@
 ---
 permalink: demo.html
 sidebar: mydoc_sidebar
-title: Demo of compoents
+title: Demo of Components
 keywords: Demo
 Tags: Demo
 ---
@@ -68,7 +68,7 @@ Check out {{site.data.javadoc.ReferenceField}} for info.
 TBW
 
 ## Images
-{% include image.html file="spire.png" alt="Jekyll" caption="This is a sample caption" %"}
+{% include image.html file="spire.png" alt="Jekyll" caption="This is a sample caption" %}
 
 ## Reference to Other Part
 TBW
