@@ -8,7 +8,7 @@ Tags: Preface, License
 ---
 
 ## Speedment Editions
-TBW
+There are two..
 
 ## Speedment Arcitecture
 TWB
