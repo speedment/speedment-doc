@@ -24,7 +24,7 @@ entries:
     folderitems:
 
     - title: Speedment Editions
-      url: speedment_editions.html#speedment-editions
+      url: preface.html#speedment-editions
       output: web, pdf
       type: homepage
 
