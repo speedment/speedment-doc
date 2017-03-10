@@ -1,5 +1,5 @@
 ---
-permalink: demo.html
+permalink: demo/demo.html
 sidebar: mydoc_sidebar
 title: Demo of compoents
 keywords: Demo
