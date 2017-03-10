@@ -212,12 +212,12 @@ entries:
     folderitems:
 
     - title: Installation
-      url: maven.html#Installation
+      url: maven.html#installation
       output: web, pdf
       type: homepage
 
     - title: Generate
-      url: maven.html#Generate
+      url: maven.html#generate
       output: web, pdf
       type: homepage
 
