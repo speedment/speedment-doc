@@ -116,8 +116,8 @@ There are four Maven targets in the Speedment Maven Plugin:
 Starts the Speedment Graphical Tool that can be used to connect to the database and generate code. All settings are saved
 in a JSON configuration file. Click [here] () to read more about the graphical tool.
 
-### Generate (speedment:generate)
-Generated code directly from the JSON configuration file without connecting to the database and without starting the Tool.
+### Generate
+By using the `speedment:generate` target we can generated code directly from the JSON configuration file without connecting to the database and without starting the Tool. 
 
 ### Reload (speedment:reload)
 Reloads the metadata from the database and merges any changes with the existing JSON configuration file without starting the Tool.
