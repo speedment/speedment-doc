@@ -158,3 +158,12 @@ pre {
     background-color: #fafafa;
 }
 
+#side-menu-wrapper {
+  overflow: scroll;
+  border-left: 1px solid black;
+  height: 100vh;
+  background: #f8f8f8;
+ }
+#mysidebar{
+ margin-left: 50px;
+}
