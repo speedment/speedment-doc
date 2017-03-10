@@ -230,11 +230,14 @@ entries:
       url: /mydoc_about.html
       output: web, pdf
       type: homepage
-      
+
+    - title: Configuration0
+      url: /mydoc_tag_archives_overview.html
+      output: web, pdf
       subfolders:
           
-      - title: Plugin Configuration
-        output: web
+      - title: ConfigHolder
+        output: web, pdf
         subfolderitems:
 
         - title: Debug
@@ -252,7 +255,7 @@ entries:
           output: web, pdf
           type: homepage
         
-        - title: Add a Bundle
+        - title: Add aBundle
           url: /mydoc_about.html
           output: web, pdf
           type: homepage
