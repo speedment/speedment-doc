@@ -51,16 +51,17 @@ Here is the table:
 Check out {{site.data.javadoc.ReferenceField}} for info.
 
 
-## Alert
-<div markdown="span" class="alert alert-info" role="alert">
-    <i class="fa fa-info-circle"></i>
-    <b>Note:</b> 
-    Remember to do this. If you have \"quotes\", you must escape them.
-</div>
+## Tips
 
 {% include note.html content = "This is a note. If you have \"quotes\", you must escape them." %}
 
 {% include tip.html content="This is a tip" %}
+
+{% include warning.html content="This is a warning" %}
+
+{% include important.html content="This is important" %}
+
+{% include callout.html content="This is a callout" %}
 
 
 ## Warning
