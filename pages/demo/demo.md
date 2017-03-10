@@ -51,8 +51,17 @@ Here is the table:
 Check out {{site.data.javadoc.ReferenceField}} for info.
 
 
-## Tips
-TBW
+## Alert
+<div markdown="span" class="alert alert-info" role="alert">
+    <i class="fa fa-info-circle"></i>
+    <b>Note:</b> 
+    Remember to do this. If you have \"quotes\", you must escape them.
+</div>
+
+{% include note.html content = "This is a note. If you have \"quotes\", you must escape them." %}
+
+{% include tip.html content="This is a tip" %}
+
 
 ## Warning
 TBW
@@ -62,6 +71,9 @@ TBW
 
 ## Reference to Other Part
 TBW
+
+## Refs {#refs}
+Reference within a [page](#refs) like this
 
 ## Foo
 TBW
