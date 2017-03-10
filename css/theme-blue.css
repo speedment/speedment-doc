@@ -110,3 +110,7 @@ li.sidebarTitle {
 #mysidebar{
  margin-left: 50px;
 }
+#main-wrapper{
+    overflow: scroll;
+    height: 100vh;
+}    
