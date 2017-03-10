@@ -3,6 +3,7 @@ permalink: maven.html
 sidebar: mydoc_sidebar
 title: Speedment Maven Plugin
 keywords: Maven, Plugin, Tool, Generate, Reload, Clear
+toc: false
 Tags: Installation
 ---
 
