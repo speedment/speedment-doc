@@ -233,7 +233,7 @@ entries:
 
     - title: Configuration
       output: web, pdf
-    - folderitems:
+    - subfolderitems:
 
       - title: Debug
         url: /mydoc_about.html
