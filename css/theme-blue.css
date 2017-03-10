@@ -101,3 +101,12 @@ li.sidebarTitle {
     margin-left: 5px;
 
 }
+#side-menu-wrapper {
+  overflow: scroll;
+  border-left: 1px solid black;
+  height: 100vh;
+  background: #f8f8f8;
+ }
+#mysidebar{
+ margin-left: 50px;
+}
