@@ -411,6 +411,7 @@ ul#mysidebar {
 
 .nav ul li a {
     background-color: #FAFAFA;
+    padding-left:20px;
 }
 
 .nav li a {
@@ -1177,3 +1178,4 @@ h4.panel-title {
     padding-top: 0px;
     margin-top: 0px;
 }
+
