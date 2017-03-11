@@ -263,7 +263,7 @@ entries:
           type: homepage
 
         - title: Adding a TypeMapper
-          url: maven.html#adding-a-typemapper
+          url: maven.html#adding-a-type-mapper
           output: web, pdf
           type: homepage
         
