@@ -31,9 +31,11 @@ To install the Speedment Maven Plugin, we just add it as a plugin in our pom.xml
 
 Once the file has been saves, the new Maven targets are immediately available to our project.
 
-N.B. Set the property ${speedment.version} to the latest Speedment version released, currently {{ site.data.speedment.version }}. A list
- of allversions of the Speedment Maven Plugin can be found 
+{% include note.html content = "
+Set the property ${speedment.version} to the latest Speedment version released, currently {{ site.data.speedment.version }}. A list 
+of allversions of the Speedment Maven Plugin can be found 
 [here](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.speedment%22%20AND%20a%3A%22speedment-maven-plugin%22).
+" %}
 
 The Speedment Maven Plugin automatically depends on relevant version of open-source JDBC database drivers. These dependencies can be overridden 
 should we want to use another version. In the example below, we override the MySql JDBC version with an older one:
@@ -133,6 +135,33 @@ hash code and will not be removed.
 The Speedment Maven Plugin can be configured in many ways. New functionality can be added dynamically by adding `TypeMapper`s, `Component`s
 and `Bundle`s.
 
+### Enable Debug Mode
+If we want to follow more closely what is going on in the Speedment Maven Plugin, we can enable *Debug Mode*. In this mode, information about 
+what classes are being initiated are shown in the standard logger together with other data. This makes it easier to trouble shoot 
+problems and can provide valuable information in many cases.
+
+Enable debug mode by adding a `<configuration><debug>true</debug></configuration>` element in the POM as described here:
+
+``` xml
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.speedment</groupId>
+                <artifactId>speedment-maven-plugin</artifactId>
+                <version>${speedment.version}</version>
+            </plugin>
+            <configuration>
+                <debug>true</debug>
+            <configuration>
+        </plugins>
+    </build>
+```
+
+{% include tip.html content="
+Once Debug Mode is enabled, much more information will be printed out on the console when the plugin runs.
+" %}
+
+
 ### Adding a Type Mapper
 `TypeMapper`s are used to map a database type to a Java type. For example, a `Timestamp` field can be mapped to the Java type `long` to
 save memory and reduce the number of objects that are created during execution. `TypeMapper`s can be added to the Maven Targets dynamically 
@@ -187,33 +216,9 @@ that contains the `TypeMapper` in your POM file as shown in the last part of the
 ### Adding a Component
 TBW
 
-### Adding a Bundles
+### Adding a Bundle
 TBW
 
-
-### Enable Debug Mode
-If we want to follow more closely what is going on in the Speedment Maven Plugin, we can enable *Debug Mode*. In this mode, information about 
-what classes are being initiated are shown in the standard logger together with other data. This makes it easier to trouble shoot 
-problems and can provide valuable information in many cases.
-
-Enable debug mode by adding a `<configuration><debug>true</debug></configuration>` element in the POM as described here:
-
-``` xml
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.speedment</groupId>
-                <artifactId>speedment-maven-plugin</artifactId>
-                <version>${speedment.version}</version>
-            </plugin>
-            <configuration>
-                <debug>true</debug>
-            <configuration>
-        </plugins>
-    </build>
-```
-
-Once Debug Mode is enabled, much more information will be printed out on the console when the plugin runs.
 
 ### Command Line Parameters
 

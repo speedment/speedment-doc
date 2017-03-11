@@ -257,7 +257,7 @@ entries:
         output: web, pdf
         subfolderitems:
 
-        - title: Debug
+        - title: Enable Debug Mode
           url: maven.html#debug
           output: web, pdf
           type: homepage
