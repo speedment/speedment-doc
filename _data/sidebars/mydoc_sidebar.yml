@@ -298,6 +298,49 @@ entries:
           type: homepage
 
 
+  - title: Streams
+    output: web, pdf
+    folderitems:
+
+    - title: Supported Mehods (not iterator)
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage
+      
+    - title: Auto Closeable
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage
+
+    - title: Parallel Streams
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage
+
+  
+  
+  - title: SQL/Java Types
+    output: web, pdf
+    folderitems:
+
+    - title: Default Types
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage
+      
+    - title: Standard TypeMapper
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage
+
+    - title: Custom TypeMapper
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage
+
+
+
+
   - title: Speedment Lifecycle
     output: web, pdf
     folderitems:

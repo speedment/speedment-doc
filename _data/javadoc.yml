@@ -1,10 +1,20 @@
 javadocurl: http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/
 
+#com.speedment.runtime.fileld
 Field: "[`Field`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/Field.html)"
 ReferenceField: "[`ReferenceField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/ReferenceField.html)"
 ComparableField: "[`ComparableField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/ComparableField.html)"
 StringField: "[`StringField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/StringField.html)"
 
+#com.speedment.runtime.fileld.trait
 HasReferenceOperators: "[`HasReferenceOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/trait/HasReferenceOperators.html)"
 HasComparableOperators: "[`HasComparableOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/trait/HasComparableOperators.html)"
 HasStringOperators: "[`HasStringOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/trait/HasStringOperators.html)"
+
+#com.speedment.runtime.typemapper
+TypeMapper: "[`TypeMapper`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/typemapper/TypeMapper.html)"
+
+
+Component: "[`Component`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/component/Component.html)"
+
+InjectBundle: "[`InjectBundle`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/common/injector.InjectBundle.html)"
