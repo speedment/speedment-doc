@@ -337,20 +337,20 @@ configure the plugins. The following command line parameters are available:
 | Name           | Type     | Purpose                                            | Example     |
 | :------------- | :------- | :------------------------------------------------- | :---------- |
 | debug          | boolean  | Enables debug mode for the plugin                  | true        |
-| dbms.host      | String   | Sets the dbms host name                            | localhost   |         
+| dbms.host      | String   | Sets the dbms host name                            | 192.168.0.4 |         
 | dbms.port      | int      | Sets the dbms port                                 | 3306        |
 | dbms.username  | String   | Sets the dbms username                             | john.smith  |
 | dbms.password  | String   | Sets the dbms password                             | W8kAk2H!Eh  | 
 | configLocation | String   | Sets the location of the configuration file        | src/main/json/my_config.json |
 | components     | String[] | Adds one or several {{site.data.javadoc.Component}}s to the plugin       | com.company.MyComponent |
-| typeMappers    | String[] | Adds one or several {{site.data.javadoc.TypeMapper}}s to the plugin      | com.company.MyTypeMapper, com.company.MyOtherTypeMapper |
+| typeMappers    | String[] | Adds one or several {{site.data.javadoc.TypeMapper}}s to the plugin      | com.so.MyTypeMapper, com.so.MyOtherTypeMapper |
 
 ## The Configuration File
 Speedment stores the configuration of the database metadata in a special JSON file that, by default, is 
 located in the file src/main/json/speedment.json
 
 The Tool's purpose is basically to edit this file. We can do manual changes to the file and 
-the changes will immediately affect the plugins and how the generate code.
+the changes will immediately affect the plugins and how the generate code once the plugins 
 
 ## Specifying a Configuration File
 See [Command Line Parameters]{#command_line_parameters) for information on how to specify a
