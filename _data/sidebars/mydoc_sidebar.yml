@@ -392,6 +392,20 @@ entries:
 
 
 
+  - title: Configuration File
+    output: web, pdf
+    folderitems:
+
+    - title: Location
+      url: /index.html
+      output: web, pdf
+      type: homepage
+      
+    - title: Content
+      url: /index.html
+      output: web, pdf
+      type: homepage
+      
   - title: Performance
     output: web, pdf
     folderitems:
