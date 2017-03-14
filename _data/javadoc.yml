@@ -11,7 +11,4 @@ HasStringOperators: "[`HasStringOperators`](http://static.javadoc.io/com.speedme
 
 TypeMapper: "[`TypeMapper`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/typemapper/TypeMapper.html)"
 
-
-Component: "[`Component`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/component/Component.html)"
-
 InjectBundle: "[`InjectBundle`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/common/injector.InjectBundle.html)"
