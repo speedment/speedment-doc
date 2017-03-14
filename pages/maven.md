@@ -216,8 +216,8 @@ This example show a fictive German {{site.data.javadoc.TypeMapper}} that convert
 "Ja" (Yes) or "Nein" (No) and maps that to a `boolean` that is either `true` ("Ja") or `false` ("Nein"). 
 
 {% include tip.html content=
-"{{site.data.javadoc.TypeMapper}}s that are added to the plugins must also be on the class path once our application run.
- Remember to depend on the artifact that contains the {{site.data.javadoc.TypeMapper}} in your POM file as shown in the last
+"`TypeMapper`s that are added to the plugins must also be on the class path once our application run.
+ Remember to depend on the artifact that contains the `TypeMapper` in your POM file as shown in the last
  part of the example above."
  %}
 
