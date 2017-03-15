@@ -314,8 +314,8 @@ When running the maven targets, we can set a number of command line parameters t
 | dbms.username  | String   | Sets the dbms username                             | john.smith  |
 | dbms.password  | String   | Sets the dbms password                             | W8kAk2H!Eh  | 
 | configLocation | String   | Sets the location of the configuration file        | src/main/json/my_config.json |
-| components     | String[] | Adds one or several Components to the plugin       | com.company.MyComponent |
-| typeMappers    | String[] | Adds one or several {{site.data.javadoc.TypeMapper}}s to the plugin      | com.so.MyTypeMapper,com.so.MyOtherTypeMapper |
+| components     | String[] | Adds one or several components or bundles to the plugin | com.company.MyComponent |
+| typeMappers    | String[] | Adds one or several {{site.data.javadoc.TypeMapper}}s to the plugin | com.so.MyTypeMapper,com.so.MyOtherTypeMapper |
 
 
 ## Command Line Examples
