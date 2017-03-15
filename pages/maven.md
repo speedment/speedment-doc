@@ -354,30 +354,33 @@ configure the plugins. The following command line parameters are available:
 
 
 ## Command Line Examples
-In the table below, a number of command line examples are shown:
-
-| Command                                     | Explanation |
-| :------------------------------------------ | :---------- |
-| `mvn speedment tool` | Start the tool with default parameters (from the POM)
-| `mvn speedment tool -Ddebug=true` | Start the tool in debug mode
-| `mvh speedment generate` | Generate code directly using the default config file (JSON)
-| `mvh speedment generate -DconfigLocation=src/main/json/my_config.json` | Generate code directly using a custom configuration file (JSON)
+Below, a number of command line examples are shown:
 
 Start the tool with default parameters (from the POM)
-  * `mvn speedment tool`
+``` shell
+  mvn speedment tool
+```
 
 Start the tool in debug mode
-  - `mvn speedment tool -Ddebug=true`
+``` shell
+  mvn speedment tool -Ddebug=true
+```
 
-Generate code directly using the default config file (JSON)
+Generate code directly using the default config file (JSON):
 ``` shell
   mvh speedment generate
 ```
 
-Generate code directly using a custom configuration file (JSON)
+Generate code directly using a custom configuration file (JSON):
 ``` shell
   mvh speedment generate -DconfigLocation=src/main/json/my_config.json`
 ```
+
+Generate code directly using two custom {{site.data.javadoc.TypeMapper}}s:
+``` shell
+  mvh speedment generate -DtypeMappers=com.so.MyTypeMapper, com.so.MyOtherTypeMapper
+```
+
 
 
 ## The Configuration File
