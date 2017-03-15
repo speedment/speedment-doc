@@ -7,13 +7,7 @@ toc: false
 Tags: Installation
 ---
 
-## Maven Targets
-
-The Speedment Mavan Plugin has four Maven targets that can be used to simplify and/or automate our build process. These Maven targets 
-can be used to read the meta data (e.g. schemas, tables and columns) from the database. They are also used to generate code that we can use in 
-our applications. Therefore, before we can use Speedment, we must run at least one of the Maven targets.
-
-### Installation
+## Installation
 
 To install the Speedment Maven Plugin, we just add it as a plugin in our pom.xml file as described hereunder:
 
@@ -31,14 +25,10 @@ To install the Speedment Maven Plugin, we just add it as a plugin in our pom.xml
 
 Once the file has been saved, the new Maven targets are immediately available to our project.
 
-
-Set the property ${speedment.version} to the latest Speedment version released (currently {{ site.data.speedment.version }}). A list 
-of all versions of the Speedment Maven Plugin can be found 
-[here](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.speedment%22%20AND%20a%3A%22speedment-maven-plugin%22).
+Set the property ${speedment.version} to the latest Speedment version released (currently {{ site.data.speedment.version }}). A list of all versions of the Speedment Maven Plugin can be found [here](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.speedment%22%20AND%20a%3A%22speedment-maven-plugin%22).
 
 
-The Speedment Maven Plugin automatically depends on relevant version of open-source JDBC database drivers. These dependencies can be overridden 
-should we want to use another version. In the example below, we override the MySql JDBC version with an older one:
+The Speedment Maven Plugin automatically depends on relevant version of open-source JDBC database drivers. These dependencies can be overridden should we want to use another version. In the example below, we override the MySql JDBC version with an older one:
 
 ``` xml
     <build>
@@ -51,7 +41,7 @@ should we want to use another version. In the example below, we override the MyS
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.38</version>
+                        <version>5.1.40</version>
                     </dependency>
                 </dependencies> 
             </plugin>
@@ -105,45 +95,35 @@ Here is an example of a complete POM file that is setup for a Speedment applicat
 
 
 ## Maven Targets
-There are four Maven targets in the Speedment Maven Plugin:
+The Speedment Mavan Plugin has four Maven targets that can be used to simplify and/or automate our build process. These Maven targets can be used to read the meta data (e.g. schemas, tables and columns) from the database. They are also used to generate code that we can use in our applications. Therefore, before we can use Speedment, we must run at least one of the Maven targets.
 
-| Target   | Purpose                                                         | Tool |
-| :------- | :-------------------------------------------------------------- | :--- |
-| [tool](maven.html#tool) | Starts the graphical tool that connects to an existing database | Yes  |
-| [generate](maven.html#generate) | Generates code  | No   |
-| [reload](maven.html#reload) | Reloads meta data and merges changes with the existing config file  | No   |
-| [clear](maven.html#clear) | Removes all generated code | No   |
+These are the four Maven targets in the Speedment Maven Plugin:
+
+| Target                          | Purpose                                                             | Tool |
+| :------------------------------ | :------------------------------------------------------------------ | :--- |
+| [tool](maven.html#tool)         | Starts the graphical tool that connects to an existing database     | Yes  |
+| [generate](maven.html#generate) | Generates code                                                      | No   |
+| [reload](maven.html#reload)     | Reloads meta data and merges changes with the existing config file  | No   |
+| [clear](maven.html#clear)       | Removes all generated code                                          | No   |
 
 
 ### Tool
-By using the `speedment:tool` target we can start the Speedment Graphical Tool that can be used to connect to 
-the database and generate code. All settings are saved in a JSON configuration file. Click [here](tool.html) to read 
-more about the graphical tool.
+By using the `speedment:tool` target we can start the Speedment Graphical Tool that can be used to connect to the database and generate code. All settings are saved in a JSON configuration file. Click [here](tool.html) to read more about the graphical tool.
 
 ### Generate
-By using the `speedment:generate` target we can generate code directly from the JSON configuration file 
-without connecting to the database and without starting the Tool. 
+By using the `speedment:generate` target we can generate code directly from the JSON configuration file without connecting to the database and without starting the Tool. 
 
 ### Reload
-By using the `speedment:reload` target we can reload the metadata from the database and merges any changes 
-with the existing JSON configuration file without starting the Tool.
+By using the `speedment:reload` target we can reload the metadata from the database and merges any changes with the existing JSON configuration file without starting the Tool.
 
 ### Clear
-By using the `speedment:clear` target we cab remove all the generated files from our project without starting 
-the Tool. Files that are manually changed are protected by a cryptographic hash code and will not be removed.
-
+By using the `speedment:clear` target we cab remove all the generated files from our project without starting the Tool. Files that are manually changed are protected by a cryptographic hash code and will not be removed.
 
 ## Configuration
-
-The Speedment Maven Plugin can be configured in many ways. A special debug mode can be set and new
- functionality can be added dynamically by adding {{site.data.javadoc.TypeMapper}}s,
- Components and {{site.data.javadoc.InjectBundle}}s.
+The Speedment Maven Plugin can be configured in many ways. A special debug mode can be set and new functionality can be added dynamically by adding {{site.data.javadoc.TypeMapper}}s, Components and {{site.data.javadoc.InjectBundle}}s.
 
 ### Enable Debug Mode
-If we want to follow more closely what is going on in one or several of the Speedment Maven Plugin Maven  targets, 
-we can enable *Debug Mode*. In this mode, information about what classes are being initiated are shown in the 
-standard logger together with other data. This makes it easier to trouble-shoot problems and can provide valuable 
-information in many cases.
+If we want to follow more closely what is going on in one or several of the Speedment Maven Plugin Maven  targets, we can enable *Debug Mode*. In this mode, information about what classes are being initiated are shown in the standard logger together with other data. This makes it easier to trouble-shoot problems and can provide valuable information in many cases.
 
 Enable debug mode by adding a `<debug>true</debug>` element in the POM as described hereunder:
 
@@ -168,13 +148,9 @@ Debug mode can be used to track what TypeMappers and Components exist and how th
 
 
 ### Adding a Type Mapper
-{{site.data.javadoc.TypeMapper}}s are used to map a database type to a Java type and vice versa. For example, 
-a `Timestamp` field can  be mapped to the Java type `long` to save memory and reduce the number of objects 
-that are created during execution. {{site.data.javadoc.TypeMapper}}s can be added to the Maven Targets 
-dynamically and will then be available like any built-in {{site.data.javadoc.TypeMapper}}.
+{{site.data.javadoc.TypeMapper}}s are used to map a database type to a Java type and vice versa. For example, a `Timestamp` field can  be mapped to the Java type `long` to save memory and reduce the number of objects that are created during execution. {{site.data.javadoc.TypeMapper}}s can be added to the Maven Targets dynamically and will then be available like any built-in {{site.data.javadoc.TypeMapper}}.
 
-This example show a fictive German {{site.data.javadoc.TypeMapper}} that converts a `String` that is either 
-"Ja" (Yes) or "Nein" (No) and maps that to a `boolean` that is either `true` ("Ja") or `false` ("Nein"):
+This example show a fictive German {{site.data.javadoc.TypeMapper}} that converts a `String` that is either "Ja" (Yes) or "Nein" (No) and maps that to a `boolean` that is either `true` ("Ja") or `false` ("Nein"):
 
 ``` xml
     <build>
@@ -216,18 +192,14 @@ This example show a fictive German {{site.data.javadoc.TypeMapper}} that convert
     </dependencies>
 ```
 
-The {{site.data.javadoc.TypeMapper}} above also converts information in the other direction. For example,
-if a mapped property is `false` and is persisted in the database, the value in the database will read "Nein".
+The {{site.data.javadoc.TypeMapper}} above also converts information in the other direction. For example, if a mapped property is `false` and is persisted in the database, the value in the database will read "Nein".
 
-{% include tip.html content=
-"`TypeMapper`s that are added to the plugins must also be on the class path once our application run.
- Remember to depend on the artifact that contains the `TypeMapper` in your POM file as shown in the last
- part of the example above."
- %}
+{% include tip.html content="
+`TypeMapper`s that are added to the plugins must also be on the class path once our application run. If the `TypeMapper` comes from an external project, remember to depend on the artifact that contains the `TypeMapper` in your POM file as shown in the last part of the example above.
+" %}
 
 ### Adding a Component
-A component can add or change Speedment functionality. Most functions within Speedment are handled by Components.
-Components are easily added to the plugins like this:
+A component can add or change Speedment functionality. Most functions within Speedment are handled by Components. Components are easily added to the plugins like this:
 
 ``` xml
 <plugin>
@@ -248,19 +220,10 @@ Components are easily added to the plugins like this:
     </configuration>
 </plugin>
 ```
-In the example above, someone has written a Component that will plug in 
-its own code generation views so that the Java code generated by Speedment will be formatted in
-a custom way compared to the default code. Perhaps that person wanted to be able
-to control the order of methods in a class so that they are introduced in alphabetic
-order rather than in insertion order.
-
+In the example above, someone has written a Component that will plug in its own code generation views so that the Java code generated by Speedment will be formatted in a custom way compared to the default code. Perhaps that person wanted to be able to control the order of methods in a class so that they are introduced in alphabetic order rather than in insertion order.
 
 ### Adding a Bundle
-An {{site.data.javadoc.InjectBundle}} simply represents a collection of Components that can 
-be installed in one sweep using just one reference. Typically, custom database support are
-installed using an {{site.data.javadoc.InjectBundle}} because several Components
-are needed to support a new database type. 
-In the example below a fictive H2 open-source database driver is added to the plugins:
+An {{site.data.javadoc.InjectBundle}} simply represents a collection of Components that can be installed in one sweep using just one reference. Typically, custom database support are installed using an {{site.data.javadoc.InjectBundle}} because several Components are needed to support a new database type. In the example below a fictive H2 open-source database driver is added to the plugins:
 
 ``` xml
 <plugin>
@@ -284,11 +247,8 @@ In the example below a fictive H2 open-source database driver is added to the pl
     </configuration>
 </plugin>
 ```
-
-
 ## Speedment Enterprise
-Speedment Enterprise is configured the same way except that we have to use different group and artifact ids.
-Here is an example of a Speedment Enterprise plugin definition:
+Speedment Enterprise is configured the same way except that we have to use different group and artifact ids. Here is an example of a Speedment Enterprise plugin definition:
 
 ``` xml
 <plugin>
@@ -306,17 +266,13 @@ Here is an example of a Speedment Enterprise plugin definition:
 </plugin>
 ```
 {% include note.html content="
-{speedment.enterprise.version} is different from {speedment.version}. Always use the recommended 
-{speedment.enterprise.version}
+{speedment.enterprise.version} is different from {speedment.version}. Always use the recommended {speedment.enterprise.version}
 " %}
 
-The Speedment Enterprise Maven Plugin works the same way as the Speedment Maven Plugin but
-the plugins come with more Components and Bundles pre-installed.
-
+The Speedment Enterprise Maven Plugin works the same way as the Speedment Maven Plugin but the plugins come with more Components and Bundles pre-installed.
 
 ## Automated Maven Builds
-Automated builds can save time and enables continues integration on our projects. We can instruct Maven to 
-generate code for us automatically on each build by attaching our plugin to certain goals like this:
+Automated builds can save time and enables continues integration on our projects. We can instruct Maven to generate code for us automatically on each build by attaching our plugin to certain goals like this:
 
 ``` xml
 <plugin>
@@ -335,11 +291,8 @@ generate code for us automatically on each build by attaching our plugin to cert
 ```
 Now, all Speedment code will be generated automatically for us upon re-build.
 
-
-
 ## Command Line Parameters
-When running the maven targets, we can set a number of command line parameters to
-configure the plugins. The following command line parameters are available:
+When running the maven targets, we can set a number of command line parameters to configure the plugins. The following command line parameters are available:
 
 | Name           | Type     | Purpose                                            | Example     |
 | :------------- | :------- | :------------------------------------------------- | :---------- |
@@ -386,22 +339,17 @@ Generate code directly using two custom {{site.data.javadoc.TypeMapper}}s:
   mvn speedment:generate -DtypeMappers=com.so.MyTypeMapper,com.so.MyOtherTypeMapper
 ```
 {% include tip.html content="
-Make sure that coma-separated items do not contain any space characters after a coma, or
-your maven build will fail.
+Make sure that coma-separated items do not contain any space characters after a coma, or your maven build will fail.
 " %}
 
 
 ## The Configuration File
-Speedment stores the configuration of the database metadata in a special JSON file that, by default, is 
-located in the file `src/main/json/speedment.json`
+Speedment stores the configuration of the database metadata in a special JSON file that, by default, is located in the file `src/main/json/speedment.json`
 
-The Tool's purpose is basically to maintain this file and to generate code. We can do manual changes to the 
-file and the changes will immediately affect the plugins and how code is generate, once the plugin are
-started.
+The Tool's purpose is basically to maintain this file and to generate code. We can do manual changes to the file and the changes will immediately affect the plugins and how code is generate, once the plugin are started.
 
 ## Specifying a Configuration File
-See [Command Line Parameters]{http://maven.html#command_line_parameters) for information on how to specify a
-custom configuration file.
+See [Command Line Parameters]{http://maven.html#command_line_parameters) for information on how to specify a custom configuration file.
 
 ## Resetting the Configuration File
 If the configuration file is removed, the Tool will be reset and we can start all over with a clean sheet.
