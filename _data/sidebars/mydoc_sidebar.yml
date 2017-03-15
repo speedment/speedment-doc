@@ -233,6 +233,11 @@ entries:
       output: web, pdf
       type: homepage
 
+    - title: Tool
+      url: maven.html#tool
+      output: web, pdf
+      type: homepage
+
     - title: Generate
       url: maven.html#generate
       output: web, pdf
@@ -258,7 +263,7 @@ entries:
         subfolderitems:
 
         - title: Enable Debug Mode
-          url: maven.html#debug
+          url: maven.html#enable-debug-mode
           output: web, pdf
           type: homepage
 
@@ -276,26 +281,41 @@ entries:
           url: maven.html#adding-a-bundle
           output: web, pdf
           type: homepage
-        
-        - title: Command Line Parameters
-          url: maven.html#command-line-parameters
+   
+        - title: Setting Component Parameters
+          url: maven.html#setting-component-parameters
           output: web, pdf
           type: homepage
 
-        - title: The Configuration FIle
-          url: maven.html#the-configuration-file
-          output: web, pdf
-          type: homepage
+    - title: Automated Maven Builds
+      url: maven.html#automated-maven-builds
+      output: web, pdf
+      type: homepage
 
-        - title: Specifying a Configuration File
-          url: maven.html#specifying-a-configuration-file
-          output: web, pdf
-          type: homepage
+    - title: Speedment Enterprise
+      url: maven.html#speedment-enterprise
+      output: web, pdf
+      type: homepage
 
-        - title: Resetting the Configuration File
-          url: maven.html#resetting-the-configuration-file
-          output: web, pdf
-          type: homepage
+    - title: Command Line Parameters
+      url: maven.html#command-line-parameters
+      output: web, pdf
+      type: homepage
+
+    - title: Command Line Examples
+      url: maven.html#command-line-examples
+      output: web, pdf
+      type: homepage
+
+    - title: Specifying a Configuration File
+      url: maven.html#specifying-a-configuration-file
+      output: web, pdf
+      type: homepage
+
+    - title: Resetting the Configuration File
+      url: maven.html#resetting-the-configuration-file
+      output: web, pdf
+      type: homepage
 
 
   - title: Speedment Tool
