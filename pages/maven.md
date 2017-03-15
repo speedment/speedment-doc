@@ -109,15 +109,15 @@ There are four Maven targets in the Speedment Maven Plugin:
 
 | Target   | Purpose                                                         | Tool |
 | :------- | :-------------------------------------------------------------- | :--- |
-| tool     | Starts the graphical tool that connects to an existing database | Yes  |
-| generate | Generates code                                                  | No   |
-| reload   | Reloads meta data and merges changes with the existing config file  | No   |
-| clear    | Removes all generated code                                      | No   |
+| [tool](maven.html#tool) | Starts the graphical tool that connects to an existing database | Yes  |
+| [generate](maven.html#generate) | Generates code  | No   |
+| [reload](maven.html#reload) | Reloads meta data and merges changes with the existing config file  | No   |
+| [clear](maven.html#clear) | Removes all generated code | No   |
 
 
 ### Tool
-By using the `speedment:tool` target we can start the Speedment Graphical Tool that can be used to connect to
- the database and generate code. All settings are saved in a JSON configuration file. Click [here] () to read 
+By using the `speedment:tool` target we can start the Speedment Graphical Tool that can be used to connect to 
+the database and generate code. All settings are saved in a JSON configuration file. Click [here](tool.html) to read 
 more about the graphical tool.
 
 ### Generate
@@ -140,11 +140,12 @@ The Speedment Maven Plugin can be configured in many ways. A special debug mode 
  Components and {{site.data.javadoc.InjectBundle}}s.
 
 ### Enable Debug Mode
-If we want to follow more closely what is going on in the Speedment Maven Plugin, we can enable *Debug Mode*. In this mode, information about 
-what classes are being initiated are shown in the standard logger together with other data. This makes it easier to trouble shoot 
-problems and can provide valuable information in many cases.
+If we want to follow more closely what is going on in one or several of the Speedment Maven Plugin Maven  targets, 
+we can enable *Debug Mode*. In this mode, information about what classes are being initiated are shown in the 
+standard logger together with other data. This makes it easier to trouble-shoot problems and can provide valuable 
+information in many cases.
 
-Enable debug mode by adding a `<configuration><debug>true</debug></configuration>` element in the POM as described here:
+Enable debug mode by adding a `<debug>true</debug>` element in the POM as described hereunder:
 
 ``` xml
     <build>
@@ -162,15 +163,18 @@ Enable debug mode by adding a `<configuration><debug>true</debug></configuration
 ```
 
 {% include tip.html content="
-Once Debug Mode is enabled, much more information will be printed out on the console when the plugin runs.
+Debug mode can be used to track what TypeMappers and Components exist and how they interact with each other.
 " %}
 
 
 ### Adding a Type Mapper
-{{site.data.javadoc.TypeMapper}}s are used to map a database type to a Java type. For example, a `Timestamp` field can
- be mapped to the Java type `long` to save memory and reduce the number of objects that are created during execution.
-{{site.data.javadoc.TypeMapper}}s can be added to the Maven Targets dynamically and will then be available like
- any built-in {{site.data.javadoc.TypeMapper}}.
+{{site.data.javadoc.TypeMapper}}s are used to map a database type to a Java type and vice versa. For example, 
+a `Timestamp` field can  be mapped to the Java type `long` to save memory and reduce the number of objects 
+that are created during execution. {{site.data.javadoc.TypeMapper}}s can be added to the Maven Targets 
+dynamically and will then be available like any built-in {{site.data.javadoc.TypeMapper}}.
+
+This example show a fictive German {{site.data.javadoc.TypeMapper}} that converts a `String` that is either 
+"Ja" (Yes) or "Nein" (No) and maps that to a `boolean` that is either `true` ("Ja") or `false` ("Nein"):
 
 ``` xml
     <build>
@@ -212,8 +216,8 @@ Once Debug Mode is enabled, much more information will be printed out on the con
     </dependencies>
 ```
 
-This example show a fictive German {{site.data.javadoc.TypeMapper}} that converts a `String` that is either 
-"Ja" (Yes) or "Nein" (No) and maps that to a `boolean` that is either `true` ("Ja") or `false` ("Nein"). 
+The {{site.data.javadoc.TypeMapper}} above also converts information in the other direction. For example,
+if a mapped property is `false` and is persisted in the database, the value in the database will read "Nein".
 
 {% include tip.html content=
 "`TypeMapper`s that are added to the plugins must also be on the class path once our application run.
@@ -222,7 +226,7 @@ This example show a fictive German {{site.data.javadoc.TypeMapper}} that convert
  %}
 
 ### Adding a Component
-A component can add or change functionality of Speedment. Most functions within Speedment are handled by Components.
+A component can add or change Speedment functionality. Most functions within Speedment are handled by Components.
 Components are easily added to the plugins like this:
 
 ``` xml
@@ -246,14 +250,16 @@ Components are easily added to the plugins like this:
 ```
 In the example above, someone has written a Component that will plug in 
 its own code generation views so that the Java code generated by Speedment will be formatted in
-a custom way compared to the default code.
+a custom way compared to the default code. Perhaps that person wanted to be able
+to control the order of methods in a class so that they are introduced in alphabetic
+order rather than in insertion order.
 
 
 ### Adding a Bundle
 An {{site.data.javadoc.InjectBundle}} simply represents a collection of Components that can 
-be installed in one sweep with just one reference. Typically, custom database support are
+be installed in one sweep using just one reference. Typically, custom database support are
 installed using an {{site.data.javadoc.InjectBundle}} because several Components
-need to be installed to support a new database type.
+are needed to support a new database type. 
 In the example below a fictive H2 open-source database driver is added to the plugins:
 
 ``` xml
@@ -300,8 +306,8 @@ Here is an example of a Speedment Enterprise plugin definition:
 </plugin>
 ```
 {% include note.html content="
-{speedment.enterprise.version} is different from {speedment.version}. Always use the recommended version
-of {speedment.enterprise.version}
+{speedment.enterprise.version} is different from {speedment.version}. Always use the recommended 
+{speedment.enterprise.version}
 " %}
 
 The Speedment Enterprise Maven Plugin works the same way as the Speedment Maven Plugin but
@@ -309,8 +315,8 @@ the plugins come with more Components and Bundles pre-installed.
 
 
 ## Automated Maven Builds
-We can instruct Maven to generate code for us automatically on each build by attaching our
-plugin to certain goals like this:
+Automated builds can save time and enables continues integration on our projects. We can instruct Maven to 
+generate code for us automatically on each build by attaching our plugin to certain goals like this:
 
 ``` xml
 <plugin>
@@ -327,7 +333,7 @@ plugin to certain goals like this:
     </executions>        
 </plugin>
 ```
-Now, all code will be generated automatically for us upon re-build.
+Now, all Speedment code will be generated automatically for us upon re-build.
 
 
 
@@ -348,10 +354,10 @@ configure the plugins. The following command line parameters are available:
 
 
 ## Command Line Examples
-Below, a number of command line examples are shown:
+In the table below, a number of command line examples are shown:
 
-| Command        | Explanation
-| :------------- | :------- 
+| Command                                     | Explanation |
+| :------------------------------------------ | :---------- |
 | `mvn speedment tool` | Start the tool with default parameters (from the POM)
 | `mvn speedment tool -Ddebug=true` | Start the tool in debug mode
 | `mvh speedment generate` | Generate code directly using the default config file (JSON)
@@ -360,14 +366,14 @@ Below, a number of command line examples are shown:
 
 ## The Configuration File
 Speedment stores the configuration of the database metadata in a special JSON file that, by default, is 
-located in the file src/main/json/speedment.json
+located in the file `src/main/json/speedment.json`
 
-The Tool's purpose is basically to edit this file. We can do manual changes to the file and 
-the changes will immediately affect the plugins and how the generate code once the plugins are
-restarted.
+The Tool's purpose is basically to maintain this file and to generate code. We can do manual changes to the 
+file and the changes will immediately affect the plugins and how the generate code, once the plugin are
+started.
 
 ## Specifying a Configuration File
-See [Command Line Parameters]{maven.html#command_line_parameters) for information on how to specify a
+See [Command Line Parameters]{/maven.html#command_line_parameters) for information on how to specify a
 custom configuration file.
 
 ## Resetting the Configuration File

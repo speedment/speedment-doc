@@ -298,6 +298,36 @@ entries:
           type: homepage
 
 
+  - title: Speedment Tool
+    output: web, pdf
+    folderitems:
+
+    - title: Connect
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Configure
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+    - title: Generate Code
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+      
+    - title: Reload
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+      
+    - title: Components
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+
+
   - title: Streams
     output: web, pdf
     folderitems:
@@ -319,7 +349,7 @@ entries:
 
   
   
-  - title: SQL/Java Types
+  - title: Data Types
     output: web, pdf
     folderitems:
 
@@ -339,12 +369,15 @@ entries:
       type: homepage
 
 
-
-
   - title: Speedment Lifecycle
     output: web, pdf
     folderitems:
 
+    - title: Building an Application
+      url: /mydoc_about.html
+      output: web, pdf
+      type: homepage
+    
     - title: Starting an Application
       url: /mydoc_about.html
       output: web, pdf
@@ -359,6 +392,32 @@ entries:
       url: /mydoc_about.html
       output: web, pdf
       type: homepage      
+
+      
+  - title: Components and Bundles
+    output: web, pdf
+    folderitems:
+
+    - title: What is a Component?
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage
+      
+    - title: Overrriding an Existing Component
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage
+
+    - title: Implementing a Custom Component
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage      
+      
+    - title: Bundling Components
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage            
+      
       
   - title: Integration
     output: web, pdf
@@ -406,6 +465,7 @@ entries:
       output: web, pdf
       type: homepage
       
+      
   - title: Performance
     output: web, pdf
     folderitems:
@@ -450,10 +510,6 @@ entries:
   - title: UN-PLACED
     output: web, pdf
     folderitems:
-
-    - title: Speedment Maven Plugin
-      url: maven.html
-      output: web, pdf
 
     - title: Predicates
       url: predicate.html
