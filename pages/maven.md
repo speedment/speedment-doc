@@ -25,7 +25,7 @@ To install the Speedment Maven Plugin, we just add it as a plugin in our pom.xml
 
 Once the file has been saved, the new Maven targets are immediately available to our project.
 
-Set the property ${speedment.version} to the latest Speedment version released (currently {{ site.data.speedment.version }}). A list of all versions of the Speedment Maven Plugin can be found [here](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.speedment%22%20AND%20a%3A%22speedment-maven-plugin%22).
+Set the property `${speedment.version}` to the latest Speedment version released (currently {{ site.data.speedment.version }}). A list of all versions of the Speedment Maven Plugin can be found [here](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.speedment%22%20AND%20a%3A%22speedment-maven-plugin%22).
 
 
 The Speedment Maven Plugin automatically depends on relevant version of open-source JDBC database drivers. These dependencies can be overridden should we want to use another version. In the example below, we override the MySql JDBC version with an older one:
