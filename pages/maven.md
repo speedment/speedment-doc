@@ -350,18 +350,12 @@ configure the plugins. The following command line parameters are available:
 ## Command Line Examples
 Below, a number of command line examples are shown:
 
-Start the tool with default parameters (from the POM):
-`mvn speedment tool`
-
-Start the tool in debug mode:
-`mvn speedment tool -Ddebug=true`
-
-Generate code directly using the default config file (JSON)
-`mvh speedment generate`
-
-Generate code directly using a custom configuration file (JSON)
-`mvh speedment generate -DconfigLocation=src/main/json/my_config.json`
-
+| Command        | Explanation
+| :------------- | :------- 
+| `mvn speedment tool` | Start the tool with default parameters (from the POM)
+| `mvn speedment tool -Ddebug=true` | Start the tool in debug mode
+| `mvh speedment generate` | Generate code directly using the default config file (JSON)
+| `mvh speedment generate -DconfigLocation=src/main/json/my_config.json` | Generate code directly using a custom configuration file (JSON)
 
 
 ## The Configuration File
