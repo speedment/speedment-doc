@@ -363,6 +363,22 @@ In the table below, a number of command line examples are shown:
 | `mvh speedment generate` | Generate code directly using the default config file (JSON)
 | `mvh speedment generate -DconfigLocation=src/main/json/my_config.json` | Generate code directly using a custom configuration file (JSON)
 
+Start the tool with default parameters (from the POM)
+  * `mvn speedment tool`
+
+Start the tool in debug mode
+  - `mvn speedment tool -Ddebug=true`
+
+Generate code directly using the default config file (JSON)
+``` shell
+  mvh speedment generate
+```
+
+Generate code directly using a custom configuration file (JSON)
+``` shell
+  mvh speedment generate -DconfigLocation=src/main/json/my_config.json`
+```
+
 
 ## The Configuration File
 Speedment stores the configuration of the database metadata in a special JSON file that, by default, is 
@@ -373,7 +389,7 @@ file and the changes will immediately affect the plugins and how the generate co
 started.
 
 ## Specifying a Configuration File
-See [Command Line Parameters]{/maven.html#command_line_parameters) for information on how to specify a
+See [Command Line Parameters]{http://maven.html#command_line_parameters) for information on how to specify a
 custom configuration file.
 
 ## Resetting the Configuration File
