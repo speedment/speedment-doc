@@ -50,7 +50,7 @@ The Speedment Maven Plugin automatically depends on relevant version of open-sou
 ```
 
 
-### Installation Example
+## Installation Example
 
 Here is an example of a complete POM file that is setup for a Speedment application that runs against a MySQL database:
 
@@ -145,7 +145,6 @@ Enable debug mode by adding a `<debug>true</debug>` element in the POM as descri
 {% include tip.html content="
 Debug mode can be used to track what TypeMappers and Components exist and how they interact with each other.
 " %}
-
 
 ### Adding a Type Mapper
 {{site.data.javadoc.TypeMapper}}s are used to map a database type to a Java type and vice versa. For example, a `Timestamp` field can  be mapped to the Java type `long` to save memory and reduce the number of objects that are created during execution. {{site.data.javadoc.TypeMapper}}s can be added to the Maven Targets dynamically and will then be available like any built-in {{site.data.javadoc.TypeMapper}}.
@@ -248,6 +247,25 @@ An {{site.data.javadoc.InjectBundle}} simply represents a collection of Componen
 </plugin>
 ```
 (Link to creating your own bundles)
+
+### Setting Component Parameters
+Some Componens can be configured directly using the POM file. This is done using a `<parameter>` tag as shown below:
+``` xml
+<plugin>
+    <groupId>com.speedment</groupId>
+    <artifactId>speedment-maven-plugin</artifactId>
+    <version>${speedment.version}</version>
+    <configuration>
+        <parameters>
+            <parameter>
+                <name>someParameterName</name>
+                <value>someParameterValue</value>
+            </parameter>
+        </parameters>
+    </configuration>
+</plugin>
+```
+Check the documentation for the individual Components to see what parameters can be set.
 
 ## Automated Maven Builds
 Automated builds can save time and enables continues integration on our projects. We can instruct Maven to generate code for us automatically on each build by attaching our plugin to certain goals like this:
@@ -367,4 +385,4 @@ See [Command Line Parameters]{http://maven.html#command_line_parameters) for inf
 If the configuration file is removed, the Tool will be reset and we can start all over with a clean sheet.
 
 ## Discussion
-{% include messenger.html page-url="https://speedment.github.io/speedment-doc/maven.html" %}
+{% include messenger.html %}
