@@ -125,11 +125,11 @@ By using the `speedment:generate` target we can generate code directly from the 
 without connecting to the database and without starting the Tool. 
 
 ### Reload
-By using the `(speedment:reload)` target we can reload the metadata from the database and merges any changes 
+By using the `speedment:reload` target we can reload the metadata from the database and merges any changes 
 with the existing JSON configuration file without starting the Tool.
 
 ### Clear
-By using the `(speedment:clear)` target we cab remove all the generated files from our project without starting 
+By using the `speedment:clear` target we cab remove all the generated files from our project without starting 
 the Tool. Files that are manually changed are protected by a cryptographic hash code and will not be removed.
 
 
@@ -253,8 +253,8 @@ a custom way compared to the default code.
 An {{site.data.javadoc.InjectBundle}} simply represents a collection of Components that can 
 be installed in one sweep with just one reference. Typically, custom database support are
 installed using an {{site.data.javadoc.InjectBundle}} because several Components
-need to be installed to support a new daabase type.
-In the example below the Speedment Entrprise connector for Oracle is added to the plugins"
+need to be installed to support a new database type.
+In the example below a fictive H2 open-source database driver is added to the plugins:
 
 ``` xml
 <plugin>
@@ -264,16 +264,16 @@ In the example below the Speedment Entrprise connector for Oracle is added to th
     <!-- Add Oracle to the list of dependencies -->       
     <dependencies>
         <dependency>
-            <groupId>${jdbc-groupId}</groupId>
-            <artifactId>${jdbc-artifactId}</artifactId>
-            <version>${jdbc-version}</version>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.194</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
-    <!-- Make sure the Oracle installer is loaded when the maven plugin is started -->
+    <!-- Make sure the H2 Bundle is loaded when the maven plugin is started -->
     <configuration>
         <components>
-            <component>com.speedment.enterprise.connectors.oracle.OracleBundle</component>
+            <component>com.speedment.connector.h2.H2Bundle</component>
         </components>
     </configuration>
 </plugin>
@@ -303,6 +303,10 @@ Here is an example of a Speedment Enterprise plugin definition:
 {speedment.enterprise.version} is different from {speedment.version}. Always use the recommended version
 of {speedment.enterprise.version}
 " %}
+
+The Speedment Enterprise Maven Plugin works the same way as the Speedment Maven Plugin but
+the plugins come with more Components and Bundles pre-installed.
+
 
 ## Automated Maven Builds
 We can instruct Maven to generate code for us automatically on each build by attaching our
@@ -341,6 +345,24 @@ configure the plugins. The following command line parameters are available:
 | configLocation | String   | Sets the location of the configuration file        | src/main/json/my_config.json |
 | components     | String[] | Adds one or several Components to the plugin       | com.company.MyComponent |
 | typeMappers    | String[] | Adds one or several {{site.data.javadoc.TypeMapper}}s to the plugin      | com.so.MyTypeMapper, com.so.MyOtherTypeMapper |
+
+
+## Command Line Examples
+Below, a number of command line examples are shown:
+
+Start the tool with default parameters (from the POM):
+`mvn speedment tool`
+
+Start the tool in debug mode:
+`mvn speedment tool -Ddebug=true`
+
+Generate code directly using the default config file (JSON)
+`mvh speedment generate`
+
+Generate code directly using a custom configuration file (JSON)
+`mvh speedment generate -DconfigLocation=src/main/json/my_config.json`
+
+
 
 ## The Configuration File
 Speedment stores the configuration of the database metadata in a special JSON file that, by default, is 
