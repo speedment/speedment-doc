@@ -312,15 +312,15 @@ entries:
       output: web, pdf
       type: homepage
 
-      - title: Specifying a Configuration File
-        url: maven.html#specifying-a-configuration-file
-        output: web, pdf
-        type: homepage
+    - title: Specifying a Configuration File
+      url: maven.html#specifying-a-configuration-file
+      output: web, pdf
+      type: homepage
 
-      - title: Resetting the Configuration File
-        url: maven.html#resetting-the-configuration-file
-        output: web, pdf
-        type: homepage
+    - title: Resetting the Configuration File
+      url: maven.html#resetting-the-configuration-file
+      output: web, pdf
+      type: homepage
 
 
   - title: Speedment Tool
