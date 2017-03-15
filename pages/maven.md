@@ -350,7 +350,7 @@ configure the plugins. The following command line parameters are available:
 | dbms.password  | String   | Sets the dbms password                             | W8kAk2H!Eh  | 
 | configLocation | String   | Sets the location of the configuration file        | src/main/json/my_config.json |
 | components     | String[] | Adds one or several Components to the plugin       | com.company.MyComponent |
-| typeMappers    | String[] | Adds one or several {{site.data.javadoc.TypeMapper}}s to the plugin      | com.so.MyTypeMapper, com.so.MyOtherTypeMapper |
+| typeMappers    | String[] | Adds one or several {{site.data.javadoc.TypeMapper}}s to the plugin      | com.so.MyTypeMapper,com.so.MyOtherTypeMapper |
 
 
 ## Command Line Examples
@@ -358,29 +358,37 @@ Below, a number of command line examples are shown:
 
 Start the tool with default parameters (from the POM)
 ``` shell
-  mvn speedment tool
+  mvn speedment:tool
 ```
 
 Start the tool in debug mode
 ``` shell
-  mvn speedment tool -Ddebug=true
+  mvn speedment:tool -Ddebug=true
 ```
 
 Generate code directly using the default config file (JSON):
 ``` shell
-  mvh speedment generate
+  mvn speedment:generate
 ```
 
 Generate code directly using a custom configuration file (JSON):
 ``` shell
-  mvh speedment generate -DconfigLocation=src/main/json/my_config.json`
+  mvn speedment:generate -DconfigLocation=src/main/json/my_config.json
+```
+
+Merge changes from the database with the current configuration file without asking for password:
+``` shell
+  mvn speedment:reload -DdbmsPassword=W8kAk2H!Eh
 ```
 
 Generate code directly using two custom {{site.data.javadoc.TypeMapper}}s:
 ``` shell
-  mvh speedment generate -DtypeMappers=com.so.MyTypeMapper, com.so.MyOtherTypeMapper
+  mvn speedment:generate -DtypeMappers=com.so.MyTypeMapper,com.so.MyOtherTypeMapper
 ```
-
+{% include tip.html content="
+Make sure that coma-separated items do not contain any space characters after a coma, or
+your maven build will fail.
+" %}
 
 
 ## The Configuration File
@@ -388,7 +396,7 @@ Speedment stores the configuration of the database metadata in a special JSON fi
 located in the file `src/main/json/speedment.json`
 
 The Tool's purpose is basically to maintain this file and to generate code. We can do manual changes to the 
-file and the changes will immediately affect the plugins and how the generate code, once the plugin are
+file and the changes will immediately affect the plugins and how code is generate, once the plugin are
 started.
 
 ## Specifying a Configuration File
