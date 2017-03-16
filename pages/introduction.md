@@ -1,7 +1,7 @@
 ---
 permalink: introduction.html
 sidebar: mydoc_sidebar
-title: Preface
+title: Introduction
 keywords: Speedment, Preface, Editions, Arcitecture, Plugins, Licensing, Support, JavaDoc, Contributing
 toc: false
 Tags: Introduction, Preface, License
@@ -12,6 +12,43 @@ previous: introduction.html
 {% include prev_next.html %}
 
 ## What is Speedment?
+__Speedment is a Java 8 Stream ORM Toolkit and Runtime__ 
+
+## One-liner
+Search for an old `Hare` (of age greater than 5):
+```java
+// Searches are optimized in the background!
+Optional<Hare> oldHare = hares.stream()
+    .filter(Hare.AGE.greaterThan(5))
+    .findAny();
+``` 
+
+Results in the following SQL query:
+```sql
+SELECT id, name, color, age FROM hare 
+    WHERE (age > 5)
+    LIMIT 1;
+```
+
+No need for manually writing SQL-queies any more. Remain in a pure Java world!
+
+### Expressing SQL as Java 8 Streams
+When we started the open-source project Speedment, the main objective was to remove the polyglot requirement for Java database application developers. After all, we all love Java and why should we need to know SQL when, instead, we could derive the same semantics directly from Java streams? When one takes a closer look at this objective, it turns out that there is a remarkable resemblance between Java streams and SQL as summarized in this simplified table:
+
+| SQL         | Java 8 Stream Equivalent          |
+| :---------- | :-------------------------------- |
+| `FROM`       | `stream()`   |
+| `SELECT`     | `map()`      |
+| `WHERE`      | `filter()` (before collecting) |
+| `HAVING`     | `filter()` (after collecting) |
+| `JOIN`       | `flatMap()`  |
+| `DISTINCT`   | `distinct()` |
+| `UNION`      | `concat().distinct()` |
+| `ORDER BY`   | `sorted()`   |
+| `OFFSET`     | `skip()`     |
+| `LIMIT`      | `limit()`    |
+| `GROUP BY`   | `collect(groupingBy())` |
+| `COUNT`      | `count()`    |
 
 
 ## Speedment Resources
