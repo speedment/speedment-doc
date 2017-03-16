@@ -5,8 +5,8 @@ title: Speedment Maven Plugin
 keywords: Maven, Plugin, Tool, Generate, Reload, Clear
 toc: false
 Tags: Installation
-next: maven.html
-prev: maven.html
+next: demo.html
+previous: predicate.html
 ---
 
 {% include prev_next.html %}
@@ -383,10 +383,12 @@ Speedment stores the configuration of the database metadata in a special JSON fi
 The Tool's purpose is basically to maintain this file and to generate code. We can do manual changes to the file and the changes will immediately affect the plugins and how code is generate, once the plugin are started.
 
 ## Specifying a Configuration File
-See [Command Line Parameters]{{{page.url}}#command_line_parameters) for information on how to specify a custom configuration file.
+See [Command Line Parameters]({{page.url}}#command_line_parameters) for information on how to specify a custom configuration file.
 
 ## Resetting the Configuration File
 If the configuration file is removed, the Tool will be reset and we can start all over with a clean sheet.
+
+{% include prev_next.html %}
 
 ## Discussion
 {% include messenger.html %}
