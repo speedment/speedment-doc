@@ -19,55 +19,24 @@ entries:
       output: pdf
       type: frontmatter
 
-  - title: Preface
+  - title: Introducing Speedment
     output: web, pdf
     folderitems:
 
-    - title: Speedment Editions
-      url: preface.html#speedment-editions
+    - title: What is Speedment?
+      url: introduction.html#what-is-speedment
       output: web, pdf
       type: homepage
 
-    - title: Speedment Architecture
-      url: preface.html#speedment-architecture
+    - title: Speedment Resources
+      url: introduction.html#speedment-resources
       output: web, pdf
+      type: homepage
 
-    - title: Speedment Plugins
-      url: preface.html#speedment-plugins
+    - title: Fast Facts About Speedment
+      url: introduction.html#fast-facts-about-Speedment
       output: web, pdf
-
-    - title: Licensing
-      url: preface.html#licensing
-      output: web, pdf
-
-    - title: Customer Support
-      url: preface.html#customer-support
-      output: web, pdf
-
-    - title: Release Notes
-      url: preface.html#release-notes
-      output: web, pdf
-
-    - title: JavaDoc
-      url: preface.html#java-doc
-      output: web, pdf
-
-    - title: Supported Java Versions
-      url: preface.html#supported-java-versions
-      output: web, pdf
-      
-    - title: Contributing to Speedment
-      url: preface.html#contributing-to-speedment
-      output: web, pdf
-
-    - title: Phone Home
-      url: preface.html#phone-home
-      output: web, pdf
-
-    - title: Typographic Conventions
-      url: preface.html#typographic-conventions
-      output: web, pdf
-
+      type: homepage
 
   - title: Getting Started
     output: web, pdf
