@@ -391,4 +391,4 @@ If the configuration file is removed, the Tool will be reset and we can start al
 {% include prev_next.html %}
 
 ## Discussion
-{% include messenger.html page-url="maven.html" %}
+{% include messenger.html page-url=page.url %}
