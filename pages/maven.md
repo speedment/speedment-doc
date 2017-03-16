@@ -391,4 +391,6 @@ If the configuration file is removed, the Tool will be reset and we can start al
 {% include prev_next.html %}
 
 ## Discussion
+Join the discussion here or on [Gitter](https://gitter.im/speedment/speedment)
+
 {% include messenger.html page-url="maven.html" %}
