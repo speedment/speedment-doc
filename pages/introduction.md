@@ -1,5 +1,5 @@
 ---
-permalink: preface.html
+permalink: introduction.html
 sidebar: mydoc_sidebar
 title: Preface
 keywords: Speedment, Preface, Editions, Arcitecture, Plugins, Licensing, Support, JavaDoc, Contributing
