@@ -384,6 +384,7 @@ The Tool's purpose is basically to maintain this file and to generate code. We c
 
 ## Specifying a Configuration File
 See [Command Line Parameters]({{page.url}}#command_line_parameters) for information on how to specify a custom configuration file.
+See [Command Line Parameters]({{page.permalink}}#command_line_parameters) for information on how to specify a custom configuration file.
 
 ## Resetting the Configuration File
 If the configuration file is removed, the Tool will be reset and we can start all over with a clean sheet.
