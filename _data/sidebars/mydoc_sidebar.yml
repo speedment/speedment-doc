@@ -34,7 +34,7 @@ entries:
       type: homepage
 
     - title: Fast Facts About Speedment
-      url: introduction.html#fast-facts-about-Speedment
+      url: introduction.html#fast-facts-about-speedment
       output: web, pdf
       type: homepage
 

@@ -5,7 +5,11 @@ title: Preface
 keywords: Speedment, Preface, Editions, Arcitecture, Plugins, Licensing, Support, JavaDoc, Contributing
 toc: false
 Tags: Introduction, Preface, License
+next: getting_started.html
+previous: introduction.html
 ---
+
+{% include prev_next.html %}
 
 ## What is Speedment?
 
@@ -44,6 +48,6 @@ Commercial support can be purcased for both Speedment and Speedment Enterprise. 
 Speedment is open-source and so we are happy to accept pull requests and improvement suggestions from the community. Read more [here](https://github.com/speedment/speedment/blob/master/CONTRIBUTING.md) on how to contribute to Speedment.
 
 ### Phone Home
-Speedment sends certain data back to our servers as described [here](https://github.com/speedment/speedment/blob/master/DISCLAIMER.MD) By using Speedment, you consent to the data being gathered. If you do not consent, you should not use Speedment.
+Speedment sends certain data back to our servers as described [here](https://github.com/speedment/speedment/blob/master/DISCLAIMER.MD) 
 
-
+{% include prev_next.html %}
