@@ -383,8 +383,7 @@ Speedment stores the configuration of the database metadata in a special JSON fi
 The Tool's purpose is basically to maintain this file and to generate code. We can do manual changes to the file and the changes will immediately affect the plugins and how code is generate, once the plugin are started.
 
 ## Specifying a Configuration File
-See [Command Line Parameters]({{page.url}}#command_line_parameters) for information on how to specify a custom configuration file.
-See [Command Line Parameters]({{page.permalink}}#command_line_parameters) for information on how to specify a custom configuration file.
+See [Command Line Parameters]({{page.permalink}}#command-line-parameters) for information on how to specify a custom configuration file.
 
 ## Resetting the Configuration File
 If the configuration file is removed, the Tool will be reset and we can start all over with a clean sheet.
@@ -392,4 +391,4 @@ If the configuration file is removed, the Tool will be reset and we can start al
 {% include prev_next.html %}
 
 ## Discussion
-{% include messenger.html %}
+{% include messenger.html page-url="{{page.permalink}}" %}
