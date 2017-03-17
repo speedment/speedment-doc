@@ -333,7 +333,6 @@ entries:
       type: homepage
 
   
-  
   - title: Data Types
     output: web, pdf
     folderitems:
@@ -493,11 +492,14 @@ entries:
       type: homepage
 
 
-  - title: Aboout the Author
-    url: author.html
+  - title: About the Author
     output: web, pdf
-    type: homepage
+    folderitems:
 
+    - title: Per Minborg
+      url: author.html
+      output: web, pdf
+      type: homepage
 
   - title: UN-PLACED
     output: web, pdf
