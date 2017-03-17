@@ -421,45 +421,45 @@ Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more informa
 In the example below, the flow of elements and the different operations in the stream's pipeline are examined. We create a `Stream` with five names and then `filter` out only those having a name that starts with the letter "A". After that we `sort` the remaining names and then we` map` the names to lower case. Finally, we print out the elements that have passed through the entire pipeline. In each operation we have inserted print statements so that we may observe what each operation is actually doing in the `Stream`:
 ``` java
     Stream.of("Bert", "Alice", "Charlie", "Assian", "Adam")
-       .filter(s -> {
+        .filter(s -> {
             String required = "A";
             boolean result = s.startsWith(required);
-            System.out.format("filter : %s startsWith(\"%s\") is %s (%s) %n", s, required, result, result ? "retained" : "dropped");
+            System.out.format("filter        : \"%s\".startsWith(\"%s\") is %s (%s) %n", s, required, result, result ? "retained" : "dropped");
             return result;
         })
         .sorted((s1, s2) -> {
             int result = s1.compareTo(s2);
-            System.out.format("sort   : compare(%s, %s) is %d (%s)%n", s1, s2, result, result < 0 ? "not swapped" : "swapped");
+            System.out.format("sort          : compare(%s, %s) is %d (%s)%n", s1, s2, result, result < 0 ? "not swapped" : "swapped");
             return result;
         })
         .map(s -> {
             String result = s.toLowerCase();
-            System.out.format("map    : %s -> %s %n", s, result);
+            System.out.format("map           : %s -> %s %n", s, result);
             return result;
         })
-        .forEach(s
-            -> System.out.println("forEach: " + s)
+        .forEachOrdered(s
+            -> System.out.println("forEachOrdered: " + s)
         );
 ```
 This will print:
 ``` text
-filter : Bert startsWith("A") is false (dropped) 
-filter : Alice startsWith("A") is true (retained) 
-filter : Charlie startsWith("A") is false (dropped) 
-filter : Assian startsWith("A") is true (retained) 
-filter : Adam startsWith("A") is true (retained) 
-sort   : compare(Assian, Alice) is 7 (swapped)
-sort   : compare(Adam, Assian) is -15 (not swapped)
-sort   : compare(Adam, Assian) is -15 (not swapped)
-sort   : compare(Adam, Alice) is -8 (not swapped)
-map    : Adam -> adam 
-forEach: adam
-map    : Alice -> alice 
-forEach: alice
-map    : Assian -> assian 
-forEach: assian
+filter        : "Bert".startsWith("A") is false (dropped) 
+filter        : "Alice".startsWith("A") is true (retained) 
+filter        : "Charlie".startsWith("A") is false (dropped) 
+filter        : "Assian".startsWith("A") is true (retained) 
+filter        : "Adam".startsWith("A") is true (retained) 
+sort          : compare(Assian, Alice) is 7 (swapped)
+sort          : compare(Adam, Assian) is -15 (not swapped)
+sort          : compare(Adam, Assian) is -15 (not swapped)
+sort          : compare(Adam, Alice) is -8 (not swapped)
+map           : Adam -> adam 
+forEachOrdered: adam
+map           : Alice -> alice 
+forEachOrdered: alice
+map           : Assian -> assian 
+forEachOrdered: assian
 ```
-So, in the end, the stream delivered the elements "adam", "alice" and "assian" as expected. Note how `sort` needs to retrieve all the element via the `filter` stage before it can emit result to the next stage.
+So, in the end, the stream delivered the elements "adam", "alice" and "assian" as expected. Note how `sort` needs to retrieve all the element via the `filter` stage before it can emit result to the next stage. On the contrary, the last steps are executed in pipeline order because both `map` and `forEachOrdered` can process a stream element one at a time.
 
 {% include prev_next.html %}
 
