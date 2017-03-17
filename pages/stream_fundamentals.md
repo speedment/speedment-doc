@@ -71,12 +71,12 @@ The following *intermediate operations* can be accepted by a `Stream`:
 | `flatMap`         | `Function`         | contains the elements of the `Stream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
 | `peek`            | `Consumer`         | contains the original elements in the stream but additionally accepting each element to the given `Consumer` (side effect)
 
-Therwe are also a number of *intermediate operations* that controls the properties of the String and has no effect on its actual content. These are:
+There are also a number of *intermediate operations* that controls the properties of the `Stream` and has no effect on its actual content. These are:
 
 | Operation         | Parameter          | Returns a `Stream` that:
 | :------------     | :----------------- | :----------------------------------------------------- |
-| `sequential`      | -                  | is sequential (not parallel)
 | `parallel`        | -                  | is parallel (not sequential)
+| `sequential`      | -                  | is sequential (not parallel)
 | `unordered`       | -                  | is unordered (data might appear in any order)
 | `onClose`         | `Runnable`         | will run the provided `Runnable` when closed
 
@@ -90,60 +90,63 @@ There are also some *intermediate operations* that maps a `Stream` to one of the
 | `mapToDouble`     | `ToDoubleFunction` | is a `DoubleStream` containing `double` elements obtained by applying the given `ToDoubleFunction` to the elements of this stream
 | `flatMapToInt`    | `Function`         | contains the `int` elements of the `IntStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
 | `flatMapToLong`   | `Function`         | contains the `long` elements of the `LongStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
-| `flatMapToDouble  | `Function`         | contains the `double` elements of the `DoubleStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+| `flatMapToDouble` | `Function`         | contains the `double` elements of the `DoubleStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
 
 Primitive streams provides better performance in many cases but can only handle streams of: `int`, `long` and `double`.
 
-Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
+Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information. Here are some examples of streams with *intermediate operations*:
 
-#### Filter
+
+Here is a list with examples for many of the  *intermediate operations*:
+
+#### filter
 ``` java
     Stream.of("B", "A", "C" , "B")
-    .filter(s -> s.equals("B")
+        .filter(s -> s.equals("B")
 ```
 returns a `Stream` with the elements "B" and "B".
 
-#### Map
+#### map
 ``` java
     Stream.of("B", "A", "C" , "B")
-    .map(s -> s + "_")
+        .map(s -> s.toLowerCase())
 ```
-is a `Stream` with the elements "B_", "A_", "C_" and "B_".
+is a `Stream` with the elements "b", "a", "c" and "b".
 
-#### Distinct
+#### distinct
 ``` java
     Stream.of("B", "A", "C" , "B")
-    .distinct()
+        .distinct()
 ```
 is a `Stream` with the elements "B", "A" and "C".
 
-#### Sorted
+#### sorted
 ``` java
     Stream.of("B", "A", "C" , "B")
-    .sorted()
+        .sorted()
 ```
 returns a `Stream` with the elements "A", "B", "B" and "C".
 
 ``` java
     Stream.of("B", "A", "C" , "B")
-    .sorted(Comparator.reverseOrder())
+        .sorted(Comparator.reverseOrder())
 ```
 is a `Stream` with the elements "C", "B", "B" and "A".
 
-#### Limit
+#### limit
 ``` java
     Stream.of("B", "A", "C" , "B")
-    .limit(2)
+        .limit(2)
 ```
-is a `Stream` with the elements "C" and "A".
-#### Skip
+is a `Stream` with the elements "B" and "A".
+#### skip
 ``` java
     Stream.of("B", "A", "C" , "B")
-    .skip(1)
+        .skip(1)
 ```
 is a `Stream` with the elements "A", "C" and "A".
 
-#### FlatMap
+#### flatMap
 ``` java
     Stream.of(
         Stream.of("B", "A"),
@@ -151,28 +154,136 @@ is a `Stream` with the elements "A", "C" and "A".
     )
     .flatMap(Function.identity())
 ```
-returns a `Stream` with the elements "B", "A", "C" and "B".
+returns a `Stream` with the elements "B", "A", "C" and "B". The two streams (that each contain two elements) are "flattened" to a single `Stream` with four elements.
 
-#### Peek
+#### peek
 ``` java
     Stream.of("B", "A", "C" , "B")
-    .peek(System.out::print)
+        .peek(System.out::print)
 ```
-is a `Stream` with the elements "B", "A", "C" and "B" but when consumed in its entirety will print out the text "BACB".
+is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB".
+
+#### parallel
+``` java
+    Stream.of("B", "A", "C" , "B")
+        .parallel()
+```
+is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed, elements in the `Stream` may be propagated through the pipeline using different `Thread`s.
+
+#### sequential
+``` java
+    Stream.of("B", "A", "C" , "B")
+        .parallel()
+        .sequential()
+```
+is a `Stream` with the elements "B", "A", "C" and "B" that is not parallel.
+
+#### unordered
+``` java
+    Stream.of("B", "A", "C" , "B")
+        .unordered()
+```
+is a `Stream` with the given elements but in no particular order, so when consumed, elements might be encountered in any order, for example in the order "C", "B", "B", "A".
+
+#### onClose
+``` java
+    Stream.of("B", "A", "C" , "B")
+        .onClosed(() -> System.out.println("The Stream was closed")
+```
+is a `Stream` with the elements "B", "A", "C" and "B" but, when closed, will print out the text "The Stream was closed".
+
+#### mapToInt
+``` java
+    Stream.of("B", "A", "C" , "B")
+        .mapToInt(s -> s.hashCode())
+```
+is an `IntStream` with the `int` elements 66, 65, 67 and 66.
+
+#### mapToLong
+``` java
+    Stream.of("B", "A", "C", "B")
+        .mapToLong(s -> s.hashCode() * 1_000_000_000_000l)
+
+```
+is a `LongStream` with the `long` elements 66000000000000, 65000000000000, 67000000000000 and 66000000000000.
+
+#### mapToDouble
+``` java
+    Stream.of("B", "A", "C", "B")
+        .mapToDouble(s -> s.hashCode() / 10.0)
+
+```
+is a `DoubleStream` with the `double` elements 6.6, 6.5, 6.7 and 6.6.
+
+#### flatMapToInt
+``` java
+    Stream.of(
+        IntStream.of(1, 2),
+        IntStream.of(3, 4)
+    )
+        .flatMapToInt(s -> s.map(i -> i + 1))
+```
+is an `IntStream` with the `int` elements 2, 3, 4 and 5.
+
+#### flatMapToLong
+``` java
+    Stream.of(
+        LongStream.of(1, 2),
+        LongStream.of(3, 4)
+    )
+        .flatMapToLong(s -> s.map(i -> i + 1))
+```
+is a `LongStream` with the `long` elements 2, 3, 4 and 5.
+
+#### flatMapToDouble
+``` java
+    Stream.of(
+        LongStream.of(1.0, 2.0),
+        LongStream.of(3.0, 4.0)
+    )
+        .flatMapToDouble(s -> s.map(i -> i + 1))
+```
+is a `DoubleStream` with the `double` elements 2.0, 3.0, 4.0 and 5.0.
+
+This completes the example list of *intermediate operations*.
 
 
 ### Terminal Operations
 A *terminal operations* starts the `Stream` and returns a result that depends on the `Stream` pipeline and content. For example, 'collect' is a *terminal operation* because we cannot add additional operation to a `Stream` pipeline after `collect` has been called.
-The following *terminal operations* can be accepted by a `Stream`:
+Here are some of the *terminal operations* that can be accepted by a `Stream`:
 
-| Method       | Parameter | Outcome                                                |
-| :----------  | :-------- | :----------------------------------------------------- |
-| comparator   | N/A       | the field is null                                      |
 
-Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
+| Operation         | Parameter(s)         | Action
+| :------------     | :------------------- | :----------------------------------------------------- |
+| `forEach`         | `Consumer`           | Performs the given `Consumer` action for each element in the stream in any order
+| `forEachOrdered`  | `Consumer`           | Performs the given `Consumer` action for each element in the stream in stream order
+| `collect`         | `Collector`          | Returns a reduction of the elements in the stream. For example a `List`, `Set` or a `Map`
+| `min`             | `Comparator`         | Returns the smallest element (as determined by the provided `Comparator`) in the stream (if any)
+| `max`             | `Comparator`         | Returns the biggest element (as determined by the provided `Comparator`) in the stream (if any)
+| `count`           | -                    | Returns the number of element in the stream
+| `anyMatch`        | `Predicate`          | Returns whether at least one element in this stream match the provided `Predicate`
+| `allMatch`        | `Predicate`          | Returns whether all elements in this stream match the provided `Predicate`
+| `noneMatch`       | `Predicate`          | Returns whether no elements in this stream match the provided `Predicate`
+| `findFirst`       | -                    | Returns the first element in this stream (if any)
+| `findAny`         | -                    | Returns any element in this stream (if any)
+| `toArray`         | -                    | Returns an array containing all the elements in this stream
+| `toArray`         | `IntFunction`        | Returns an array containing all the elements in this stream whereby the array is created using the provided `IntFunction`
+
+
+Here is a list of other *terminal operations* that are a bit more complicated:
+| Operation         | Parameter(s)         | Action
+| :------------     | :------------------- | :----------------------------------------------------- |
+| `collect`         | `Supplier, BC, BC`   | Returns a reduction of the elements in the stream starting with an empty reduction (e.g. an empty `List`) obtained from the `Supplier` and then applying the first `BiFunction` (BF) for each element and at the end, combining using the second `BiConsumer`.
+| `reduce`          | `T, BinaryOperation` | Using a first `T` and then subsequently applying a `BinaryOperation` for each element in the stream, returns the value of the last value (reduction)
+| `reduce`          | `BinaryOperation`    | By subsequently applying a `BinaryOperation` for each element in the stream, returns the value of the last value (reduction)
+| `reduce`          | `T, BO, CO`          | In parallel, using  first values `T` and then subsequently applying a `BinaryOperation` (BO) for each element in the stream, returns the value of the last values combined using the `CO`
+| `iterator`        | -                    | Returns an `Iterator` of all the values in this string.
+| `spliterator`     | -                    | Returns a `Spliterator` with all the values in this string.
+
 
 ### Other Operations
-There are also a small number of of other operations that are neither a *intermediate operation* nor a *terminal operation* as shown in the table below:
+There are also a small number of other operations that are neither a *intermediate operation* nor a *terminal operation* as shown in the table below:
+
 | Operation         | Action
 | :------------     | :----------------------------------------------------- |
 | `isParallel()`    | Returns `true` if the Stream is parallel, else `false`
@@ -180,30 +291,177 @@ There are also a small number of of other operations that are neither a *interme
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
 
+Here is a list with examples for many of the  *intermediate operations*:
+
+#### forEach
+``` java
+ Stream.of("B", "A", "C" , "B")
+        .forEach(System.out::print);
+```
+might output "CBBA".
+
+#### forEachOrdered
+``` java
+ Stream.of("B", "A", "C" , "B")
+        .forEachOrdered(System.out::print);
+```
+outputs "BACB"
+
+#### collect
+``` java
+ Stream.of("B", "A", "C" , "B")
+        .collect(Colectors.toList());
+```
+Returns a `List<String>` equal to `["B", "A", "C", "B"]`
+
+``` java
+ Stream.of("B", "A", "C" , "B")
+        .collect(Colectors.toSet());
+```
+Returns a `Set<String>` equal to `["A", "B", "C"]`
+
+``` java
+    Stream.of("I", "am", "a", "stream")
+        .collect(Collectors.toMap(
+            s -> s.toLowerCase(), // Key extractor
+            s -> s.length())      // Value extractor
+        )
+```
+Returns a `Map<String, Integer>` equal to `{a=1, stream=6, i=1, am=2}`
+
+
+#### min
+``` java
+     Stream.of("B", "A", "C" , "B")
+        .min(String::compareTo);
+```
+returns `Optional[A]`
+
+``` java
+    Stream.<String>empty()
+        .min(String::compareTo);
+```
+returns `Optional.empty`
+
+#### max
+``` java
+     Stream.of("B", "A", "C" , "B")
+        .max(String::compareTo);
+```
+returns `Optional[C]`
+
+``` java
+    Stream.<String>empty()
+        .max(String::compareTo);
+```
+returns `Optional.empty`
+
+#### count
+``` java
+     Stream.of("B", "A", "C" , "B")
+        .count();
+```
+returns 4
+
+``` java
+    Stream.empty()
+        .count();
+```
+returns 0
+
+#### anyMatch
+``` java
+    Stream.of("B", "A", "C", "B")
+        .anyMatch("A"::equals);
+```
+returns `true`
+``` java
+    Stream.of("B", "A", "C", "B")
+        .anyMatch("Z"::equals);
+```
+returns `false`
+
+#### noneMatch
+``` java
+    Stream.of("B", "A", "C", "B")
+        .noneMatch("A"::equals);
+```
+returns `false`
+``` java
+    Stream.of("B", "A", "C", "B")
+        .noneMatch("Z"::equals);
+```
+returns `true`
+
+#### findFirst
+``` java
+    Stream.of("B", "A", "C", "B")
+        .findFirst();
+```
+returns "B"
+
+#### findAny
+``` java
+    Stream.of("B", "A", "C", "B")
+        .findFirst();
+```
+might return "C"
+
+#### toArray
+``` java
+    Stream.of("B", "A", "C", "B")
+        .toArray();
+```
+Returns an array containing [B, A, C, B]
+``` java
+    Stream.of("B", "A", "C", "B")
+        .toArray(String[]::new)
+```
+Returns an array containing [B, A, C, B] that was created by the provided constructor `new String[4]`
+
 ## Examples
 
-Here is an example of how a `StringField` can be used in conjuction with
-a `User` object:
-
 ``` java
-    Optional<User> johnSmith = users.stream()
-        .filter(User.NAME.equal("John Smith")
-        .findAny();
+    Stream.of("Bert", "Alice", "Charlie", "Assian", "Adam")
+       .filter(s -> {
+            String required = "A";
+            boolean result = s.startsWith(required);
+            System.out.format("filter : %s startsWith(\"%s\") is %s (%s) %n", s, required, result, result ? "retained" : "dropped");
+            return result;
+        })
+        .sorted((s1, s2) -> {
+            int result = s1.compareTo(s2);
+            System.out.format("sort   : compare(%s, %s) is %d (%s)%n", s1, s2, result, result < 0 ? "not swapped" : "swapped");
+            return result;
+        })
+        .map(s -> {
+            String result = s.toLowerCase();
+            System.out.format("map    : %s -> %s %n", s, result);
+            return result;
+        })
+        .forEach(s
+            -> System.out.println("forEach: " + s)
+        );
 ```
-In this example, the `StringField`s method `User.NAME::equal` creates 
-and returns a `Predicate<User>`that, when tested with a User, will 
-return `true` if and only if that User has a name that is equal to "John Smith",
-otherwise it will return `false`.
-
-N.B. It would be possible to express the same semantics using a standard lambda:
-``` java
-    Optional<User> johnSmith = users.stream()
-        .filter(u -> "John Smith".equals(u.getName())
-        .findAny();
+will print:
+``` text
+filter : Bert startsWith("A") is false (dropped) 
+filter : Alice startsWith("A") is true (retained) 
+filter : Charlie startsWith("A") is false (dropped) 
+filter : Assian startsWith("A") is true (retained) 
+filter : Adam startsWith("A") is true (retained) 
+sort   : compare(Assian, Alice) is 7 (swapped)
+sort   : compare(Adam, Assian) is -15 (not swapped)
+sort   : compare(Adam, Assian) is -15 (not swapped)
+sort   : compare(Adam, Alice) is -8 (not swapped)
+map    : Adam -> adam 
+forEach: adam
+map    : Alice -> alice 
+forEach: alice
+map    : Assian -> assian 
+forEach: assian
 ```
-but Speedment would not be able to recognize and optimize vanilla lambdas. Instead,
-developers are encouraged to use the provided Predicate Builders which, when used,
-will always be recognizable by the Speedment query optimizer.
+So, in the end, the stream delivered the elements "adam", "alice" and "assian" as expected. Note how `sort` needs to retrieve all the element via the `filter' stage before it can emit result to the next stage.
 
 {% include prev_next.html %}
 
