@@ -6,7 +6,7 @@ keywords: Speedment, Preface, Editions, Arcitecture, Plugins, Licensing, Support
 toc: false
 Tags: Introduction, Preface, License
 previous: introduction.html
-next: getting_started.html
+next: stream_fundamentals.html
 ---
 
 {% include prev_next.html %}
@@ -51,6 +51,25 @@ When we started the open-source project Speedment, the main objective was to rem
 | `COUNT`      | `count()`    |
 
 Speedment allows all these Stream operations to be used.
+
+### Additional Features
+Here are some of the many other features packed into the Speedment tool!
+
+#### Database centric
+Speedment is using the database as the source-of-truth, both when it comes to the domain model and the actual data itself. Perfect if you are tired of configuring and debuging complex ORMs. After all, your data is more important than programming tools, is it not?
+
+#### Code generation
+Speedment inspects your database and can automatically generate code that reflects the latest state of your database. Nice if you have changed the data structure (like columns or tables) in your database. Optionally, you can change the way code is generated using an intuitive UI or programatically using your own code.
+
+#### Modular Design
+Speedment is built with the ambition to be completely modular! If you don’t like the current implementation of a certain function, plug in you own! Do you have a suggestion for an alternative way of solving a complex problem? Share it with the community!
+
+#### Type Safety
+When the database structure changes during development of a software there is always a risk that bugs sneak into the application. Thats why type-safety is such a big deal! With Speedment, you will notice if something is wrong seconds after you generate your code instead of weeks into the testing phase.
+
+#### Null Protection
+Ever seen a `NullPointerException` suddenly thrown out of nowhere? Null-pointers have been called the billion-dollar-mistake of java, but at the same time they are used in almost every software project out there. To minimize the production risks of using null values, Speedment analyzes if null values are allowed by a column in the database and wraps the values as appropriate in Java 8 Optionals.
+
 
 ## Speedment Resources
 

@@ -3,7 +3,10 @@ permalink: stream_fundamentals.html
 sidebar: mydoc_sidebar
 title: Stream Fundamentals
 keywords: Stream
+toc: false
 Tags: Stream
+previous: introduction.html
+next: getting_started.html
 ---
 
 {% include prev_next.html %}
@@ -56,14 +59,106 @@ on the pipeline we are setting up and other factors.
 An *intermediate operations* is an operation that allows further operations to be added to a `Stream`. For example, `filter` is an *intermediate operation* because we can add additional operations to a `Stream` pipeline after `filter` has been applied to the `Stream`.
 The following *intermediate operations* can be accepted by a `Stream`:
 
-| Operation         | Returns a `Stream` that:
-| :------------     | :----------------------------------------------------- |
-| `sequential()`      | is sequential (not parallel)
-| `parallel()`        | is parallel (not sequential)
-| `unordered()`       | is unordered (data might appear in any order)
-| `onClose()`         | will run the provided closeHandler when closed
+| Operation         | Parameter          | Returns a `Stream` that:
+| :------------     | :----------------- | :----------------------------------------------------- |
+| `filter`          | `Predicate`        | contains only those elements that match the `Predicate`
+| `map`             | `Function`         | contains the results of applying the given `Function` to the elements of this stream
+| `distinct`        | -                  | contains the distinct (i.e. unique) elements in the stream as per the element's `equals()` method.
+| `sorted`          | -                  | contains the elements in the stream in sorted order as per the element's `compareTo()` method
+| `sorted`          | `Comparator`       | contains the elements in the stream in sorted order as per the given `Comparator`
+| `limit`           | `long`             | contains the original elements in the stream but truncated to be no longer than the given `long` value
+| `skip`            | `long`             | contains the original elements in the stream but after discarding the given `long` value of elements
+| `flatMap`         | `Function`         | contains the elements of the `Stream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+| `peek`            | `Consumer`         | contains the original elements in the stream but additionally accepting each element to the given `Consumer` (side effect)
+
+Therwe are also a number of *intermediate operations* that controls the properties of the String and has no effect on its actual content. These are:
+
+| Operation         | Parameter          | Returns a `Stream` that:
+| :------------     | :----------------- | :----------------------------------------------------- |
+| `sequential`      | -                  | is sequential (not parallel)
+| `parallel`        | -                  | is parallel (not sequential)
+| `unordered`       | -                  | is unordered (data might appear in any order)
+| `onClose`         | `Runnable`         | will run the provided `Runnable` when closed
+
+
+There are also some *intermediate operations* that maps a `Stream` to one of the special primitive stream types; `IntStrem`, `LongStream` and `DoubleStream`:
+
+| Operation         | Parameter          | Returns a `Stream` that:
+| :------------     | :----------------- | :----------------------------------------------------- |
+| `mapToInt`        | `ToIntFunction`    | is an `IntStream` containing `int` elements obtained by applying the given `ToIntFunction` to the elements of this stream
+| `mapToLong`       | `ToLongFunction`   | is a `LongStream` containing `long` elements obtained by applying the given `ToLongFunction` to the elements of this stream
+| `mapToDouble`     | `ToDoubleFunction` | is a `DoubleStream` containing `double` elements obtained by applying the given `ToDoubleFunction` to the elements of this stream
+| `flatMapToInt`    | `Function`         | contains the `int` elements of the `IntStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+| `flatMapToLong`   | `Function`         | contains the `long` elements of the `LongStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+| `flatMapToDouble  | `Function`         | contains the `double` elements of the `DoubleStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
+
+Primitive streams provides better performance in many cases but can only handle streams of: `int`, `long` and `double`.
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
+
+#### Filter
+``` java
+    Stream.of("B", "A", "C" , "B")
+    .filter(s -> s.equals("B")
+```
+returns a `Stream` with the elements "B" and "B".
+
+#### Map
+``` java
+    Stream.of("B", "A", "C" , "B")
+    .map(s -> s + "_")
+```
+is a `Stream` with the elements "B_", "A_", "C_" and "B_".
+
+#### Distinct
+``` java
+    Stream.of("B", "A", "C" , "B")
+    .distinct()
+```
+is a `Stream` with the elements "B", "A" and "C".
+
+#### Sorted
+``` java
+    Stream.of("B", "A", "C" , "B")
+    .sorted()
+```
+returns a `Stream` with the elements "A", "B", "B" and "C".
+
+``` java
+    Stream.of("B", "A", "C" , "B")
+    .sorted(Comparator.reverseOrder())
+```
+is a `Stream` with the elements "C", "B", "B" and "A".
+
+#### Limit
+``` java
+    Stream.of("B", "A", "C" , "B")
+    .limit(2)
+```
+is a `Stream` with the elements "C" and "A".
+#### Skip
+``` java
+    Stream.of("B", "A", "C" , "B")
+    .skip(1)
+```
+is a `Stream` with the elements "A", "C" and "A".
+
+#### FlatMap
+``` java
+    Stream.of(
+        Stream.of("B", "A"),
+        Stream.of("C", "B")
+    )
+    .flatMap(Function.identity())
+```
+returns a `Stream` with the elements "B", "A", "C" and "B".
+
+#### Peek
+``` java
+    Stream.of("B", "A", "C" , "B")
+    .peek(System.out::print)
+```
+is a `Stream` with the elements "B", "A", "C" and "B" but when consumed in its entirety will print out the text "BACB".
 
 
 ### Terminal Operations
@@ -78,10 +173,10 @@ Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more informa
 
 ### Other Operations
 There are also a small number of of other operations that are neither a *intermediate operation* nor a *terminal operation* as shown in the table below:
-| Operation         | Action                                                 |
-| :---------------- | :----------------------------------------------------- |
-| `isParallel()`      | Returns `true` if the Stream is parallel, else `false`
-| `close`             | Closes the `Stream` and releases all its resources (if any)
+| Operation         | Action
+| :------------     | :----------------------------------------------------- |
+| `isParallel()`    | Returns `true` if the Stream is parallel, else `false`
+| `close`           | Closes the `Stream` and releases all its resources (if any)
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
 
