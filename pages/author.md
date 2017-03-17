@@ -11,8 +11,8 @@ next: author.html
 
 {% include prev_next.html %}
 
-## Bio
-This manual was written by me, Per-Åke Minborg but of course I got a lot of help from my colleagues and feedback from the community. 
+## Per Minborg
+This manual was written by me, Per-Åke Minborg, but of course I got a lot of help from my colleagues and feedback from the community. 
 
 {% include image.html file="sf_per.jpg" url="http://minborgsjavapot.blogspot.com/" alt="Per Minborg" caption="This is Per Minborg" %}
 

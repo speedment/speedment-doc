@@ -38,6 +38,40 @@ entries:
       output: web, pdf
       type: homepage
 
+  - title: Stream Fundamentals
+    output: web, pdf
+    folderitems:
+
+    - title: What is a Stream?
+      url: stream_fundamentals.html#what-is-a-stream
+      output: web, pdf
+      type: homepage
+
+    - title: Filtering
+      url: stream_fundamentals.html#what-is-a-stream
+      output: web, pdf
+      type: homepage
+
+    - title: Sorting
+      url: stream_fundamentals.html#what-is-a-stream
+      output: web, pdf
+
+    - title: Mapping
+      url: stream_fundamentals.html#what-is-a-stream
+      output: web, pdf
+
+    - title: Grouping
+      url: stream_fundamentals.html#what-is-a-stream
+      output: web, pdf
+
+    - title: Skip
+      url: stream_fundamentals.html#what-is-a-stream
+      output: web, pdf
+
+    - title: Limit
+      url: stream_fundamentals.html#what-is-a-stream
+      output: web, pdf
+
   - title: Getting Started
     output: web, pdf
     folderitems:
@@ -105,32 +139,6 @@ entries:
       url: /mydoc_about.html
       output: web, pdf
       type: homepage
-
-
-  - title: Speedment Stream Fundamentals
-    output: web, pdf
-    folderitems:
-
-    - title: Filtering
-      url: /mydoc_about.html
-      output: web, pdf
-      type: homepage
-
-    - title: Sorting
-      url: /mydoc_about.html
-      output: web, pdf
-
-    - title: Mapping
-      url: /mydoc_about.html
-      output: web, pdf
-
-    - title: Grouping
-      url: /mydoc_about.html
-      output: web, pdf
-
-    - title: Limit
-      url: /mydoc_about.html
-      output: web, pdf
 
 
   - title: Speedment Examples
