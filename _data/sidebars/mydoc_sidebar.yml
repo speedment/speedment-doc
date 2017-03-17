@@ -47,29 +47,17 @@ entries:
       output: web, pdf
       type: homepage
 
-    - title: Filtering
-      url: stream_fundamentals.html#what-is-a-stream
+    - title: Intermediate Operations
+      url: stream_fundamentals.html#intermediate-operations
       output: web, pdf
       type: homepage
 
-    - title: Sorting
-      url: stream_fundamentals.html#what-is-a-stream
+    - title: Terminating Operations
+      url: stream_fundamentals.html#terminating-operations
       output: web, pdf
 
-    - title: Mapping
-      url: stream_fundamentals.html#what-is-a-stream
-      output: web, pdf
-
-    - title: Grouping
-      url: stream_fundamentals.html#what-is-a-stream
-      output: web, pdf
-
-    - title: Skip
-      url: stream_fundamentals.html#what-is-a-stream
-      output: web, pdf
-
-    - title: Limit
-      url: stream_fundamentals.html#what-is-a-stream
+    - title: Examples
+      url: stream_fundamentals.html#examples
       output: web, pdf
 
   - title: Getting Started

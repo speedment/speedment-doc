@@ -27,7 +27,7 @@ Consider the following simple example:
         .sorted()                        // Sorts the remaining Strings in natural order
         .collect(Collectors.toList());   // Collects the remaining sorted Strings in a List
 ```
-First, we create an initial `List` called `names` with all the name candidates we have. The names are in no particular order and the `List` is only used as a source for a `Stream` in the example.
+First, we create an initial `List` called `names` with all the name candidates we have. The names are in no particular order and the `List` is only used as a source for a `Stream` later in the example.
 
 Then we create a `Stream` using the statement `names.stream()`. Note that nothing happens with the `Stream` at this point. We just have a stream that we can use to further build our "recipe" around. Now that we have a `Stream`, we add a `filter` that only lets through Strings that are longer than 2 characters. Again, the `Stream` is not started, we have just said that *when* the `Stream` starts, we want to filter the Strings. Next, we add a `sorted()` operation to our `Stream` recipe. This means that when the `Stream` is started, all Strings that passes the `filter` shall be sorted in natural order. Again, nothing is flowing through the `Stream`, we have just added yet an operation to the `Stream` recipe (the stream recipe can more formally be called a *stream pipeline*). The last operation we add to the `Stream` recipe is `collect`. 
 
@@ -35,7 +35,7 @@ This operation is different to all the previous operations in the way that it is
 
 It shall be noted that elements in a `Stream` are pulled by the *terminal operation* (i.e. the `collect` operation) and not pushed by the stream source. So, `Collect` will ask for the first element and that request will traverse up to the stream source that will provide the first element "Zlatan".
 The `fiter` operation will check if the length of "Zlatan" is greater than two (which it is) and will then propagate "Zlatan" to the `sorted` operation.
-Because the `sorted` operation needs all strings before it can decide on its output order, it will ask the stream source for all its remaining elements which, via the filter, is sent down the stream. Once all stings are received by the `sorted` operator, it will sort the strings and then output its first element (i.e. "Adam") to the `collect` operation. The result of the entire stream statement will thus be:
+Because the `sorted` operation needs to see all strings before it can decide on its output order, it will ask the stream source for all its remaining elements which, via the filter, is sent down the stream. Once all stings are received by the `sorted` operator, it will sort the strings and then output its first element (i.e. "Adam") to the `collect` operation. The result of the entire stream statement will thus be:
 
 ``` text
 "Adam", "George", "Oscar", "Tim", "Zlatan"
@@ -45,7 +45,7 @@ Speedment provide the same semantics but for database tables, allowing us to vie
 Because a Java 8 Stream is an interface, Speedment can select from a variety of different implementations of a Stream depending on the pipeline we are setting up and other factors.
 
 
-### Intermediate Operations
+## Intermediate Operations
 An *intermediate operations* is an operation that allows further operations to be added to a `Stream`. For example, `filter` is an *intermediate operation* because we can add additional operations to a `Stream` pipeline after `filter` has been applied to the `Stream`.
 
 The following *intermediate operations* can be accepted by a `Stream`:
@@ -87,31 +87,30 @@ Primitive streams provides better performance in many cases but can only handle 
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information. Here are some examples of streams with *intermediate operations*:
 
-
 Here is a list with examples for many of the  *intermediate operations*:
 
-#### filter
+### filter
 ``` java
     Stream.of("B", "A", "C" , "B")
         .filter(s -> s.equals("B")
 ```
 returns a `Stream` with the elements "B" and "B".
 
-#### map
+### map
 ``` java
     Stream.of("B", "A", "C" , "B")
         .map(s -> s.toLowerCase())
 ```
 is a `Stream` with the elements "b", "a", "c" and "b".
 
-#### distinct
+### distinct
 ``` java
     Stream.of("B", "A", "C" , "B")
         .distinct()
 ```
 is a `Stream` with the elements "B", "A" and "C".
 
-#### sorted
+### sorted
 ``` java
     Stream.of("B", "A", "C" , "B")
         .sorted()
@@ -124,20 +123,20 @@ returns a `Stream` with the elements "A", "B", "B" and "C".
 ```
 is a `Stream` with the elements "C", "B", "B" and "A".
 
-#### limit
+### limit
 ``` java
     Stream.of("B", "A", "C" , "B")
         .limit(2)
 ```
 is a `Stream` with the elements "B" and "A".
-#### skip
+### skip
 ``` java
     Stream.of("B", "A", "C" , "B")
         .skip(1)
 ```
 is a `Stream` with the elements "A", "C" and "A".
 
-#### flatMap
+### flatMap
 ``` java
     Stream.of(
         Stream.of("B", "A"),
@@ -147,21 +146,21 @@ is a `Stream` with the elements "A", "C" and "A".
 ```
 returns a `Stream` with the elements "B", "A", "C" and "B". The two streams (that each contain two elements) are "flattened" to a single `Stream` with four elements.
 
-#### peek
+### peek
 ``` java
     Stream.of("B", "A", "C" , "B")
         .peek(System.out::print)
 ```
 is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB".
 
-#### parallel
+### parallel
 ``` java
     Stream.of("B", "A", "C" , "B")
         .parallel()
 ```
 is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed, elements in the `Stream` may be propagated through the pipeline using different `Thread`s.
 
-#### sequential
+### sequential
 ``` java
     Stream.of("B", "A", "C" , "B")
         .parallel()
@@ -169,28 +168,28 @@ is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed, elemen
 ```
 is a `Stream` with the elements "B", "A", "C" and "B" that is not parallel.
 
-#### unordered
+### unordered
 ``` java
     Stream.of("B", "A", "C" , "B")
         .unordered()
 ```
 is a `Stream` with the given elements but in no particular order, so when consumed, elements might be encountered in any order, for example in the order "C", "B", "B", "A".
 
-#### onClose
+### onClose
 ``` java
     Stream.of("B", "A", "C" , "B")
         .onClosed(() -> System.out.println("The Stream was closed")
 ```
 is a `Stream` with the elements "B", "A", "C" and "B" but, when closed, will print out the text "The Stream was closed".
 
-#### mapToInt
+### mapToInt
 ``` java
     Stream.of("B", "A", "C" , "B")
         .mapToInt(s -> s.hashCode())
 ```
 is an `IntStream` with the `int` elements 66, 65, 67 and 66.
 
-#### mapToLong
+### mapToLong
 ``` java
     Stream.of("B", "A", "C", "B")
         .mapToLong(s -> s.hashCode() * 1_000_000_000_000l)
@@ -198,7 +197,7 @@ is an `IntStream` with the `int` elements 66, 65, 67 and 66.
 ```
 is a `LongStream` with the `long` elements 66000000000000, 65000000000000, 67000000000000 and 66000000000000.
 
-#### mapToDouble
+### mapToDouble
 ``` java
     Stream.of("B", "A", "C", "B")
         .mapToDouble(s -> s.hashCode() / 10.0)
@@ -206,7 +205,7 @@ is a `LongStream` with the `long` elements 66000000000000, 65000000000000, 67000
 ```
 is a `DoubleStream` with the `double` elements 6.6, 6.5, 6.7 and 6.6.
 
-#### flatMapToInt
+### flatMapToInt
 ``` java
     Stream.of(
         IntStream.of(1, 2),
@@ -216,7 +215,7 @@ is a `DoubleStream` with the `double` elements 6.6, 6.5, 6.7 and 6.6.
 ```
 is an `IntStream` with the `int` elements 2, 3, 4 and 5.
 
-#### flatMapToLong
+### flatMapToLong
 ``` java
     Stream.of(
         LongStream.of(1, 2),
@@ -226,7 +225,7 @@ is an `IntStream` with the `int` elements 2, 3, 4 and 5.
 ```
 is a `LongStream` with the `long` elements 2, 3, 4 and 5.
 
-#### flatMapToDouble
+### flatMapToDouble
 ``` java
     Stream.of(
         LongStream.of(1.0, 2.0),
@@ -239,7 +238,7 @@ is a `DoubleStream` with the `double` elements 2.0, 3.0, 4.0 and 5.0.
 This completes the example list of *intermediate operations*.
 
 
-### Terminal Operations
+## Terminal Operations
 A *terminal operations* starts the `Stream` and returns a result that depends on the `Stream` pipeline and content. For example, 'collect' is a *terminal operation* because we cannot add additional operation to a `Stream` pipeline after `collect` has been called.
 
 Here are some of the *terminal operations* that can be accepted by a `Stream`:
@@ -273,33 +272,25 @@ Here is a list of other *terminal operations* that are a bit more complicated:
 | `spliterator`     | -                    | Returns a `Spliterator` with all the values in this string.
 
 
-### Other Operations
-There are also a small number of other operations that are neither a *intermediate operation* nor a *terminal operation* as shown in the table below:
-
-| Operation         | Action
-| :------------     | :----------------------------------------------------- |
-| `isParallel`      | Returns `true` if the Stream is parallel, else `false`
-| `close`           | Closes the `Stream` and releases all its resources (if any)
-
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
 
 Here is a list with examples for many of the *terminal operations*:
 
-#### forEach
+### forEach
 ``` java
      Stream.of("B", "A", "C" , "B")
         .forEach(System.out::print);
 ```
 might output "CBBA".
 
-#### forEachOrdered
+### forEachOrdered
 ``` java
      Stream.of("B", "A", "C" , "B")
         .forEachOrdered(System.out::print);
 ```
 outputs "BACB"
 
-#### collect
+### collect
 ``` java
      Stream.of("B", "A", "C" , "B")
         .collect(Colectors.toList());
@@ -319,10 +310,10 @@ Returns a `Set<String>` equal to `["A", "B", "C"]`
             s -> s.length())      // Value extractor
         )
 ```
-Returns a `Map<String, Integer>` equal to `{a=1, stream=6, i=1, am=2}`
+Returns a `Map<String, Integer>` equal to `{a=1, stream=6, i=1, am=2}`. Thus, the `Map` contains a mapping from a word (key) to how many characters that word has (value).
 
 
-#### min
+### min
 ``` java
      Stream.of("B", "A", "C" , "B")
         .min(String::compareTo);
@@ -335,7 +326,7 @@ returns `Optional[A]`
 ```
 returns `Optional.empty`
 
-#### max
+### max
 ``` java
      Stream.of("B", "A", "C" , "B")
         .max(String::compareTo);
@@ -348,7 +339,7 @@ returns `Optional[C]`
 ```
 returns `Optional.empty`
 
-#### count
+### count
 ``` java
      Stream.of("B", "A", "C" , "B")
         .count();
@@ -361,7 +352,7 @@ returns 4
 ```
 returns 0
 
-#### anyMatch
+### anyMatch
 ``` java
     Stream.of("B", "A", "C", "B")
         .anyMatch("A"::equals);
@@ -373,7 +364,7 @@ returns `true`
 ```
 returns `false`
 
-#### noneMatch
+### noneMatch
 ``` java
     Stream.of("B", "A", "C", "B")
         .noneMatch("A"::equals);
@@ -385,21 +376,21 @@ returns `false`
 ```
 returns `true`
 
-#### findFirst
+### findFirst
 ``` java
     Stream.of("B", "A", "C", "B")
         .findFirst();
 ```
 returns "B"
 
-#### findAny
+### findAny
 ``` java
     Stream.of("B", "A", "C", "B")
         .findFirst();
 ```
 might return "C"
 
-#### toArray
+### toArray
 ``` java
     Stream.of("B", "A", "C", "B")
         .toArray();
@@ -410,6 +401,17 @@ Returns an array containing [B, A, C, B]
         .toArray(String[]::new)
 ```
 Returns an array containing [B, A, C, B] that was created by the provided constructor `new String[4]`
+
+
+## Other Operations
+There are also a small number of other operations that are neither a *intermediate operation* nor a *terminal operation* as shown in the table below:
+
+| Operation         | Action
+| :------------     | :----------------------------------------------------- |
+| `isParallel`      | Returns `true` if the Stream is parallel, else `false`
+| `close`           | Closes the `Stream` and releases all its resources (if any)
+
+Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
 
 ## Examples
 
