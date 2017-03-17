@@ -12,7 +12,7 @@ next: getting_started.html
 {% include prev_next.html %}
 
 ## What is a Stream?
-Speedment is all about Java 8 {{site.data.javadoc.Stream}}s so if you are not familiar with the concept of `Stream`s, I encourage you to read this chapter carefully. If you consider yourself a `Stream` expert, feel free to skip directly to the next chapter.
+Speedment is all about Java 8 {{site.data.javadoc.Stream}}s, thats allows you to process data in a declarative way similar to SQL statements. So if you are not familiar with the concept of `Stream`s, I encourage you to read this chapter carefully. If you consider yourself a `Stream` expert, feel free to skip directly to the next chapter.
 
 A Java 8 `Stream` is an `interface` with implementations that supports a functional style operation on streams of elements. The entire Java Collection framework was retrofitted with `Stream` support in Java 8.
 
