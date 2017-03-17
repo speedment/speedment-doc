@@ -23,7 +23,7 @@ Consider the following simple example:
 ``` java
     List<String> names = Arrays.asList("Zlatan", "Tim", "Bo", "George", "Adam", "Oscar");
     List<String> longNames = names.stream()
-        .filter(n -> n.length() > 2)     // Retains only those Strings that are longer than 2 characters (i.e. "Bo" is dropped.
+        .filter(n -> n.length() > 2)     // Retains only those Strings that are longer than 2 characters (i.e. "Bo" is dropped)
         .sorted()                        // Sorts the remaining Strings in natural order
         .collect(Collectors.toList());   // Collects the remaining sorted Strings in a List
 ```
@@ -271,6 +271,7 @@ Here are some of the *terminal operations* that can be accepted by a `Stream`:
 
 
 Here is a list of other *terminal operations* that are a bit more complicated:
+
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
 | `collect`         | `Supplier, BC, BC`   | Returns a reduction of the elements in the stream starting with an empty reduction (e.g. an empty `List`) obtained from the `Supplier` and then applying the first `BiFunction` (BF) for each element and at the end, combining using the second `BiConsumer`.
@@ -295,27 +296,27 @@ Here is a list with examples for many of the  *intermediate operations*:
 
 #### forEach
 ``` java
- Stream.of("B", "A", "C" , "B")
+     Stream.of("B", "A", "C" , "B")
         .forEach(System.out::print);
 ```
 might output "CBBA".
 
 #### forEachOrdered
 ``` java
- Stream.of("B", "A", "C" , "B")
+     Stream.of("B", "A", "C" , "B")
         .forEachOrdered(System.out::print);
 ```
 outputs "BACB"
 
 #### collect
 ``` java
- Stream.of("B", "A", "C" , "B")
+     Stream.of("B", "A", "C" , "B")
         .collect(Colectors.toList());
 ```
 Returns a `List<String>` equal to `["B", "A", "C", "B"]`
 
 ``` java
- Stream.of("B", "A", "C" , "B")
+     Stream.of("B", "A", "C" , "B")
         .collect(Colectors.toSet());
 ```
 Returns a `Set<String>` equal to `["A", "B", "C"]`
