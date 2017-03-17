@@ -418,7 +418,7 @@ There are also a small number of other operations that are neither a *intermedia
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
 
 ## Examples
-
+In the example below, the flow of elements and the different operations in the stream's pipeline are examined. We create a `Stream` with five names and then `filter` out only those having a name that starts with the letter "A". After that we `sort` the remaining names and then we` map` the names to lower case. Finally, we print out the elements that have passed through the entire pipeline. In each operation we have inserted print statements so that we may observe what each operation is actually doing in the `Stream`:
 ``` java
     Stream.of("Bert", "Alice", "Charlie", "Assian", "Adam")
        .filter(s -> {
@@ -441,7 +441,7 @@ Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more informa
             -> System.out.println("forEach: " + s)
         );
 ```
-will print:
+This will print:
 ``` text
 filter : Bert startsWith("A") is false (dropped) 
 filter : Alice startsWith("A") is true (retained) 
