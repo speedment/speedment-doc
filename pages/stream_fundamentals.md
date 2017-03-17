@@ -278,12 +278,12 @@ There are also a small number of other operations that are neither a *intermedia
 
 | Operation         | Action
 | :------------     | :----------------------------------------------------- |
-| `isParallel()`    | Returns `true` if the Stream is parallel, else `false`
+| `isParallel`      | Returns `true` if the Stream is parallel, else `false`
 | `close`           | Closes the `Stream` and releases all its resources (if any)
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
 
-Here is a list with examples for many of the  *intermediate operations*:
+Here is a list with examples for many of the *terminal operations*:
 
 #### forEach
 ``` java
