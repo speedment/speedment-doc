@@ -29,34 +29,25 @@ Consider the following simple example:
 ```
 First, we create an initial `List` called `names` with all the name candidates we have. The names are in no particular order and the `List` is only used as a source for a `Stream` in the example.
 
-Then we create a `Stream` using the statement `names.stream()`. Note that nothing happens with the `Stream` at this point. We just have
-a stream that we can use to further build our "recipe" around. Now that we have a `Stream`, we add a `filter` that only lets through Strings
-that are longer than 2 characters. Again, the `Stream` is not started, we have just said that *when* the `Stream` starts, we want to filter
-the Strings. Next, we add a `sorted()` operation to our `Stream` recipe. This means that when the `Stream` is started, all Strings that
-passes the `filter` shall be sorted in natural order. Again, nothing is flowing through the `Stream`, we have just added yet an operation
-to the `Stream` recipe (the stream recipe can more formally be called a *stream pipeline*). The last operation we add to the `Stream` recipe is `collect`. 
-This operation is different to all the previous operations in the way that it is a *terminal operation*. 
-Whenever a *terminal operation* is applied to a `Stream`, the `Stream` cannot accept additional operations to its pipeline. It also means that
-the `Stream` is started.
+Then we create a `Stream` using the statement `names.stream()`. Note that nothing happens with the `Stream` at this point. We just have a stream that we can use to further build our "recipe" around. Now that we have a `Stream`, we add a `filter` that only lets through Strings that are longer than 2 characters. Again, the `Stream` is not started, we have just said that *when* the `Stream` starts, we want to filter the Strings. Next, we add a `sorted()` operation to our `Stream` recipe. This means that when the `Stream` is started, all Strings that passes the `filter` shall be sorted in natural order. Again, nothing is flowing through the `Stream`, we have just added yet an operation to the `Stream` recipe (the stream recipe can more formally be called a *stream pipeline*). The last operation we add to the `Stream` recipe is `collect`. 
 
-It shall be noted that elements in a `Stream` are pulled by the *terminal operation* (i.e. the `collect` operation) and not pushed by the stream source.
-So, `Collect` will ask for the first element and that request will traverse up to the stream source that will provide the first element "Zlatan".
+This operation is different to all the previous operations in the way that it is a *terminal operation*. Whenever a *terminal operation* is applied to a `Stream`, the `Stream` cannot accept additional operations to its pipeline. It also means that the `Stream` is started.
+
+It shall be noted that elements in a `Stream` are pulled by the *terminal operation* (i.e. the `collect` operation) and not pushed by the stream source. So, `Collect` will ask for the first element and that request will traverse up to the stream source that will provide the first element "Zlatan".
 The `fiter` operation will check if the length of "Zlatan" is greater than two (which it is) and will then propagate "Zlatan" to the `sorted` operation.
-Because the `sorted` operation needs all strings before it can decide on its output order, it will ask the stream source for all its remaining elements
-which, via the filter, is sent down the stream. Once all stings are received by the `sorted` operator, it will sort the strings and then output
-its first element (i.e. "Adam") to the `collect` operation. The result of the entire stream statement will thus be:
+Because the `sorted` operation needs all strings before it can decide on its output order, it will ask the stream source for all its remaining elements which, via the filter, is sent down the stream. Once all stings are received by the `sorted` operator, it will sort the strings and then output its first element (i.e. "Adam") to the `collect` operation. The result of the entire stream statement will thus be:
 
-``` shell
+``` text
 "Adam", "George", "Oscar", "Tim", "Zlatan"
 ```
 
 Speedment provide the same semantics but for database tables, allowing us to view database tables as pure Java 8 streams. 
-Because a Java 8 Stream is an interface, Speedment can select from a variety of different implementations of a Stream depending 
-on the pipeline we are setting up and other factors.
+Because a Java 8 Stream is an interface, Speedment can select from a variety of different implementations of a Stream depending on the pipeline we are setting up and other factors.
 
 
 ### Intermediate Operations
 An *intermediate operations* is an operation that allows further operations to be added to a `Stream`. For example, `filter` is an *intermediate operation* because we can add additional operations to a `Stream` pipeline after `filter` has been applied to the `Stream`.
+
 The following *intermediate operations* can be accepted by a `Stream`:
 
 | Operation         | Parameter          | Returns a `Stream` that:
@@ -250,8 +241,8 @@ This completes the example list of *intermediate operations*.
 
 ### Terminal Operations
 A *terminal operations* starts the `Stream` and returns a result that depends on the `Stream` pipeline and content. For example, 'collect' is a *terminal operation* because we cannot add additional operation to a `Stream` pipeline after `collect` has been called.
-Here are some of the *terminal operations* that can be accepted by a `Stream`:
 
+Here are some of the *terminal operations* that can be accepted by a `Stream`:
 
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
@@ -462,7 +453,7 @@ forEach: alice
 map    : Assian -> assian 
 forEach: assian
 ```
-So, in the end, the stream delivered the elements "adam", "alice" and "assian" as expected. Note how `sort` needs to retrieve all the element via the `filter' stage before it can emit result to the next stage.
+So, in the end, the stream delivered the elements "adam", "alice" and "assian" as expected. Note how `sort` needs to retrieve all the element via the `filter` stage before it can emit result to the next stage.
 
 {% include prev_next.html %}
 
