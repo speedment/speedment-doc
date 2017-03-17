@@ -21,15 +21,19 @@ Streams can be used to express a kind of "recipe" style of operations, allowing 
 Consider the following simple example:
 
 ``` java
-    List<String> names = Arrays.asList("Zlatan", "Tim", "Bo", "George", "Adam", "Oscar");
-    List<String> longNames = names.stream()
+    Stream.of(                           // Creates a Stream with the given content
+        "Zlatan", 
+        "Tim", 
+        "Bo",
+        "George",
+        "Adam",
+        "Oscar"
+    )
         .filter(n -> n.length() > 2)     // Retains only those Strings that are longer than 2 characters (i.e. "Bo" is dropped)
         .sorted()                        // Sorts the remaining Strings in natural order
         .collect(Collectors.toList());   // Collects the remaining sorted Strings in a List
 ```
-First, we create an initial `List` called `names` with all the name candidates we have. The names are in no particular order and the `List` is only used as a source for a `Stream` later in the example.
-
-Then we create a `Stream` using the statement `names.stream()`. Note that nothing happens with the `Stream` at this point. We just have a stream that we can use to further build our "recipe" around. Now that we have a `Stream`, we add a `filter` that only lets through Strings that are longer than 2 characters. Again, the `Stream` is not started, we have just said that *when* the `Stream` starts, we want to filter the Strings. Next, we add a `sorted()` operation to our `Stream` recipe. This means that when the `Stream` is started, all Strings that passes the `filter` shall be sorted in natural order. Again, nothing is flowing through the `Stream`, we have just added yet an operation to the `Stream` recipe (the stream recipe can more formally be called a *stream pipeline*). The last operation we add to the `Stream` recipe is `collect`. 
+First, we create a `Stream` using the statement `Stream.of()`. Note that nothing happens with the `Stream` at this point. We just have a stream that we can use to further build our "recipe" around. Now that we have a `Stream`, we add a `filter` that only lets through Strings that are longer than 2 characters. Again, the `Stream` is not started, we have just said that *when* the `Stream` starts, we want to filter the Strings. Next, we add a `sorted()` operation to our `Stream` recipe. This means that when the `Stream` is started, all Strings that passes the `filter` shall be sorted in natural order. Again, nothing is flowing through the `Stream`, we have just added yet an operation to the `Stream` recipe (the stream recipe can more formally be called a *stream pipeline*). The last operation we add to the `Stream` recipe is `collect`. 
 
 This operation is different to all the previous operations in the way that it is a *terminal operation*. Whenever a *terminal operation* is applied to a `Stream`, the `Stream` cannot accept additional operations to its pipeline. It also means that the `Stream` is started.
 
