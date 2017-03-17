@@ -5,8 +5,8 @@ title: Introduction
 keywords: Speedment, Preface, Editions, Arcitecture, Plugins, Licensing, Support, JavaDoc, Contributing
 toc: false
 Tags: Introduction, Preface, License
-next: getting_started.html
 previous: introduction.html
+next: getting_started.html
 ---
 
 {% include prev_next.html %}

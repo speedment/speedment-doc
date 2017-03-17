@@ -5,8 +5,8 @@ title: Getting Started
 keywords: Speedment, Start, Quick Start
 toc: false
 Tags: Getting Started, Start, Setup
-next: overview.html
 previous: introduction.html
+next: overview.html
 ---
 
 {% include prev_next.html %}
