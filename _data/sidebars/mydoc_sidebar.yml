@@ -43,26 +43,17 @@ entries:
     folderitems:
 
     - title: Installation
-      url: /mydoc_about.html
+      url: getting_started.html#installation
       output: web, pdf
       type: homepage
 
-    - title: Speedment Open-Source
-      url: /mydoc_about.html
-      output: web, pdf
-
-    - title: Speedment Enterprise
-      url: /mydoc_about.html
-      output: web, pdf
-
     - title: Starting the Tool
-      url: /mydoc_about.html
+      url: getting_started.html#starting-the-tool
       output: web, pdf
 
     - title: Hello World
-      url: /mydoc_support.html
+      url: getting_started.html#hello-world
       output: web, pdf
-
 
   - title: Speedment Overview
     output: web, pdf
