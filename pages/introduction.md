@@ -14,7 +14,7 @@ previous: introduction.html
 ## What is Speedment?
 __Speedment is a Java 8 Stream ORM Toolkit and Runtime__ 
 
-## One-liner
+### One-liner
 Search for an old `Hare` (of age greater than 5):
 ```java
 // Searches are optimized in the background!
@@ -50,6 +50,7 @@ When we started the open-source project Speedment, the main objective was to rem
 | `GROUP BY`   | `collect(groupingBy())` |
 | `COUNT`      | `count()`    |
 
+Speedment allows all these Stream operations to be used.
 
 ## Speedment Resources
 
@@ -63,15 +64,15 @@ Please refer to the [Release Notes documents](https://github.com/speedment/speed
 Here are some fast facts about Speedment:
 
 ### Supported Java Versions
-Speedment supports Java 8 and upwards. Earlier Java versions are not supported because of the lack of Stream support.
+Speedment supports Java 8 and upwards. Earlier Java versions are not supported because they do not support Streams.
 
 ### Speedment Editions
 This Reference Manual covers all editions of Speedment:
-  * *Speedment* referes to the open-source edition of the product that can connect to open-source databases. It is also the name of the company (Speedment, Inc.) that provides the Speedment products.
-  * *Speedment Enterprise*, is a commercially licensed product providing connectivity to commercial databases like Oracle, SQL Server, DB2, AS400 etc. Speedment Enterprise also contains in-JVM-memory acceleration and other enterprise features.
+  * **Speedment** referes to the open-source edition of the product that can connect to open-source databases. It is also the name of the company (Speedment, Inc.) that provides the Speedment products.
+  * **Speedment Enterprise**, is a commercially licensed product providing connectivity to commercial databases like Oracle, SQL Server, DB2, AS400 etc. Speedment Enterprise also contains in-JVM-memory acceleration and other enterprise features.
 
 ### Speedment Plugins
-We can extend Speedment's functionality by using one or several plugins. These plugins have their own lifecycles. Please see Plugins page to learn about Speedment plugins. It is possible for any one to write a Speedment plugin.
+We can extend Speedment's functionality by using one or several plugins in the form of {{site.data.javadoc.TypeMapper}}s, Components and/or {{site.data.javadoc.InjectBundle}}s. These plugins have their own lifecycles. It is possible for anyone to write a Speedment plugin.
 
 ### Licensing
 Speedment open-source is licensed under the Apache 2 license. Speedment Enterprise is licensed under a commercial license.
