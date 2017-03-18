@@ -133,21 +133,26 @@ entries:
     output: web, pdf
     folderitems:
 
+    - title: Basic Queries
+      url: speedment_examples.html
+      output: web, pdf
+      type: homepage
+
     - title: One-to-One Relations
-      url: /mydoc_about.html
+      url: speedment_examples.html
       output: web, pdf
       type: homepage
 
     - title: One-to-Many Relations
-      url: /mydoc_about.html
+      url: speedment_examples.html
       output: web, pdf
 
     - title: Many-to-One Relations
-      url: /mydoc_about.html
+      url: speedment_examples.html
       output: web, pdf
 
     - title: Many-to-Many Relations
-      url: /mydoc_about.html
+      url: speedment_examples.html
       output: web, pdf
 
     - title: Joins
