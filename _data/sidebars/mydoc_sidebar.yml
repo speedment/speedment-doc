@@ -60,23 +60,6 @@ entries:
       url: stream_fundamentals.html#examples
       output: web, pdf
 
-  - title: Getting Started
-    output: web, pdf
-    folderitems:
-
-    - title: Installation
-      url: getting_started.html#installation
-      output: web, pdf
-      type: homepage
-
-    - title: Starting the Tool
-      url: getting_started.html#starting-the-tool
-      output: web, pdf
-
-    - title: Hello World
-      url: getting_started.html#hello-world
-      output: web, pdf
-
   - title: Speedment Overview
     output: web, pdf
     folderitems:
@@ -102,6 +85,23 @@ entries:
       url: /mydoc_about.html
       output: web, pdf
       type: homepage
+
+  - title: Getting Started
+    output: web, pdf
+    folderitems:
+
+    - title: Installation
+      url: getting_started.html#installation
+      output: web, pdf
+      type: homepage
+
+    - title: Starting the Tool
+      url: getting_started.html#starting-the-tool
+      output: web, pdf
+
+    - title: Hello World
+      url: getting_started.html#hello-world
+      output: web, pdf
 
 
   - title: Application Configuration

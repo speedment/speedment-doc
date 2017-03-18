@@ -182,7 +182,7 @@ is a `Stream` with the given elements but in no particular order, so when consum
 ### onClose
 ``` java
     Stream.of("B", "A", "C" , "B")
-        .onClosed(() -> System.out.println("The Stream was closed")
+        .onClosed( () -> System.out.println("The Stream was closed") )
 ```
 is a `Stream` with the elements "B", "A", "C" and "B" but, when closed, will print out the text "The Stream was closed".
 
@@ -191,7 +191,7 @@ is a `Stream` with the elements "B", "A", "C" and "B" but, when closed, will pri
     Stream.of("B", "A", "C" , "B")
         .mapToInt(s -> s.hashCode())
 ```
-is an `IntStream` with the `int` elements 66, 65, 67 and 66.
+is an `IntStream` with the `int` elements 66, 65, 67 and 66. (A is 65, B id 66 and so on)
 
 ### mapToLong
 ``` java
@@ -243,7 +243,7 @@ This completes the example list of *intermediate operations*.
 
 
 ## Terminal Operations
-A *terminal operations* starts the `Stream` and returns a result that depends on the `Stream` pipeline and content. For example, 'collect' is a *terminal operation* because we cannot add additional operation to a `Stream` pipeline after `collect` has been called.
+A *terminal operations* starts the `Stream` and returns a result that depends on the `Stream` pipeline and content. For example, `collect` is a *terminal operation* because we cannot add additional operation to a `Stream` pipeline after `collect` has been called.
 
 Here are some of the *terminal operations* that can be accepted by a `Stream`:
 
@@ -254,8 +254,8 @@ Here are some of the *terminal operations* that can be accepted by a `Stream`:
 | `collect`         | `Collector`          | Returns a reduction of the elements in the stream. For example a `List`, `Set` or a `Map`
 | `min`             | `Comparator`         | Returns the smallest element (as determined by the provided `Comparator`) in the stream (if any)
 | `max`             | `Comparator`         | Returns the biggest element (as determined by the provided `Comparator`) in the stream (if any)
-| `count`           | -                    | Returns the number of element in the stream
-| `anyMatch`        | `Predicate`          | Returns whether at least one element in this stream match the provided `Predicate`
+| `count`           | -                    | Returns the number of elements in the stream
+| `anyMatch`        | `Predicate`          | Returns whether at least one element in this stream matches the provided `Predicate`
 | `allMatch`        | `Predicate`          | Returns whether all elements in this stream match the provided `Predicate`
 | `noneMatch`       | `Predicate`          | Returns whether no elements in this stream match the provided `Predicate`
 | `findFirst`       | -                    | Returns the first element in this stream (if any)
@@ -268,12 +268,12 @@ Here is a list of other *terminal operations* that are a bit more complicated:
 
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
-| `collect`         | `Supplier, BC, BC`   | Returns a reduction of the elements in the stream starting with an empty reduction (e.g. an empty `List`) obtained from the `Supplier` and then applying the first `BiFunction` (BF) for each element and at the end, combining using the second `BiConsumer`.
+| `collect`         | `Supplier, BC, BC`   | Returns a reduction of the elements in the stream starting with an empty reduction (e.g. an empty `List`) obtained from the `Supplier` and then applying the first `BiConsumer` (BC) for each element and at the end, combining using the second `BiConsumer` (BC).
 | `reduce`          | `T, BinaryOperation` | Using a first `T` and then subsequently applying a `BinaryOperation` for each element in the stream, returns the value of the last value (reduction)
 | `reduce`          | `BinaryOperation`    | By subsequently applying a `BinaryOperation` for each element in the stream, returns the value of the last value (reduction)
-| `reduce`          | `T, BO, CO`          | In parallel, using  first values `T` and then subsequently applying a `BinaryOperation` (BO) for each element in the stream, returns the value of the last values combined using the `CO`
-| `iterator`        | -                    | Returns an `Iterator` of all the values in this string.
-| `spliterator`     | -                    | Returns a `Spliterator` with all the values in this string.
+| `reduce`          | `T, BF, BO`          | In parallel, using  first values `T` and then subsequently applying a `BiFunctionn` (BF) for each element in the stream, returns the value of the last values combined using the combining `BinaryOperator` (BO)
+| `iterator`        | -                    | Returns an `Iterator` of all the values in this stream.
+| `spliterator`     | -                    | Returns a `Spliterator` with all the values in this stream.
 
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
@@ -285,7 +285,7 @@ Here is a list with examples for many of the *terminal operations*:
      Stream.of("B", "A", "C" , "B")
         .forEach(System.out::print);
 ```
-might output "CBBA".
+might output "CBBA". It has to be said that most stream implementation actually *would* output "BACB" but there is no guarantee of a particular order using `forEach`.
 
 ### forEachOrdered
 ``` java
@@ -299,13 +299,13 @@ outputs "BACB"
      Stream.of("B", "A", "C" , "B")
         .collect(Colectors.toList());
 ```
-Returns a `List<String>` equal to `["B", "A", "C", "B"]`
+Returns a `List<String>` equal to ["B", "A", "C", "B"]
 
 ``` java
      Stream.of("B", "A", "C" , "B")
         .collect(Colectors.toSet());
 ```
-Returns a `Set<String>` equal to `["A", "B", "C"]`
+Returns a `Set<String>` equal to ["A", "B", "C"]
 
 ``` java
     Stream.of("I", "am", "a", "stream")
@@ -314,7 +314,7 @@ Returns a `Set<String>` equal to `["A", "B", "C"]`
             s -> s.length())      // Value extractor
         )
 ```
-Returns a `Map<String, Integer>` equal to `{a=1, stream=6, i=1, am=2}`. Thus, the `Map` contains a mapping from a word (key) to how many characters that word has (value).
+Returns a `Map<String, Integer>` equal to {a=1, stream=6, i=1, am=2}. Thus, the `Map` contains a mapping from a word (key) to how many characters that word has (value).
 
 
 ### min
@@ -322,26 +322,26 @@ Returns a `Map<String, Integer>` equal to `{a=1, stream=6, i=1, am=2}`. Thus, th
      Stream.of("B", "A", "C" , "B")
         .min(String::compareTo);
 ```
-returns `Optional[A]`
+returns `Optional[A]` because "A" is the smallest element in the stream.
 
 ``` java
     Stream.<String>empty()
         .min(String::compareTo);
 ```
-returns `Optional.empty`
+returns `Optional.empty` because there is no min value because the stream is empty.
 
 ### max
 ``` java
      Stream.of("B", "A", "C" , "B")
         .max(String::compareTo);
 ```
-returns `Optional[C]`
+returns `Optional[C]` because "C" is the largest element in the stream.
 
 ``` java
     Stream.<String>empty()
         .max(String::compareTo);
 ```
-returns `Optional.empty`
+returns `Optional.empty` because there is no max value because the stream is empty.
 
 ### count
 ``` java
@@ -354,45 +354,57 @@ returns 4
     Stream.empty()
         .count();
 ```
-returns 0
+returns 0 because there are no elements in an empty stream.
 
 ### anyMatch
 ``` java
     Stream.of("B", "A", "C", "B")
         .anyMatch("A"::equals);
 ```
-returns `true`
+returns `true` because there is an "A" element in the stream.
 ``` java
     Stream.of("B", "A", "C", "B")
         .anyMatch("Z"::equals);
 ```
-returns `false`
+returns `false` because there are no "Z" elements in the stream.
 
 ### noneMatch
 ``` java
     Stream.of("B", "A", "C", "B")
         .noneMatch("A"::equals);
 ```
-returns `false`
+returns `false` because there is an "A" element in the stream.
 ``` java
     Stream.of("B", "A", "C", "B")
         .noneMatch("Z"::equals);
 ```
-returns `true`
+returns `true` because there are no "Z" elements in the stream.
 
 ### findFirst
 ``` java
     Stream.of("B", "A", "C", "B")
         .findFirst();
 ```
-returns "B"
+returns `Optional[B]` because "B" is the first element in the stream.
+
+``` java
+    Stream.<String>empty()
+        .findFirst();
+```
+returns `Optional.empty` because the stream is empty.
 
 ### findAny
 ``` java
     Stream.of("B", "A", "C", "B")
+        .findAny();
+```
+might return `Optional[C]` or any other element in the stream.
+
+``` java
+    Stream.<String>empty()
         .findFirst();
 ```
-might return "C"
+returns `Optional.empty` because the stream is empty.
 
 ### toArray
 ``` java
@@ -400,11 +412,12 @@ might return "C"
         .toArray();
 ```
 Returns an array containing [B, A, C, B]
+
 ``` java
     Stream.of("B", "A", "C", "B")
         .toArray(String[]::new)
 ```
-Returns an array containing [B, A, C, B] that was created by the provided constructor `new String[4]`
+Returns an array containing [B, A, C, B] that will be created by the provided constructor, for example using `new String[4]`.
 
 
 ## Other Operations
@@ -418,7 +431,7 @@ There are also a small number of other operations that are neither a *intermedia
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
 
 ## Examples
-In the example below, the flow of elements and the different operations in the stream's pipeline are examined. We create a `Stream` with five names and then `filter` out only those having a name that starts with the letter "A". After that we `sort` the remaining names and then we` map` the names to lower case. Finally, we print out the elements that have passed through the entire pipeline. In each operation we have inserted print statements so that we may observe what each operation is actually doing in the `Stream`:
+In the example below, the flow of elements and the different operations in the stream's pipeline are examined. We create a `Stream` with five names and then `filter` out only those having a name that starts with the letter "A". After that, we `sort` the remaining names and then we `map` the names to lower case. Finally, we print out the elements that have passed through the entire pipeline. In each operation we have inserted print statements so that we may observe what each operation is actually doing in the `Stream`:
 ``` java
     Stream.of("Bert", "Alice", "Charlie", "Assian", "Adam")
         .filter(s -> {
