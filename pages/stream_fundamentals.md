@@ -12,7 +12,7 @@ next: getting_started.html
 {% include prev_next.html %}
 
 ## What is a Stream?
-Speedment is all about Java 8 {{site.data.javadoc.Stream}}s, thats allows you to process data in a declarative way similar to SQL statements. So if you are not familiar with the concept of `Stream`s, I encourage you to read this chapter carefully. If you consider yourself a `Stream` expert, feel free to skip directly to the next chapter.
+Speedment is all about Java 8 {{site.data.javadoc.Stream}}s, that allows you to process data in a declarative way similar to SQL statements. So if you are not familiar with the concept of `Stream`s, I encourage you to read this chapter carefully. If you consider yourself a `Stream` expert, feel free to skip directly to the next chapter.
 
 A Java 8 `Stream` is an `interface` with implementations that supports a functional style operation on streams of elements. The entire Java Collection framework was retrofitted with `Stream` support in Java 8.
 
@@ -38,14 +38,21 @@ First, we create a `Stream` using the statement `Stream.of()`. Note that nothing
 This operation is different to all the previous operations in the way that it is a *terminal operation*. Whenever a *terminal operation* is applied to a `Stream`, the `Stream` cannot accept additional operations to its pipeline. It also means that the `Stream` is started.
 
 It shall be noted that elements in a `Stream` are pulled by the *terminal operation* (i.e. the `collect` operation) and not pushed by the stream source. So, `Collect` will ask for the first element and that request will traverse up to the stream source that will provide the first element "Zlatan".
-The `fiter` operation will check if the length of "Zlatan" is greater than two (which it is) and will then propagate "Zlatan" to the `sorted` operation.
+The `filter` operation will check if the length of "Zlatan" is greater than two (which it is) and will then propagate "Zlatan" to the `sorted` operation.
 Because the `sorted` operation needs to see all strings before it can decide on its output order, it will ask the stream source for all its remaining elements which, via the filter, is sent down the stream. Once all stings are received by the `sorted` operator, it will sort the strings and then output its first element (i.e. "Adam") to the `collect` operation. The result of the entire stream statement will thus be:
 
 ``` text
 "Adam", "George", "Oscar", "Tim", "Zlatan"
 ```
 
-Speedment provide the same semantics but for database tables, allowing us to view database tables as pure Java 8 streams. 
+ With Speedment it is possible to use exactly the same semantics as for Java 8 streams. Instead of Strings as shown in the example above, we can use rows in database tables. This way, we can view database tables as pure Java 8 streams as shown hereunder:
+``` java
+    users.stream()                       // Creates a Stream with users from a database 
+        .map(u -> u.getName())           // Extract the name (a String) from a user
+        .filter(n -> n.length() > 2)     // Retains only those Strings that are longer than 2 characters (i.e. "Bo" is dropped)
+        .sorted()                        // Sorts the remaining Strings in natural order
+        .collect(Collectors.toList());   // Collects the remaining sorted Strings in a List
+```
 Because a Java 8 Stream is an interface, Speedment can select from a variety of different implementations of a Stream depending on the pipeline we are setting up and other factors.
 
 
