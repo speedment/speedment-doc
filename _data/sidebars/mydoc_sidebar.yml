@@ -174,6 +174,23 @@ entries:
       output: web, pdf
       type: homepage
 
+  - title: Speedment Predicates
+    output: web, pdf
+    folderitems:
+
+    - title: Reference Predicates
+      url: perdicates.html
+      output: web, pdf
+      type: homepage
+
+  - title: Speedment Comparators
+    output: web, pdf
+    folderitems:
+
+    - title: Parallelism
+      url: comparators.html
+      output: web, pdf
+      type: homepage
 
   - title: Speedment Maven Plugin
     output: web, pdf

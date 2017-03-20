@@ -15,6 +15,8 @@ TypeMapper: "[`TypeMapper`](http://static.javadoc.io/com.speedment/runtime-deplo
 
 InjectBundle: "[`InjectBundle`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/common/injector.InjectBundle.html)"
 
+Tuple: "[`Tuple`](https://github.com/speedment/speedment/tree/master/common-parent/tuple"
+
 #Java Stuff
 Stream: "[`Stream`](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html)"
     

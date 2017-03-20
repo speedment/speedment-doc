@@ -45,8 +45,8 @@ Because the `sorted` operation needs to see all strings before it can decide on 
 "Adam", "George", "Oscar", "Tim", "Zlatan"
 ```
 
-### Streans with Speedment
-With Speedment it is possible to use exactly the same semantics as for Java 8 streams. Instead of Strings as shown in the example above, we can use rows in database tables. This way, we can view database tables as pure Java 8 streams as shown hereunder:
+### Streams with Speedment
+With Speedment, it is possible to use exactly the same semantics as for Java 8 streams. Instead of Strings as shown in the example above, we can use rows in database tables. This way, we can view database tables as pure Java 8 streams as shown hereunder:
 ``` java
     users.stream()                       // Creates a Stream with users from a database 
         .map(u -> u.getName())           // Extract the name (a String) from a user
@@ -98,6 +98,13 @@ There are also some *intermediate operations* that maps a `Stream` to one of the
 | `flatMapToDouble` | `Function`         | contains the `double` elements of the `DoubleStream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
 
 Primitive streams provides better performance in many cases but can only handle streams of: `int`, `long` and `double`.
+
+### Java 9 Operations
+Two new *intermediate operations* were introduced in Java 9. Because these methods were added to the Stream interface with default implementations, these methods can be used by any Stream written in either Java 8 or Java 9.
+| Operation         | Parameter          | Returns a `Stream` that:
+| :------------     | :----------------- | :----------------------------------------------------- |
+| `takeWhile`       | `Predicate`        | contains the elements in the original stream until the the first one fails the Predicate test 
+| `dropWhile`       | `Predicate`        | contains the elements in the original stream dropping all elements until the the first one fails the Predicate test then containing the rest of the elements
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information. Here are some examples of streams with *intermediate operations*:
 
@@ -280,10 +287,10 @@ Here is a list of other *terminal operations* that are a bit less commonly used 
 
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
-| `collect`         | `Supplier, BC, BC`   | Returns a reduction of the elements in the stream starting with an empty reduction (e.g. an empty `List`) obtained from the `Supplier` and then applying the first `BiConsumer` (BC) for each element and at the end, combining using the second `BiConsumer` (BC).
+| `collect`         | `Supplier, BiCOnsumer, BiConsumer`   | Returns a reduction of the elements in the stream starting with an empty reduction (e.g. an empty `List`) obtained from the `Supplier` and then applying the first `BiConsumer` for each element and at the end, combining using the second `BiConsumer`.
 | `reduce`          | `T, BinaryOperation` | Using a first `T` and then subsequently applying a `BinaryOperation` for each element in the stream, returns the value of the last value (reduction)
 | `reduce`          | `BinaryOperation`    | By subsequently applying a `BinaryOperation` for each element in the stream, returns the value of the last value (reduction)
-| `reduce`          | `T, BF, BO`          | In parallel, using  first values `T` and then subsequently applying a `BiFunctionn` (BF) for each element in the stream, returns the value of the last values combined using the combining `BinaryOperator` (BO)
+| `reduce`          | `T, BiFunction, BinaryOperator`          | In parallel, using  first values `T` and then subsequently applying a `BiFunctionn` for each element in the stream, returns the value of the last values combined using the combining `BinaryOperator`
 | `iterator`        | -                    | Returns an `Iterator` of all the values in this stream.
 | `spliterator`     | -                    | Returns a `Spliterator` with all the values in this stream.
 

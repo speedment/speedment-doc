@@ -50,7 +50,7 @@ IntStream ages = hares.stream()
 ```
 This creates an `IntStream` consisting of the ages of all `Hare`s
 
-If we want to select several fields, we can create a new class that holds only the fields in question
+If we want to select several fields, we can create a new class that holds only the fields in question or we can use a `Tuple` to dynamically create a type safe holder.
 
 ## Group By
 
