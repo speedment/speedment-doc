@@ -3,14 +3,17 @@ permalink: predicate.html
 sidebar: mydoc_sidebar
 title: Speedment Predicates
 keywords: Predicate, Stream
+toc: false
 Tags: Stream
+previous: comparator.html
+next: comparator.html
 ---
 
-## Predicate and Fields
+{% include prev_next.html %}
+
+## What is a Predicate
 
 A `Predicate` is... A `Field` is ...
-
-## Examples
 
 Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `User` object:
 
@@ -35,7 +38,7 @@ developers are encouraged to use the provided {{site.data.javadoc.Field}}s which
 when used, will always be recognizable by the Speedment query optimizer.
 
 
-## Reference Field
+## Reference Predicates
 
 The following methods are available to all {{site.data.javadoc.ReferenceField}}s
  (i.e. fields that are not primitive fields). In the table below, The "Outcome" is 
@@ -50,7 +53,7 @@ return `true` if and only if:
 A {{site.data.javadoc.ReferenceField}} implements the interface trait 
 {{site.data.javadoc.HasReferenceOperators}}.
 
-## Comparable Field
+## Comparable Predicates
 The following additional methods are available to a {{site.data.javadoc.ReferenceField}}
 that is always associated to a `Comparable` field (e.g. `Integer`, `String`, `Date`, `Time` etc.).
 Comparable fields can be tested for equality and can also be compared to other 
@@ -72,7 +75,7 @@ object of type `ENTITY` will return `true`if and only if:
 A {{site.data.javadoc.ComparableField}} implements the interface traits 
 {{site.data.javadoc.HasReferenceOperators}} and {{site.data.javadoc.HasComparableOperators}}.
 
-## String Field
+## String Predicates
 The following additional methods (over Comparable) are available to a `PredicateBuilder` that is associated
 to a `String` field.
 
@@ -89,7 +92,7 @@ N.B. An informal notation of method references is made in the table above with "
 indicating the `Predicate::negate` method. I.e. it means that the Operation indicates a 
 `Predicate` that will return the negated value.
 
-## Primitive Field
+## Primitive Predicates
 For performance reasons, there are a number of primitive fields available too.
 By using a primitive field, unnecessary boxing and auto-boxing cam be avoided.
 
@@ -105,3 +108,7 @@ TBW
 ### DoublePrimitiveField
 TBW
 
+## Examples
+TBW
+
+{% include prev_next.html %}

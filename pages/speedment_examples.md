@@ -37,20 +37,27 @@ One important property with Speedment streams are that they are able to optimize
 rows in the 'hare' table but this is not the case. Instead, Speedment is able to optimize the SQL query in the background and will instead issue the command:
 ``` sql
 SELECT id, name, color, age FROM hare 
-    WHERE (age > 5)
-    LIMIT 1;
+    WHERE (age > 5);
 ```
 This means that only the relevant entities are pulled in from the database into the `Stream`.
 
 ## Select
 If we do not want to use the entire entity but instead only select one or several fields, we can do that by applying a `map` operation to a `Stream`. Assuming we are only interested in the field 'id' of a `Hare` we can select that field like this:
 ``` java
-IntStream ages = hares.stream()
-    .mapToInt(Hare::getId);
+// Creates a stream with the ages of the hares by applying the AGE getter
+final IntStream ages = hares.stream()
+    .mapToInt(Hare.AGE.getter());
 ```
-This creates an `IntStream` consisting of the ages of all `Hare`s
+This creates an `IntStream` consisting of the ages of all `Hare`s by applying the Hare.AGE getter for each hare in the original stream.
 
-If we want to select several fields, we can create a new class that holds only the fields in question or we can use a `Tuple` to dynamically create a type safe holder.
+If we want to select several fields, we can create a new custom class that holds only the fields in question or we can use a {{site.data.javadoc.Tuple}} to dynamically create a type safe holder.
+``` java
+// Creates a stream of Tuples with two elements: id and name
+Stream<Tuple2<Integer, String>> items = hares.stream()
+    .map(h -> Tuples.of(h.getId(), h.getName()))
+
+```
+This creates a stream of Tuples with two elements: id (of type `Integer`) and Name (of type `String`)
 
 ## Group By
 
@@ -61,8 +68,6 @@ If we want to select several fields, we can create a new class that holds only t
 ## Distinct
 
 ## Distinct
-
-## Union
 
 ## Order By
 
@@ -78,6 +83,9 @@ If we want to select several fields, we can create a new class that holds only t
 ## Database Schema
 
 ``` sql
+CREATE DATABASE 'hares';
+USE 'hares';
+
 CREATE TABLE `hares`.`hare` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -116,6 +124,32 @@ ALTER TABLE `hares`.`friend`
 ALTER TABLE `hares`.`friend`
   ADD CONSTRAINT `friend_human_to_human_id` FOREIGN KEY (`human`) REFERENCES `human` (`id`);
 ```
+
+## Database Content
+
+``` sql
+USE 'hares';
+
+INSERT INTO `hares`.`hare` (`id`,`name`,`color`,`age` ) VALUES (1,'Harry','Gray',3);
+INSERT INTO `hares`.`hare` (`id`,`name`,`color`,`age` ) VALUES (2,'Henrietta','White',2);
+INSERT INTO `hares`.`hare` (`id`,`name`,`color`,`age` ) VALUES (3,'Henry','Black',9);
+
+INSERT INTO `hares`.`carrot` (`id`,`name`,`owner`, `rival`) VALUES (1,'The big one',1,3);
+INSERT INTO `hares`.`carrot` (`id`,`name`,`owner`, `rival`) VALUES (2,'Orange',1,2);
+INSERT INTO `hares`.`carrot` (`id`,`name`,`owner`, `rival`) VALUES (3,'The small',2,null);
+INSERT INTO `hares`.`carrot` (`id`,`name`,`owner`, `rival`) VALUES (4,'The old and rotten',3,null);
+
+INSERT INTO `hares`.`human` (`id`,`name`) VALUES (1,'Alice');
+INSERT INTO `hares`.`human` (`id`,`name`) VALUES (2,'Bob');
+
+INSERT INTO `hares`.`friend` (`hare`,`human`) VALUES (1,1);
+INSERT INTO `hares`.`friend` (`hare`,`human`) VALUES (2,1);
+INSERT INTO `hares`.`friend` (`hare`,`human`) VALUES (3,1);
+INSERT INTO `hares`.`friend` (`hare`,`human`) VALUES (3,2);
+
+commit;
+```
+
 
 {% include prev_next.html %}
 

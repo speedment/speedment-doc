@@ -3,14 +3,18 @@ permalink: comparator.html
 sidebar: mydoc_sidebar
 title: Speedment Comparator
 keywords: Comparator, Stream
+toc: false
 Tags: Stream, Comparator
+previous: comparator.html
+next: comparator.html
 ---
 
-## Comparators
+{% include prev_next.html %}
+
+## What is a Comparator
 
 A `Comparator` is... 
 
-## Examples
 
 Here is an example of how a `StringField` can be used in conjuction with
 a `User` object:
@@ -36,7 +40,9 @@ developers are encouraged to use the provided Predicate Builders which, when use
 will always be recognizable by the Speedment query optimizer.
 
 
-## Comparable Comparators
+## Comparators
+
+### Comparable Comparators
 The following additional methods are available to a `ComparableField` that is
 always associated to a `Comparable` field (e.g. Integer, String, Date, Time etc.).
 Comparable fields can be tested for equality and can also be compared to other
@@ -50,6 +56,12 @@ an object of type `ENTITY` will return TBW
 
 
 
-## Primitive Comparators
+### Primitive Comparators
 TBW
 
+| Method       | Parameter | Outcome                                                |
+| :----------  | :-------- | :----------------------------------------------------- |
+| comparator   | N/A       | the field is null                                      |
+
+
+{% include prev_next.html %}
