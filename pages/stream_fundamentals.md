@@ -45,7 +45,8 @@ Because the `sorted` operation needs to see all strings before it can decide on 
 "Adam", "George", "Oscar", "Tim", "Zlatan"
 ```
 
- With Speedment it is possible to use exactly the same semantics as for Java 8 streams. Instead of Strings as shown in the example above, we can use rows in database tables. This way, we can view database tables as pure Java 8 streams as shown hereunder:
+### Streans with Speedment
+With Speedment it is possible to use exactly the same semantics as for Java 8 streams. Instead of Strings as shown in the example above, we can use rows in database tables. This way, we can view database tables as pure Java 8 streams as shown hereunder:
 ``` java
     users.stream()                       // Creates a Stream with users from a database 
         .map(u -> u.getName())           // Extract the name (a String) from a user
@@ -59,6 +60,7 @@ Because a Java 8 Stream is an interface, Speedment can select from a variety of 
 ## Intermediate Operations
 An *intermediate operations* is an operation that allows further operations to be added to a `Stream`. For example, `filter` is an *intermediate operation* because we can add additional operations to a `Stream` pipeline after `filter` has been applied to the `Stream`.
 
+### Common Operations
 The following *intermediate operations* can be accepted by a `Stream`:
 
 | Operation         | Parameter          | Returns a `Stream` that:
@@ -73,6 +75,7 @@ The following *intermediate operations* can be accepted by a `Stream`:
 | `flatMap`         | `Function`         | contains the elements of the `Stream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
 | `peek`            | `Consumer`         | contains the original elements in the stream but additionally accepting each element to the given `Consumer` (side effect)
 
+### Stream Property Operations
 There are also a number of *intermediate operations* that controls the properties of the `Stream` and has no effect on its actual content. These are:
 
 | Operation         | Parameter          | Returns a `Stream` that:
@@ -82,7 +85,7 @@ There are also a number of *intermediate operations* that controls the propertie
 | `unordered`       | -                  | is unordered (data might appear in any order)
 | `onClose`         | `Runnable`         | will run the provided `Runnable` when closed
 
-
+### Map to Primitive Operations
 There are also some *intermediate operations* that maps a `Stream` to one of the special primitive stream types; `IntStrem`, `LongStream` and `DoubleStream`:
 
 | Operation         | Parameter          | Returns a `Stream` that:
@@ -252,6 +255,7 @@ This completes the example list of *intermediate operations*.
 ## Terminal Operations
 A *terminal operations* starts the `Stream` and returns a result that depends on the `Stream` pipeline and content. For example, `collect` is a *terminal operation* because we cannot add additional operation to a `Stream` pipeline after `collect` has been called.
 
+### Common Operations
 Here are some of the *terminal operations* that can be accepted by a `Stream`:
 
 | Operation         | Parameter(s)         | Action
@@ -270,8 +274,9 @@ Here are some of the *terminal operations* that can be accepted by a `Stream`:
 | `toArray`         | -                    | Returns an array containing all the elements in this stream
 | `toArray`         | `IntFunction`        | Returns an array containing all the elements in this stream whereby the array is created using the provided `IntFunction`
 
+### Less Common Operations
 
-Here is a list of other *terminal operations* that are a bit more complicated:
+Here is a list of other *terminal operations* that are a bit less commonly used by at least some programmers:
 
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
