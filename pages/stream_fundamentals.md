@@ -121,7 +121,7 @@ Two new *intermediate operations* were introduced in Java 9. Because these metho
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information. Here are some examples of streams with *intermediate operations*:
 
-Here is a list with examples for many of the  *intermediate operations*. In the examples below, lambdas are used but many times, the lambdas could be replaces by method references (e.g. the lambda `() -> new StringBuilder` can be replaced by a method reference `StringBuilder::new`.
+Here is a list with examples for many of the  *intermediate operations*. In the examples below, lambdas are used but many times, the lambdas could be replaces by method references (e.g. the lambda `() -> new StringBuilder` can be replaced by a method reference `StringBuilder::new`. The source code to the examples with *intermediate operations* below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/stream_fundamentals/IntermediateOperations.java)
 
 ### filter
 ``` java
@@ -367,7 +367,7 @@ Here is a list of additional *terminal operations* that are available for primit
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
 
-Here is a list with examples for many of the *terminal operations*:
+Here is a list with examples for many of the *terminal operations*. The source code to the examples below with *terminal operations* can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/stream_fundamentals/TerminalOperations.java)
 
 ### forEach
 ``` java
@@ -591,6 +591,8 @@ There are also a small number of other operations that are neither a *intermedia
 
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
+
+Here is a list with example of other operations. The source code to the examples below with other operations can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/stream_fundamentals/OtherOperations.java)
 
 ### isParallel
 ``` java
