@@ -283,9 +283,24 @@ A number of Plugin parameters can be set in the POM file as shown in this table:
 | dbmsUsername   | String   | Sets the dbms username                             | john.smith  |
 | dbmsPassword   | String   | Sets the dbms password                             | W8kAk2H!Eh  | 
 | configLocation | String   | Sets the location of the configuration file        | src/main/json/my_config.json |
-| components     | String[] | Adds one or several components or bundles to the plugin | com.company.MyComponent |
-| typeMappers    | String[] | Adds one or several {{site.data.javadoc.TypeMapper}}s to the plugin | com.so.MyTypeMapper,com.so.MyOtherTypeMapper |
 
+Here is an example where we set a number of database parameters for the plugins.
+``` xml
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.speedment</groupId>
+                <artifactId>speedment-maven-plugin</artifactId>
+                <version>${speedment.version}</version>
+                <configuration>
+                    <dbmsHost>92.168.0.4</dbmsHost>
+                    <dbmsPort>3306</dbmsPort>
+                    <dbmsUsername>john.smith</dbmsUsername>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+```
 
 ## Automated Maven Builds
 Automated builds can save time and enables continues integration on our projects. We can instruct Maven to generate code for us automatically on each build by attaching our plugin to certain goals like this:
