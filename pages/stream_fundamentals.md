@@ -121,7 +121,7 @@ Two new *intermediate operations* were introduced in Java 9. Because these metho
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information. Here are some examples of streams with *intermediate operations*:
 
-Here is a list with examples for many of the  *intermediate operations*:
+Here is a list with examples for many of the  *intermediate operations*. In the examples below, lambdas are used but many times, the lambdas could be replaces by method references (e.g. the lambda `() -> new StringBuilder` can be replaced by a method reference `StringBuilder::new`.
 
 ### filter
 ``` java
@@ -231,7 +231,7 @@ is a `Stream` with the elements "B", "A", "C" and "B" but, when closed, will pri
     Stream.of("B", "A", "C" , "B")
         .mapToInt(s -> s.hashCode())
 ```
-is an `IntStream` with the `int` elements 66, 65, 67 and 66. (A is 65, B id 66 and so on)
+is an `IntStream` with the `int` elements 66, 65, 67 and 66. (A is 65, B is 66 and so on)
 
 ### mapToLong
 ``` java
@@ -374,25 +374,25 @@ Here is a list with examples for many of the *terminal operations*:
      Stream.of("B", "A", "C" , "B")
         .forEach(System.out::print);
 ```
-might output "CBBA". It has to be said that most stream implementation actually *would* output "BACB" but there is no guarantee of a particular order using `forEach`.
+might output "CBBA". However, it has to be said that most stream implementation actually *would* output "BACB" but there is no guarantee of a particular order using `forEach`.
 
 ### forEachOrdered
 ``` java
      Stream.of("B", "A", "C" , "B")
         .forEachOrdered(System.out::print);
 ```
-outputs "BACB"
+outputs "BACB" (*always* as opposed to `forEach`)
 
 ### collect
 ``` java
      Stream.of("B", "A", "C" , "B")
-        .collect(Colectors.toList());
+        .collect(Collectors.toList());
 ```
 Returns a `List<String>` equal to ["B", "A", "C", "B"]
 
 ``` java
      Stream.of("B", "A", "C" , "B")
-        .collect(Colectors.toSet());
+        .collect(Collectors.toSet());
 ```
 Returns a `Set<String>` equal to ["A", "B", "C"]
 
@@ -437,7 +437,7 @@ returns `Optional.empty` because there is no max value because the stream is emp
      Stream.of("B", "A", "C" , "B")
         .count();
 ```
-returns 4
+returns 4 because there are four elements in the stream.
 
 ``` java
     Stream.empty()
@@ -500,13 +500,85 @@ returns `Optional.empty` because the stream is empty.
     Stream.of("B", "A", "C", "B")
         .toArray();
 ```
-Returns an array containing [B, A, C, B]
-
+Returns an array containing [B, A, C, B] the array being created automatically by the `toArray` operator.
 ``` java
     Stream.of("B", "A", "C", "B")
         .toArray(String[]::new)
 ```
-Returns an array containing [B, A, C, B] that will be created by the provided constructor, for example using `new String[4]`.
+Returns an array containing [B, A, C, B] that will be created by the provided constructor, for example using the equivalent to `new String[4]`.
+
+### collect with 3 Parameters
+``` java
+            Stream.of("B", "A", "C", "B")
+                                .collect(
+                    () -> new StringBuilder(),
+                    (sb0, sb1) -> sb0.append(sb1),
+                    (sb0, sb1) -> sb0.append(sb1)
+                )
+```
+Returns a `StringBuilder` containing "BACB" that will be created by the provided supplier and then built up by the append lambdas.
+
+
+### reduce
+``` java
+    Stream.of(1, 2, 3, 4)
+        .reduce((a, b) -> a + b)
+```
+Returns the value of `Optional[10]` because 10 is the sum of all `Integer` elements in the stream. If the stream is empty, `Optional.empty()` is returned.
+
+``` java
+    Stream.of(1, 2, 3, 4)
+        .reduce(100, (a, b) -> a + b)
+```
+Returns the value of 110 because we start with 100 and the add all the `Integer` elements in the stream. If the stream is empty, 100 is returned.
+``` java
+    Stream.of(1, 2, 3, 4)
+        .parallel()
+        .reduce(
+            0, 
+            (a, b) -> a + b,
+            (a, b) -> a + b
+        )
+```
+Returns the value of 10 because we start with 0 and the add all the `Integer` elements in the stream. The stream can be executed i parallel whereby the last lambda will be used to combine results from each thread. If the stream is empty, 0 is returned.
+
+
+### iterator
+``` java
+    Iterator<String> iterator
+        = Stream.of("B", "A", "C", "B")
+            .iterator();
+```
+Creates a new `Iterator` over all the elements in the Stream.
+
+### spliterator
+``` java
+    Spliterator<String> spliterator
+        = Stream.of("B", "A", "C", "B")
+            .spliterator();
+```
+Creates a new `Spliterator` over all the elements in the Stream.
+
+### sum
+``` java
+    IntStream.of(1, 2, 3, 4)
+        .sum()
+```
+Returns 10 because 10 is the sum of all elements in the stream.
+
+### average
+``` java
+    IntStream.of(1, 2, 3, 4)
+        .average()
+```
+Returns `OptionalDouble[2.5]` because 2.5 is the average of all elements in the stream. If the stream is empty, `OptionalDouble.empty()` is returned.
+
+### summaryStatistics
+``` java
+    IntStream.of(1, 2, 3, 4)
+        .summaryStatistics()
+```
+Returns `IntSummaryStatistics{count=4, sum=10, min=1, average=2.500000, max=4}`. If the stream is empty, `IntSummaryStatistics{count=0, sum=0, min=2147483647, average=0.000000, max=-2147483648}` is returned (N.B. max is initially set to Integer.MIN_VALUE which is -2147483648).
 
 
 ## Other Operations
@@ -517,7 +589,34 @@ There are also a small number of other operations that are neither a *intermedia
 | `isParallel`      | Returns `true` if the Stream is parallel, else `false`
 | `close`           | Closes the `Stream` and releases all its resources (if any)
 
+
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.
+
+### isParallel
+``` java
+    Stream.of("B", "A", "C", "B")
+        .parallel()
+        .isParallel()
+```
+Returns `true` because the Stream is parallel.
+``` java
+    Stream.of("B", "A", "C", "B")
+        .sequential()
+        .isParallel()
+```
+Returns `false` because the Stream is *not* parallel.
+### close
+``` java
+    Stream<String> stream = Stream.of("B", "A", "C", "B");
+    stream.forEachOrdered(System.out::println);
+    stream.close();
+```
+Prints all elements in the stream and then closes the stream. Some streams (e.g. streams from files) need to be closed to release their resources. Use the try-with-resource patterns if the stream must be closed:
+``` java
+    try (Stream<String> s = Stream.of("B", "A", "C", "B")) {
+        s.forEachOrdered(System.out::println);
+    }
+```
 
 ## Examples
 In the example below, the flow of elements and the different operations in the stream's pipeline are examined. We create a `Stream` with five names and then `filter` out only those having a name that starts with the letter "A". After that, we `sort` the remaining names and then we `map` the names to lower case. Finally, we print out the elements that have passed through the entire pipeline. In each operation we have inserted print statements so that we may observe what each operation is actually doing in the `Stream`:
