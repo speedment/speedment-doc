@@ -13,29 +13,60 @@ next: comparator.html
 
 ## What is a Predicate
 
-A `Predicate` is... A `Field` is ...
+A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an object of type `T` and returns either `true` or `false` when its `test` method is called. Let us take a closer look at an example where we have a `Predicate<String>` that we want to return `true` if the `String` begins with an "A" and `false` otherwise.
+``` java
+    Predicate<String> startsWithA = s -> s.startsWith("A");
 
-Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `User` object:
+    Stream.of("Snail", "Ape", "Bird", "Ant", "Alligator")
+        .filter(startsWithA)
+        .forEachOrdered(System.out::println);
+```
+This will print out all animals that starts with "A": Ape, Ant and Alligator.
+
+
+Another thing of central importance in Speedment is the concept of a {{site.data.javadoc.Field}}. Fields can be used to produce Predicates that are related to the field.
+
+Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `Hare` object:
 
 ``` java
-    Optional<User> johnSmith = users.stream()
-        .filter(User.NAME.equal("John Smith")
-        .findAny();
+    Predicate<Hare> isOld = Hare.AGE.greaterThan(5);
+    hares.stream()
+        .filter(isOld)
+        .forEachOrdered(System.out::println);
 ```
 In this example, the {{site.data.javadoc.StringField}}'s 
-method `User.NAME::equal` creates and returns a `Predicate<User>` that, when 
-tested with a User, will return `true` if and only if that User has a name that 
-is equal to "John Smith", otherwise it will return `false`.
-
-N.B. It would be possible to express the same semantics using a standard lambda:
-``` java
-    Optional<User> johnSmith = users.stream()
-        .filter(u -> "John Smith".equals(u.getName())
-        .findAny();
+method `User.NAME::greaterThan` creates and returns a `Predicate<Hare>` that, when 
+tested with a `Hare`, will return `true` if and only if that `Hare` has an age that 
+is grater than 5, otherwise it will return `false`. When run, the code above will produce the following SQL code:
+``` sql
+    SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` > 5)
 ```
-but Speedment would not be able to recognize and optimize vanilla lambdas. Instead,
-developers are encouraged to use the provided {{site.data.javadoc.Field}}s which, 
-when used, will always be recognizable by the Speedment query optimizer.
+
+It would be possible to express the same semantics using a standard anonymous lambda:
+``` java
+    Predicate<Hare> isOld = h -> h.getAge() > 5;
+    hares.stream()
+        .filter(isOld)
+        .forEachOrdered(System.out::println);
+```
+but Speedment would not be able to recognize and optimize vanilla lambdas and will therefore produce the following SQL code:
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare`
+```
+Because of this, developers are encouraged to use the provided {{site.data.javadoc.Field}}s when obtaining predicates because these predicates, 
+when used, will always be recognizable by the Speedment query optimizer. 
+
+{% include important.html content="
+
+### Do This:
+``` java
+    hares.stream().filter(Hare.AGE.greaterThan(5))
+```
+### Don't do This
+``` java
+    hares.stream().filter(h -> h.getAge() > 5)
+```
+" %}
 
 
 ## Reference Predicates

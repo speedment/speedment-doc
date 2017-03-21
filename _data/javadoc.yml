@@ -19,5 +19,5 @@ Tuple: "[`Tuple`](https://github.com/speedment/speedment/tree/master/common-pare
 
 #Java Stuff
 Stream: "[`Stream`](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html)"
-    
+Predicate: "[`Predicate`](https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html"     
     
