@@ -58,11 +58,11 @@ when used, will always be recognizable by the Speedment query optimizer.
 
 {% include important.html content="
 
-### Do This:
+Do This:
 ``` java
     hares.stream().filter(Hare.AGE.greaterThan(5))
 ```
-### Don't do This
+Don't do This:
 ``` java
     hares.stream().filter(h -> h.getAge() > 5)
 ```
