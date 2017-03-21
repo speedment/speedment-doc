@@ -690,8 +690,19 @@ In the examples below we are working with entities of type `User`. The `User` cl
     }
 
 ```
-As can be seen, users are really not real used but instead they are synthetically generated from the user id. Because the id defines all other field, we use a "trick" and whereby we only need to use the id field in the `equals` and `hashCode` methods.
-The first three users (for id 0, 1 and 2) will be {id=0, name=Name0, password=PW346289151, favoriteCar=Toyota, bornYear=1950}, {id=1, name=Name1, password=PW1420030975, favoriteCar=Volvo, bornYear=1951} and {id=2, name=Name2, password=PW883160063, favoriteCar=Tesla, bornYear=1952}. 
+As can be seen, users are really not real users but instead they are synthetically generated from the user id. Because the id defines all other fields, we use a "trick" and whereby we only need to use the id field in the `equals` and `hashCode` methods.
+
+The first users will thus be:
+
+| id  | User                                                                         |
+| :-- | :--------------------------------------------------------------------------- |
+| 0   | {id=0, name=Name0, password=PW346289151, favoriteCar=Toyota, bornYear=1950}  |
+| 1   | {id=1, name=Name1, password=PW1420030975, favoriteCar=Volvo, bornYear=1951}  |
+| 2   | {id=2, name=Name2, password=PW883160063, favoriteCar=Tesla, bornYear=1952}   |
+| 3   | {id=3, name=Name3, password=PW1956901887, favoriteCar=Fiat, bornYear=1953}   |
+| 4   | {id=4, name=Name4, password=PW77853695, favoriteCar=Ford, bornYear=1954}     |
+| 5   | {id=5, name=Name5, password=PW1151595519, favoriteCar=Toyota, bornYear=1955} |
+| ... | ...                                                                          |
 
 There is also a `UserManager` that provides a static stream method that will return a `Stream<User>` that contains 1000 elements (with user ids in the range 0 to 999). The `UserManager` class is shown hereunder:
 ``` java
