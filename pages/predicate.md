@@ -95,9 +95,9 @@ The following additional methods are available to a {{site.data.javadoc.Referenc
 | notIn          | `V[]`        |  array p does not contain field    | the array parameter does not contain the field
 | notIn          | `Set<V>`     |  !p.contains(field)        | the `Set<V>` does not contain the field
 
-{% include note.html content = "
+
 Fields that are `null` will never fulfill any of the predicates.
-" %}
+
 
 A {{site.data.javadoc.ComparableField}} implements the interface traits {{site.data.javadoc.HasReferenceOperators}} and {{site.data.javadoc.HasComparableOperators}}.
 
@@ -121,16 +121,14 @@ The following additional methods (over {{site.data.javadoc.ReferenceField}}) are
 | isEmpty                 | `String`     | String::isEmpty            | the field is empty (i.e. field.length() == 0)                   |
 | isNotEmpty              | `String`     | !String::isEmpty           | the field is not empty (i.e. field.length() !=0)                |
 
-{% include note.html content = "
 Fields that are `null` will never fulfill any of the predicates.
-" %}
 
 A {{site.data.javadoc.StringField}} implements the interface traits {{site.data.javadoc.HasReferenceOperators}}, {{site.data.javadoc.HasComparableOperators}} and {{site.data.javadoc.HasStringOperators}}.
 
-{% include note.html content = "
+
 An informal notation of method references is made in the table above with "!" indicating the `Predicate::negate` method. I.e. it means that the Operation indicates a `Predicate` that will return the negated value.
 \"ic\" means that the method reference shall ignore case
-" %}
+
 
 ## Primitive Predicates
 For performance reasons, there are a number of primitive fields available too.

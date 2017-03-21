@@ -1,6 +1,6 @@
 javadocurl: http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/
 
-Manager: "[`Manager`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.5/com/speedment/runtime/core/manager/Manager.html)"
+Manager: "[`Manager`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/core/manager/Manager.html)"
 
 Field: "[`Field`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/Field.html)"
 ReferenceField: "[`ReferenceField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/ReferenceField.html)"
