@@ -717,7 +717,7 @@ Note how the stream method creates an `IntStream` with elements from 0 to 999 an
 
 
 ### Count the Number of Ford Likers
-In this example, we want to count the number of users that like Ford. Here is a solution assuming that the current year is 2017:
+In this example, we want to count the number of users that like Ford. Here is one way of doing it:
 ``` java
     long count = UserManager.stream()
         .filter(u -> "Ford".equals(u.getFavoriteCar()))
@@ -735,21 +735,22 @@ In this example, we want to calculate the average age of the users that like Tes
 ``` java
     OptionalDouble avg = UserManager.stream()
         .filter(u -> "Tesla".equals(u.getFavoriteCar()))
-        .mapToInt(u -> 2017 - u.getBornYear())
+        .mapToInt(u -> 2017 - u.getBornYear()) // Calculates the age
         .average();
 
     if (avg.isPresent()) {
-        System.out.format("The average age of Tesla likers are %d %n", avg.getAsDouble());
+        System.out.format("The average age of Tesla likers are %d years %n", avg.getAsDouble());
     } else {
         System.out.format("There are no Tesla lovers");
     }
 ```
 The code above will produce:
 ``` text
-The average age of Tesla likers are 42.500000
+The average age of Tesla likers are 42.500000 years
 ```
 
 ### Find the Youngest Volvo Digger
+Here we want to locate the youngest Volvo digger. The solution below sorts all users in bornYear order and then picks the first one. Is there another solution without sort?
 ``` java
 Comparator<User> comparator = Comparator.comparing(User::getBornYear).reversed();
         
