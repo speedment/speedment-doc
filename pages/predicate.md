@@ -13,9 +13,9 @@ next: comparator.html
 
 ## What is a Predicate
 
-A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an object of type `T` and returns either `true` or `false` when its `test` method is called. Let us take a closer look at an example where we have a `Predicate<String>` that we want to return `true` if the `String` begins with an "A" and `false` otherwise.
+A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an object of type `T` and returns either `true` or `false` when its `test` method is called. Let us take a closer look at an example where we have a `Predicate<String>` that we want to return `true` if the `String` begins with an "A" and `false` otherwise:
 ``` java
-    Predicate<String> startsWithA = s -> s.startsWith("A");
+    Predicate<String> startsWithA = (String s) -> s.startsWith("A");
 
     Stream.of("Snail", "Ape", "Bird", "Ant", "Alligator")
         .filter(startsWithA)
@@ -57,24 +57,15 @@ Because of this, developers are encouraged to use the provided {{site.data.javad
 when used, will always be recognizable by the Speedment query optimizer. 
 
 {% include important.html content="
-
-Do This:
-``` java
-    hares.stream().filter(Hare.AGE.greaterThan(5))
-```
-Don't do This:
-``` java
-    hares.stream().filter(h -> h.getAge() > 5)
-```
+Do This: `hares.stream().filter(Hare.AGE.greaterThan(5))` 
+Don't do This: `hares.stream().filter(h -> h.getAge() > 5)`
 " %}
 
+The rest of this chapter will be about how we can get predicates from different `Field` types.
 
 ## Reference Predicates
 
-The following methods are available to all {{site.data.javadoc.ReferenceField}}s
- (i.e. fields that are not primitive fields). In the table below, The "Outcome" is 
-a `Predicate<ENTITY>` that when tested with an object of type `ENTITY` will 
-return `true` if and only if:
+The following methods are available to all {{site.data.javadoc.ReferenceField}}s (i.e. fields that are not primitive fields). In the table below, The "Outcome" is a `Predicate<ENTITY>` that when tested with an object of type `ENTITY` will return `true` if and only if:
 
 | Method         | Param Type | Operation          | Outcome                                                |
 | :------------- | :--------- | :----------------- | :----------------------------------------------------- |
@@ -85,12 +76,7 @@ A {{site.data.javadoc.ReferenceField}} implements the interface trait
 {{site.data.javadoc.HasReferenceOperators}}.
 
 ## Comparable Predicates
-The following additional methods are available to a {{site.data.javadoc.ReferenceField}}
-that is always associated to a `Comparable` field (e.g. `Integer`, `String`, `Date`, `Time` etc.).
-Comparable fields can be tested for equality and can also be compared to other 
-objects of the same type.
-In the table below, the "Outcome" is a `Predicate<ENTITY>` that when tested with an 
-object of type `ENTITY` will return `true`if and only if:
+The following additional methods are available to a {{site.data.javadoc.ReferenceField}} that is always associated to a `Comparable` field (e.g. `Integer`, `String`, `Date`, `Time` etc.). Comparable fields can be tested for equality and can also be compared to other objects of the same type. In the table below, the "Outcome" is a `Predicate<ENTITY>` that when tested with an object of type `ENTITY` will return `true`if and only if:
 
 | Method         | Param Type | Operation                  | Outcome                                                |
 | :------------- | :--------- | :------------------------- | :----------------------------------------------------- |
@@ -100,28 +86,51 @@ object of type `ENTITY` will return `true`if and only if:
 | lessOrEqual    | `V`          | field <= p                 | the field is less or equal to the the parameter        |
 | greaterThan    | `V`          | field > p                  | the field is greater than the parameter                |
 | greaterOrEqual | `V`          | field >= p                 | the field is greater or equal to the parameter         |
-| .........      | `Set<V>`     | More..         |
+| between        | `V`,`V`      | field >= s && field < e  | the field is between s (inclusive) and e (exclusive) |
+| between        | `V`,`V`, `Inclusion`| field >? s && field <? e  | the field is between s and e inclusion according to the Inclusion parameter (`START_INCLUSIVE_END_INCLUSIVE`, `START_INCLUSIVE_END_EXCLUSIVE`, `START_EXCLUSIVE_END_INCLUSIVE` and `START_EXCLUSIVE_END_EXCLUSIVE`)|
+| notBetween     | `V`,`V`      | field < s && field >= e  | the field is not between p1 (exclusive) and p2 (inclusive) |
+| notBetween     | `V`,`V`, `Inclusion`| field <? s && field >? e  | the field is not between s and e inclusion according to the Inclusion parameter (`START_INCLUSIVE_END_INCLUSIVE`, `START_INCLUSIVE_END_EXCLUSIVE`, `START_EXCLUSIVE_END_INCLUSIVE` and `START_EXCLUSIVE_END_EXCLUSIVE`)|
+| in             | `V[]`        |  array p contains field    | the array parameter contains the field
+| in             | `Set<V>`     |  p.contains(field)         | the `Set<V>` contains the field
+| notIn          | `V[]`        |  array p does not contain field    | the array parameter does not contain the field
+| notIn          | `Set<V>`     |  !p.contains(field)        | the `Set<V>` does not contain the field
 
+{% include note.html content = "
+Fields that are `null` will never fulfill any of the predicates.
+" %}
 
-A {{site.data.javadoc.ComparableField}} implements the interface traits 
-{{site.data.javadoc.HasReferenceOperators}} and {{site.data.javadoc.HasComparableOperators}}.
+A {{site.data.javadoc.ComparableField}} implements the interface traits {{site.data.javadoc.HasReferenceOperators}} and {{site.data.javadoc.HasComparableOperators}}.
 
 ## String Predicates
-The following additional methods (over Comparable) are available to a `PredicateBuilder` that is associated
-to a `String` field.
+The following additional methods (over {{site.data.javadoc.ReferenceField}}) are available to a {{site.data.javadoc.StringField}}:
 
-| Method             | Param Type | Operation                  | Outcome                                                     |
-| :----------------- | :--------- | :------------------------- | :---------------------------------------------------------- |
-| equalIgnoreCase    | `String`     | String::equalsIgnoreCase   | the field is equal to the given parameter ignoring case     |
-| notEqualIgnoreCase | `String`     | !String::equalsIgnoreCase  | the field is not equal to the given parameter ignoring case |
+| Method                  | Param Type   | Operation                  | Outcome                                                         |
+| :---------------------- | :----------- | :------------------------- | :-------------------------------------------------------------- |
+| equalIgnoreCase         | `String`     | String::equalsIgnoreCase   | the field is equal to the given parameter ignoring case         |
+| notEqualIgnoreCase      | `String`     | !String::equalsIgnoreCase  | the field is not equal to the given parameter ignoring case     |
+| startsWith              | `String`     | String::startsWith         | the field starts with the given parameter                       |
+| notStartsWith           | `String`     | !String::startsWith        | the field does not start with the given parameter               |
+| startsWithIgnoreCase    | `String`     | String::startsWith ic      | the field starts with the given parameter ignoring case         |
+| notStartsWithIgnoreCase | `String`     | !String::startsWith ic     | the field does not start with the given parameter ignoring case |
+| endsWith                | `String`     | String::endsWith           | the field ends with the given parameter                         |
+| notEndsWith             | `String`     | !String::endsWith          | the field does not end with the given parameter                 |
+| endsWithIgnoreCase      | `String`     | String::endsWith ic        | the field ends with the given parameter                         |
+| notEndsWithIgnoreCase   | `String`     | !String::endsWith ic       | the field does not end with the given parameter                 |
+| contains                | `String`     | String::contains           | the field contains the given parameter                          |
+| notContains             | `String`     | !String::contains          | the field does not contain the given parameter                  |
+| isEmpty                 | `String`     | String::isEmpty            | the field is empty (i.e. field.length() == 0)                   |
+| isNotEmpty              | `String`     | !String::isEmpty           | the field is not empty (i.e. field.length() !=0)                |
 
-A {{site.data.javadoc.StringField}} implements the interface traits 
-{{site.data.javadoc.HasReferenceOperators}}, {{site.data.javadoc.HasComparableOperators}}.
- and {{site.data.javadoc.HasReferenceOperators}}.
+{% include note.html content = "
+Fields that are `null` will never fulfill any of the predicates.
+" %}
 
-N.B. An informal notation of method references is made in the table above with "!" 
-indicating the `Predicate::negate` method. I.e. it means that the Operation indicates a 
-`Predicate` that will return the negated value.
+A {{site.data.javadoc.StringField}} implements the interface traits {{site.data.javadoc.HasReferenceOperators}}, {{site.data.javadoc.HasComparableOperators}} and {{site.data.javadoc.HasStringOperators}}.
+
+{% include note.html content = "
+An informal notation of method references is made in the table above with "!" indicating the `Predicate::negate` method. I.e. it means that the Operation indicates a `Predicate` that will return the negated value.
+\"ic\" means that the method reference shall ignore case
+" %}
 
 ## Primitive Predicates
 For performance reasons, there are a number of primitive fields available too.
