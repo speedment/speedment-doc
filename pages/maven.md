@@ -271,6 +271,22 @@ Some Componens can be configured directly using the POM file. This is done using
 ```
 Check the documentation for the individual Components to see what parameters can be set.
 
+
+### Setting Other Plugin POM Parameters 
+A number of Plugin parameters can be set in the POM file as shown in this table:
+
+| Name           | Type     | Purpose                                            | Example     |
+| :------------- | :------- | :------------------------------------------------- | :---------- |
+| debug          | boolean  | Enables debug mode for the plugin                  | true        |
+| dbmsHost       | String   | Sets the dbms host name                            | 192.168.0.4 |         
+| dbmsPort       | int      | Sets the dbms port                                 | 3306        |
+| dbmsUsername   | String   | Sets the dbms username                             | john.smith  |
+| dbmsPassword   | String   | Sets the dbms password                             | W8kAk2H!Eh  | 
+| configLocation | String   | Sets the location of the configuration file        | src/main/json/my_config.json |
+| components     | String[] | Adds one or several components or bundles to the plugin | com.company.MyComponent |
+| typeMappers    | String[] | Adds one or several {{site.data.javadoc.TypeMapper}}s to the plugin | com.so.MyTypeMapper,com.so.MyOtherTypeMapper |
+
+
 ## Automated Maven Builds
 Automated builds can save time and enables continues integration on our projects. We can instruct Maven to generate code for us automatically on each build by attaching our plugin to certain goals like this:
 
@@ -290,6 +306,42 @@ Automated builds can save time and enables continues integration on our projects
 </plugin>
 ```
 Now, all Speedment code will be generated automatically for us upon re-build.
+
+If we want to perform an automatic reload (and merge potential changes in the database structure with our JSON configuration file) and then re-generate code we can do that like this:
+``` xml
+    <plugin>
+        <groupId>com.speedment</groupId>
+        <artifactId>speedment-maven-plugin</artifactId>
+        <version>${speedment.version}</version>
+        <dependencies>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.40</version>
+            </dependency>
+        </dependencies>
+        <configuration>
+            <dbmsPassword>mySecretPassword</dbmsPassword>
+        </configuration>
+        <executions>
+            <execution>
+                <id>Merge database schema updates with the json config file</id>
+                <phase>generate-sources</phase>
+                <goals>
+                    <goal>reload</goal>
+                </goals>
+            </execution>
+            <execution>
+                <id>Generate code</id>
+                <phase>generate-sources</phase>
+                <goals>
+                    <goal>generate</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
+```
+This way, each time we rebuilt, the code will always reflect the current database structure.
 
 ## Speedment Enterprise
 Speedment Enterprise is configured the same way except that we have to use different group and artifact ids. Here is an example of a Speedment Enterprise plugin definition:
