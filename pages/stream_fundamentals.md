@@ -107,9 +107,8 @@ Here is a table of some additional *intermediate operations* that primitive Stre
 | Operation         | Parameter          | Returns a `Stream` that:
 | :------------     | :----------------- | :----------------------------------------------------- |
 | `boxed`           | -                  | contains the boxed elements in the original stream (e.g. an `int` is boxed to an `Integer`)
-| `asIntStream`     | -                  | contains the elements in the original stream converted to `int`s
-| `asLongStream`    | -                  | contains the elements in the original stream converted to `long`s
-| `asDoubleStream`  | -                  | contains the elements in the original stream converted to `double`s
+| `asLongStream`    | -                  | contains the elements in the original stream converted to `long` elements
+| `asDoubleStream`  | -                  | contains the elements in the original stream converted to `double` elements
 
 
 ### Java 9 Operations
@@ -127,49 +126,49 @@ Here is a list with examples for many of the  *intermediate operations*:
 ### filter
 ``` java
     Stream.of("B", "A", "C" , "B")
-        .filter(s -> s.equals("B")
+        .filter(s -> s.equals("B"))
 ```
-returns a `Stream` with the elements "B" and "B".
+returns a `Stream` with the elements "B" and "B" because only elements that are equal to "B" will pass the `filter` operation.
 
 ### map
 ``` java
     Stream.of("B", "A", "C" , "B")
         .map(s -> s.toLowerCase())
 ```
-is a `Stream` with the elements "b", "a", "c" and "b".
+is a `Stream` with the elements "b", "a", "c" and "b" because each element will be mapped (converted) to its lower case representation.
 
 ### distinct
 ``` java
     Stream.of("B", "A", "C" , "B")
         .distinct()
 ```
-is a `Stream` with the elements "B", "A" and "C".
+is a `Stream` with the elements "B", "A" and "C" because only unique elements will pass the `distinct` operation.
 
 ### sorted
 ``` java
     Stream.of("B", "A", "C" , "B")
         .sorted()
 ```
-returns a `Stream` with the elements "A", "B", "B" and "C".
+returns a `Stream` with the elements "A", "B", "B" and "C" because the `sort` operation will sort all elements in the stream in natural order.
 
 ``` java
     Stream.of("B", "A", "C" , "B")
         .sorted(Comparator.reverseOrder())
 ```
-is a `Stream` with the elements "C", "B", "B" and "A".
+is a `Stream` with the elements "C", "B", "B" and "A" because the `sort` operation will sort all elements in the stream according to the provided `Comparator` (in reversed natural order).
 
 ### limit
 ``` java
     Stream.of("B", "A", "C" , "B")
         .limit(2)
 ```
-is a `Stream` with the elements "B" and "A".
+is a `Stream` with the elements "B" and "A" because after the two first elements the rest of the elements will be discarded.
 ### skip
 ``` java
     Stream.of("B", "A", "C" , "B")
         .skip(1)
 ```
-is a `Stream` with the elements "A", "C" and "A".
+is a `Stream` with the elements "A", "C" and "B" because the first element in the stream will be skipped.
 
 ### flatMap
 ``` java
@@ -177,23 +176,33 @@ is a `Stream` with the elements "A", "C" and "A".
         Stream.of("B", "A"),
         Stream.of("C", "B")
     )
-    .flatMap(Function.identity())
+        .flatMap(Function.identity())
+        .forEachOrdered(System.out::println);
 ```
-returns a `Stream` with the elements "B", "A", "C" and "B". The two streams (that each contain two elements) are "flattened" to a single `Stream` with four elements.
+returns a `Stream` with the elements "B", "A", "C" and "B" because the two streams (that each contain two elements) are "flattened" to a single `Stream` with four elements.
+
+``` java
+    Stream.of(
+        Arrays.asList("B", "A"),
+        Arrays.asList("C", "B")
+    )
+        .flatMap(l -> l.stream())
+```
+returns a `Stream` with the elements "B", "A", "C" and "B" because the two lists (that each contain two elements) are "flattened" to a single `Stream` with four elements. The lists are converted to sub-streams using the `List::stream` mapper method.
 
 ### peek
 ``` java
     Stream.of("B", "A", "C" , "B")
         .peek(System.out::print)
 ```
-is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB".
+is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB" as a side effect. Note that using side effects in stream are discouraged. Use this operation for debug only.
 
 ### parallel
 ``` java
     Stream.of("B", "A", "C" , "B")
         .parallel()
 ```
-is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed, elements in the `Stream` may be propagated through the pipeline using different `Thread`s.
+is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed, elements in the `Stream` may be propagated through the pipeline using different `Thread`s. By default, parallel streams are executed on the default `ForkJoinPool`.
 
 ### sequential
 ``` java
@@ -208,12 +217,12 @@ is a `Stream` with the elements "B", "A", "C" and "B" that is not parallel.
     Stream.of("B", "A", "C" , "B")
         .unordered()
 ```
-is a `Stream` with the given elements but in no particular order, so when consumed, elements might be encountered in any order, for example in the order "C", "B", "B", "A".
+is a `Stream` with the given elements but not necessary in any particular order. So when consumed, elements might be encountered in any order, for example in the order "C", "B", "B", "A". Note that `unordered` is just a relaxation of the stream requirements. Unordered streams can retain their original element order or elements can appear in any other order.
 
 ### onClose
 ``` java
-    Stream.of("B", "A", "C" , "B")
-        .onClosed( () -> System.out.println("The Stream was closed") )
+    Stream.of("B", "A", "C", "B")
+        .onClose( () -> System.out.println("The Stream was closed") );
 ```
 is a `Stream` with the elements "B", "A", "C" and "B" but, when closed, will print out the text "The Stream was closed".
 
@@ -228,7 +237,6 @@ is an `IntStream` with the `int` elements 66, 65, 67 and 66. (A is 65, B id 66 a
 ``` java
     Stream.of("B", "A", "C", "B")
         .mapToLong(s -> s.hashCode() * 1_000_000_000_000l)
-
 ```
 is a `LongStream` with the `long` elements 66000000000000, 65000000000000, 67000000000000 and 66000000000000.
 
@@ -236,7 +244,6 @@ is a `LongStream` with the `long` elements 66000000000000, 65000000000000, 67000
 ``` java
     Stream.of("B", "A", "C", "B")
         .mapToDouble(s -> s.hashCode() / 10.0)
-
 ```
 is a `DoubleStream` with the `double` elements 6.6, 6.5, 6.7 and 6.6.
 
@@ -248,7 +255,7 @@ is a `DoubleStream` with the `double` elements 6.6, 6.5, 6.7 and 6.6.
     )
         .flatMapToInt(s -> s.map(i -> i + 1))
 ```
-is an `IntStream` with the `int` elements 2, 3, 4 and 5.
+is an `IntStream` with the `int` elements 2, 3, 4 and 5 because the two `IntStream`s where flattened to one stream whereby 1 was added to each element.
 
 ### flatMapToLong
 ``` java
@@ -258,7 +265,7 @@ is an `IntStream` with the `int` elements 2, 3, 4 and 5.
     )
         .flatMapToLong(s -> s.map(i -> i + 1))
 ```
-is a `LongStream` with the `long` elements 2, 3, 4 and 5.
+is a `LongStream` with the `long` elements 2, 3, 4 and 5 because the two `LongStream`s where flattened to one stream whereby 1 was added to each element.
 
 ### flatMapToDouble
 ``` java
@@ -268,9 +275,46 @@ is a `LongStream` with the `long` elements 2, 3, 4 and 5.
     )
         .flatMapToDouble(s -> s.map(i -> i + 1))
 ```
-is a `DoubleStream` with the `double` elements 2.0, 3.0, 4.0 and 5.0.
+is a `DoubleStream` with the `double` elements 2.0, 3.0, 4.0 and 5.0 because the two `DoubleStream`s where flattened to one stream whereby 1 was added to each element.
 
-This completes the example list of *intermediate operations*.
+
+### boxed
+``` java
+    IntStream.of(1, 2, 3, 4)
+        .boxed()
+```
+is a `Stream` with the `Integer` elements 1, 2, 3 and 4 because the original `int` elements were boxed to their corresponding `Integer` elements.
+
+### asLongStream
+``` java 
+     IntStream.of(1, 2, 3, 4)
+        .asLongStream()
+ ```
+is a `LongStream` with the `long` elements 1, 2, 3 and 4 because the original `int` elements were converted to `long` elements.
+
+### asDoubleStream
+``` java
+    IntStream.of(1, 2, 3, 4)
+        .asDoubleStream()
+```
+is a `DoubleStream` with the `double` elements 1.0, 2.0, 3.0 and 4.0 because the original `int` elements were converted to `double` elements.
+
+### takeWhile (Java 9 only)
+``` java
+    Stream.of("B", "A", "C", "B")
+        .takeWhile(s -> "B".compareTo(s) >= 0)
+```
+is a `Stream` with the elements "B" and "A" because when "C" in encountered in the stream, that element and all following are dropped.
+
+### dropWhile (Java 9 only)
+``` java
+    Stream.of("B", "A", "C", "B")
+        .dropWhile(s -> "B".compareTo(s) >= 0)
+```
+is a `Stream` with the elements "C" and "B" because elements are dropped from the stream but when "C" in encountered, subsequent elements are not dropped.
+
+
+This completes the example list of *intermediate operation* examples.
 
 
 ## Terminal Operations
