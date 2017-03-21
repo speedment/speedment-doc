@@ -716,8 +716,22 @@ There is also a `UserManager` that provides a static stream method that will ret
 Note how the stream method creates an `IntStream` with elements from 0 to 999 and then maps each `int` element to a `User` object using the `User` constructor that takes an `int` as an argument.
 
 
+### Count the Number of Ford Likers
+In this example, we want to count the number of users that like Ford. Here is a solution assuming that the current year is 2017:
+``` java
+    long count = UserManager.stream()
+        .filter(u -> "Ford".equals(u.getFavoriteCar()))
+        .count();
+
+        System.out.format("There are %d users that supports Ford %n", count);
+```
+The code above will produce:
+``` text
+There are 200 users that supports Ford 
+```
+
 ### Calculate Average Age
-In this example, we want to calculate the average age of the users that like Tesla. Here is the solution assuming that the current year is 2017:
+In this example, we want to calculate the average age of the users that like Tesla. Here is a solution assuming that the current year is 2017:
 ``` java
     OptionalDouble avg = UserManager.stream()
         .filter(u -> "Tesla".equals(u.getFavoriteCar()))
@@ -735,6 +749,24 @@ The code above will produce:
 The average age of Tesla likers are 42.500000
 ```
 
+### Find the Youngest Volvo Digger
+``` java
+Comparator<User> comparator = Comparator.comparing(User::getBornYear).reversed();
+        
+    Optional<User> youngest = UserManager.stream()
+        .filter(u -> "Volvo".equals(u.getFavoriteCar()))
+        .sorted(comparator)
+        .findFirst();
+
+    youngest.ifPresent(u
+        -> System.out.println("Found the youngest Volvo digger which is :" + u.toString())
+    );
+```
+This will produce the following output:
+``` text
+Found the youngest Volvo digger which is :{id=46, name=Name46, password=PW782496767, favoriteCar=Volvo, bornYear=1996}
+```
+
 ### Collect a Stream in a List
 In this example, we want to collect all users that love Fiat in a List. This can be done like this:
 ``` java
@@ -748,7 +780,6 @@ The code above will produce:
 ``` text
 There are 200 fiat lovers
 ```
-
 
 ### Element Flow
 In the example below, the flow of elements and the different operations in the stream's pipeline are examined. We create a `Stream` with five names and then `filter` out only those having a name that starts with the letter "A". After that, we `sort` the remaining names and then we `map` the names to lower case. Finally, we print out the elements that have passed through the entire pipeline. In each operation we have inserted print statements so that we may observe what each operation is actually doing in the `Stream`:
