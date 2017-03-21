@@ -627,6 +627,119 @@ Prints all elements in the stream and then closes the stream. Some streams (e.g.
 ```
 
 ## Examples
+
+In the examples below we are working with entities of type `User`. The `User` class looks like this:
+
+``` java 
+    static class User {
+
+        private static final List<String> CARS = Arrays.asList("Toyota", "Volvo", "Tesla", "Fiat", "Ford");
+
+        private final int id;
+
+        public User(int id) {
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return "Name" + id;
+        }
+
+        public String getPassword() {
+            return "PW" + (id ^ 0x7F93A27F);
+        }
+
+        public String getFavoriteCar() {
+            return CARS.get(id % CARS.size());
+        }
+
+        public int getBornYear() {
+            return 1950 + id % 50;
+        }
+
+        @Override
+        public String toString() {
+            return String.format(
+                "{id=%d, name=%s, password=%s, favoriteCar=%s, bornYear=%d}",
+                getId(),
+                getName(),
+                getPassword(),
+                getFavoriteCar(),
+                getBornYear()
+            );
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof User)) {
+                return false;
+            }
+            User that = (User) obj;
+            return this.id == that.id;
+        }
+
+        @Override
+        public int hashCode() {
+            return id;
+        }
+
+    }
+
+```
+As can be seen, users are really not real used but instead they are synthetically generated from the user id. Because the id defines all other field, we use a "trick" and whereby we only need to use the id field in the `equals` and `hashCode` methods.
+The first three users (for id 0, 1 and 2) will be {id=0, name=Name0, password=PW346289151, favoriteCar=Toyota, bornYear=1950}, {id=1, name=Name1, password=PW1420030975, favoriteCar=Volvo, bornYear=1951} and {id=2, name=Name2, password=PW883160063, favoriteCar=Tesla, bornYear=1952}. 
+
+There is also a `UserManager` that provides a static stream method that will return a `Stream<User>` that contains 1000 elements (with user ids in the range 0 to 999). The `UserManager` class is shown hereunder:
+``` java
+    static class UserManager {
+        static Stream<User> stream() {
+            return IntStream.range(0, 1000)
+                .mapToObj(User::new);
+        }
+    }
+```
+Note how the stream method creates an `IntStream` with elements from 0 to 999 and then maps each `int` element to a `User` object using the `User` constructor that takes an `int` as an argument.
+
+
+### Calculate Average Age
+In this example, we want to calculate the average age of the users that like Tesla. Here is the solution assuming that the current year is 2017:
+``` java
+    OptionalDouble avg = UserManager.stream()
+        .filter(u -> "Tesla".equals(u.getFavoriteCar()))
+        .mapToInt(u -> 2017 - u.getBornYear())
+        .average();
+
+    if (avg.isPresent()) {
+        System.out.format("The average age of Tesla likers are %d %n", avg.getAsDouble());
+    } else {
+        System.out.format("There are no Tesla lovers");
+    }
+```
+The code above will produce:
+``` text
+The average age of Tesla likers are 42.500000
+```
+
+### Collect a Stream in a List
+In this example, we want to collect all users that love Fiat in a List. This can be done like this:
+``` java
+        List<User> fiatLovers = UserManager.stream()
+            .filter(u -> "Fiat".equals(u.getFavoriteCar()))
+            .collect(Collectors.toList());
+
+        System.out.format("There are %d fiat lovers %n", fiatLovers.size());
+```
+The code above will produce:
+``` text
+There are 200 fiat lovers
+```
+
+
+### Element Flow
 In the example below, the flow of elements and the different operations in the stream's pipeline are examined. We create a `Stream` with five names and then `filter` out only those having a name that starts with the letter "A". After that, we `sort` the remaining names and then we `map` the names to lower case. Finally, we print out the elements that have passed through the entire pipeline. In each operation we have inserted print statements so that we may observe what each operation is actually doing in the `Stream`:
 ``` java
     Stream.of("Bert", "Alice", "Charlie", "Assian", "Adam")
