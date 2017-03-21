@@ -99,8 +99,22 @@ There are also some *intermediate operations* that maps a `Stream` to one of the
 
 Primitive streams provides better performance in many cases but can only handle streams of: `int`, `long` and `double`.
 
+
+### Primitive Operations
+Primitive streams (like `IntStream` and `LongStream`) provide similar functionality as ordinary streams but usually the parameter count and types differ so that primitive streams can accept more optimized function variants.
+Here is a table of some additional *intermediate operations* that primitive Streams can take:
+
+| Operation         | Parameter          | Returns a `Stream` that:
+| :------------     | :----------------- | :----------------------------------------------------- |
+| `boxed`           | -                  | contains the boxed elements in the original stream (e.g. an `int` is boxed to an `Integer`)
+| `asIntStream`     | -                  | contains the elements in the original stream converted to `int`s
+| `asLongStream`    | -                  | contains the elements in the original stream converted to `long`s
+| `asDoubleStream`  | -                  | contains the elements in the original stream converted to `double`s
+
+
 ### Java 9 Operations
 Two new *intermediate operations* were introduced in Java 9. Because these methods were added to the Stream interface with default implementations, these methods can be used by any Stream written in either Java 8 or Java 9.
+
 | Operation         | Parameter          | Returns a `Stream` that:
 | :------------     | :----------------- | :----------------------------------------------------- |
 | `takeWhile`       | `Predicate`        | contains the elements in the original stream until the the first one fails the Predicate test 
@@ -279,7 +293,7 @@ Here are some of the *terminal operations* that can be accepted by a `Stream`:
 | `findFirst`       | -                    | Returns the first element in this stream (if any)
 | `findAny`         | -                    | Returns any element in this stream (if any)
 | `toArray`         | -                    | Returns an array containing all the elements in this stream
-| `toArray`         | `IntFunction`        | Returns an array containing all the elements in this stream whereby the array is created using the provided `IntFunction`
+| `toArray`         | `IntFunction`        | Returns an array containing all the elements in this stream whereby the array is created using the provided `IntFunction`.
 
 ### Less Common Operations
 
@@ -293,6 +307,18 @@ Here is a list of other *terminal operations* that are a bit less commonly used 
 | `reduce`          | `T, BiFunction, BinaryOperator`          | In parallel, using  first values `T` and then subsequently applying a `BiFunctionn` for each element in the stream, returns the value of the last values combined using the combining `BinaryOperator`
 | `iterator`        | -                    | Returns an `Iterator` of all the values in this stream.
 | `spliterator`     | -                    | Returns a `Spliterator` with all the values in this stream.
+
+
+### Primitive Stream Operations
+
+Primitive streams (like `IntStream` and `LongStream`) provide similar functionality as ordinary streams but usually the parameter count and types differ so that primitive streams can accept more optimized function variants.
+Here is a list of additional *terminal operations* that are available for primitive Streams:
+
+| Operation         | Parameter(s)         | Action
+| :------------     | :------------------- | :----------------------------------------------------- |
+| `sum`             | -                    | Returns a reduction of the elements which is the sum of all elements in the stream.
+| `average`         | -                    | Returns a reduction of the elements which is the average of all elements in the stream (if any).
+| `summaryStatistics`| -                    | Returns a reduction of the elements which is a summary of a number of statistic measurements (min, max, sum, average and count)
 
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information.

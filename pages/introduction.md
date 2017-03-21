@@ -55,10 +55,10 @@ Speedment allows all these Stream operations to be used.
 ### Additional Features
 Here are some of the many other features packed into the Speedment tool!
 
-#### Database centric
+#### Database Centric
 Speedment is using the database as the source-of-truth, both when it comes to the domain model and the actual data itself. Perfect if you are tired of configuring and debuging complex ORMs. After all, your data is more important than programming tools, is it not?
 
-#### Code generation
+#### Code Generation
 Speedment inspects your database and can automatically generate code that reflects the latest state of your database. Nice if you have changed the data structure (like columns or tables) in your database. Optionally, you can change the way code is generated using an intuitive UI or programatically using your own code.
 
 #### Modular Design
