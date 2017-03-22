@@ -273,12 +273,12 @@ There is also another variant of the `between` predicate where an  {{site.data.j
 
 For an example, take the series [1 2 3 4 5]. If we select elements *in* the range (2, 4) from this series, we will get the following results:
 
-| `Inclusive` Enum Constant	   | Included Elements |
-| :------------------------------- | :---------------- |
-| `START_INCLUSIVE_END_INCLUSIVE`  | [2, 3, 4]         |
-| `START_INCLUSIVE_END_EXCLUSIVE`  | [2, 3]            |
-| `START_EXCLUSIVE_END_INCLUSIVE`  | [3, 4]            |
-| `START_EXCLUSIVE_END_EXCLUSIVE`  | [3]               |
+| `Inclusive` Enum Constant	                 | Included Elements |
+| :--------------------------------------------- | :---------------- |
+| `START_INCLUSIVE_END_INCLUSIVE`                | [2, 3, 4]         |
+| `START_INCLUSIVE_END_EXCLUSIVE`                | [2, 3]            |
+| `START_EXCLUSIVE_END_INCLUSIVE`                | [3, 4]            |
+| `START_EXCLUSIVE_END_EXCLUSIVE`                | [3]               |
 
 Here is an example showing a solution where we print out all hares that has an age that is between 3 (inclusive) and 9 (inclusive):
 ``` java
@@ -323,12 +323,12 @@ There is also another variant of the `notBetween` predicate where an  {{site.dat
 
 For an example, take the series [1 2 3 4 5]. If we select elements *not in* the range (2, 4) from this series, we will get the following results:
 
-| `Inclusive` Enum Constant        | Included Elements |
-| :------------------------------- | :---------------- |
-| `START_INCLUSIVE_END_INCLUSIVE`  | [1, 5]            |
-| `START_INCLUSIVE_END_EXCLUSIVE`  | [1, 4, 5]         |
-| `START_EXCLUSIVE_END_INCLUSIVE`  | [1, 2, 5]         |
-| `START_EXCLUSIVE_END_EXCLUSIVE`  | [1, 2, 4, 5]      |
+| `Inclusive` Enum Constant                      | Included Elements |
+| :--------------------------------------------- | :---------------- |
+| `START_INCLUSIVE_END_INCLUSIVE`                | [1, 5]            |
+| `START_INCLUSIVE_END_EXCLUSIVE`                | [1, 4, 5]         |
+| `START_EXCLUSIVE_END_INCLUSIVE`                | [1, 2, 5]         |
+| `START_EXCLUSIVE_END_EXCLUSIVE`                | [1, 2, 4, 5]      |
 
 Here is an example showing a solution where we print out all hares that has an age that is *not* between 3 (inclusive) and 9 (inclusive):
 ``` java
@@ -878,7 +878,7 @@ The following primitive types and their corresponding field types are supported 
 This is something that is handled automatically by Speedment under the hood and does not require any additional coding. Our code will simply run faster width these specializations.
 
 ## Examples
-In the example below we want to print all hares that has a color that is either "Gray" or "White", has an age greater than 1 and has a name that lies in the first half of the alphabet:
+In the example below we want to print all hares that has a `color` that is either "Gray" or "White", has an `age` greater than 1 and has a `name` that lies in the first half of the alphabet:
 ``` java
     hares.stream()
         .filter(Hare.COLOR.in("Gray", "White"))
