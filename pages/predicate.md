@@ -221,6 +221,47 @@ and will be rendered to the following SQL query (for MySQL):
 SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` <= 3)
 ```
 
+### greaterThan
+The following example shows a solution where we print out all hares that has an age that is greater than to 3:
+``` java
+    hares.stream()
+        .filter(Hare.AGE.greaterThan(3))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` >= 3)
+```
+
+### greaterOrEqual
+The following example shows a solution where we print out all hares that has an age that is greater than to 3:
+``` java
+    hares.stream()
+        .filter(Hare.AGE.greaterOrEqual(3))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` >= 3)
+```
+
+### between
+
+### notBetween
+
+### in
+
+### notIn
+
 
 ## String Predicates
 The following additional methods (over {{site.data.javadoc.ReferenceField}}) are available to a {{site.data.javadoc.StringField}}:
