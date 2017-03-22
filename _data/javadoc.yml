@@ -7,6 +7,8 @@ ReferenceField: "[`ReferenceField`](http://static.javadoc.io/com.speedment/runti
 ComparableField: "[`ComparableField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/ComparableField.html)"
 StringField: "[`StringField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/StringField.html)"
 
+Inclusion: "[`Inclusion`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/predicate/Inclusion.html)"
+
 HasReferenceOperators: "[`HasReferenceOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/trait/HasReferenceOperators.html)"
 HasComparableOperators: "[`HasComparableOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/trait/HasComparableOperators.html)"
 HasStringOperators: "[`HasStringOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.4/com/speedment/runtime/field/trait/HasStringOperators.html)"

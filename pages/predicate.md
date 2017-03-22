@@ -255,8 +255,100 @@ SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age`
 ```
 
 ### between
+The following example shows a solution where we print out all hares that has an age that is between 3 (inclusive) and 9 (exclusive):
+``` java
+    hares.stream()
+        .filter(Hare.AGE.between(3, 9))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` >= 3 AND `hares`.`hare`.`age` < 9)
+```
+There is also another variant of the `between` predicate where an {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive. 
+
+For an example, take the series [1 2 3 4 5]. If we select elements *in* the range (2, 4) from this series, we will get the following results:
+
+| Enum Constant	                | Included Elements |
+| :---------------------------- | :---------------- |
+| START_INCLUSIVE_END_INCLUSIVE	| [2, 3, 4]         |
+| START_INCLUSIVE_END_EXCLUSIVE	| [2, 3]            |
+| START_EXCLUSIVE_END_INCLUSIVE	| [3, 4]            |
+| START_EXCLUSIVE_END_EXCLUSIVE	| [3]               |
+
+Here is an example showing a solution where we print out all hares that has an age that is between 3 (inclusive) and 9 (inclusive):
+``` java
+    hares.stream()
+        .filter(Hare.AGE.between(3, 9, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` >= 3 AND `hares`.`hare`.`age` <= 9)
+```
+
+{% include tip.html content = "
+The order of the two parameters `start` and `end` is significant. If the `start` parameter is larger than the `end` parameter, then the `between` `Predicate` will always evaluate to `false`.
+" %}
+
 
 ### notBetween
+The following example shows a solution where we print out all hares that has an age that is *not* between 3 (inclusive) and 9 (exclusive):
+``` java
+    hares.stream()
+        .filter(Hare.AGE.notBetween(3, 9))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+2017-03-22T03:48:12.644Z DEBUG [main] (#STREAM) - SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`age` >= 3 AND `hares`.`hare`.`age` <= 9)))
+```
+Note that the hare with age 9 is printed because 9 is outside the range 3 (inclusive) and 9 (exclusive) (because 9 is NOT in the range as 9 is exclusive).
+
+There is also another variant of the `notBetween` predicate where an {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive. 
+
+For an example, take the series [1 2 3 4 5]. If we select elements *not in* the range (2, 4) from this series, we will get the following results:
+
+| Enum Constant	                | Included Elements |
+| :---------------------------- | :---------------- |
+| START_INCLUSIVE_END_INCLUSIVE	| [1, 5]            |
+| START_INCLUSIVE_END_EXCLUSIVE	| [1, 4, 5]         |
+| START_EXCLUSIVE_END_INCLUSIVE	| [1, 2, 5]         |
+| START_EXCLUSIVE_END_EXCLUSIVE	| [1, 2, 4, 5]      |
+
+Here is an example showing a solution where we print out all hares that has an age that is between 3 (inclusive) and 9 (inclusive):
+``` java
+    hares.stream()
+        .filter(Hare.AGE.notBetween(3, 9, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`age` >= 3 AND `hares`.`hare`.`age` <= 9)))
+```
+
+{% include tip.html content = "
+The order of the two parameters `start` and `end` is significant. If the `start` parameter is larger than the `end` parameter, then the `notBetween` `Predicate` will always evaluate to `true`.
+" %}
+
 
 ### in
 
