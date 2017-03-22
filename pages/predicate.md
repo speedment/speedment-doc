@@ -547,7 +547,7 @@ The following example shows a solution where we print out the hares that has a n
         .filter(Hare.NAME.notStartsWith("H"))
         .forEachOrdered(System.out::println);
 ```
-The code will not produce any output since all the hares' name starts with "H":
+The code will not produce any output since all the hare names start with "H":
 ``` text
 ```
 and will be rendered to the following SQL query (for MySQL):
@@ -578,6 +578,56 @@ SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.
 
 
 ## Negating Predicates
+All predicates can be negated by calling the `negate()` method. Negation means that the result of the Predicate will be inverted (i.e. `true` becomes `false` and `false` becomes `true`). Here is a list of predicates and their corresponding negation:
+
+### Reference Predicates
+
+| Predicate                    | Equivalent Predicate    |
+| :--------------------------- | :---------------------- |
+| isNull().negate()            | isNotNull()             |
+| isNotNull().negate()         | isNull()                |
+
+### Comparable Predicates
+
+| Predicate                    | Equivalent Predicate    |
+| :--------------------------- | :---------------------- |
+| equal.negate(p)              | notEqual(p)             |
+| notEqual(p).negate()         | equal(p)                |
+| lessThan(p).negate()         | greaterOrEqual(p)       |
+| lessOrEqual(p).negate()      | greaterThan(p)          |
+| greaterThan(p).negate()      | lessOrEqual(p)          |
+| greaterOrEqual(p).negate()   | lessThan(p)             |
+| between(s, e).negate()       | notBetween(s, e)        |
+| notBetween(s, e).negate()    | between(s, e)           |
+| in(a, b, c).negate()         | notIn(a, b, c)          |
+| notIn(a, b, c).negate()      | in(a, b, c)             |
+
+### String Predicates
+
+| Predicate                           | Equivalent Predicate        |
+| :-----------------------------------| :-------------------------- |
+| isEmpty().negate()                  | isNotEmpty()                |
+| isNotEmpty().negate()               | isEmpty()                   |
+| equalIgnoreCase(p).negate()         | notEqualIgnoreCase(p)       |
+| notEqualIgnoreCase(p).negate()      | equalIgnoreCase(p)          |
+| startsWith(p).negate()              | notStartsWith(p)            |
+| notStartsWith(p).negate()           | startsWith(p)               |
+| startsWithIgnoreCase(p).negate()    | notStartsWithIgnoreCase(p)  |
+| notStartsWithIgnoreCase(p).negate() | startsWithIgnoreCase(p)     |
+| endsWith(p).negate()                | notEndsWith(p)              |
+| notEndsWith(p).negate()             | endsWith(p)                 |
+| endsWithIgnoreCase(p).negate()      | notEndsWithIgnoreCase(p)    |
+| notStartsWithIgnoreCase(p).negate() | startsWithIgnoreCase(p)     |
+| contains(p).negate()                | notContains(p)              |
+| notContains(p).negate()             | contains(p)                 |
+| containsIgnoreCase(p).negate()      | notContainsIgnoreCase(p)    |
+| notContainsIgnoreCase(p).negate()   | containsIgnoreCase(p)       |
+
+so, for example, `Hare.ID.equal(1).negate()` is equivalent to `Hare.ID.notEqual(1)` and `Hare.ID.between(1,100).negate()` is equivalent to `Hare.ID.notBetween(1, 100)`.
+
+{% include tip.html content = "
+Negating a `Predicate` an even number of times will give back the original `Predicate`. E.g. `Hare.ID.equal(1).negate().negate()` is equivalent to `Hare.ID.equal(1)`
+" %}
 
 ## Combining Predicates
 TBW .filter(p1).filter(p2) == filter(p1.and(p2))

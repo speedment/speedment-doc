@@ -177,13 +177,13 @@ entries:
       output: web, pdf
       type: homepage
       
-    - title: String Predicates#string-predicates
-      url: predicate.html
+    - title: String Predicates
+      url: predicate.html#string-predicates
       output: web, pdf
       type: homepage      
 
-    - title: Primitive Predicates#primitive-predicates
-      url: predicate.html
+    - title: Primitive Predicates
+      url: predicate.html#primitive-predicates
       output: web, pdf
       type: homepage
 
