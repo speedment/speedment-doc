@@ -315,7 +315,7 @@ HareImpl { id = 3, name = Henry, color = Black, age = 9 }
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-2017-03-22T03:48:12.644Z DEBUG [main] (#STREAM) - SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`age` >= 3 AND `hares`.`hare`.`age` <= 9)))
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`age` >= 3 AND `hares`.`hare`.`age` <= 9)))
 ```
 Note that the hare with age 9 is printed because 9 is outside the range 3 (inclusive) and 9 (exclusive) (because 9 is NOT in the range as 9 is exclusive).
 
@@ -366,7 +366,7 @@ and will be rendered to the following SQL query (for MySQL):
 ``` sql
 SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` IN (2,3,4))
 ```
-There is also a variant of the `in` predicate that takes a `Set` as parameter:
+There is also a variant of the `in` predicate that takes a `Set` as a parameter:
 ``` java
         Set<Integer> set = Stream.of(2, 3, 4).collect(toSet());
 
@@ -399,7 +399,7 @@ and will be rendered to the following SQL query (for MySQL):
 ``` sql
 SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`age` IN (2,3,4))))
 ```
-There is also a variant of the `noIn` predicate that takes a `Set` as parameter:
+There is also a variant of the `noIn` predicate that takes a `Set` as a parameter:
 ``` java
         Set<Integer> set = Stream.of(2, 3, 4).collect(toSet());
 
@@ -454,11 +454,134 @@ An informal notation of method references is made in the table above with \"!\" 
 Here is a list with examples for the *String Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/StringPredicates.java)
 
 ### isEmpty
-TBW
+The following example shows a solution where we print out the number hares that has a name that is empty (e.g. is equal to ""):
+``` java
+    long count = hares.stream()
+        .filter(Hare.NAME.isEmpty())
+        .count();
 
+        System.out.format("There are %d hare(s) with an empty name %n", count);
+```
+The code will produce the following output:
+``` text
+There are 0 hare(s) with an empty name 
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT COUNT(*) FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` = '')
+```
+
+### isNotEmpty
+The following example shows a solution where we print out the hares that has a name that is *not*  empty (e.g. is *not* equal to ""):
+``` java
+    hares.stream()
+        .filter(Hare.NAME.isNotEmpty())
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` <> '')
+```
+
+### equalIgnoreCase
+The following example shows a solution where we print out the hares that has a name that equals to "HaRry" ignoring case:
+``` java
+    hares.stream()
+        .filter(Hare.NAME.equalIgnoreCase("HaRry"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (LOWER(`hares`.`hare`.`name`) = LOWER('HaRry'))
+```
+
+### notEqualIgnoreCase
+The following example shows a solution where we print out the hares that has a name that does *not* equal to "HaRry" ignoring case:
+``` java
+    hares.stream()
+        .filter(Hare.NAME.notEqualIgnoreCase("HaRry"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((LOWER(`hares`.`hare`.`name`) = LOWER('HaRry'))))
+```
+
+### startsWith
+The following example shows a solution where we print out the hares that has a name that starts with "H":
+``` java
+    hares.stream()
+        .filter(Hare.NAME.startsWith("H"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` LIKE BINARY CONCAT('H' ,'%'))
+```
+
+### notStartsWith
+The following example shows a solution where we print out the hares that has a name that does *not* start with "H":
+``` java
+    hares.stream()
+        .filter(Hare.NAME.notStartsWith("H"))
+        .forEachOrdered(System.out::println);
+```
+The code will not produce any output since all the hares' name starts with "H":
+``` text
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`name` LIKE BINARY CONCAT('H' ,'%'))))
+```
+
+### startsWithIgnoreCase
+
+### notStartsWithIgnoreCase
+
+### endsWith
+
+### notEndsWith
+
+### endsWithIgnoreCase
+
+### notEndsWithIgnoreCase
+
+### contains
+
+### notContains
+
+### containsIgnoreCase
+
+### notContainsIgnoreCase
+
+
+
+## Negating Predicates
 
 ## Combining Predicates
 TBW .filter(p1).filter(p2) == filter(p1.and(p2))
+
 
 ## Primitive Predicates
 For performance reasons, there are a number of primitive fields available in addition to reference field. By using a primitive field, unnecessary boxing and auto-boxing cam be avoided. Primitive fields also generates primitive predicates like `IntPredicate` or `LongPredicate`
