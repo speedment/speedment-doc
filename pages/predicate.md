@@ -75,35 +75,36 @@ The following methods are available to all {{site.data.javadoc.ReferenceField}}s
 A {{site.data.javadoc.ReferenceField}} implements the interface trait {{site.data.javadoc.HasReferenceOperators}}.
 
 ## Reference Predicate Examples
+Here is a list with examples for the *Reference Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/ReferencePredicates.java)
 
 ### isNull
 ``` java
-        long count = hares.stream()
-            .filter(Hare.NAME.isNull())
-            .count();
-        System.out.format("There are %d hares with a null name %n", count);
+    long count = hares.stream()
+        .filter(Hare.NAME.isNull())
+        .count();
+    System.out.format("There are %d hares with a null name %n", count);
 ```
 will produce:
 ``` text 
 There are 0 hares with a null name 
 ```
-and was rendered to a SQL query:
+and will be rendered to the following SQL query (for MySQL):
 ``` sql
 SELECT COUNT(*) FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` IS NULL)
 ```
 
 ### isNotNull
 ``` java
-        long count = hares.stream()
-            .filter(Hare.NAME.isNotNull())
-            .count();
-        System.out.format("There are %d hares with a non-null name %n", count);
+    long count = hares.stream()
+        .filter(Hare.NAME.isNotNull())
+        .count();
+    System.out.format("There are %d hares with a non-null name %n", count);
 ```
 will produce:
 ``` text 
-There are 51 hares with a non-null name 
+There are 3 hares with a non-null name 
 ```
-and was rendered to a SQL query:
+and will be rendered to the following SQL query (for MySQL):
 ``` sql
 SELECT COUNT(*) FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` IS NOT NULL)
 ```
@@ -134,6 +135,13 @@ Fields that are `null` will never fulfill any of the predicates.
 " %}
 
 A {{site.data.javadoc.ComparableField}} implements the interface traits {{site.data.javadoc.HasReferenceOperators}} and {{site.data.javadoc.HasComparableOperators}}.
+
+## Comparable Predicate Examples
+Here is a list with examples for the *Comparable Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/ComparablePredicates.java)
+
+### equal
+TBW
+
 
 ## String Predicates
 The following additional methods (over {{site.data.javadoc.ReferenceField}}) are available to a {{site.data.javadoc.StringField}}:
@@ -169,12 +177,14 @@ A {{site.data.javadoc.StringField}} implements the interface traits {{site.data.
 An informal notation of method references is made in the table above with \"!\" indicating the `Predicate::negate` method. I.e. it means that the Operation indicates a `Predicate` that will return the negated value. The notation \"ic\" means that the method reference shall be applied ignoring case
 " %}
 
+## String Predicate Examples
+Here is a list with examples for the *String Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/StringPredicates.java)
 
-
+### isEmpty
+TBW
 
 ## Primitive Predicates
-For performance reasons, there are a number of primitive fields available too.
-By using a primitive field, unnecessary boxing and auto-boxing cam be avoided.
+For performance reasons, there are a number of primitive fields available in addition to reference field. By using a primitive field, unnecessary boxing and auto-boxing cam be avoided. Primitive fields also generates primitive predicates like `IntPredicate` or `LongPredicate`
 
 ### IntPrimitiveField
 TBW
@@ -182,10 +192,16 @@ TBW
 ### LongPrimitiveField
 TBW
 
-### FloatPrimitiveField
+### DoublePrimitiveField
 TBW
 
-### DoublePrimitiveField
+### ShortPrimitiveField
+TBW
+
+### BytePrimitiveField
+TBW
+
+### FloatPrimitiveField
 TBW
 
 ## Examples
