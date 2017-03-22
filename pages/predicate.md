@@ -78,13 +78,14 @@ A {{site.data.javadoc.ReferenceField}} implements the interface trait {{site.dat
 Here is a list with examples for the *Reference Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/ReferencePredicates.java)
 
 ### isNull
+We can count all hares with a name that is null like this:
 ``` java
     long count = hares.stream()
         .filter(Hare.NAME.isNull())
         .count();
     System.out.format("There are %d hares with a null name %n", count);
 ```
-will produce:
+The code will produce the following output:
 ``` text 
 There are 0 hares with a null name 
 ```
@@ -94,13 +95,14 @@ SELECT COUNT(*) FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` IS NULL)
 ```
 
 ### isNotNull
+We can count all hares with a name that is *not* null like this:
 ``` java
     long count = hares.stream()
         .filter(Hare.NAME.isNotNull())
         .count();
     System.out.format("There are %d hares with a non-null name %n", count);
 ```
-will produce:
+The code will produce the following output:
 ``` text 
 There are 3 hares with a non-null name 
 ```
@@ -122,9 +124,9 @@ The following additional methods are available to a {{site.data.javadoc.Referenc
 | greaterThan    | `V`          | field > p                  | the field is greater than the parameter                |
 | greaterOrEqual | `V`          | field >= p                 | the field is greater or equal to the parameter         |
 | between        | `V`,`V`      | field >= s && field < e  | the field is between s (inclusive) and e (exclusive) |
-| between        | `V`,`V`, `Inclusion`| field >? s && field <? e  | the field is between s and e inclusion according to the Inclusion parameter (`START_INCLUSIVE_END_INCLUSIVE`, `START_INCLUSIVE_END_EXCLUSIVE`, `START_EXCLUSIVE_END_INCLUSIVE` and `START_EXCLUSIVE_END_EXCLUSIVE`)|
+| between        | `V`,`V`, `Inclusion`| field >? s && field <? e  | the field is between s and e with inclusion according to the given Inclusion parameter (`START_INCLUSIVE_END_INCLUSIVE`, `START_INCLUSIVE_END_EXCLUSIVE`, `START_EXCLUSIVE_END_INCLUSIVE` and `START_EXCLUSIVE_END_EXCLUSIVE`)|
 | notBetween     | `V`,`V`      | field < s && field >= e  | the field is not between p1 (exclusive) and p2 (inclusive) |
-| notBetween     | `V`,`V`, `Inclusion`| field <? s && field >? e  | the field is not between s and e inclusion according to the Inclusion parameter (`START_INCLUSIVE_END_INCLUSIVE`, `START_INCLUSIVE_END_EXCLUSIVE`, `START_EXCLUSIVE_END_INCLUSIVE` and `START_EXCLUSIVE_END_EXCLUSIVE`)|
+| notBetween     | `V`,`V`, `Inclusion`| field <? s && field >? e  | the field is not between s and e with inclusion according to the given Inclusion parameter (`START_INCLUSIVE_END_INCLUSIVE`, `START_INCLUSIVE_END_EXCLUSIVE`, `START_EXCLUSIVE_END_INCLUSIVE` and `START_EXCLUSIVE_END_EXCLUSIVE`)|
 | in             | `V[]`        |  array p contains field    | the array parameter contains the field
 | in             | `Set<V>`     |  p.contains(field)         | the `Set<V>` contains the field
 | notIn          | `V[]`        |  array p does not contain field    | the array parameter does not contain the field
@@ -133,14 +135,91 @@ The following additional methods are available to a {{site.data.javadoc.Referenc
 {% include tip.html content = "
 Fields that are `null` will never fulfill any of the predicates in the list above.
 " %}
+{% include tip.html content = "
+The reason `equal` is not named `equals` is that the latter name is already used as a method name by the `Object` class (that every other class inherits from). The latter method has a different meaning than function than `equal` so a new name had to be used.
+" %}
 
 A {{site.data.javadoc.ComparableField}} implements the interface traits {{site.data.javadoc.HasReferenceOperators}} and {{site.data.javadoc.HasComparableOperators}}.
 
 ## Comparable Predicate Examples
 Here is a list with examples for the *Comparable Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/ComparablePredicates.java)
 
+In the examples below, we assume that the database contains the following hares:
+
+| Hare                                                              |
+| : --------------------------------------------------------------- |
+| HareImpl { id = 1, name = Harry, color = Gray, age = 3 }          |
+| HareImpl { id = 2, name = Henrietta, color = White, age = 2 }     |
+| HareImpl { id = 3, name = Henry, color = Black, age = 9 }         |
+
+
 ### equal
-TBW
+If we want to count all hares with an age that equals 2 we can write the following snippet:
+``` java
+    long count = hares.stream()
+        .filter(Hare.AGE.equal(3))
+        .count();
+
+    System.out.format("There are %d hare(s) with an age of 3 %n", count);
+```
+The code will produce the following output:
+``` text
+There are 1 hare(s) with an age of 3 
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT COUNT(*) FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` = 3)
+```
+
+### notEqual
+The following example shows a solution where we print out all hares that has an age that is *not* 3:
+``` java
+    hares.stream()
+        .filter(Hare.AGE.notEqual(3))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT (`hares`.`hare`.`age` = 3))
+```
+
+### lessThan
+The following example shows a solution where we print out all hares that has an age that is less than 3:
+``` java
+    hares.stream()
+        .filter(Hare.AGE.lessThan(3))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` < 3)
+```
+
+### lessThan
+The following example shows a solution where we print out all hares that has an age that is less or equal to 3:
+``` java
+    hares.stream()
+        .filter(Hare.AGE.lessThan(3))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` <= 3)
+```
 
 
 ## String Predicates
@@ -182,6 +261,10 @@ Here is a list with examples for the *String Predicates*. The source code for th
 
 ### isEmpty
 TBW
+
+
+## Combining Predicates
+TBW .filter(p1).filter(p2) == filter(p1.and(p2))
 
 ## Primitive Predicates
 For performance reasons, there are a number of primitive fields available in addition to reference field. By using a primitive field, unnecessary boxing and auto-boxing cam be avoided. Primitive fields also generates primitive predicates like `IntPredicate` or `LongPredicate`
