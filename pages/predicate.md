@@ -131,7 +131,7 @@ The following additional methods are available to a {{site.data.javadoc.Referenc
 | notIn          | `Set<V>`     |  !p.contains(field)        | the `Set<V>` does not contain the field
 
 {% include tip.html content = "
-Fields that are `null` will never fulfill any of the predicates.
+Fields that are `null` will never fulfill any of the predicates in the list above.
 " %}
 
 A {{site.data.javadoc.ComparableField}} implements the interface traits {{site.data.javadoc.HasReferenceOperators}} and {{site.data.javadoc.HasComparableOperators}}.
@@ -168,7 +168,7 @@ The following additional methods (over {{site.data.javadoc.ReferenceField}}) are
 
 
 {% include tip.html content = "
-Fields that are `null` will never fulfill any of the predicates.
+Fields that are `null` will never fulfill any of the predicates in the list above.
 " %}
 
 A {{site.data.javadoc.StringField}} implements the interface traits {{site.data.javadoc.HasReferenceOperators}}, {{site.data.javadoc.HasComparableOperators}} and {{site.data.javadoc.HasStringOperators}}.
