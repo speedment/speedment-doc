@@ -280,6 +280,13 @@ For an example, take the series [1 2 3 4 5]. If we select elements *in* the rang
 | `START_EXCLUSIVE_END_INCLUSIVE`                | [3, 4]            |
 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [3]               |
 
+| # | `Inclusive` Enum Constant	                     | Included Elements |
+| - | :--------------------------------------------- | :---------------- |
+| 0 | `START_INCLUSIVE_END_INCLUSIVE`                | [2, 3, 4]         |
+| 1 | `START_INCLUSIVE_END_EXCLUSIVE`                | [2, 3]            |
+| 2 | `START_EXCLUSIVE_END_INCLUSIVE`                | [3, 4]            |
+| 3 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [3]               |
+
 
 | `Inclusive` | Included Elements |
 | `START_INCLUSIVE_END_INCLUSIVE` | [2, 3, 4] |
