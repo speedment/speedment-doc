@@ -860,7 +860,7 @@ In this case, optimized queries will be used for the two sub-streams.
 
 
 ## Primitive Predicates
-For performance reasons, there are a number of primitive field types available in addition to the reference field type. By using a primitive field, unnecessary boxing and auto-boxing cam be avoided. Primitive fields also generates primitive predicates like `IntEqualPredicate` or `LongEqualPredicate`
+For performance reasons, there are a number of primitive field types available in addition to the reference field type. By using a primitive field, unnecessary boxing and auto-boxing can be avoided. Primitive fields also generates primitive predicates like `IntEqualPredicate` or `LongEqualPredicate`
 
 The following primitive types and their corresponding field types are supported by Speedment:
 
@@ -878,6 +878,29 @@ The following primitive types and their corresponding field types are supported 
 This is something that is handled automatically by Speedment under the hood and does not require any additional coding. Our code will simply run faster width these specializations.
 
 ## Examples
-TBW
+In the example below we want to print all hares that has a color that is either "Gray" or "White", has an age greater than 1 and has a name that lies in the first half of the alphabet:
+``` java
+    hares.stream()
+        .filter(Hare.COLOR.in("Gray", "White"))
+        .filter(Hare.AGE.greaterThan(1))
+        .filter(Hare.NAME.between("A", "K"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age`
+FROM `hares`.`hare` 
+WHERE 
+        (BINARY `hares`.`hare`.`color` IN ('Gray','White')) 
+    AND
+        (`hares`.`hare`.`age` > 1)
+    AND
+        (`hares`.`hare`.`name` >= 'A' AND `hares`.`hare`.`name` < 'K')
+```
 
 {% include prev_next.html %}
