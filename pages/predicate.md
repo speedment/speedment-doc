@@ -630,7 +630,42 @@ Negating a `Predicate` an even number of times will give back the original `Pred
 " %}
 
 ## Combining Predicates
-TBW .filter(p1).filter(p2) == filter(p1.and(p2))
+A predicate Predicate can be composed by other predicates by means of the `and()` and `or()` methods as shown in the examples below.
+
+### and
+The following code sample will print out all hares that are adults (apparently a hare is adult when its age is greater than 2) and that has a name that contains the letter 'e':
+``` java
+    Predicate<Hare> isAdult = Hare.AGE.greaterThan(2);
+    Predicate<Hare> contains_e = Hare.NAME.contains("e");
+
+    Predicate<Hare> isAdultAndNameContains_e = isAdult.and(contains_e);
+
+    hares.stream()
+        .filter(isAdultAndNameContains_e)
+        .forEachOrdered(System.out::println);
+```
+This will produce the following output:
+``` text
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` > 2) AND (`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'e' ,'%'))
+```
+
+The same result can be achieved by just stacking two `filter` operations on top of each other. So this:
+``` java
+    hares.stream()
+        .filter(Hare.AGE.greaterThan(2).and(Hare.NAME.contains("e")))
+```
+is equivalent to:
+``` java
+    hares.stream()
+        .filter(Hare.AGE.greaterThan(2))
+        .filter(Hare.NAME.contains("e"))
+```
+
+### or
 
 
 ## Primitive Predicates
