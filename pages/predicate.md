@@ -630,15 +630,17 @@ Negating a `Predicate` an even number of times will give back the original `Pred
 " %}
 
 ## Combining Predicates
-A predicate Predicate can be composed by other predicates by means of the `and()` and `or()` methods as shown in the examples below.
+A predicate Predicate can be composed of other predicates by means of the `and()` and `or()` methods as shown in the examples below. 
 
 ### and
+The `and()` method returns a composed predicate that represents a short-circuiting logical AND of a first predicate and another given second predicate. When evaluating the composed composed predicate, if the first predicate is evaluated to `false`, then the second predicate is not evaluated.
+
 The following code sample will print out all hares that are adults (apparently a hare is adult when its age is greater than 2) and that has a name that contains the letter 'e':
 ``` java
     Predicate<Hare> isAdult = Hare.AGE.greaterThan(2);
-    Predicate<Hare> contains_e = Hare.NAME.contains("e");
+    Predicate<Hare> nameContains_e = Hare.NAME.contains("e");
 
-    Predicate<Hare> isAdultAndNameContains_e = isAdult.and(contains_e);
+    Predicate<Hare> isAdultAndNameContains_e = isAdult.and(nameContains_e);
 
     hares.stream()
         .filter(isAdultAndNameContains_e)
@@ -656,16 +658,61 @@ SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age`
 The same result can be achieved by just stacking two `filter` operations on top of each other. So this:
 ``` java
     hares.stream()
-        .filter(Hare.AGE.greaterThan(2).and(Hare.NAME.contains("e")))
+        .filter(Hare.AGE.greaterThan(2))
+        .filter(Hare.NAME.contains("e"))
 ```
 is equivalent to:
 ``` java
     hares.stream()
-        .filter(Hare.AGE.greaterThan(2))
-        .filter(Hare.NAME.contains("e"))
+        .filter(Hare.AGE.greaterThan(2).and(Hare.NAME.contains("e")))
 ```
 
 ### or
+Returns a composed predicate that represents a short-circuiting logical OR of a first predicate and another given second predicate. When evaluating the composed composed predicate, if the first predicate is evaluated to `true`, then the second predicate is not evaluated.
+The following code sample will print out all hares that are adults (apparently a hare is adult when its age is greater than 2) and that has a name that contains the letter 'e':
+``` java
+    Predicate<Hare> isAdult = Hare.AGE.greaterThan(2);
+    Predicate<Hare> nameContains_e = Hare.NAME.contains("e");
+
+    Predicate<Hare> isAdultAndNameContains_e = isAdult.and(nameContains_e);
+
+    hares.stream()
+        .filter(isAdultAndNameContains_e)
+        .forEachOrdered(System.out::println);
+```
+This will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare`
+```
+As can be seen, Speedment is currently unable to optimize predicates that are composed using the `or()` method. See issue [#389](https://github.com/speedment/speedment/issues/389)
+
+As for the `and()` method, there is an equivalent way of expressing compositions with `or()`:
+``` java
+    StreamComposition.concatAndAutoClose(
+        hares.stream().filter(Hare.AGE.greaterThan(2)),
+        hares.stream().filter(Hare.NAME.contains("e"))
+    )
+        .distinct()
+        .forEachOrdered(System.out::println);
+```
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+```
+and will be rendered to the following SQL queries (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` > 2)
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'e' ,'%'))
+```
+In this case, optimized queries will be used.
+
 
 
 ## Primitive Predicates
