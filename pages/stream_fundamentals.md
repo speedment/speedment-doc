@@ -35,9 +35,9 @@ Consider the following simple example:
 ```
 First, we create a `Stream` using the statement `Stream.of()`. Note that nothing happens with the `Stream` at this point. We just have a stream that we can use to further build our "recipe" around. Now that we have a `Stream`, we add a `filter` that only lets through Strings that are longer than 2 characters. Again, the `Stream` is not started, we have just said that *when* the `Stream` starts, we want to filter the Strings. Next, we add a `sorted()` operation to our `Stream` recipe. This means that when the `Stream` is started, all Strings that passes the `filter` shall be sorted in natural order. Again, nothing is flowing through the `Stream`, we have just added yet an operation to the `Stream` recipe (the stream recipe can more formally be called a *stream pipeline*). The last operation we add to the `Stream` recipe is `collect`. 
 
-This operation is different to all the previous operations in the way that it is a *terminal operation*. Whenever a *terminal operation* is applied to a `Stream`, the `Stream` cannot accept additional operations to its pipeline. It also means that the `Stream` is started.
+This operation is different to all the previous operations in the way that it is a *Terminal operation*. Whenever a *Terminal operation* is applied to a `Stream`, the `Stream` cannot accept additional operations to its pipeline. It also means that the `Stream` is started.
 
-It shall be noted that elements in a `Stream` are pulled by the *terminal operation* (i.e. the `collect` operation) and not pushed by the stream source. So, `Collect` will ask for the first element and that request will traverse up to the stream source that will provide the first element "Zlatan".
+It shall be noted that elements in a `Stream` are pulled by the *Terminal Operation* (i.e. the `collect` operation) and not pushed by the stream source. So, `Collect` will ask for the first element and that request will traverse up to the stream source that will provide the first element "Zlatan".
 The `filter` operation will check if the length of "Zlatan" is greater than two (which it is) and will then propagate "Zlatan" to the `sorted` operation.
 Because the `sorted` operation needs to see all strings before it can decide on its output order, it will ask the stream source for all its remaining elements which, via the filter, is sent down the stream. Once all stings are received by the `sorted` operator, it will sort the strings and then output its first element (i.e. "Adam") to the `collect` operation. The result of the entire stream statement will thus be:
 
@@ -58,10 +58,10 @@ Because a Java 8 Stream is an interface, Speedment can select from a variety of 
 
 
 ## Intermediate Operations
-An *intermediate operations* is an operation that allows further operations to be added to a `Stream`. For example, `filter` is an *intermediate operation* because we can add additional operations to a `Stream` pipeline after `filter` has been applied to the `Stream`.
+An *Intermediate Operation* is an operation that allows further operations to be added to a `Stream`. For example, `filter` is an *Intermediate Operation* because we can add additional operations to a `Stream` pipeline after `filter` has been applied to the `Stream`.
 
 ### Common Operations
-The following *intermediate operations* can be accepted by a `Stream`:
+The following *Intermediate Operations* can be accepted by a `Stream`:
 
 | Operation         | Parameter          | Returns a `Stream` that:
 | :------------     | :----------------- | :----------------------------------------------------- |
@@ -76,7 +76,7 @@ The following *intermediate operations* can be accepted by a `Stream`:
 | `peek`            | `Consumer`         | contains the original elements in the stream but additionally accepting each element to the given `Consumer` (side effect)
 
 ### Stream Property Operations
-There are also a number of *intermediate operations* that controls the properties of the `Stream` and has no effect on its actual content. These are:
+There are also a number of *Intermediate Operations* that controls the properties of the `Stream` and has no effect on its actual content. These are:
 
 | Operation         | Parameter          | Returns a `Stream` that:
 | :------------     | :----------------- | :----------------------------------------------------- |
@@ -86,7 +86,7 @@ There are also a number of *intermediate operations* that controls the propertie
 | `onClose`         | `Runnable`         | will run the provided `Runnable` when closed
 
 ### Map to Primitive Operations
-There are also some *intermediate operations* that maps a `Stream` to one of the special primitive stream types; `IntStrem`, `LongStream` and `DoubleStream`:
+There are also some *Intermediate Operations* that maps a `Stream` to one of the special primitive stream types; `IntStrem`, `LongStream` and `DoubleStream`:
 
 | Operation         | Parameter          | Returns a `Stream` that:
 | :------------     | :----------------- | :----------------------------------------------------- |
@@ -102,7 +102,7 @@ Primitive streams provides better performance in many cases but can only handle 
 
 ### Primitive Operations
 Primitive streams (like `IntStream` and `LongStream`) provide similar functionality as ordinary streams but usually the parameter count and types differ so that primitive streams can accept more optimized function variants.
-Here is a table of some additional *intermediate operations* that primitive Streams can take:
+Here is a table of some additional *Intermediate Operations* that primitive Streams can take:
 
 | Operation         | Parameter          | Returns a `Stream` that:
 | :------------     | :----------------- | :----------------------------------------------------- |
@@ -112,18 +112,18 @@ Here is a table of some additional *intermediate operations* that primitive Stre
 
 
 ### Java 9 Operations
-Two new *intermediate operations* were introduced in Java 9. Because these methods were added to the Stream interface with default implementations, these methods can be used by any Stream written in either Java 8 or Java 9.
+Two new *Intermediate Operations* were introduced in Java 9. Because these methods were added to the Stream interface with default implementations, these methods can be used by any Stream written in either Java 8 or Java 9.
 
 | Operation         | Parameter          | Returns a `Stream` that:
 | :------------     | :----------------- | :----------------------------------------------------- |
 | `takeWhile`       | `Predicate`        | contains the elements in the original stream until the the first one fails the Predicate test 
 | `dropWhile`       | `Predicate`        | contains the elements in the original stream dropping all elements until the the first one fails the Predicate test then containing the rest of the elements
 
-Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information. Here are some examples of streams with *intermediate operations*:
+Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information. Here are some examples of streams with *Intermediate Operations*:
 
 ## Intermediate Operations Examples
 
-Here is a list with examples for many of the  *intermediate operations*. In the examples below, lambdas are used but many times, the lambdas could be replaces by method references (e.g. the lambda `() -> new StringBuilder` can be replaced by a method reference `StringBuilder::new`). The source code for the examples with *intermediate operations* below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/stream_fundamentals/IntermediateOperations.java)
+Here is a list with examples for many of the  *Intermediate Operations*. In the examples below, lambdas are used but many times, the lambdas could be replaces by method references (e.g. the lambda `() -> new StringBuilder` can be replaced by a method reference `StringBuilder::new`). The source code for the examples with *Intermediate Operations* below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/stream_fundamentals/IntermediateOperations.java)
 
 ### filter
 ``` java
@@ -316,14 +316,14 @@ is a `Stream` with the elements "B" and "A" because when "C" in encountered in t
 is a `Stream` with the elements "C" and "B" because elements are dropped from the stream but when "C" in encountered, subsequent elements are not dropped.
 
 
-This completes the example list of *intermediate operation* examples.
+This completes the example list of *Intermediate Operation* examples.
 
 
 ## Terminal Operations
-A *terminal operations* starts the `Stream` and returns a result that depends on the `Stream` pipeline and content. For example, `collect` is a *terminal operation* because we cannot add additional operation to a `Stream` pipeline after `collect` has been called.
+A *Terminal Operations* starts the `Stream` and returns a result that depends on the `Stream` pipeline and content. For example, `collect` is a *Terminal Operation* because we cannot add additional operation to a `Stream` pipeline after `collect` has been called.
 
 ### Common Operations
-Here are some of the *terminal operations* that can be accepted by a `Stream`:
+Here are some of the *Terminal Operations* that can be accepted by a `Stream`:
 
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
@@ -343,7 +343,7 @@ Here are some of the *terminal operations* that can be accepted by a `Stream`:
 
 ### Less Common Operations
 
-Here is a list of other *terminal operations* that are a bit less commonly used by at least some programmers:
+Here is a list of other *Terminal Operations* that are a bit less commonly used by at least some programmers:
 
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
@@ -358,7 +358,7 @@ Here is a list of other *terminal operations* that are a bit less commonly used 
 ### Primitive Stream Operations
 
 Primitive streams (like `IntStream` and `LongStream`) provide similar functionality as ordinary streams but usually the parameter count and types differ so that primitive streams can accept more optimized function variants.
-Here is a list of additional *terminal operations* that are available for primitive Streams:
+Here is a list of additional *Terminal Operations* that are available for primitive Streams:
 
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
@@ -371,7 +371,7 @@ Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more informa
 
 ## Terminal Operations Examples
 
-Here is a list with examples for many of the *terminal operations*. The source code for the examples below with *terminal operations* can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/stream_fundamentals/TerminalOperations.java)
+Here is a list with examples for many of the *Terminal Operations*. The source code for the examples below with *Terminal Operations* can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/stream_fundamentals/TerminalOperations.java)
 
 ### forEach
 ``` java
@@ -586,7 +586,7 @@ Returns `IntSummaryStatistics{count=4, sum=10, min=1, average=2.500000, max=4}`.
 
 
 ## Other Operations
-There are also a small number of other operations that are neither a *intermediate operation* nor a *terminal operation* as shown in the table below:
+There are also a small number of other operations that are neither a *Intermediate Operation* nor a *Terminal Operation* as shown in the table below:
 
 | Operation         | Action
 | :------------     | :----------------------------------------------------- |
