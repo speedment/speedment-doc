@@ -687,11 +687,38 @@ and will be rendered to the following SQL query (for MySQL):
 SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'tt' ,'%'))))
 ```
 
-
 ### containsIgnoreCase
+The following example shows a solution where we print out the hares that has a name that contains the string "Tt" ignoring case:
+``` java
+    hares.stream()
+        .filter(Hare.NAME.containsIgnoreCase("Tt"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT('%', LOWER('Tt') ,'%'))
+```
 
 ### notContainsIgnoreCase
-
+The following example shows a solution where we print out the hares that has a name that does *not* contain the string "Tt" ignoring case:
+``` java
+    hares.stream()
+        .filter(Hare.NAME.notContainsIgnoreCase("Tt"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT('%', LOWER('Tt') ,'%'))))
+```
 
 
 ## Negating Predicates
