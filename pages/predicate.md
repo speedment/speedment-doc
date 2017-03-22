@@ -655,8 +655,38 @@ SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((LOWER(`hares`.`
 ```
 
 ### contains
+The following example shows a solution where we print out the hares that has a name that contains the string "tt":
+``` java
+    hares.stream()
+        .filter(Hare.NAME.contains("tt"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'tt' ,'%'))
+```
 
 ### notContains
+The following example shows a solution where we print out the hares that has a name that does *not* contain the string "tt":
+``` java
+    hares.stream()
+        .filter(Hare.NAME.notContains("tt"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'tt' ,'%'))))
+```
+
 
 ### containsIgnoreCase
 
