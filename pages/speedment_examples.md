@@ -80,6 +80,12 @@ This creates a stream of Tuples with two elements: id (of type `Integer`) and Na
 ## Count
 
 
+## Other examples
+
+### Partition By
+Collectors.partitioningBy(x -> x > 50)
+
+
 ## Database Schema
 
 ``` sql

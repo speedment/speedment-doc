@@ -269,7 +269,7 @@ and will be rendered to the following SQL query (for MySQL):
 ``` sql
 SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` >= 3 AND `hares`.`hare`.`age` < 9)
 ```
-There is also another variant of the `between` predicate where an {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive. 
+There is also another variant of the `between` predicate where an  {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive. 
 
 For an example, take the series [1 2 3 4 5]. If we select elements *in* the range (2, 4) from this series, we will get the following results:
 
@@ -319,7 +319,7 @@ and will be rendered to the following SQL query (for MySQL):
 ```
 Note that the hare with age 9 is printed because 9 is outside the range 3 (inclusive) and 9 (exclusive) (because 9 is NOT in the range as 9 is exclusive).
 
-There is also another variant of the `notBetween` predicate where an {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive. 
+There is also another variant of the `notBetween` predicate where an  {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive. 
 
 For an example, take the series [1 2 3 4 5]. If we select elements *not in* the range (2, 4) from this series, we will get the following results:
 
@@ -330,7 +330,7 @@ For an example, take the series [1 2 3 4 5]. If we select elements *not in* the 
 | START_EXCLUSIVE_END_INCLUSIVE	| [1, 2, 5]         |
 | START_EXCLUSIVE_END_EXCLUSIVE	| [1, 2, 4, 5]      |
 
-Here is an example showing a solution where we print out all hares that has an age that is between 3 (inclusive) and 9 (inclusive):
+Here is an example showing a solution where we print out all hares that has an age that is *not* between 3 (inclusive) and 9 (inclusive):
 ``` java
     hares.stream()
         .filter(Hare.AGE.notBetween(3, 9, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
@@ -351,9 +351,70 @@ The order of the two parameters `start` and `end` is significant. If the `start`
 
 
 ### in
+Here is an example showing a solution where we print out all hares that has an age that is either 2, 3 or 4:
+``` java
+    hares.stream()
+        .filter(Hare.AGE.in(2, 3, 4))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` IN (2,3,4))
+```
+There is also a variant of the `in` predicate that takes a `Set` as parameter:
+``` java
+        Set<Integer> set = Stream.of(2, 3, 4).collect(toSet());
+
+        hares.stream()
+            .filter(Hare.AGE.in(set))
+            .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` IN (2,3,4))
+```
 
 ### notIn
+Here is an example showing a solution where we print out all hares that has an age that is *neither* 2, 3 *nor* 4:
+``` java
+    hares.stream()
+        .filter(Hare.AGE.notIn(2, 3, 4))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`age` IN (2,3,4))))
+```
+There is also a variant of the `noIn` predicate that takes a `Set` as parameter:
+``` java
+        Set<Integer> set = Stream.of(2, 3, 4).collect(toSet());
 
+        hares.stream()
+            .filter(Hare.AGE.notIn(set))
+            .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`age` IN (2,3,4))))
+```
 
 ## String Predicates
 The following additional methods (over {{site.data.javadoc.ReferenceField}}) are available to a {{site.data.javadoc.StringField}}:
