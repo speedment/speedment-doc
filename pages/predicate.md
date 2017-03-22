@@ -860,25 +860,23 @@ In this case, optimized queries will be used for the two sub-streams.
 
 
 ## Primitive Predicates
-For performance reasons, there are a number of primitive fields available in addition to reference field. By using a primitive field, unnecessary boxing and auto-boxing cam be avoided. Primitive fields also generates primitive predicates like `IntPredicate` or `LongPredicate`
+For performance reasons, there are a number of primitive field types available in addition to the reference field type. By using a primitive field, unnecessary boxing and auto-boxing cam be avoided. Primitive fields also generates primitive predicates like `IntEqualPredicate` or `LongEqualPredicate`
 
-### IntPrimitiveField
-TBW
+The following primitive types and their corresponding field types are supported by Speedment:
 
-### LongPrimitiveField
-TBW
 
-### DoublePrimitiveField
-TBW
+| Primitive Type | Primitive Field Type   | Example of Predicate implementations                    |
+| :------------- | :--------------------- | :------------------------------------------------------ |
+| `byte`         | `ByteField`            | `ByteEqualPredicate` and `ByteGreaterThanPredicate`     |
+| `short`        | `ShortField`           | `ShortEqualPredicate` and `ShortGreaterThanPredicate    |
+| `int`          | `IntField`             | `IntEqualPredicate` and `IntGreaterThanPredicate`       |
+| `long`         | `LongField`            | `LongEqualPredicate` and `LongGreaterThanPredicate`     |
+| `float`        | `FloatField`           | `IntEqualPredicate` and `IntGreaterThanPredicate`       |
+| `double`       | `DoubleField`          | `DoubleEqualPredicate` and `DoubleGreaterThanPredicate` |
+| `char`         | `CharField`            | `CharEqualPredicate` and `CharGreatersThanPredicate`    |
+| `boolean`      | `BooleanField`         | `BooleanPredicate`                                      |
 
-### ShortPrimitiveField
-TBW
-
-### BytePrimitiveField
-TBW
-
-### FloatPrimitiveField
-TBW
+This is something that is handled automatically under the hood and does not require any additional coding. Our code will simply run faster width these specializations.
 
 ## Examples
 TBW
