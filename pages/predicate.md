@@ -147,14 +147,14 @@ Here is a list with examples for the *Comparable Predicates*. The source code fo
 In the examples below, we assume that the database contains the following hares:
 
 | Hare                                                              |
-| : --------------------------------------------------------------- |
+| :---------------------------------------------------------------- |
 | HareImpl { id = 1, name = Harry, color = Gray, age = 3 }          |
 | HareImpl { id = 2, name = Henrietta, color = White, age = 2 }     |
 | HareImpl { id = 3, name = Henry, color = Black, age = 9 }         |
 
 
 ### equal
-If we want to count all hares with an age that equals 2 we can write the following snippet:
+If we want to count all hares with an age that equals 3 we can write the following snippet:
 ``` java
     long count = hares.stream()
         .filter(Hare.AGE.equal(3))
