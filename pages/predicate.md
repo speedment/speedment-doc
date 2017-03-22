@@ -280,6 +280,21 @@ For an example, take the series [1 2 3 4 5]. If we select elements *in* the rang
 | `START_EXCLUSIVE_END_INCLUSIVE`                | [3, 4]            |
 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [3]               |
 
+
+| `Inclusive` | Included Elements |
+| `START_INCLUSIVE_END_INCLUSIVE` | [2, 3, 4] |
+| `START_INCLUSIVE_END_EXCLUSIVE` | [2, 3]    |
+| `START_EXCLUSIVE_END_INCLUSIVE` | [3, 4]    |
+| `START_EXCLUSIVE_END_EXCLUSIVE` | [3]       |
+
+| `Inclusive` | Included Elements |
+| :--: | :---- |
+| `START_INCLUSIVE_END_INCLUSIVE` | [2, 3, 4] |
+| `START_INCLUSIVE_END_EXCLUSIVE` | [2, 3]    |
+| `START_EXCLUSIVE_END_INCLUSIVE` | [3, 4]    |
+| `START_EXCLUSIVE_END_EXCLUSIVE` | [3]       |
+
+
 Here is an example showing a solution where we print out all hares that has an age that is between 3 (inclusive) and 9 (inclusive):
 ``` java
     hares.stream()
