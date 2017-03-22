@@ -127,8 +127,9 @@ Fields that are `null` will never fulfill any of the predicates.
 
 A {{site.data.javadoc.StringField}} implements the interface traits {{site.data.javadoc.HasReferenceOperators}}, {{site.data.javadoc.HasComparableOperators}} and {{site.data.javadoc.HasStringOperators}}.
 
-An informal notation of method references is made in the table above with "!" indicating the `Predicate::negate` method. I.e. it means that the Operation indicates a `Predicate` that will return the negated value.
-\"ic\" means that the method reference shall ignore case
+{% include note.html content = "
+An informal notation of method references is made in the table above with \"!\" indicating the `Predicate::negate` method. I.e. it means that the Operation indicates a `Predicate` that will return the negated value. The notation \"ic\" means that the method reference shall be applied ignore case
+" %}
 
 ## Primitive Predicates
 For performance reasons, there are a number of primitive fields available too.
