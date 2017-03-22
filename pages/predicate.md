@@ -556,16 +556,103 @@ SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.
 ```
 
 ### startsWithIgnoreCase
+The following example shows a solution where we print out the hares that has a name that starts with "he" ignoring case:
+``` java
+    hares.stream()
+        .filter(Hare.NAME.startsWithIgnoreCase("he"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT(LOWER('he') ,'%'))
+```
 
 ### notStartsWithIgnoreCase
+The following example shows a solution where we print out the hares that has a name that does *not* start with "he" ignoring case:
+``` java
+    hares.stream()
+        .filter(Hare.NAME.notStartsWithIgnoreCase("he"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+ { id = 1, name = Harry, color = Gray, age = 3 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT(LOWER('he') ,'%'))))
+```
 
 ### endsWith
+The following example shows a solution where we print out the hares that has a name that ends with "y":
+``` java
+    hares.stream()
+        .filter(Hare.NAME.endsWith("y"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'y'))
+```
 
 ### notEndsWith
+The following example shows a solution where we print out the hares that has a name that does *not* end with "y":
+``` java
+    hares.stream()
+        .filter(Hare.NAME.notEndsWith("y"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'y'))))
+```
 
 ### endsWithIgnoreCase
+The following example shows a solution where we print out the hares that has a name that ends with "Y" ignoring case:
+``` java
+    hares.stream()
+        .filter(Hare.NAME.endsWithIgnoreCase("Y"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT('%', LOWER('Y')))
+```
 
 ### notEndsWithIgnoreCase
+The following example shows a solution where we print out the hares that has a name that does *not* start with "Y" ignoring case:
+``` java
+    hares.stream()
+        .filter(Hare.NAME.notEndsWithIgnoreCase("Y"))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+ HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT('%', LOWER('Y')))))
+```
 
 ### contains
 
@@ -669,15 +756,15 @@ is equivalent to:
 
 ### or
 Returns a composed predicate that represents a short-circuiting logical OR of a first predicate and another given second predicate. When evaluating the composed composed predicate, if the first predicate is evaluated to `true`, then the second predicate is not evaluated.
-The following code sample will print out all hares that are adults (apparently a hare is adult when its age is greater than 2) and that has a name that contains the letter 'e':
+The following code sample will print out all hares that are adults (age > 2) and that has a name that contains the letter 'e':
 ``` java
     Predicate<Hare> isAdult = Hare.AGE.greaterThan(2);
     Predicate<Hare> nameContains_e = Hare.NAME.contains("e");
 
-    Predicate<Hare> isAdultAndNameContains_e = isAdult.and(nameContains_e);
+    Predicate<Hare> isAdultOrNameContains_e = isAdult.or(nameContains_e);
 
     hares.stream()
-        .filter(isAdultAndNameContains_e)
+        .filter(isAdultOrNameContains_e)
         .forEachOrdered(System.out::println);
 ```
 This will produce the following output:
@@ -692,7 +779,7 @@ SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare`
 ```
 As can be seen, Speedment is currently unable to optimize predicates that are composed using the `or()` method. See issue [#389](https://github.com/speedment/speedment/issues/389)
 
-As for the `and()` method, there is an equivalent way of expressing compositions with `or()`:
+As for the `and()` method, there is an equivalent way of expressing compositions with `or()`. Here is an example of how streams can be concatenated whereby we obtain the same functionality as above:
 ``` java
     StreamComposition.concatAndAutoClose(
         hares.stream().filter(Hare.AGE.greaterThan(2)),
@@ -711,7 +798,7 @@ and will be rendered to the following SQL queries (for MySQL):
 SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` > 2)
 SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'e' ,'%'))
 ```
-In this case, optimized queries will be used.
+In this case, optimized queries will be used for the two sub-streams.
 
 
 
