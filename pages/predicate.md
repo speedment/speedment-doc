@@ -864,11 +864,10 @@ For performance reasons, there are a number of primitive field types available i
 
 The following primitive types and their corresponding field types are supported by Speedment:
 
-
 | Primitive Type | Primitive Field Type   | Example of Predicate implementations                    |
 | :------------- | :--------------------- | :------------------------------------------------------ |
 | `byte`         | `ByteField`            | `ByteEqualPredicate` and `ByteGreaterThanPredicate`     |
-| `short`        | `ShortField`           | `ShortEqualPredicate` and `ShortGreaterThanPredicate    |
+| `short`        | `ShortField`           | `ShortEqualPredicate` and `ShortGreaterThanPredicate`   |
 | `int`          | `IntField`             | `IntEqualPredicate` and `IntGreaterThanPredicate`       |
 | `long`         | `LongField`            | `LongEqualPredicate` and `LongGreaterThanPredicate`     |
 | `float`        | `FloatField`           | `IntEqualPredicate` and `IntGreaterThanPredicate`       |
@@ -876,7 +875,7 @@ The following primitive types and their corresponding field types are supported 
 | `char`         | `CharField`            | `CharEqualPredicate` and `CharGreatersThanPredicate`    |
 | `boolean`      | `BooleanField`         | `BooleanPredicate`                                      |
 
-This is something that is handled automatically under the hood and does not require any additional coding. Our code will simply run faster width these specializations.
+This is something that is handled automatically by Speedment under the hood and does not require any additional coding. Our code will simply run faster width these specializations.
 
 ## Examples
 TBW
