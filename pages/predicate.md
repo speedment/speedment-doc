@@ -59,6 +59,7 @@ Which will pull in the entire Hare table and then the predicate will be applied.
 when used, will always be recognizable by the Speedment query optimizer. 
 
 
+
 The rest of this chapter will be about how we can get predicates from different `Field` types and how these predicates can be combined and how they are rendered to SQL.
 
 ## Reference Predicates
@@ -144,11 +145,11 @@ Here is a list with examples for the *Comparable Predicates*. The source code fo
 
 In the examples below, we assume that the database contains the following hares:
 
-| Hare                                                              |
-| :---------------------------------------------------------------- |
-| HareImpl { id = 1, name = Harry, color = Gray, age = 3 }          |
-| HareImpl { id = 2, name = Henrietta, color = White, age = 2 }     |
-| HareImpl { id = 3, name = Henry, color = Black, age = 9 }         |
+| id | Hare                                                              |
+| :- | :---------------------------------------------------------------- |
+| 1  | HareImpl { id = 1, name = Harry, color = Gray, age = 3 }          |
+| 2  | HareImpl { id = 2, name = Henrietta, color = White, age = 2 }     |
+| 3  | HareImpl { id = 3, name = Henry, color = Black, age = 9 }         |
 
 
 ### equal
@@ -435,7 +436,6 @@ The following additional methods (over {{site.data.javadoc.ReferenceField}}) are
 | notContains             | `String`     | !String::contains          | the field does not contain the given parameter                  |
 | containsIgnoreCase      | `String`     | String::contains ic        | the field contains the given parameter ignoring case            |
 | notContainsIgnoreCase   | `String`     | !String::contains ic       | the field does not contain the given parameter ignoring case    |
-
 
 
 {% include tip.html content = "
@@ -903,3 +903,7 @@ WHERE
 
 {% include prev_next.html %}
 
+## Discussion
+Join the discussion here or on [Gitter](https://gitter.im/speedment/speedment)
+
+{% include messenger.html page-url="predicate.html" %}
