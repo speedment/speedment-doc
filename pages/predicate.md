@@ -23,11 +23,7 @@ A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an 
 ```
 This will print out all animals that starts with "A": Ape, Ant and Alligator because the `filter` operator will only pass forward those elements where its `Predicate` returns `true`.
 
-<<<<<<< HEAD
-In Speedment, the concept of a {{site.data.javadoc.Field}} are of central importance. Fields can be used to produce Predicates that are related to the field.
-=======
 In Speedment, the concept of a {{site.data.javadoc.Field}} is of central importance. Fields can be used to produce Predicates that are related to the field.
->>>>>>> master
 
 Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `Hare` object:
 
@@ -153,11 +149,11 @@ Here is a list with examples for the *Comparable Predicates*. The source code fo
 
 In the examples below, we assume that the database contains the following hares:
 
-| Id | Hare                                                              |
-| :- | :---------------------------------------------------------------- |
-| 1  | HareImpl { id = 1, name = Harry, color = Gray, age = 3 }          |
-| 2  | HareImpl { id = 2, name = Henrietta, color = White, age = 2 }     |
-| 3  | HareImpl { id = 3, name = Henry, color = Black, age = 9 }         |
+| Hare                                                              |
+| :---------------------------------------------------------------- |
+| HareImpl { id = 1, name = Harry, color = Gray, age = 3 }          |
+| HareImpl { id = 2, name = Henrietta, color = White, age = 2 }     |
+| HareImpl { id = 3, name = Henry, color = Black, age = 9 }         |
 
 
 ### equal
