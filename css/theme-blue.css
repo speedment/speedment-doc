@@ -102,15 +102,22 @@ li.sidebarTitle {
 
 }
 #side-menu-wrapper {
-  overflow: scroll;
-  border-left: 1px solid black;
-  height: 100vh;
-  background: #f8f8f8;
+    top: 64px;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    width: 260px;
+    height: auto;
+    background: #f8f8f8;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    z-index: 2;
+    background: #f8f8f8;
  }
 #mysidebar{
  margin-left: 50px;
 }
 #main-wrapper{
-    overflow: scroll;
-    height: 100vh;
+
 }    
