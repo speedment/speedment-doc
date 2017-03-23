@@ -78,6 +78,7 @@ This creates a stream of Tuples with two elements: id (of type `Integer`) and Na
 ## Group By
 
 ## Count
+(stream().filter().map().sort().count() -> select * where...)
 
 
 ## Other examples

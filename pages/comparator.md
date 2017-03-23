@@ -43,7 +43,7 @@ and will be rendered to the following SQL query (for MySQL):
 ``` sql
 SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare`
 ```
-As can be seen, The current version of Speedment performs sorting in the JVM but future versions may use remote database sorting.
+As can be seen, The current version of Speedment performs sorting in the JVM but future versions may use remote database sorting (see issue [#173][https://github.com/speedment/speedment/issues/173])
 
 It would be possible to express the same semantics using `Comparator.comparing` and a method reference:
 ``` java
