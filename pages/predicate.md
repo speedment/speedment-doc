@@ -58,6 +58,10 @@ SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare`
 Which will pull in the entire Hare table and then the predicate will be applied. Because of this, developers are highly encouraged to use the provided {{site.data.javadoc.Field}}s when obtaining predicates because these predicates, 
 when used, will always be recognizable by the Speedment query optimizer. 
 
+{% include important.html content= "
+Do This: `hares.stream().filter(Hare.NAME.greaterOrEqual(\"He\"))` 
+Don't do This: `hares.stream().filter(\"He\".compareTo(h.getName()) <= 0)`
+" %}
 
 
 The rest of this chapter will be about how we can get predicates from different `Field` types and how these predicates can be combined and how they are rendered to SQL.
@@ -904,6 +908,6 @@ WHERE
 {% include prev_next.html %}
 
 ## Discussion
-Join the discussion here or on [Gitter](https://gitter.im/speedment/speedment)
+Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
 
 {% include messenger.html page-url="predicate.html" %}
