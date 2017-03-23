@@ -163,7 +163,7 @@ entries:
     folderitems:
 
     - title: What is a Predicate?
-      url: predicate.html
+      url: predicate.html#what-is-a-predicate
       output: web, pdf
       type: homepage
       
@@ -181,11 +181,6 @@ entries:
       url: predicate.html#string-predicates
       output: web, pdf
       type: homepage      
-
-    - title: Primitive Predicates
-      url: predicate.html#primitive-predicates
-      output: web, pdf
-      type: homepage
 
     - title: Predicate Examples
       url: predicate.html#predicate-examples

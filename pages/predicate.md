@@ -11,7 +11,7 @@ next: comparator.html
 
 {% include prev_next.html %}
 
-## What is a Predicate
+## What is a Predicate?
 
 A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an object of type `T` and returns either `true` or `false` when its `test` method is called. Let us take a closer look at an example where we have a `Predicate<String>` that we want to return `true` if the `String` begins with an "A" and `false` otherwise:
 ``` java
@@ -879,7 +879,7 @@ The following primitive types and their corresponding field types are supported 
 
 This is something that is handled automatically by Speedment under the hood and does not require any additional coding. Our code will simply run faster width these specializations.
 
-## Examples
+## Predicate Examples
 In the example below we want to print all hares that has a `color` that is either "Gray" or "White", has an `age` greater than 1 and has a `name` that lies in the first half of the alphabet:
 ``` java
     hares.stream()
