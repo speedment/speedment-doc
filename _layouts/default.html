@@ -54,25 +54,27 @@
 
 </head>
 <body>
-  {% include topnav.html %}
-  <!-- Page Content -->
-  <div id="sidebar-wrapper">
-    {% include sidemenu.html %}
-    <div class="container-fluid" id="page-content-wrapper">
-        <!-- Content Row -->
-        <div class="row">
-          
+ <div id="wrapper">
+    {% include topnav.html %}
+    <!-- Page Content -->
+    <div id="sidebar-wrapper">
+      {% include sidemenu.html %}
+      <div class="container-fluid" id="page-content-wrapper">
+          <!-- Content Row -->
+          <div class="row">
+
+              </div>
+              <!-- Content Column -->
+              <div class="col-md-9" id="main-wrapper">
+              <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+                  {{content}}
+              </div>
+            <!-- /.row -->
             </div>
-            <!-- Content Column -->
-            <div class="col-md-9" id="main-wrapper">
-            <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
-                {{content}}
-            </div>
-          <!-- /.row -->
-          </div>
-        <!-- /.container -->
-      </div>
-  </div>
+          <!-- /.container -->
+        </div>
+    </div>
+   <div id="wrapper">
 </body>
 {% if site.google_analytics %}
 {% include google_analytics.html %}
