@@ -13,7 +13,7 @@ next: comparator.html
 
 ## What is a Comparator?
 
-A Java 8 {{site.data.javadoc.Comparator}} of type `T` is something that takes two objects of type `T` and returns a negative integer, zero, or a positive integer as the first argument is less than, equal to, or greater than the second when its `compare` method is called. Let us take a closer look at an example where we have a `Comparator<String>` that we want to compare two strings using their natural order:
+A {{site.data.javadoc.Comparator}} of type `T` is something that takes two objects of type `T` and returns a negative integer, zero, or a positive integer if the first argument is less than, equal to, or greater than the second when its `compare` method is called. Let us take a closer look at an example where we have a `Comparator<String>` that we want to compare two strings using their natural order:
 ``` java
     Comparator<String> naturalOrder = (String first, String second) -> first.compareTo(second);
     Stream.of("Snail", "Ape", "Bird", "Ant", "Alligator")
@@ -75,14 +75,14 @@ always associated to a `Comparable` field (e.g. Integer, String, Date, Time etc.
 Comparable fields can be tested for equality and can also be compared to other objects of the same type.
 In the table below, the "Outcome" is a stream where the elements are `sorted()` using a `Comparator<ENTITY>` and they will have the:
 
-| Method                                 |  Outcome                                               | Allows null |
-| :------------------------------------- | :----------------------------------------------------- | :---------: |
-| comparator()                           | natural order                                          | No          |
-| comparator().reversed()                | reversed natural order                                 | No          |
-| comparatorNullFieldsFirst()            | natural order with nulls first                         | Yes         |
-| comparatorNullFieldsFirst().reversed() | reversed natural order will nulls last                 | Yes         |
-| comparatorNullFieldsLast()             | natural order with nulls last                          | Yes         |
-| comparatorNullFieldsLast().reversed()  | reversed natural order with nulls first                | Yes         |
+| Nulls | Method                                 |  Outcome                                               |
+| :--:  | :------------------------------------- | :----------------------------------------------------- |
+| No    | comparator()                           | natural order                                          |
+| No    | comparator().reversed()                | reversed natural order                                 |
+| Yes   | comparatorNullFieldsFirst()            | natural order with nulls first                         |
+| Yes   | comparatorNullFieldsFirst().reversed() | reversed natural order will nulls last                 |
+| Yes   | comparatorNullFieldsLast()             | natural order with nulls last                          |
+| Yes   | comparatorNullFieldsLast().reversed()  | reversed natural order with nulls first                |
 
 ### comparator
 TBW
