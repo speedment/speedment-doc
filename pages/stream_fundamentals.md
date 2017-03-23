@@ -828,3 +828,7 @@ So, in the end, the stream delivered the elements "adam", "alice" and "assian" a
 
 {% include prev_next.html %}
 
+## Discussion
+Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
+
+{% include stream_fundamentals.html page-url="comparator.html" %}
