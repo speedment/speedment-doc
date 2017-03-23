@@ -56,18 +56,22 @@
 <body>
 {% include topnav.html %}
 <!-- Page Content -->
-<div class="container-fluid">
-    <!-- Content Row -->
-    <div class="row">
-        <!-- Sidebar Column -->
-        <div class="col-md-3" id="side-menu-wrapper">
+<div id="sidebar-wrapper">
+  {% include sidebar-menu-sidebar.html %}
+  <div class="container-fluid" id="page-content-wrapper">
+      <!-- Content Row -->
+      <div class="row">
+          <!-- Sidebar Column -->
+          <div class="col-md-3" id="side-menu-wrapper">
 
-          {% include sidebar.html %}
-    <!-- Content Column -->
-    <div class="col-md-9" id="main-wrapper">
-        {{content}}
-    </div>
-    <!-- /.row -->
+            {% include sidebar.html %}
+      <!-- Content Column -->
+      <div class="col-md-9" id="main-wrapper">
+      <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+          {{content}}
+      </div>
+      <!-- /.row -->
+  </div>
 </div>
 <!-- /.container -->
     </div>
@@ -87,3 +91,9 @@
   js.src = "//connect.facebook.net/sv_SE/sdk.js#xfbml=1&version=v2.8&appId=955237637945181";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
+<script>
+   $("#menu-toggle").click(function(e) {
+       e.preventDefault();
+       $("#wrapper").toggleClass("toggled");
+   });
+   </script>
