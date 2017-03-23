@@ -23,7 +23,11 @@ A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an 
 ```
 This will print out all animals that starts with "A": Ape, Ant and Alligator because the `filter` operator will only pass forward those elements where its `Predicate` returns `true`.
 
+<<<<<<< HEAD
 In Speedment, the concept of a {{site.data.javadoc.Field}} are of central importance. Fields can be used to produce Predicates that are related to the field.
+=======
+In Speedment, the concept of a {{site.data.javadoc.Field}} is of central importance. Fields can be used to produce Predicates that are related to the field.
+>>>>>>> master
 
 Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `Hare` object:
 
@@ -276,34 +280,12 @@ There is also another variant of the `between` predicate where an  {{site.data.j
 
 For an example, take the series [1 2 3 4 5]. If we select elements *in* the range (2, 4) from this series, we will get the following results:
 
-| `Inclusive` Enum Constant	                 | Included Elements |
-| :--------------------------------------------- | :---------------- |
-| `START_INCLUSIVE_END_INCLUSIVE`                | [2, 3, 4]         |
-| `START_INCLUSIVE_END_EXCLUSIVE`                | [2, 3]            |
-| `START_EXCLUSIVE_END_INCLUSIVE`                | [3, 4]            |
-| `START_EXCLUSIVE_END_EXCLUSIVE`                | [3]               |
-
 | # | `Inclusive` Enum Constant	                     | Included Elements |
 | - | :--------------------------------------------- | :---------------- |
 | 0 | `START_INCLUSIVE_END_INCLUSIVE`                | [2, 3, 4]         |
 | 1 | `START_INCLUSIVE_END_EXCLUSIVE`                | [2, 3]            |
 | 2 | `START_EXCLUSIVE_END_INCLUSIVE`                | [3, 4]            |
 | 3 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [3]               |
-
-
-| `Inclusive` | Included Elements |
-| `START_INCLUSIVE_END_INCLUSIVE` | [2, 3, 4] |
-| `START_INCLUSIVE_END_EXCLUSIVE` | [2, 3]    |
-| `START_EXCLUSIVE_END_INCLUSIVE` | [3, 4]    |
-| `START_EXCLUSIVE_END_EXCLUSIVE` | [3]       |
-
-| `Inclusive` | Included Elements |
-| :--: | :---- |
-| `START_INCLUSIVE_END_INCLUSIVE` | [2, 3, 4] |
-| `START_INCLUSIVE_END_EXCLUSIVE` | [2, 3]    |
-| `START_EXCLUSIVE_END_INCLUSIVE` | [3, 4]    |
-| `START_EXCLUSIVE_END_EXCLUSIVE` | [3]       |
-
 
 Here is an example showing a solution where we print out all hares that has an age that is between 3 (inclusive) and 9 (inclusive):
 ``` java
@@ -348,12 +330,12 @@ There is also another variant of the `notBetween` predicate where an  {{site.dat
 
 For an example, take the series [1 2 3 4 5]. If we select elements *not in* the range (2, 4) from this series, we will get the following results:
 
-| `Inclusive` Enum Constant                      | Included Elements |
-| :--------------------------------------------- | :---------------- |
-| `START_INCLUSIVE_END_INCLUSIVE`                | [1, 5]            |
-| `START_INCLUSIVE_END_EXCLUSIVE`                | [1, 4, 5]         |
-| `START_EXCLUSIVE_END_INCLUSIVE`                | [1, 2, 5]         |
-| `START_EXCLUSIVE_END_EXCLUSIVE`                | [1, 2, 4, 5]      |
+| # | `Inclusive` Enum Constant                      | Included Elements |
+| - | :--------------------------------------------- | :---------------- |
+| 0 | `START_INCLUSIVE_END_INCLUSIVE`                | [1, 5]            |
+| 1 | `START_INCLUSIVE_END_EXCLUSIVE`                | [1, 4, 5]         |
+| 2 | `START_EXCLUSIVE_END_INCLUSIVE`                | [1, 2, 5]         |
+| 3 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [1, 2, 4, 5]      |
 
 Here is an example showing a solution where we print out all hares that has an age that is *not* between 3 (inclusive) and 9 (inclusive):
 ``` java
@@ -929,3 +911,9 @@ WHERE
 ```
 
 {% include prev_next.html %}
+
+## Discussion
+Join the discussion here or on [Gitter](https://gitter.im/speedment/speedment)
+
+{% include messenger.html page-url="predicate.html" %}
+
