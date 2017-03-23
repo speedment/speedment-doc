@@ -21,8 +21,7 @@ A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an 
         .filter(startsWithA)
         .forEachOrdered(System.out::println);
 ```
-This will print out all animals that starts with "A": Ape, Ant and Alligator.
-
+This will print out all animals that starts with "A": Ape, Ant and Alligator because the `filter` operator will only pass forward those elements where its `Predicate` returns `true`.
 
 In Speedment, the concept of a {{site.data.javadoc.Field}} are of central importance. Fields can be used to produce Predicates that are related to the field.
 
@@ -911,6 +910,4 @@ WHERE
 
 ## Discussion
 Join the discussion here or on [Gitter](https://gitter.im/speedment/speedment)
-
-{% include messenger.html page-url="predicate.html" %}
 
