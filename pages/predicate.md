@@ -11,7 +11,7 @@ next: comparator.html
 
 {% include prev_next.html %}
 
-## What is a Predicate?
+## What is a Predicate
 
 A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an object of type `T` and returns either `true` or `false` when its `test` method is called. Let us take a closer look at an example where we have a `Predicate<String>` that we want to return `true` if the `String` begins with an "A" and `false` otherwise:
 ``` java
@@ -910,4 +910,6 @@ WHERE
 
 ## Discussion
 Join the discussion here or on [Gitter](https://gitter.im/speedment/speedment)
+
+{% include messenger.html page-url="predicate.html" %}
 
