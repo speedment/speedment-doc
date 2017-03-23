@@ -21,47 +21,50 @@ A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an 
         .filter(startsWithA)
         .forEachOrdered(System.out::println);
 ```
-This will print out all animals that starts with "A": Ape, Ant and Alligator.
+This will print out all animals that starts with "A": Ape, Ant and Alligator because the `filter` operator will only pass forward those elements where its `Predicate` returns `true`.
 
-
-Another thing of central importance in Speedment is the concept of a {{site.data.javadoc.Field}}. Fields can be used to produce Predicates that are related to the field.
+In Speedment, the concept of a {{site.data.javadoc.Field}} is of central importance. Fields can be used to produce Predicates that are related to the field.
 
 Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `Hare` object:
 
 ``` java
-    Predicate<Hare> isOld = Hare.AGE.greaterThan(5);
+    Predicate<Hare> startsWithH = Hare.NAME.greaterOrEqual("He");
     hares.stream()
-        .filter(isOld)
+        .filter(startsWithH)
         .forEachOrdered(System.out::println);
 ```
-In this example, the {{site.data.javadoc.StringField}}'s 
-method `User.NAME::greaterThan` creates and returns a `Predicate<Hare>` that, when 
-tested with a `Hare`, will return `true` if and only if that `Hare` has an age that 
-is grater than 5, otherwise it will return `false`. When run, the code above will produce the following SQL code:
+In this example, the {{site.data.javadoc.StringField}}'s method `User.NAME::greaterOrEqual` creates and returns a `Predicate<Hare>` that, when tested with a `Hare`, will return `true` if and only if that `Hare` has a `name` that comes on or after "He" in the alphabet (otherwise it will return `false`).
+
+When run, the code above will produce the following output (given that there are three hares in the table with the name "Harry", "Henrietta" and "Henry"):
+``` text
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
 ``` sql
-    SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` > 5)
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (BINARY `hares`.`hare`.`name` >= 'He')
 ```
 
 It would be possible to express the same semantics using a standard anonymous lambda:
 ``` java
-    Predicate<Hare> isOld = h -> h.getAge() > 5;
+    Predicate<Hare> greaterOrEqualH = h -> "He".compareTo(h.getName()) <= 0;
     hares.stream()
-        .filter(isOld)
+        .filter(greaterOrEqualH)
         .forEachOrdered(System.out::println);
 ```
 but Speedment would not be able to recognize and optimize vanilla lambdas and will therefore produce the following SQL code:
 ``` sql
 SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare`
 ```
-Because of this, developers are encouraged to use the provided {{site.data.javadoc.Field}}s when obtaining predicates because these predicates, 
+Which will pull in the entire Hare table and then the predicate will be applied. Because of this, developers are highly encouraged to use the provided {{site.data.javadoc.Field}}s when obtaining predicates because these predicates, 
 when used, will always be recognizable by the Speedment query optimizer. 
 
 {% include important.html content="
-Do This: `hares.stream().filter(Hare.AGE.greaterThan(5))` 
-Don't do This: `hares.stream().filter(h -> h.getAge() > 5)`
+Do This: `hares.stream().filter(Hare.NAME.greaterOrEqual("He"))` 
+Don't do This: `hares.stream().filter("He".compareTo(h.getName()) <= 0)`
 " %}
 
-The rest of this chapter will be about how we can get predicates from different `Field` types.
+The rest of this chapter will be about how we can get predicates from different `Field` types and how these predicates can be combined and how they are rendered to SQL.
 
 ## Reference Predicates
 
