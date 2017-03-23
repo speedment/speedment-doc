@@ -59,8 +59,8 @@ Which will pull in the entire Hare table and then the predicate will be applied.
 when used, will always be recognizable by the Speedment query optimizer. 
 
 {% include important.html content= "
-Do This: `hares.stream().filter(Hare.NAME.greaterOrEqual(\"He\"))` 
-Don't do This: `hares.stream().filter(\"He\".compareTo(h.getName()) <= 0)`
+Do This: `filter(Hare.NAME.greaterOrEqual(\"He\"))` 
+Don't do This: `filter(\"He\".compareTo(h.getName()) <= 0)`
 " %}
 
 
