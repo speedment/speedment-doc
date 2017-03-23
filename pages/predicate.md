@@ -26,7 +26,6 @@ This will print out all animals that starts with "A": Ape, Ant and Alligator bec
 In Speedment, the concept of a {{site.data.javadoc.Field}} is of central importance. Fields can be used to produce Predicates that are related to the field.
 
 Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `Hare` object:
-
 ``` java
     Predicate<Hare> startsWithH = Hare.NAME.greaterOrEqual("He");
     hares.stream()
@@ -60,7 +59,7 @@ Which will pull in the entire Hare table and then the predicate will be applied.
 when used, will always be recognizable by the Speedment query optimizer. 
 
 {% include important.html content="
-Do This: `hares.stream().filter(Hare.NAME.greaterOrEqual("He"))` 
+Do This: `hares.stream().filter(Hare.NAME.greaterOrEqual(\"He\"))` 
 Don't do This: `hares.stream().filter("He".compareTo(h.getName()) <= 0)`
 " %}
 
@@ -907,9 +906,4 @@ WHERE
 ```
 
 {% include prev_next.html %}
-
-## Discussion
-Join the discussion here or on [Gitter](https://gitter.im/speedment/speedment)
-
-{% include messenger.html page-url="predicate.html" %}
 
