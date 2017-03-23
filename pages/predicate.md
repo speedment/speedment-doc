@@ -13,7 +13,8 @@ next: comparator.html
 
 ## What is a Predicate?
 
-A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an object of type `T` and returns either `true` or `false` when its `test` method is called. Let us take a closer look at an example where we have a `Predicate<String>` that we want to return `true` if the `String` begins with an "A" and `false` otherwise:
+An instance implementing the Java 8 interface `Predicate<T>` has a boolean function `test` that takes a parameter of type `T` and returns either `true` or `false` when called. Check out the official JavaDoc about {{site.data.javadoc.Predicate}}. 
+Let us take a closer look at an example where we have a `Predicate<String>` that we want to return `true` if the `String` begins with an "A" and `false` otherwise:
 ``` java
     Predicate<String> startsWithA = (String s) -> s.startsWith("A");
 
@@ -68,9 +69,9 @@ The rest of this chapter will be about how we can get predicates from different 
 
 ## Reference Predicates
 
-The following methods are available to all {{site.data.javadoc.ReferenceField}}s (i.e. fields that are not primitive fields). In the table below, The "Outcome" is a `Predicate<ENTITY>` that when tested with an object of type `ENTITY` will return `true` if and only if:
+The following methods are available to all {{site.data.javadoc.ReferenceField}}s (i.e. fields that are not primitive fields). The ‘Condition' in the table below is the condition for which the corresponding `Predicate` will hold `true`:
 
-| Method         | Param Type | Operation          | Outcome                                                |
+| Method         | Param Type | Operation          | Condition                                              |
 | :------------- | :--------- | :----------------- | :----------------------------------------------------- |
 | isNull         | N/A        | field == null      | the field is null                                      |
 | isNotNull      | N/A        | field != null      | the field is not null                                  |
@@ -116,9 +117,9 @@ SELECT COUNT(*) FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` IS NOT NULL)
 
 
 ## Comparable Predicates
-The following additional methods are available to a {{site.data.javadoc.ReferenceField}} that is always associated to a `Comparable` field (e.g. `Integer`, `String`, `Date`, `Time` etc.). Comparable fields can be tested for equality and can also be compared to other objects of the same type. In the table below, the "Outcome" is a `Predicate<ENTITY>` that when tested with an object of type `ENTITY` will return `true`if and only if:
+The following additional methods are available to a {{site.data.javadoc.ReferenceField}} that is always associated to a `Comparable` field (e.g. `Integer`, `String`, `Date`, `Time` etc.). Comparable fields can be tested for equality and can also be compared to other objects of the same type. The ‘Condition' in the table below is the condition for which the corresponding `Predicate` will hold `true`:
 
-| Method         | Param Type | Operation                  | Outcome                                                |
+| Method         | Param Type | Operation                  | Condition                                              |
 | :------------- | :--------- | :------------------------- | :----------------------------------------------------- |
 | equal          | `V`          | Objects.equals(p, field)   | the field is equal to the parameter                    |
 | notEqual       | `V`          | !Objects.equals(p, field)  | the field is not equal to the parameter                |
@@ -136,7 +137,7 @@ The following additional methods are available to a {{site.data.javadoc.Referenc
 | notIn          | `Set<V>`     |  !p.contains(field)        | the `Set<V>` does not contain the field
 
 {% include tip.html content = "
-Fields that are `null` will never fulfill any of the predicates in the list above.
+Fields that are `null` will never fulfill any of the predicates in the list above. Thus, neither `equals` nor `notEquals` will return `true` for null values.
 " %}
 {% include tip.html content = "
 The reason `equal` is not named `equals` is that the latter name is already used as a method name by the `Object` class (that every other class inherits from). The latter method has a different meaning than function than `equal` so a new name had to be used.
@@ -420,9 +421,9 @@ SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.
 ```
 
 ## String Predicates
-The following additional methods (over {{site.data.javadoc.ReferenceField}}) are available to a {{site.data.javadoc.StringField}}:
+The following additional methods (over {{site.data.javadoc.ReferenceField}}) are available to a {{site.data.javadoc.StringField}}. The ‘Condition' in the table below is the condition for which the corresponding `Predicate` will hold `true`:
 
-| Method                  | Param Type   | Operation                  | Outcome                                                         |
+| Method                  | Param Type   | Operation                  | Condition                                                       |
 | :---------------------- | :----------- | :------------------------- | :-------------------------------------------------------------- |
 | isEmpty                 | `String`     | String::isEmpty            | the field is empty (i.e. field.length() == 0)                   |
 | isNotEmpty              | `String`     | !String::isEmpty           | the field is not empty (i.e. field.length() !=0)                |
@@ -443,7 +444,7 @@ The following additional methods (over {{site.data.javadoc.ReferenceField}}) are
 
 
 {% include tip.html content = "
-Fields that are `null` will never fulfill any of the predicates in the list above.
+Fields that are `null` will never fulfill any of the predicates in the list above. Thus, neither `contains` nor `notContains` will return `true` for null values.
 " %}
 
 A {{site.data.javadoc.StringField}} implements the interface traits {{site.data.javadoc.HasReferenceOperators}}, {{site.data.javadoc.HasComparableOperators}} and {{site.data.javadoc.HasStringOperators}}.
