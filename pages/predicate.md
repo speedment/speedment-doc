@@ -11,7 +11,7 @@ next: comparator.html
 
 {% include prev_next.html %}
 
-## What is a Predicate
+## What is a Predicate?
 
 A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an object of type `T` and returns either `true` or `false` when its `test` method is called. Let us take a closer look at an example where we have a `Predicate<String>` that we want to return `true` if the `String` begins with an "A" and `false` otherwise:
 ``` java
@@ -24,44 +24,48 @@ A Java 8 {{site.data.javadoc.Predicate}} of type `T` is something that takes an 
 This will print out all animals that starts with "A": Ape, Ant and Alligator.
 
 
-Another thing of central importance in Speedment is the concept of a {{site.data.javadoc.Field}}. Fields can be used to produce Predicates that are related to the field.
+In Speedment, the concept of a {{site.data.javadoc.Field}} are of central importance. Fields can be used to produce Predicates that are related to the field.
 
 Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `Hare` object:
 
 ``` java
-    Predicate<Hare> isOld = Hare.AGE.greaterThan(5);
+    Predicate<Hare> startsWithH = Hare.NAME.greaterOrEqual("He");
     hares.stream()
-        .filter(isOld)
+        .filter(startsWithH)
         .forEachOrdered(System.out::println);
 ```
-In this example, the {{site.data.javadoc.StringField}}'s 
-method `User.NAME::greaterThan` creates and returns a `Predicate<Hare>` that, when 
-tested with a `Hare`, will return `true` if and only if that `Hare` has an age that 
-is grater than 5, otherwise it will return `false`. When run, the code above will produce the following SQL code:
+In this example, the {{site.data.javadoc.StringField}}'s method `User.NAME::greaterOrEqual` creates and returns a `Predicate<Hare>` that, when tested with a `Hare`, will return `true` if and only if that `Hare` has a `name` that comes on or after "He" in the alphabet (otherwise it will return `false`).
+
+When run, the code above will produce the following output (given that there are three hares in the table with the name "Harry", "Henrietta" and "Henry"):
+``` text
+HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+```
+and will be rendered to the following SQL query (for MySQL):
 ``` sql
-    SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` > 5)
+SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (BINARY `hares`.`hare`.`name` >= 'He')
 ```
 
 It would be possible to express the same semantics using a standard anonymous lambda:
 ``` java
-    Predicate<Hare> isOld = h -> h.getAge() > 5;
+    Predicate<Hare> greaterOrEqualH = h -> "He".compareTo(h.getName()) <= 0;
     hares.stream()
-        .filter(isOld)
+        .filter(greaterOrEqualH)
         .forEachOrdered(System.out::println);
 ```
 but Speedment would not be able to recognize and optimize vanilla lambdas and will therefore produce the following SQL code:
 ``` sql
 SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare`
 ```
-Because of this, developers are encouraged to use the provided {{site.data.javadoc.Field}}s when obtaining predicates because these predicates, 
+Which will pull in the entire Hare table and then the predicate will be applied. Because of this, developers are highly encouraged to use the provided {{site.data.javadoc.Field}}s when obtaining predicates because these predicates, 
 when used, will always be recognizable by the Speedment query optimizer. 
 
 {% include important.html content="
-Do This: `hares.stream().filter(Hare.AGE.greaterThan(5))` 
-Don't do This: `hares.stream().filter(h -> h.getAge() > 5)`
+Do This: `hares.stream().filter(Hare.NAME.greaterOrEqual("He"))` 
+Don't do This: `hares.stream().filter("He".compareTo(h.getName()) <= 0)`
 " %}
 
-The rest of this chapter will be about how we can get predicates from different `Field` types.
+The rest of this chapter will be about how we can get predicates from different `Field` types and how these predicates can be combined and how they are rendered to SQL.
 
 ## Reference Predicates
 
@@ -146,11 +150,11 @@ Here is a list with examples for the *Comparable Predicates*. The source code fo
 
 In the examples below, we assume that the database contains the following hares:
 
-| Hare                                                              |
-| :---------------------------------------------------------------- |
-| HareImpl { id = 1, name = Harry, color = Gray, age = 3 }          |
-| HareImpl { id = 2, name = Henrietta, color = White, age = 2 }     |
-| HareImpl { id = 3, name = Henry, color = Black, age = 9 }         |
+| Id | Hare                                                              |
+| :- | :---------------------------------------------------------------- |
+| 1  | HareImpl { id = 1, name = Harry, color = Gray, age = 3 }          |
+| 2  | HareImpl { id = 2, name = Henrietta, color = White, age = 2 }     |
+| 3  | HareImpl { id = 3, name = Henry, color = Black, age = 9 }         |
 
 
 ### equal
@@ -273,34 +277,12 @@ There is also another variant of the `between` predicate where an  {{site.data.j
 
 For an example, take the series [1 2 3 4 5]. If we select elements *in* the range (2, 4) from this series, we will get the following results:
 
-| `Inclusive` Enum Constant	                 | Included Elements |
-| :--------------------------------------------- | :---------------- |
-| `START_INCLUSIVE_END_INCLUSIVE`                | [2, 3, 4]         |
-| `START_INCLUSIVE_END_EXCLUSIVE`                | [2, 3]            |
-| `START_EXCLUSIVE_END_INCLUSIVE`                | [3, 4]            |
-| `START_EXCLUSIVE_END_EXCLUSIVE`                | [3]               |
-
 | # | `Inclusive` Enum Constant	                     | Included Elements |
 | - | :--------------------------------------------- | :---------------- |
 | 0 | `START_INCLUSIVE_END_INCLUSIVE`                | [2, 3, 4]         |
 | 1 | `START_INCLUSIVE_END_EXCLUSIVE`                | [2, 3]            |
 | 2 | `START_EXCLUSIVE_END_INCLUSIVE`                | [3, 4]            |
 | 3 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [3]               |
-
-
-| `Inclusive` | Included Elements |
-| `START_INCLUSIVE_END_INCLUSIVE` | [2, 3, 4] |
-| `START_INCLUSIVE_END_EXCLUSIVE` | [2, 3]    |
-| `START_EXCLUSIVE_END_INCLUSIVE` | [3, 4]    |
-| `START_EXCLUSIVE_END_EXCLUSIVE` | [3]       |
-
-| `Inclusive` | Included Elements |
-| :--: | :---- |
-| `START_INCLUSIVE_END_INCLUSIVE` | [2, 3, 4] |
-| `START_INCLUSIVE_END_EXCLUSIVE` | [2, 3]    |
-| `START_EXCLUSIVE_END_INCLUSIVE` | [3, 4]    |
-| `START_EXCLUSIVE_END_EXCLUSIVE` | [3]       |
-
 
 Here is an example showing a solution where we print out all hares that has an age that is between 3 (inclusive) and 9 (inclusive):
 ``` java
@@ -345,12 +327,12 @@ There is also another variant of the `notBetween` predicate where an  {{site.dat
 
 For an example, take the series [1 2 3 4 5]. If we select elements *not in* the range (2, 4) from this series, we will get the following results:
 
-| `Inclusive` Enum Constant                      | Included Elements |
-| :--------------------------------------------- | :---------------- |
-| `START_INCLUSIVE_END_INCLUSIVE`                | [1, 5]            |
-| `START_INCLUSIVE_END_EXCLUSIVE`                | [1, 4, 5]         |
-| `START_EXCLUSIVE_END_INCLUSIVE`                | [1, 2, 5]         |
-| `START_EXCLUSIVE_END_EXCLUSIVE`                | [1, 2, 4, 5]      |
+| # | `Inclusive` Enum Constant                      | Included Elements |
+| - | :--------------------------------------------- | :---------------- |
+| 0 | `START_INCLUSIVE_END_INCLUSIVE`                | [1, 5]            |
+| 1 | `START_INCLUSIVE_END_EXCLUSIVE`                | [1, 4, 5]         |
+| 2 | `START_EXCLUSIVE_END_INCLUSIVE`                | [1, 2, 5]         |
+| 3 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [1, 2, 4, 5]      |
 
 Here is an example showing a solution where we print out all hares that has an age that is *not* between 3 (inclusive) and 9 (inclusive):
 ``` java
@@ -926,3 +908,9 @@ WHERE
 ```
 
 {% include prev_next.html %}
+
+## Discussion
+Join the discussion here or on [Gitter](https://gitter.im/speedment/speedment)
+
+{% include messenger.html page-url="predicate.html" %}
+
