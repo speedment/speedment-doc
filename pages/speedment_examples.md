@@ -86,6 +86,9 @@ This creates a stream of Tuples with two elements: id (of type `Integer`) and Na
 ### Partition By
 Collectors.partitioningBy(x -> x > 50)
 
+### Pivot Data
+
+
 
 ## Database Schema
 

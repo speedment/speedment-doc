@@ -7,7 +7,7 @@ output: web
 topnav_title: Speedment Documentation
 # this appears on the top navigation bar next to the home button
 
-site_title: Speedment Documentation
+site_title: Speedment Documentation (Beta)
 # this appears in the html browser tab for the site title (seen mostly by search engines, not users)
 
 company_name: Speedment, Inc
@@ -32,7 +32,7 @@ exclude:
   - .gitignore
 # these are the files and directories that jekyll will exclude from the build
 
-feedback_subject_line: Jekyll documentation theme
+feedback_subject_line: Speedment Documentation
 
 feedback_email: dev@speedment.com
 # used as a contact email for the Feedback link in the top navigation bar
