@@ -282,7 +282,7 @@ A number of Plugin parameters can be set in the POM file as shown in this table:
 | dbmsPort       | int      | Sets the dbms port                                 | 3306        |
 | dbmsUsername   | String   | Sets the dbms username                             | john.smith  |
 | dbmsPassword   | String   | Sets the dbms password                             | W8kAk2H!Eh  | 
-| configLocation | String   | Sets the location of the configuration file        | src/main/json/my_config.json |
+| configFile     | String   | Sets the location of the configuration file        | src/main/json/my_config.json |
 
 Here is an example where we set a number of database parameters for the plugins.
 ``` xml
