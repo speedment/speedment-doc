@@ -23,4 +23,6 @@ Tuple: "[`Tuple`](https://github.com/speedment/speedment/tree/master/common-pare
 Stream: "[`Stream`](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html)"
 Predicate: "[`Predicate`](https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html)"
 Comparator: "[`Comparator`](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html)"
-    
+StreamTakeWhile: "[`Stream:takeWhile`](http://download.java.net/java/jdk9/docs/api/java/util/stream/Stream.html#takeWhile-java.util.function.Predicate-)"
+StreamDropWhile: "[`Stream:dropWhile`](http://download.java.net/java/jdk9/docs/api/java/util/stream/Stream.html#dropWhile-java.util.function.Predicate-)"    
+        

@@ -354,7 +354,7 @@ entries:
 #      type: homepage
 #
 #
-#  - title: Streams
+#  - title: Speedment Streams
 #    output: web, pdf
 #    folderitems:
 #

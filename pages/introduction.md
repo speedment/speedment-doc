@@ -13,21 +13,28 @@ next: stream_fundamentals.html
 
 ## What is Speedment?
 __Speedment is a Java 8 Stream ORM Toolkit and Runtime__ 
+With Speedment you can write database applications using Java only. No SQL coding is needed.
 
 ### One-liner
 Search for an old `Hare` (of age greater than 5):
 ```java
 // Searches are optimized in the background!
-Optional<Hare> oldHare = hares.stream()
-    .filter(Hare.AGE.greaterThan(5))
+Optional<Film> longFilm = films.stream()
+    .filter(Film.LENGTH.greaterThan(120))
     .findAny();
 ``` 
 
 Results in the following SQL query:
 ```sql
-SELECT id, name, color, age FROM hare 
-    WHERE (age > 5)
-    LIMIT 1;
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,
+    `last_update` 
+FROM 
+     FROM `sakila`.`film
+WHERE
+    (`length` > 120)
 ```
 
 No need for manually writing SQL-queies any more. Remain in a pure Java world!
@@ -43,7 +50,7 @@ When we started the open-source project Speedment, the main objective was to rem
 | `HAVING`     | `filter()` (after collecting) |
 | `JOIN`       | `flatMap()`  |
 | `DISTINCT`   | `distinct()` |
-| `UNION`      | `concat().distinct()` |
+| `UNION`      | `concat(s0, s1).distinct()` |
 | `ORDER BY`   | `sorted()`   |
 | `OFFSET`     | `skip()`     |
 | `LIMIT`      | `limit()`    |
@@ -83,7 +90,7 @@ Please refer to the [Release Notes documents](https://github.com/speedment/speed
 Here are some fast facts about Speedment:
 
 ### Supported Java Versions
-Speedment supports Java 8 and upwards. Earlier Java versions are not supported because they do not support Streams.
+Speedment supports Java 8 and upwards. Earlier Java versions are not supported because they do not support Streams. Under Java 9, the new {{site.data.javadoc.StreamTakeWhile}} and {{site.data.javadoc.StreamDropWhile}} Stream operations will be automatically available under Speedment too.
 
 ### Speedment Editions
 This Reference Manual covers all editions of Speedment:
