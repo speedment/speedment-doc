@@ -32,12 +32,12 @@ films.stream()
     .filter(Film.TITLE.startsWith("A"))
     .forEachOrdered(System.out::println);
 ```
-In this example, the {{site.data.javadoc.StringField}}'s method `Film.TITLE::startsWith` creates and returns a `Predicate<Film>` that, when tested with a `Film`, will return `true` if and only if that `Film` has a `title` starts with an "A" (otherwise it will return `false`).
+In this example, the {{site.data.javadoc.StringField}}'s method `Film.TITLE::startsWith` creates and returns a `Predicate<Film>` that, when tested with a `Film`, will return `true` if and only if that `Film` has a `title` that starts with an "A" (otherwise it will return `false`).
 
 When run, the code above will produce the following output:
 ``` text
-FilmImpl { filmId = 5, title = AFRICAN EGG,, length = 130, ...
-FilmImpl { filmId = 6, title = AGENT TRUMAN, length = 169, ...
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, description = ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, description = ...
 ...
 ```
 and will be rendered to the following SQL query (for MySQL):
@@ -51,7 +51,7 @@ SELECT
 WHERE
     (`sakila`.`film`.`title` LIKE BINARY CONCAT(? ,'%')), values:[A]
 ```
-Note: The "?" in the SQL string will be replaced by the values given after the SQL statement `("values:[A]")`)
+Note: The question marks (`?`) in the SQL string will be replaced by the values given after the SQL statement (e.g ."`values:[A]`"))
 
 It would be possible to express the same semantics using a standard anonymous lambda:
 ``` java
@@ -68,7 +68,7 @@ SELECT
 FROM
      `sakila`.`film`, values:[]
 ```
-Which will pull in the entire Hare table and then the predicate will be applied. Because of this, developers are highly encouraged to use the provided {{site.data.javadoc.Field}}s when obtaining predicates because these predicates, 
+which will pull in the entire Film table and then the predicate will be applied. Because of this, developers are highly encouraged to use the provided {{site.data.javadoc.Field}}s when obtaining predicates because these predicates, 
 when used, will always be recognizable by the Speedment query optimizer. 
 
 {% include important.html content= "
@@ -224,24 +224,65 @@ and will be rendered to the following SQL query (for MySQL):
 ```
 
 ### notEqual
-The following example shows a solution where we print out all hares that has an age that is *not* 3:
+The following example shows a solution where we print out all films that has a rating that is *not* "PG-13":
 ``` java
-    hares.stream()
-        .filter(Hare.AGE.notEqual(3))
+    films.stream()
+        .filter(Film.RATING.notEqual("PG-13"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ..., rating = PG, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ..., rating = G, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ..., rating = NC-17, ...
+FilmImpl { filmId = 4, title = AFFAIR PREJUDICE, ..., rating = G, ...
+FilmImpl { filmId = 5, title = AFRICAN EGG, ..., rating = G, ...
+FilmImpl { filmId = 6, title = AGENT TRUMAN, ..., rating = PG, ...
+FilmImpl { filmId = 8, title = AIRPORT POLLOCK, ..., rating = R, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT (`hares`.`hare`.`age` = 3))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (NOT (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin)), values:[PG-13]
 ```
 
 ### lessThan
-The following example shows a solution where we print out all hares that has an age that is less than 3:
+The following example shows a solution where we print out all films that has a length that is less than 120:
+``` java
+    films.stream()
+        .filter(Film.LENGTH.lessThan(120))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ..., length = 48, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ..., length = 50, ...
+FilmImpl { filmId = 4, title = AFFAIR PREJUDICE, ..., length = 117, ...
+FilmImpl { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
+...
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (`sakila`.`film`.`length` < ?), values:[120]
+```
+
+### lessThan
+The following example shows a solution where we print out all films that has a length that is less or equal to 120:
 ``` java
     hares.stream()
         .filter(Hare.AGE.lessThan(3))
@@ -249,77 +290,102 @@ The following example shows a solution where we print out all hares that has an 
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ..., length = 48, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ..., length = 50, ...
+FilmImpl { filmId = 4, title = AFFAIR PREJUDICE, ..., length = 117, ...
+FilmImpl { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` < 3)
-```
-
-### lessThan
-The following example shows a solution where we print out all hares that has an age that is less or equal to 3:
-``` java
-    hares.stream()
-        .filter(Hare.AGE.lessThan(3))
-        .forEachOrdered(System.out::println);
-```
-The code will produce the following output:
-``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
-```
-and will be rendered to the following SQL query (for MySQL):
-``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` <= 3)
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (`sakila`.`film`.`length` <= ?), values:[120]
 ```
 
 ### greaterThan
-The following example shows a solution where we print out all hares that has an age that is greater than to 3:
+The following example shows a solution where we print out all films that has a length that is greater than 120:
 ``` java
-    hares.stream()
-        .filter(Hare.AGE.greaterThan(3))
+    films.stream()
+        .filter(Film.LENGTH.greaterThan(120))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 5, title = AFRICAN EGG, ..., length = 130, ...
+FilmImpl { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ...
+FilmImpl { filmId = 11, title = ALAMO VIDEOTAPE, ..., length = 126, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` >= 3)
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (`sakila`.`film`.`length` > ?), values:[120]
 ```
 
 ### greaterOrEqual
-The following example shows a solution where we print out all hares that has an age that is greater than to 3:
+The following example shows a solution where we print out all films that has a length that is greater than or equal to 120:
 ``` java
-    hares.stream()
-        .filter(Hare.AGE.greaterOrEqual(3))
+    films.stream()
+        .filter(Film.LENGTH.greaterOrEqual(120))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 5, title = AFRICAN EGG, ..., length = 130, ...
+FilmImpl { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ...
+FilmImpl { filmId = 11, title = ALAMO VIDEOTAPE, ..., length = 126, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` >= 3)
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (`sakila`.`film`.`length` >= ?), values:[120]
 ```
 
 ### between
-The following example shows a solution where we print out all hares that has an age that is between 3 (inclusive) and 9 (exclusive):
+The following example shows a solution where we print out all films that has a length that is between 60 (inclusive) and 120 (exclusive):
 ``` java
-    hares.stream()
-        .filter(Hare.AGE.between(3, 9))
+    films.stream()
+        .filter(Film.LENGTH.between(60, 120))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
+FilmImpl { filmId = 4, title = AFFAIR PREJUDICE, ...,, length = 117, ...
+FilmImpl { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
+FilmImpl { filmId = 9, title = ALABAMA DEVIL, ..., length = 114, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` >= 3 AND `hares`.`hare`.`age` < 9)
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (`sakila`.`film`.`length` >= ? AND `sakila`.`film`.`length` < ?), values:[60, 120]
 ```
 There is also another variant of the `between` predicate where an  {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive. 
 
@@ -332,20 +398,30 @@ For an example, take the series [1 2 3 4 5]. If we select elements *in* the rang
 | 2 | `START_EXCLUSIVE_END_INCLUSIVE`                | [3, 4]            |
 | 3 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [3]               |
 
-Here is an example showing a solution where we print out all hares that has an age that is between 3 (inclusive) and 9 (inclusive):
+Here is an example showing a solution where we print out all films that has a length that is between 3 (inclusive) and 9 (inclusive):
 ``` java
-    hares.stream()
-        .filter(Hare.AGE.between(3, 9, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
+    films.stream()
+        .filter(Film.LENGTH.between(60, 120, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
+FilmImpl { filmId = 4, title = AFFAIR PREJUDICE, ...,, length = 117, ...
+FilmImpl { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
+FilmImpl { filmId = 9, title = ALABAMA DEVIL, ..., length = 114, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` >= 3 AND `hares`.`hare`.`age` <= 9)
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (`sakila`.`film`.`length` >= ? AND `sakila`.`film`.`length` <= ?), values:[60, 120]
 ```
 
 {% include tip.html content = "
