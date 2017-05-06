@@ -26,42 +26,54 @@ This will print out all animals that starts with "A": Ape, Ant and Alligator bec
 
 In Speedment, the concept of a {{site.data.javadoc.Field}} is of central importance. Fields can be used to produce Predicates that are related to the field.
 
-Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `Hare` object:
+Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `Film` object:
 ``` java
-    Predicate<Hare> startsWithH = Hare.NAME.greaterOrEqual("He");
-    hares.stream()
-        .filter(startsWithH)
-        .forEachOrdered(System.out::println);
+films.stream()
+    .filter(Film.TITLE.startsWith("A"))
+    .forEachOrdered(System.out::println);
 ```
-In this example, the {{site.data.javadoc.StringField}}'s method `User.NAME::greaterOrEqual` creates and returns a `Predicate<Hare>` that, when tested with a `Hare`, will return `true` if and only if that `Hare` has a `name` that comes on or after "He" in the alphabet (otherwise it will return `false`).
+In this example, the {{site.data.javadoc.StringField}}'s method `Film.TITLE::startsWith` creates and returns a `Predicate<Film>` that, when tested with a `Film`, will return `true` if and only if that `Film` has a `title` starts with an "A" (otherwise it will return `false`).
 
-When run, the code above will produce the following output (given that there are three hares in the table with the name "Harry", "Henrietta" and "Henry"):
+When run, the code above will produce the following output:
 ``` text
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 5, title = AFRICAN EGG,, length = 130, ...
+FilmImpl { filmId = 6, title = AGENT TRUMAN, length = 169, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (BINARY `hares`.`hare`.`name` >= 'He')
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+ FROM
+    `sakila`.`film` 
+WHERE
+    (`sakila`.`film`.`title` LIKE BINARY CONCAT(? ,'%')), values:[A]
 ```
+Note: The "?" in the SQL string will be replaced by the values given after the SQL statement `("values:[A]")`)
 
 It would be possible to express the same semantics using a standard anonymous lambda:
 ``` java
-    Predicate<Hare> greaterOrEqualH = h -> "He".compareTo(h.getName()) <= 0;
-    hares.stream()
-        .filter(greaterOrEqualH)
-        .forEachOrdered(System.out::println);
+films.stream()
+    .filter(f -> f.getTitle().startsWith("A"))
+    .forEachOrdered(System.out::println);
 ```
 but Speedment would not be able to recognize and optimize vanilla lambdas and will therefore produce the following SQL code:
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare`
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update` 
+FROM
+     `sakila`.`film`, values:[]
 ```
 Which will pull in the entire Hare table and then the predicate will be applied. Because of this, developers are highly encouraged to use the provided {{site.data.javadoc.Field}}s when obtaining predicates because these predicates, 
 when used, will always be recognizable by the Speedment query optimizer. 
 
 {% include important.html content= "
-Do This: `filter(Hare.NAME.greaterOrEqual(\"He\"))` 
-Don't do This: `filter(\"He\".compareTo(h.getName()) <= 0)`
+Do This: `filter(Film.TITLE.greaterOrEqual(\"He\"))` 
+Don't do This: `filter(\"He\".compareTo(f.getTitle()) <= 0)`
 " %}
 
 
@@ -82,37 +94,59 @@ A {{site.data.javadoc.ReferenceField}} implements the interface trait {{site.dat
 Here is a list with examples for the *Reference Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/ReferencePredicates.java)
 
 ### isNull
-We can count all hares with a name that is null like this:
+We can count all films with a title that is null like this:
 ``` java
-    long count = hares.stream()
-        .filter(Hare.NAME.isNull())
+    long count = films.stream()
+        .filter(Film.RATING.isNull())
         .count();
-    System.out.format("There are %d hares with a null name %n", count);
+    System.out.format("There are %d films with a null rating %n", count);
 ```
 The code will produce the following output:
 ``` text 
-There are 0 hares with a null name 
+There are 0 films with a null rating  
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT COUNT(*) FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` IS NULL)
+SELECT
+    COUNT(*)
+FROM (
+    SELECT 
+        `film_id`,`title`,`description`,`release_year`,
+        `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+        `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+    FROM
+         `sakila`.`film
+    WHERE 
+       (`sakila`.`film`.`rating` IS NULL)
+) AS A, values:[]
 ```
 
 ### isNotNull
-We can count all hares with a name that is *not* null like this:
+We can count all films with a title that is *not* null like this:
 ``` java
-    long count = hares.stream()
-        .filter(Hare.NAME.isNotNull())
+    long count = films.stream()
+        .filter(Film.RATING.isNotNull())
         .count();
-    System.out.format("There are %d hares with a non-null name %n", count);
+    System.out.format("There are %d films with a non-null rating %n", count);
 ```
 The code will produce the following output:
 ``` text 
-There are 3 hares with a non-null name 
-```
+There are 1000 films with a non-null rating```
+
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT COUNT(*) FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` IS NOT NULL)
+SELECT
+    COUNT(*)
+FROM (
+    SELECT 
+        `film_id`,`title`,`description`,`release_year`,
+        `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+        `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+    FROM
+         `sakila`.`film
+    WHERE 
+       (`sakila`.`film`.`rating` IS NOT NULL)
+) AS A, values:[]
 ```
 
 
@@ -148,31 +182,45 @@ A {{site.data.javadoc.ComparableField}} implements the interface traits {{site.d
 ## Comparable Predicate Examples
 Here is a list with examples for the *Comparable Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/ComparablePredicates.java)
 
-In the examples below, we assume that the database contains the following hares:
+In the examples below, we assume that the database contains a number of films with ratings according to the Motion Picture Association of America (MPAA) film rating system:
 
-| id | Hare                                                              |
-| :- | :---------------------------------------------------------------- |
-| 1  | HareImpl { id = 1, name = Harry, color = Gray, age = 3 }          |
-| 2  | HareImpl { id = 2, name = Henrietta, color = White, age = 2 }     |
-| 3  | HareImpl { id = 3, name = Henry, color = Black, age = 9 }         |
+| Rating | Meaning                                                              |
+| :--- | :---------------------------------------------------------------- |
+| G | Gerneal Audience |
+| PG | Parental Guidance Suggested |
+| PG-13 | PG-13 – Parents Strongly Cautioned |
+| R | R – Restricted |
+| NC-17 | NC-17 – Adults Only |
 
 
 ### equal
-If we want to count all hares with an age that equals 3 we can write the following snippet:
+If we want to count all films with a rating that equals "PG-13" we can write the following snippet:
 ``` java
-    long count = hares.stream()
-        .filter(Hare.AGE.equal(3))
+    long count = films.stream()
+        .filter(Film.RATING.equal("PG-13"))
         .count();
 
-    System.out.format("There are %d hare(s) with an age of 3 %n", count);
+    System.out.format("There are %d films(s) with a PG-13 rating %n", count);
 ```
 The code will produce the following output:
 ``` text
-There are 1 hare(s) with an age of 3 
+There are 223 films(s) with a PG-13 rating 
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT COUNT(*) FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` = 3)
+    SELECT
+        COUNT(*)
+    FROM (
+        SELECT
+            `film_id`,`title`,`description`,`release_year`,
+            `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+            `length`,`replacement_cost`,`rating`,`special_features`,
+            `last_update` 
+        FROM
+            `sakila`.`film` 
+        WHERE 
+            (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin)
+) AS A, values:[PG-13]
 ```
 
 ### notEqual

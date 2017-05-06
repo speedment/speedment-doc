@@ -104,7 +104,7 @@ We can extend Speedment's functionality by using one or several plugins in the f
 Speedment open-source is licensed under the Apache 2 license. Speedment Enterprise is licensed under a commercial license.
 
 ### Customer Support
-Open-source support for Speedment is provided on a best effort basis via [GitHub](https://github.com/speedment/speedment/issues), [Gitter](https://gitter.im/speedment/speedment) and [StackOverflow](http://stackoverflow.com/questions/tagged/speedment)
+Open-source support for Speedment is provided on a best effort basis via [GitHub](https://github.com/speedment/speedment/issues), [Gitter](https://gitter.im/speedment/speedment) and [StackOverflow](http://stackoverflow.com/questions/tagged/speedment?sort=newest)
 
 Commercial support can be purcased for both Speedment and Speedment Enterprise. Read more on [speedment.com](http://www.speedment.com)
 
