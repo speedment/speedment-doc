@@ -430,22 +430,32 @@ The order of the two parameters `start` and `end` is significant. If the `start`
 
 
 ### notBetween
-The following example shows a solution where we print out all hares that has an age that is *not* between 3 (inclusive) and 9 (exclusive):
+The following example shows a solution where we print out all films that has a length that is *not* between 60 (inclusive) and 120 (exclusive):
 ``` java
-    hares.stream()
-        .filter(Hare.AGE.notBetween(3, 9))
+    films.stream()
+        .filter(Film.LENGTH.notBetween(60, 120))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 2, ..., length = 48, ...
+FilmImpl { filmId = 3, ..., length = 50, ...
+FilmImpl { filmId = 5, ..., length = 130, ...
+FilmImpl { filmId = 6, ..., length = 169, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`age` >= 3 AND `hares`.`hare`.`age` <= 9)))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (NOT((`sakila`.`film`.`length` >= ? AND `sakila`.`film`.`length` < ?)))
 ```
-Note that the hare with age 9 is printed because 9 is outside the range 3 (inclusive) and 9 (exclusive) (because 9 is NOT in the range as 9 is exclusive).
+Note that a film with length 120 is printed because 120 is outside the range 60 (inclusive) and 120 (exclusive) (because 120 is NOT in the range as 120 is exclusive).
 
 There is also another variant of the `notBetween` predicate where an  {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive. 
 
@@ -458,19 +468,30 @@ For an example, take the series [1 2 3 4 5]. If we select elements *not in* the 
 | 2 | `START_EXCLUSIVE_END_INCLUSIVE`                | [1, 2, 5]         |
 | 3 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [1, 2, 4, 5]      |
 
-Here is an example showing a solution where we print out all hares that has an age that is *not* between 3 (inclusive) and 9 (inclusive):
+Here is an example showing a solution where we print out all films that has a length that is *not* between 60 (inclusive) and 120 (inclusive):
 ``` java
-    hares.stream()
-        .filter(Hare.AGE.notBetween(3, 9, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
+    films.stream()
+        .filter(Film.LENGTH.notBetween(60, 120, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+FilmImpl { filmId = 2, ..., length = 48, ...
+FilmImpl { filmId = 3, ..., length = 50, ...
+FilmImpl { filmId = 5, ..., length = 130, ...
+FilmImpl { filmId = 6, ..., length = 169, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`age` >= 3 AND `hares`.`hare`.`age` <= 9)))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (NOT((`sakila`.`film`.`length` >= ? AND `sakila`.`film`.`length` <= ?))), values:[60, 120]
 ```
 
 {% include tip.html content = "
@@ -479,69 +500,106 @@ The order of the two parameters `start` and `end` is significant. If the `start`
 
 
 ### in
-Here is an example showing a solution where we print out all hares that has an age that is either 2, 3 or 4:
+Here is an example showing a solution where we print out all films that has a rating that is either "G", "PG" or "PG-13":
 ``` java
-    hares.stream()
-        .filter(Hare.AGE.in(2, 3, 4))
+    films.stream()
+        .filter(Film.RATING.in("G", "PG", "PG-13"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+FilmImpl { filmId = 1, ..., rating = PG, ...
+FilmImpl { filmId = 2, ..., rating = G, ...
+FilmImpl { filmId = 4, ..., rating = G, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` IN (2,3,4))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (`sakila`.`film`.`rating` COLLATE utf8_bin IN (?,?,?)), values:[PG-13, G, PG]
 ```
 There is also a variant of the `in` predicate that takes a `Set` as a parameter:
 ``` java
-        Set<Integer> set = Stream.of(2, 3, 4).collect(toSet());
+    Set<String> set = Stream.of("G", "PG", "PG-13").collect(toSet());
 
-        hares.stream()
-            .filter(Hare.AGE.in(set))
-            .forEachOrdered(System.out::println);
-```
-The code will produce the following output:
-``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
-```
-and will be rendered to the following SQL query (for MySQL):
-``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` IN (2,3,4))
-```
-
-### notIn
-Here is an example showing a solution where we print out all hares that has an age that is *neither* 2, 3 *nor* 4:
-``` java
-    hares.stream()
-        .filter(Hare.AGE.notIn(2, 3, 4))
+    films.stream()
+        .filter(Film.RATING.in(set))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 1, ..., rating = PG, ...
+FilmImpl { filmId = 2, ..., rating = G, ...
+FilmImpl { filmId = 4, ..., rating = G, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`age` IN (2,3,4))))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (`sakila`.`film`.`rating` COLLATE utf8_bin IN (?,?,?)), values:[PG-13, G, PG]
 ```
-There is also a variant of the `noIn` predicate that takes a `Set` as a parameter:
-``` java
-        Set<Integer> set = Stream.of(2, 3, 4).collect(toSet());
 
-        hares.stream()
-            .filter(Hare.AGE.notIn(set))
-            .forEachOrdered(System.out::println);
+### notIn
+Here is an example showing a solution where we print out all films that has a rating that is *neither* "G", "PG" *nor* "PG-13":
+``` java
+    films.stream()
+        .filter(Film.RATING.notIn("G", "PG", "PG-13"))
+        .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 3, ..., rating = NC-17, ...
+FilmImpl { filmId = 8, ..., rating = R, ...
+FilmImpl { filmId = 10, ..., rating = NC-17, ...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`age` IN (2,3,4))))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (NOT((`sakila`.`film`.`rating` COLLATE utf8_bin IN (?,?,?)))), values:[PG-13, G, PG]
+```
+There is also a variant of the `noIn` predicate that takes a `Set` as a parameter:
+``` java
+    Set<String> set = Stream.of("G", "PG", "PG-13").collect(toSet());
+
+    films.stream()
+        .filter(Film.RATING.notIn(set))
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+FilmImpl { filmId = 3, ..., rating = NC-17, ...
+FilmImpl { filmId = 8, ..., rating = R, ...
+FilmImpl { filmId = 10, ..., rating = NC-17, ...
+...
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE 
+    (NOT((`sakila`.`film`.`rating` COLLATE utf8_bin IN (?,?,?)))), values:[PG-13, G, PG]
 ```
 
 ## String Predicates
