@@ -208,18 +208,18 @@ There are 223 films(s) with a PG-13 rating
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
+SELECT
+    COUNT(*)
+FROM (
     SELECT
-        COUNT(*)
-    FROM (
-        SELECT
-            `film_id`,`title`,`description`,`release_year`,
-            `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
-            `length`,`replacement_cost`,`rating`,`special_features`,
-            `last_update` 
-        FROM
-            `sakila`.`film` 
-        WHERE 
-            (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin)
+       `film_id`,`title`,`description`,`release_year`,
+       `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+       `length`,`replacement_cost`,`rating`,`special_features`,
+       `last_update` 
+    FROM
+       `sakila`.`film` 
+    WHERE 
+       (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin)
 ) AS A, values:[PG-13]
 ```
 
@@ -284,8 +284,8 @@ WHERE
 ### lessThan
 The following example shows a solution where we print out all films that has a length that is less or equal to 120:
 ``` java
-    hares.stream()
-        .filter(Hare.AGE.lessThan(3))
+    films.stream()
+        .filter(Film.LENGTH.lessThan(120))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
@@ -639,270 +639,410 @@ An informal notation of method references is made in the table above with \"!\" 
 Here is a list with examples for the *String Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/StringPredicates.java)
 
 ### isEmpty
-The following example shows a solution where we print out the number hares that has a name that is empty (e.g. is equal to ""):
+The following example shows a solution where we print out the number of films that has a title that is empty (e.g. is equal to ""):
 ``` java
-    long count = hares.stream()
-        .filter(Hare.NAME.isEmpty())
+    long count = films.stream()
+        .filter(Film.TITLE.isEmpty())
         .count();
 
-        System.out.format("There are %d hare(s) with an empty name %n", count);
+    System.out.format("There are %d films(s) with an empty title %n", count);
 ```
 The code will produce the following output:
 ``` text
-There are 0 hare(s) with an empty name 
+There are 0 films(s) with an empty title 
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT COUNT(*) FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` = '')
+SELECT 
+    COUNT(*)
+FROM (
+    SELECT 
+        `film_id`,`title`,`description`,`release_year`,
+        `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+        `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+    FROM 
+        `sakila`.`film` 
+    WHERE
+    (`sakila`.`film`.`title` = '')
+) AS A, values:[]
 ```
 
 ### isNotEmpty
-The following example shows a solution where we print out the hares that has a name that is *not*  empty (e.g. is *not* equal to ""):
+The following example shows a solution where we print out the films that has a title that is *not* empty (e.g. is *not* equal to ""):
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.isNotEmpty())
+    films.stream()
+        .filter(Film.TITLE.isNotEmpty())
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` <> '')
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (`sakila`.`film`.`title` = ''), values:[]
 ```
 
 ### equalIgnoreCase
-The following example shows a solution where we print out the hares that has a name that equals to "HaRry" ignoring case:
+The following example shows a solution where we print out the films that has a title that equals to "AlABama dEVil" ignoring case:
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.equalIgnoreCase("HaRry"))
+    films.stream()
+        .filter(Film.TITLE.equalIgnoreCase("AlABama dEVil"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
+FilmImpl { filmId = 9, title = ALABAMA DEVIL, ...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (LOWER(`hares`.`hare`.`name`) = LOWER('HaRry'))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (`sakila`.`film`.`title`  = ? COLLATE utf8_general_ci), values:[AlABama dEVil]
 ```
 
 ### notEqualIgnoreCase
-The following example shows a solution where we print out the hares that has a name that does *not* equal to "HaRry" ignoring case:
+The following example shows a solution where we print out the films that has a title that does *not* equal to "AlABama dEVil" ignoring case:
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.notEqualIgnoreCase("HaRry"))
+    films.stream()
+        .filter(Film.TITLE.notEqualIgnoreCase("AlABama dEVil"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((LOWER(`hares`.`hare`.`name`) = LOWER('HaRry'))))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (NOT((`sakila`.`film`.`title`  = ? COLLATE utf8_general_ci))), values:[AlABama dEVil]
 ```
 
 ### startsWith
-The following example shows a solution where we print out the hares that has a name that starts with "H":
+The following example shows a solution where we print out the films that has a title that starts with "ALABAMA":
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.startsWith("H"))
+    films.stream()
+        .filter(Film.TITLE.startsWith("ALABAMA"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 9, title = ALABAMA DEVIL, ...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` LIKE BINARY CONCAT('H' ,'%'))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (`sakila`.`film`.`title` LIKE BINARY CONCAT(? ,'%')), values:[ALABAMA]
 ```
 
 ### notStartsWith
-The following example shows a solution where we print out the hares that has a name that does *not* start with "H":
+The following example shows a solution where we print out the films that has a title that does *not* start with "ALABAMA":
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.notStartsWith("H"))
+    films.stream()
+        .filter(Film.TITLE.notStartsWith("ALABAMA"))
         .forEachOrdered(System.out::println);
 ```
-The code will not produce any output since all the hare names start with "H":
+The code will produce the following output:
 ``` text
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`name` LIKE BINARY CONCAT('H' ,'%'))))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (`sakila`.`film`.`title` LIKE BINARY CONCAT(? ,'%')), values:[ALABAMA]
 ```
 
 ### startsWithIgnoreCase
-The following example shows a solution where we print out the hares that has a name that starts with "he" ignoring case:
+The following example shows a solution where we print out the films that has a title that starts with "ala" ignoring case:
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.startsWithIgnoreCase("he"))
+    films.stream()
+        .filter(Film.TITLE.startsWithIgnoreCase("ala"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 9, title = ALABAMA DEVIL, ...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT(LOWER('he') ,'%'))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (LOWER(`sakila`.`film`.`title`) LIKE BINARY CONCAT(LOWER(?) ,'%')), values:[ala]
 ```
 
 ### notStartsWithIgnoreCase
-The following example shows a solution where we print out the hares that has a name that does *not* start with "he" ignoring case:
+The following example shows a solution where we print out the films that has a title that does *not* start with "ala" ignoring case:
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.notStartsWithIgnoreCase("he"))
+    films.stream()
+        .filter(Film.TITLE.notStartsWithIgnoreCase("ala"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
- { id = 1, name = Harry, color = Gray, age = 3 }
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT(LOWER('he') ,'%'))))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (NOT((LOWER(`sakila`.`film`.`title`) LIKE BINARY CONCAT(LOWER(?) ,'%')))), values:[ala]
 ```
 
 ### endsWith
-The following example shows a solution where we print out the hares that has a name that ends with "y":
+The following example shows a solution where we print out the films that has a title that ends with "DEVIL":
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.endsWith("y"))
+    films.stream()
+        .filter(Film.TITLE.endsWith("DEVIL"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 9, title = ALABAMA DEVIL, ...
+FilmImpl { filmId = 155, title = CLEOPATRA DEVIL, ...
+FilmImpl { filmId = 313, title = FIDELITY DEVIL, ...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'y'))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (`sakila`.`film`.`title` LIKE BINARY CONCAT('%', ?)), values:[DEVIL]
 ```
 
 ### notEndsWith
-The following example shows a solution where we print out the hares that has a name that does *not* end with "y":
+The following example shows a solution where we print out the films that has a title that does *not* end with "DEVIL":
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.notEndsWith("y"))
+    films.stream()
+        .filter(Film.TITLE.notEndsWith("DEVIL"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'y'))))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (NOT((`sakila`.`film`.`title` LIKE BINARY CONCAT('%', ?)))), values:[DEVIL]
 ```
 
 ### endsWithIgnoreCase
-The following example shows a solution where we print out the hares that has a name that ends with "Y" ignoring case:
+The following example shows a solution where we print out the films that has a title that ends with "deVIL" ignoring case:
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.endsWithIgnoreCase("Y"))
+    films.stream()
+        .filter(Film.TITLE.endsWithIgnoreCase("deVIL"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 9, title = ALABAMA DEVIL, ...
+FilmImpl { filmId = 155, title = CLEOPATRA DEVIL, ...
+FilmImpl { filmId = 313, title = FIDELITY DEVIL, ...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT('%', LOWER('Y')))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (LOWER(`sakila`.`film`.`title`) LIKE BINARY CONCAT('%', LOWER(?))), values:[deVIL]
 ```
 
 ### notEndsWithIgnoreCase
-The following example shows a solution where we print out the hares that has a name that does *not* start with "Y" ignoring case:
+The following example shows a solution where we print out the films that has a title that does *not* start with "deVIL" ignoring case:
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.notEndsWithIgnoreCase("Y"))
+    films.stream()
+        .filter(Film.TITLE.notEndsWithIgnoreCase("deVIL"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
- HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT('%', LOWER('Y')))))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (NOT((LOWER(`sakila`.`film`.`title`) LIKE BINARY CONCAT('%', LOWER(?))))), values:[deVIL]
 ```
 
 ### contains
-The following example shows a solution where we print out the hares that has a name that contains the string "tt":
+The following example shows a solution where we print out the films that has a title that contains the string "CON":
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.contains("tt"))
+    films.stream()
+        .filter(Film.TITLE.contains("CON"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+FilmImpl { filmId = 23, title = ANACONDA CONFESSIONS, ...
+FilmImpl { filmId = 127, title = CAT CONEHEADS, ...
+FilmImpl { filmId = 138, title = CHARIOTS CONSPIRACY, ...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'tt' ,'%'))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (`sakila`.`film`.`title` LIKE BINARY CONCAT('%', ? ,'%')), values:[CON]
 ```
 
 ### notContains
-The following example shows a solution where we print out the hares that has a name that does *not* contain the string "tt":
+The following example shows a solution where we print out the films that has a title that does *not* contain the string "CON":
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.notContains("tt"))
+    films.stream()
+        .filter(Film.TITLE.notContains("CON"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'tt' ,'%'))))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (NOT((`sakila`.`film`.`title` LIKE BINARY CONCAT('%', ? ,'%')))), values:[CON]
 ```
 
 ### containsIgnoreCase
-The following example shows a solution where we print out the hares that has a name that contains the string "Tt" ignoring case:
+The following example shows a solution where we print out the films that has a title that contains the string "CoN" ignoring case:
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.containsIgnoreCase("Tt"))
+    films.stream()
+        .filter(Film.TITLE.containsIgnoreCase("CoN"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+FilmImpl { filmId = 23, title = ANACONDA CONFESSIONS, ...
+FilmImpl { filmId = 127, title = CAT CONEHEADS, ...
+FilmImpl { filmId = 138, title = CHARIOTS CONSPIRACY, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT('%', LOWER('Tt') ,'%'))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (LOWER(`sakila`.`film`.`title`) LIKE BINARY CONCAT('%', LOWER(?) ,'%')), values:[CoN]
 ```
 
 ### notContainsIgnoreCase
-The following example shows a solution where we print out the hares that has a name that does *not* contain the string "Tt" ignoring case:
+The following example shows a solution where we print out the films that has a title that does *not* contain the string "CoN" ignoring case:
 ``` java
-    hares.stream()
-        .filter(Hare.NAME.notContainsIgnoreCase("Tt"))
+    films.stream()
+        .filter(Film.TITLE.containsIgnoreCase("CoN"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (NOT((LOWER(`hares`.`hare`.`name`) LIKE BINARY CONCAT('%', LOWER('Tt') ,'%'))))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (NOT((LOWER(`sakila`.`film`.`title`) LIKE BINARY CONCAT('%', LOWER(?) ,'%')))), values:[CoN]
 ```
 
 
@@ -952,10 +1092,10 @@ All predicates can be negated by calling the `negate()` method. Negation means t
 | containsIgnoreCase(p).negate()      | notContainsIgnoreCase(p)    |
 | notContainsIgnoreCase(p).negate()   | containsIgnoreCase(p)       |
 
-so, for example, `Hare.ID.equal(1).negate()` is equivalent to `Hare.ID.notEqual(1)` and `Hare.ID.between(1,100).negate()` is equivalent to `Hare.ID.notBetween(1, 100)`.
+so, for example, `Film.FILM_ID.equal(1).negate()` is equivalent to `Film.FILM_ID.notEqual(1)` and `Film.FILM_ID.between(1,100).negate()` is equivalent to `Film.FILM_ID.notBetween(1, 100)`.
 
 {% include tip.html content = "
-Negating a `Predicate` an even number of times will give back the original `Predicate`. E.g. `Hare.ID.equal(1).negate().negate()` is equivalent to `Hare.ID.equal(1)`
+Negating a `Predicate` an even number of times will give back the original `Predicate`. E.g. `Film.FILM_ID.equal(1).negate().negate()` is equivalent to `Film.FILM_ID.equal(1)`
 " %}
 
 ## Combining Predicates
@@ -964,84 +1104,125 @@ A predicate Predicate can be composed of other predicates by means of the `and()
 ### and
 The `and()` method returns a composed predicate that represents a short-circuiting logical AND of a first predicate and another given second predicate. When evaluating the composed composed predicate, if the first predicate is evaluated to `false`, then the second predicate is not evaluated.
 
-The following code sample will print out all hares that are adults (apparently a hare is adult when its age is greater than 2) and that has a name that contains the letter 'e':
+The following code sample will print out all films that are long (apparently a film is long when its length is greater than 120 minutes) and that has a rating that is "PG-13":
 ``` java
-    Predicate<Hare> isAdult = Hare.AGE.greaterThan(2);
-    Predicate<Hare> nameContains_e = Hare.NAME.contains("e");
-
-    Predicate<Hare> isAdultAndNameContains_e = isAdult.and(nameContains_e);
-
-    hares.stream()
-        .filter(isAdultAndNameContains_e)
+    Predicate<Film> isLong = Film.LENGTH.greaterThan(120);
+    Predicate<Film> isPG13 = Film.RATING.equal("PG-13");
+        
+    films.stream()
+        .filter(isLong.and(isPG13))
         .forEachOrdered(System.out::println);
 ```
 This will produce the following output:
 ``` text
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 33, title = APOLLO TEEN, ... , length = 153, ..., rating = PG-13, ...
+FilmImpl { filmId = 35, title = ARACHNOPHOBIA ROLLERCOASTER, ..., length = 147, ..., rating = PG-13, ...
+FilmImpl { filmId = 36, title = ARGONAUTS TOWN, ..., length = 127, ..., rating = PG-13, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` > 2) AND (`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'e' ,'%'))
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+        ((`sakila`.`film`.`length` > ?)
+    AND 
+        (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin)), values:[120, PG-13]
 ```
 
 The same result can be achieved by just stacking two `filter` operations on top of each other. So this:
 ``` java
-    hares.stream()
-        .filter(Hare.AGE.greaterThan(2))
-        .filter(Hare.NAME.contains("e"))
+    films.stream()
+        .filter(Film.LENGTH.greaterThan(120))
+        .filter(Film.RATING.equal("PG-13"))
 ```
 is equivalent to:
 ``` java
-    hares.stream()
-        .filter(Hare.AGE.greaterThan(2).and(Hare.NAME.contains("e")))
+    films.stream()
+        .filter(Film.LENGTH.greaterThan(120).and(Film.RATING.equal("PG-13"))
+        .forEachOrdered(System.out::println);
 ```
 
 ### or
-Returns a composed predicate that represents a short-circuiting logical OR of a first predicate and another given second predicate. When evaluating the composed composed predicate, if the first predicate is evaluated to `true`, then the second predicate is not evaluated.
-The following code sample will print out all hares that are adults (age > 2) and that has a name that contains the letter 'e':
+The `or()` method returns a composed predicate that represents a short-circuiting logical OR of a first predicate and another given second predicate. When evaluating the composed composed predicate, if the first predicate is evaluated to `true`, then the second predicate is not evaluated.
+The following code sample will print out all films that are either long (length > 120) or has a rating of "PG-13":
 ``` java
-    Predicate<Hare> isAdult = Hare.AGE.greaterThan(2);
-    Predicate<Hare> nameContains_e = Hare.NAME.contains("e");
+        Predicate<Film> isLong = Film.LENGTH.greaterThan(120);
+        Predicate<Film> isPG13 = Film.RATING.equal("PG-13");
 
-    Predicate<Hare> isAdultOrNameContains_e = isAdult.or(nameContains_e);
-
-    hares.stream()
-        .filter(isAdultOrNameContains_e)
-        .forEachOrdered(System.out::println);
+        films.stream()
+            .filter(isLong.or(isPG13))
+            .forEachOrdered(System.out::println);
 ```
 This will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { filmId = 5, title = AFRICAN EGG, ..., length = 130, ..., rating = G, ...
+FilmImpl { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ..., rating = PG, ...
+FilmImpl { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ..., rating = PG-13, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare`
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+        ((`sakila`.`film`.`length` > ?)
+    OR 
+        (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin)), values:[120, PG-13]
 ```
-As can be seen, Speedment is currently unable to optimize predicates that are composed using the `or()` method. See issue [#389](https://github.com/speedment/speedment/issues/389)
 
 As for the `and()` method, there is an equivalent way of expressing compositions with `or()`. Here is an example of how streams can be concatenated whereby we obtain the same functionality as above:
 ``` java
     StreamComposition.concatAndAutoClose(
-        hares.stream().filter(Hare.AGE.greaterThan(2)),
-        hares.stream().filter(Hare.NAME.contains("e"))
+        films.stream().filter(Film.LENGTH.greaterThan(120)),
+        films.stream().filter(Film.RATING.equal("PG-13"))
     )
         .distinct()
         .forEachOrdered(System.out::println);
 ```
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+FilmImpl { filmId = 5, title = AFRICAN EGG, ..., length = 130, ..., rating = G, ...
+FilmImpl { filmId = 6, title = AGENT TRUMAN, ..., length = 169, ..., rating = PG, ...
+{... a number of films with length > 120}
+FilmImpl { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ..., rating = PG-13, ...
+{... a number of films with rating = "PG-13}
+...
 ```
 and will be rendered to the following SQL queries (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`age` > 2)
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare` WHERE (`hares`.`hare`.`name` LIKE BINARY CONCAT('%', 'e' ,'%'))
-```
-In this case, optimized queries will be used for the two sub-streams.
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (`sakila`.`film`.`length` > ?), values:[120]
 
+
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+    (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin), values:[PG-13]
+
+```
+In this case, optimized queries will be used for the two sub-streams but the films must be handled by the JVM from the `.distinct()` operation.
+
+{% include tip.html content = "
+Speedment can optimize `Predicate::or` better than a concatenation of streams followed by a `distinct()` operation.
+" %}
 
 
 ## Primitive Predicates
@@ -1063,29 +1244,35 @@ The following primitive types and their corresponding field types are supported 
 This is something that is handled automatically by Speedment under the hood and does not require any additional coding. Our code will simply run faster width these specializations.
 
 ## Predicate Examples
-In the example below we want to print all hares that has a `color` that is either "Gray" or "White", has an `age` greater than 1 and has a `name` that lies in the first half of the alphabet:
+In the example below we want to print all films that has a `rating` that is either "G" or "PG", has a `length` greater than 120 and has a `specialFeature` that includes "Commentaries":
 ``` java
-    hares.stream()
-        .filter(Hare.COLOR.in("Gray", "White"))
-        .filter(Hare.AGE.greaterThan(1))
-        .filter(Hare.NAME.between("A", "K"))
+    films.stream()
+        .filter(Film.RATING.in("G", "PG"))
+        .filter(Film.LENGTH.greaterThan(120))
+        .filter(Film.SPECIAL_FEATURES.contains("Commentaries"))
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
+FilmImpl { filmId = 11, title = ALAMO VIDEOTAPE, ..., length = 126, ..., rating = G, specialFeatures = Commentaries,Behind the Scenes, ...
+FilmImpl { filmId = 12, title = ALASKA PHANTOM, ..., length = 136, ..., rating = PG, specialFeatures = Commentaries,Deleted Scenes, ...
+FilmImpl { filmId = 50, title = BAKED CLEOPATRA, ..., length = 182, ..., rating = G, specialFeatures = Commentaries,Behind the Scenes, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age`
-FROM `hares`.`hare` 
-WHERE 
-        (BINARY `hares`.`hare`.`color` IN ('Gray','White')) 
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+WHERE
+        (`sakila`.`film`.`rating` COLLATE utf8_bin IN (?,?))
+    AND 
+        (`sakila`.`film`.`length` > ?) 
     AND
-        (`hares`.`hare`.`age` > 1)
-    AND
-        (`hares`.`hare`.`name` >= 'A' AND `hares`.`hare`.`name` < 'K')
+        (`sakila`.`film`.`special_features` LIKE BINARY CONCAT('%', ? ,'%')), values:[G, PG, 120, Commentaries]
 ```
 
 {% include prev_next.html %}
