@@ -1047,7 +1047,7 @@ WHERE
 
 
 ## Negating Predicates
-All predicates can be negated by calling the `negate()` method. Negation means that the result of the Predicate will be inverted (i.e. `true` becomes `false` and `false` becomes `true`). Here is a list of predicates and their corresponding negation:
+All predicates (including already negated predicates) can be negated by calling the `negate()` method. Negation means that the result of the Predicate will be inverted (i.e. `true` becomes `false` and `false` becomes `true`). Here is a list of predicates and their corresponding negation:
 
 ### Reference Predicates
 

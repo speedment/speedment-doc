@@ -24,35 +24,43 @@ This will print out all animals in alphabetical order: Alligator, Ant, Ape, Bird
 
 In Speedment, the concept of a {{site.data.javadoc.Field}} is of central importance. Fields can be used to produce Comparators that are related to the field.
 
-Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `Hare` object:
+Here is an example of how a {{site.data.javadoc.StringField}} can be used in conjuction with a `Film` object:
 ``` java
-    Comparator<Hare> nameOrder = Hare.NAME.comparator();
-    hares.stream()
-        .sorted(nameOrder)
+    Comparator<Film> title = Film.TITLE.comparator();
+
+    films.stream()
+        .sorted(title)
         .forEachOrdered(System.out::println);
 ```
-In this example, the {{site.data.javadoc.StringField}}'s method `User.NAME::comparator` returns a `Comparator<Hare>` that, when comparing two `Hare` objects, will return a negative value if the name of the first `Hare` is less than the name of the second `Hare`, zero if the name of the `Hare` objects are equal, a positive value if the name of the first `Hare` is greater than the name of the second `Hare`.
+In this example, the {{site.data.javadoc.StringField}}'s method `Film.TITLE::comparator` returns a `Comparator<Film>` that, when comparing two `Film` objects, will return a negative value if the title of the first `Film` is less than the name of the second `Film`, zero if the title of the `Film` objects are equal, a positive value if the title of the first `Film` is greater than the title of the second `Film`.
 
-When run, the code above will produce the following output (given that there are three hares in the table with the name "Harry", "Henrietta" and "Henry"):
+When run, the code above will produce the following output:
 ``` text
-HareImpl { id = 1, name = Harry, color = Gray, age = 3 }
-HareImpl { id = 2, name = Henrietta, color = White, age = 2 }
-HareImpl { id = 3, name = Henry, color = Black, age = 9 }
+FilmImpl { ..., title = ACADEMY DINOSAUR, ...
+FilmImpl { ..., title = ACE GOLDFINGER, ...
+FilmImpl { ..., title = ADAPTATION HOLES, ...
+...
 ```
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT `id`,`name`,`color`,`age` FROM `hares`.`hare`
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update` 
+FROM 
+    `sakila`.`film` 
+ORDER BY 
+    `sakila`.`film`.`title` ASC, values:[]
 ```
-As can be seen, The current version of Speedment performs sorting in the JVM but future versions may use remote database sorting (see issue [#173][https://github.com/speedment/speedment/issues/173])
 
 It would be possible to express the same semantics using `Comparator.comparing` and a method reference:
 ``` java
-    hares.stream()
-        .sorted(Comparator.comparing(Hare::getName))
+    films.stream()
+        .sorted(Comparator.comparing(Film::getTitle))
         .forEachOrdered(System.out::println);
 ```
 but Speedment would not be able to recognize and optimize vanilla comparators. Because of this, developers are highly encouraged to use the provided {{site.data.javadoc.Field}}s when obtaining comparators because these comparators, 
-when used, can or will in the future be recognizable by the Speedment query optimizer. 
+when used, can be recognizable by the Speedment query optimizer. 
 
 {% include important.html content= "
 Do This: `sorted(Hare.NAME.comparator())` 
@@ -85,10 +93,58 @@ In the table below, the "Outcome" is a stream where the elements are `sorted()` 
 | Yes   | comparatorNullFieldsLast().reversed()  | reversed natural order with nulls first                |
 
 ### comparator
-TBW
+The following example shows a solution where we print out the films sorted by title:
+``` java
+    films.stream()
+        .sorted(Film.TITLE.comparator())
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+FilmImpl { ..., title = ACADEMY DINOSAUR, ...
+FilmImpl { ..., title = ACE GOLDFINGER, ...
+FilmImpl { ..., title = ADAPTATION HOLES, ...
+...
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+ORDER BY
+     `sakila`.`film`.`title` ASC
+```
+
 
 ### comparator reversed
-TBW
+The following example shows a solution where we print out the films sorted by title in reversed order:
+``` java
+    films.stream()
+        .sorted( Film.TITLE.comparator())
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+FilmImpl { ..., title = ZORRO ARK, ...
+FilmImpl { ..., title = ZOOLANDER FICTION, ...
+FilmImpl { ..., title = ZHIVAGO CORE, ...
+...
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+ORDER BY
+    `sakila`.`film`.`title` DESC
+```
+
 
 ### comparatorNullFieldsFirst
 TBW
@@ -101,6 +157,16 @@ TBW
 
 ### comparatorNullFieldsLast reversed
 TBW
+
+
+## Reversing Comparators
+All comparators (including already reversed comparators) can be reversed by calling the `reversed()` method. Reversion means that the result of the Comparator will be inverted (i.e. negative values become positive and positive values become negative). Here is a list of comparators and their corresponding reversion:
+
+{% include tip.html content = "
+Reversing a `Comparator` an even number of times will give back the original `Comparator`. E.g. `Film.FILM_ID.comparator().reversed().reversed()` is equivalent to `Film.FILM_ID.comparator()`
+" %}
+
+
 
 ## Primitive Comparators
 For performance reasons, there are a number of primitive field types available in addition to the reference field type. By using a primitive field, unnecessary boxing and auto-boxing can be avoided. Primitive fields also generates primitive comparators like `IntFieldComparator` or `LongFieldComparator`
@@ -120,7 +186,37 @@ The following primitive types and their corresponding field types are supported 
 This is something that is handled automatically by Speedment under the hood and does not require any additional coding. Our code will simply run faster width these specializations.
 
 ## Examples
-TBW
+The following example shows a solution where we print out the films firstly sorted by rating in reversed order and then secondly (if the rating is the same) we sort by title:
+
+``` java
+    films.stream()
+        .sorted(Film.TITLE.comparator())
+        .sorted(Film.RATING.comparator().reversed())
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ..., rating = NC-17, ...
+FilmImpl { filmId = 10, title = ALADDIN CALENDAR, ..., rating = NC-17, specialFeatures = Trailers,Deleted Scenes, lastUpdate = 2006-02-15 05:03:42.0 }
+FilmImpl { filmId = 14, title = ALICE FANTASIA, ..., rating = NC-17, ...
+...
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+ORDER BY
+    `sakila`.`film`.`rating` DESC, `sakila`.`film`.`title` ASC
+```
+
+{% include tip.html content = "
+Note that the most significant (first order) comparator is given *last* in the order of `.sorted()` operators. This might look like counter-intuitive if you are used to SQL where the order is the other way around. However, this is a consequence of how Streams work. The last `sorted()` operator will supersede any preceeding `sorted()` operator.
+" %}
+
 
 {% include prev_next.html %}
 
