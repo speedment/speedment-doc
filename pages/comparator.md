@@ -67,10 +67,6 @@ Do This: `sorted(Hare.NAME.comparator())`
 Don't do This: `sorted(Comparator.naturalOrder())`
 " %}
 
-{% include note.html content= "
-Speedment Enterprise in-JVM-memory acceleration is making use of the Field comparators.
-" %}
-
 The rest of this chapter will be about how we can get comparators from different `Field` types and how these comparators can be used.
 
 
@@ -83,14 +79,12 @@ always associated to a `Comparable` field (e.g. Integer, String, Date, Time etc.
 Comparable fields can be tested for equality and can also be compared to other objects of the same type.
 In the table below, the "Outcome" is a stream where the elements are `sorted()` using a `Comparator<ENTITY>` and they will have the:
 
-| Nulls | Method                                 |  Outcome                                               |
-| :--:  | :------------------------------------- | :----------------------------------------------------- |
-| No    | comparator()                           | natural order                                          |
-| No    | comparator().reversed()                | reversed natural order                                 |
-| Yes   | comparatorNullFieldsFirst()            | natural order with nulls first                         |
-| Yes   | comparatorNullFieldsFirst().reversed() | reversed natural order will nulls last                 |
-| Yes   | comparatorNullFieldsLast()             | natural order with nulls last                          |
-| Yes   | comparatorNullFieldsLast().reversed()  | reversed natural order with nulls first                |
+| Method                                 |  Outcome                                    | Example    |
+| :------------------------------------- | :------------------------------------------ | :--------- |
+| comparator()                           | natural order with nulls last               | A, B, null |
+| comparator().reversed()                | reversed (natural order with nulls last)    | null, B, A |
+| comparatorNullFieldsFirst()            | natural order with nulls first              | null, A, B |
+| comparatorNullFieldsFirst().reversed() | reversed (natural order will nulls first)   | B, A, null |
 
 ### comparator
 The following example shows a solution where we print out the films sorted by title:
@@ -115,6 +109,7 @@ SELECT
 FROM 
     `sakila`.`film` 
 ORDER BY
+     `sakila`.`address`.`address2` is null,
      `sakila`.`film`.`title` ASC
 ```
 
@@ -142,21 +137,68 @@ SELECT
 FROM 
     `sakila`.`film` 
 ORDER BY
+    `sakila`.`address`.`address2` is not null,
     `sakila`.`film`.`title` DESC
 ```
 
 
 ### comparatorNullFieldsFirst
-TBW
+The following example shows a solution where we print out the addresses sorted by the address2 field (which is nullable) with null values first:
+``` java
+    addresses.stream()
+        .sorted(Address.ADDRESS2.comparatorNullFieldsFirst())
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+AddressImpl { addressId = 1, address = 47 MySakila Drive, address2 = null, ...
+AddressImpl { addressId = 2, address = 28 MySQL Boulevard, address2 = null, ...
+AddressImpl { addressId = 3, address = 23 Workhaven Lane, address2 = null, ...
+AddressImpl { addressId = 4, address = 1411 Lillydale Drive, address2 = null, ...
+AddressImpl { addressId = 256, address = 1497 Yuzhou Drive, address2 = , ...
+AddressImpl { addressId = 512, address = 1269 Ipoh Avenue, address2 = , ...
+...
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `address_id`,`address`,`address2`,`district`,
+    `city_id`,`postal_code`,`phone`,`location`,`last_update` 
+FROM 
+    `sakila`.`address` 
+ORDER BY 
+    `sakila`.`address`.`address2` is not null,
+    `sakila`.`address`.`address2` ASC
+```
+
 
 ### comparatorNullFieldsFirst reversed
-TBW
+The following example shows a solution where we print out the addresses sorted by the address2 field (which is nullable) with null values first but reversed:
+``` java
+    addresses.stream()
+        .sorted(Address.ADDRESS2.comparatorNullFieldsFirst().reversed())
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+AddressImpl { addressId = 256, address = 1497 Yuzhou Drive, address2 = , ...
+AddressImpl { addressId = 512, address = 1269 Ipoh Avenue, address2 = , ...
+...
+AddressImpl { addressId = 1, address = 47 MySakila Drive, address2 = null, ...
+AddressImpl { addressId = 2, address = 28 MySQL Boulevard, address2 = null, ...
+...
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `address_id`,`address`,`address2`,`district`,
+    `city_id`,`postal_code`,`phone`,`location`,`last_update` 
+FROM 
+    `sakila`.`address` 
+ORDER BY 
+    `sakila`.`address`.`address2` is null,
+    `sakila`.`address`.`address2` DESC
 
-### comparatorNullFieldsLast
-TBW
-
-### comparatorNullFieldsLast reversed
-TBW
 
 
 ## Reversing Comparators
@@ -186,12 +228,12 @@ The following primitive types and their corresponding field types are supported 
 This is something that is handled automatically by Speedment under the hood and does not require any additional coding. Our code will simply run faster width these specializations.
 
 ## Examples
-The following example shows a solution where we print out the films firstly sorted by rating in reversed order and then secondly (if the rating is the same) we sort by title:
+The following example shows a solution where we print out the films sorted firstly by rating in reversed order and then secondly (if the rating is the same) we sort by title:
 
 ``` java
     films.stream()
-        .sorted(Film.TITLE.comparator())
-        .sorted(Film.RATING.comparator().reversed())
+        .sorted(Film.TITLE.comparator())              // <-- Second order
+        .sorted(Film.RATING.comparator().reversed())  // <-- First order
         .forEachOrdered(System.out::println);
 ```
 The code will produce the following output:
@@ -213,8 +255,8 @@ ORDER BY
     `sakila`.`film`.`rating` DESC, `sakila`.`film`.`title` ASC
 ```
 
-{% include tip.html content = "
-Note that the most significant (first order) comparator is given *last* in the order of `.sorted()` operators. This might look like counter-intuitive if you are used to SQL where the order is the other way around. However, this is a consequence of how Streams work. The last `sorted()` operator will supersede any preceeding `sorted()` operator.
+{% include note.html content = "
+Note that the most significant (first order) comparator is given *last* in the order of `.sorted()` operators. This might look like counter-intuitive if you are used to SQL where the order is the other way around. However, this is a consequence of how Streams work. The last `sorted()` operator will supersede any preceeding `sorted()` operator but since sorting is stable (for ordered streams), the previous order will be retained for entities that has the same sort key.
 " %}
 
 
