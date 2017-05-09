@@ -50,7 +50,7 @@ SELECT
 FROM 
     `sakila`.`film` 
 ORDER BY 
-    `sakila`.`film`.`title` ASC, values:[]
+    `sakila`.`film`.`title` ASC
 ```
 
 It would be possible to express the same semantics using `Comparator.comparing` and a method reference:
@@ -63,8 +63,8 @@ but Speedment would not be able to recognize and optimize vanilla comparators. B
 when used, can be recognizable by the Speedment query optimizer. 
 
 {% include important.html content= "
-Do This: `sorted(Hare.NAME.comparator())` 
-Don't do This: `sorted(Comparator.naturalOrder())`
+Do This: `sorted(Film.TITLE.comparator())` 
+Don't do This: `sorted(Comparator.comparing(Film::getTitle))`
 " %}
 
 The rest of this chapter will be about how we can get comparators from different `Field` types and how these comparators can be used.
@@ -198,7 +198,7 @@ FROM
 ORDER BY 
     `sakila`.`address`.`address2` is null,
     `sakila`.`address`.`address2` DESC
-
+```
 
 
 ## Reversing Comparators
