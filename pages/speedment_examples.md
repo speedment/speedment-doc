@@ -15,7 +15,8 @@ This chapter contains a number of typical database queries that can be expressed
 The example below are based on the ["Sakila"](#database_schema) example database. An object that corresponds to a row in the database are, by convention, called an "Entity'.
 
 ## From
-FROM can be expressed using `.stream()'
+`FROM` can be expressed using `.stream()`
+
 Speedment Streams can be created using a {{site.data.javadoc.Manager}}. Each table in the database has a corresponding `Manager`. For example, the table 'film' has a corresponding `Manager<Film>` allowing us to do like this:
 ``` java
    films.stream()
@@ -24,7 +25,8 @@ which will create a `Stream` with all the `Film` entities in the table 'film'.
 
 
 ## Where 
-WHERE can be expressed using `.filter()`.
+`WHERE` can be expressed using `.filter()`.
+
 By applying a `filter` to a `Stream`, certain entities can be retained in the `Stream` and other entities can be dropped. For example, 
 if we want to find a long film (of length greater than 120 minutes) then we can apply a `filter` like this:
 
@@ -48,34 +50,12 @@ WHERE
 ```
 This means that only the relevant entities are pulled in from the database into the `Stream`.
 
-## Select
-SELECT can be expressed using `.map()'
-If we do not want to use the entire entity but instead only select one or several fields, we can do that by applying a `map` operation to a `Stream`. Assuming we are only interested in the field 'id' of a `Film` we can select that field like this:
-``` java
-// Creates a stream with the ids of the films by applying the FILM_ID getter
-final IntStream ids = films.stream()
-    .mapToInt(Film.FILM_ID.getter());
-```
-This creates an `IntStream` consisting of the ids of all `Film`s by applying the Film.FILM_ID getter for each hare in the original stream.
-
-If we want to select several fields, we can create a new custom class that holds only the fields in question or we can use a {{site.data.javadoc.Tuple}} to dynamically create a type safe holder.
-``` java
-    // Creates a stream of Tuples with two elements: title and length
-    Stream<Tuple2<String, Integer>> items = films.stream()
-        .map(Tuples.toTuple(Film.TITLE.getter(), Film.LENGTH.getter()));
-
-```
-This creates a stream of Tuples with two elements: title (of type `String`) and length (of type `Integer`).
-
-{% include note.html content = "
-Currently, Speedment will read all the columns regardless of subsequent mappings. Future versions might cut down on the columns actually being read following a `.map()' operation.
-" %}
-
 
 ## Group By
-GROUP BY can be expressed using `collect(groupingBy(...))`
+`GROUP BY` can be expressed using `collect(groupingBy(...))`
+
 Java has its own group by collector. If we want to group all the Films by the films 'rating' then we can write the following code:
-``` Java
+``` java
     Map<String, List<Film>> filmCategories = films.stream()
         .collect(
             Collectors.groupingBy(
@@ -85,9 +65,10 @@ Java has its own group by collector. If we want to group all the Films by the fi
 ```
 
 ## Having
-HAVING can be expressed by `.filter()` applied on a Stream from a previously collected Stream.
+`HAVING` can be expressed by `.filter()` applied on a Stream from a previously collected Stream.
+
 We can expand the previous Group By example by filtering out only those categories having more than 200 films. Such a Stream can be expressed by applying a new stream on a stream that has been previously collected:
-``` Java 
+``` java 
     Map<String, List<Film>> filmCategories = films.stream()
         .collect(
             Collectors.groupingBy(
@@ -103,13 +84,15 @@ We can expand the previous Group By example by filtering out only those categori
 ```
 
 ## Join
-JOIN can be expressed using `.map()` and `.flatMap()`
+`JOIN` can be expressed using `.map()` and `.flatMap()`
+
 TBW
 
 ## Distinct
-DISTINCT can be expressed using `.distinct()`.
+`DISTINCT` can be expressed using `.distinct()`.
+
 If we want to calculate what different ratings there are in the film tables then we can do it like this:
-``` Java
+``` java
     Set<String> ratings = films.stream()
         .map(Film.RATING.getter())
         .distinct()
@@ -117,7 +100,8 @@ If we want to calculate what different ratings there are in the film tables then
 ```
 
 ## Order By
-ORDER BY can be expressed using `.sorted()`.
+`ORDER BY` can be expressed using `.sorted()`.
+
 If we want to sort all our films in length order then we can do it like this:
 ``` Java
     List<Film> filmsInLengthOrder = films.stream()
@@ -126,9 +110,10 @@ If we want to sort all our films in length order then we can do it like this:
 ```
 
 ## Offset
-OFFSET can be expressed using `.skip()`.
+`OFFSET` can be expressed using `.skip()`.
+
 If we want to skip a number of records before we are using them then the `.skip()` operation is useful. Suppose we want to print out the films in title order but staring from the 100:th film then we can do like this:
-``` Java
+``` java
     films.stream()
         .sorted(Film.TITLE.comparator())
         .skip(100)
@@ -151,9 +136,10 @@ LIMIT
 
 
 ## Limit
-LIMIT can be expressed using `.limit()`.
+`LIMIT` can be expressed using `.limit()`.
+
 If we want to limit the number of records in a stream them then the `.limit()` operation is useful. Suppose we want to print out the 10 first films in title order then we can do like this:
-``` Java
+``` java
     films.stream()
         .sorted(Film.TITLE.comparator())
         .limit(10)
@@ -175,9 +161,10 @@ LIMIT
 ```
 
 ## Count
-COUNT can be expressed using `.count()`.
+`COUNT` can be expressed using `.count()`.
+
 Stream counting are optimized to database queries. Consider the following stream:
-''' java
+``` java
     long noLongFilms = films.stream()
         .filter(Film.LENGTH.greaterThan(120))
         .count();
@@ -199,12 +186,36 @@ FROM
     ) AS A, values:[120]
 ```
 
+## Select
+`SELECT` can be expressed using `.map()`
+
+If we do not want to use the entire entity but instead only select one or several fields, we can do that by applying a `map` operation to a `Stream`. Assuming we are only interested in the field 'id' of a `Film` we can select that field like this:
+``` java
+// Creates a stream with the ids of the films by applying the FILM_ID getter
+final IntStream ids = films.stream()
+    .mapToInt(Film.FILM_ID.getter());
+```
+This creates an `IntStream` consisting of the ids of all `Film`s by applying the Film.FILM_ID getter for each hare in the original stream.
+
+If we want to select several fields, we can create a new custom class that holds only the fields in question or we can use a {{site.data.javadoc.Tuple}} to dynamically create a type safe holder.
+``` java
+    // Creates a stream of Tuples with two elements: title and length
+    Stream<Tuple2<String, Integer>> items = films.stream()
+        .map(Tuples.toTuple(Film.TITLE.getter(), Film.LENGTH.getter()));
+
+```
+This creates a stream of Tuples with two elements: title (of type `String`) and length (of type `Integer`).
+
+{% include note.html content = "
+Currently, Speedment will read all the columns regardless of subsequent mappings. Future versions might cut down on the columns actually being read following a `.map()' operation.
+" %}
+
 ## Union all
-UNION ALL can be expressed using `Stream.concat(s0, s1)`.
+`UNION ALL` can be expressed using `Stream.concat(s0, s1)`.
 TBW
 
 ## Union
-UNION can be expressed using `Stream.concat(s0, s1)` followed by `.distinct()`.
+`UNION` can be expressed using `Stream.concat(s0, s1)` followed by `.distinct()`.
 TBW
 
 
