@@ -163,7 +163,8 @@ LIMIT
 
 ## Combining Offset and Limit
 `LIMIT X OFFSET Y` can be expressed by `.skip(y).limit(x)` (note the order of `skip` and `limit`) 
-There are many applications where both `.skip()` and `.limit()` are used. Remember that the order of these stream operations matters and that the order is different from what you might be used from SQL. In the following example we express a stream where we want to show 50 Films starting from the 100:th film in title order:
+
+There are many applications where both `.skip()` and `.limit()` are used. Remember that the order of these stream operations matters and that the order is different from what you might be used to from SQL. In the following example we express a stream where we want to show 50 films starting from the 100:th film in title order:
 ``` java
     films.stream()
         .sorted(Film.TITLE.comparator())
@@ -420,13 +421,84 @@ long is  true has 457 films
 ```
 
 ### One-to-Many relations
-TBW
+A One-to-Many relationship is defined as a relationship between two tables where a row from a first table can have multiple matching rows in a second table. For example, many films can be in the same language.
+
+In this example we will print out all films that are in the English language:
+``` java
+    languages.stream()
+        .filter(Language.NAME.equal("English"))
+        .flatMap(films.finderBackwardsBy(Film.LANGUAGE_ID))
+        .forEach(System.out::println);
+```
+This will print:
+``` text
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+...
+```
+There will be a number of database queries sent to the database during stream execution.
+
 
 ## Many-to-One relations
-TBW
+A Many-to-One relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.
+
+In this example we will print out the languages that are used for all films with a rating of "PG-13":
+``` java 
+    films.stream()
+        .filter(Film.RATING.equal("PG-13"))
+        .map(languages.finderBy(Film.LANGUAGE_ID))
+        .forEach(System.out::println);
+```
+this will print:
+``` text
+LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.0 }
+LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.0 }
+LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.0 }
+...
+```
+There will be a number of database queries sent to the database during stream execution.
+
 
 ### Many-to-Many relations
 TBW
+A Many-to-Many relationship is defined as a relationship between two tables where many multiple rows from a first table can match multiple rows in a second table. Often a third table is used to form these relations. For example, an actor may participate in several films and a film usually have several actors.
+
+In this example we will create a filmography for all actors using a third table `film_actors` that contains foreign keys to both films and actors.
+``` java 
+    Map<Actor, List<Film>> filmographies = filmActors.stream()
+        .collect(
+            groupingBy(actors.finderBy(FilmActor.ACTOR_ID), // Applies the FilmActor to ACTOR classifier
+                Collectors.mapping(
+                    films.finderBy(FilmActor.FILM_ID),      // Applies the FilmActor to Film finder
+                    Collectors.toList()                     // Use a List collector for downstream aggregation.
+                )
+            )
+        );
+
+        // Print out the Map in a nice way
+        filmographies.forEach((a, fl) -> {
+            System.out.format(
+                "%20s appered in films [%s)]%n",
+                a.getFirstName() + " " + a.getLastName(),
+                fl.stream()
+                    .mapToInt(Film.FILM_ID.getter())
+                    .mapToObj(Integer::toString)
+                    .collect(joining(", "))
+            );
+        });
+
+```
+this will print:
+``` text
+      MICHAEL BOLGER appered in films [7, 95, 138, 265, 286, 360, 411, 427, 437, ...
+         LAURA BRODY appered in films [20, 82, 127, 187, 206, 208, 223, 248, 342, ...
+   CAMERON ZELLWEGER appered in films [61, 78, 98, 162, 179, 194, 325, 359, 382, ...
+        GARY PHOENIX appered in films [5, 63, 103, 112, 121, 153, 395, 408, 420, ...
+...
+```
+There will be a number of database queries sent to the database during stream execution.
+
 
 ### Pivot Data
 Pivoting can be made using a `MapStream` which is a Stream of `Map.Entry` with a number of additional functions over a normal Stream. The following example shows a pivot table of all the actors and the number of films they have participated in for each film rating category (e.g. "PG-13"):
