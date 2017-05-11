@@ -12,7 +12,7 @@ next: getting_started.html
 {% include prev_next.html %}
 
 This chapter contains a number of typical database queries that can be expressed using Speedment streams. For users that are accustomed to SQL this chapter provides an overview of how translate SQL to Streams.
-The example below are based on the ["Sakila"](#database_schema) example database. An object that corresponds to a row in the database are, by convention, called an "Entity'.
+The example below are based on the ["Sakila"](#database-schema) example database. An object that corresponds to a row in the database are, by convention, called an "Entity'.
 
 ## From
 `FROM` can be expressed using `.stream()`
@@ -21,8 +21,13 @@ Speedment Streams can be created using a {{site.data.javadoc.Manager}}. Each tab
 ``` java
    films.stream()
 ```
-which will create a `Stream` with all the `Film` entities in the table 'film'.
-
+which will create a `Stream` with all the `Film` entities in the table 'film':
+``` text
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+...
+```
 
 ## Where 
 `WHERE` can be expressed using `.filter()`.
@@ -36,6 +41,11 @@ if we want to find a long film (of length greater than 120 minutes) then we can 
         .filter(Film.LENGTH.greaterThan(120))
         .forEachOrdered(System.out::println);
 ```
+This will produce the following output:
+``` text
+Optional[FilmImpl { filmId = 5, title = AFRICAN EGG,... , length = 130, ...]
+```
+
 One important property with Speedment streams are that they are able to optimize its own pipeline by introspection. It looks like the `Stream` will iterate over all 
 rows in the 'film' table but this is not the case. Instead, Speedment is able to optimize the SQL query in the background and will instead issue the command (for MysQL):
 ``` sql
@@ -51,6 +61,132 @@ WHERE
 This means that only the relevant entities are pulled in from the database into the `Stream`.
 
 
+## Order By
+`ORDER BY` can be expressed using `.sorted()`.
+
+If we want to sort all our films in length order then we can do it like this:
+``` Java
+    List<Film> filmsInLengthOrder = films.stream()
+        .sorted(Film.LENGTH.comparator())
+        .collect(Collectors.toList());
+```
+The list will have the following content:
+``` text
+FilmImpl { filmId = 15, title = ALIEN CENTER, ..., length = 46, ...
+FilmImpl { filmId = 469, title = IRON MOON, ..., length = 46, ...
+FilmImpl { filmId = 730, title = RIDGEMONT SUBMARINE, ..., length = 46, ...
+FilmImpl { filmId = 504, title = KWAI HOMEWARD, ..., length = 46, ...
+FilmImpl { filmId = 505, title = LABYRINTH LEAGUE, ..., length = 46, ...
+FilmImpl { filmId = 784, title = SHANGHAI TYCOON, ..., length = 47, ...
+FilmImpl { filmId = 869, title = SUSPECTS QUILLS, ..., length = 47, ...
+...
+```
+
+This stream is rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update` 
+FROM 
+    `sakila`.`film` 
+ORDER BY 
+    `sakila`.`film`.`length` ASC
+```
+
+
+## Offset
+`OFFSET` can be expressed using `.skip()`.
+
+If we want to skip a number of records before we are using them then the `.skip()` operation is useful. Suppose we want to print out the films in title order but staring from the 100:th film then we can do like this:
+``` java
+    films.stream()
+        .sorted(Film.TITLE.comparator())
+        .skip(100)
+        .forEachOrdered(System.out::println);
+``` 
+This will produce the following output:
+``` text
+FilmImpl { filmId = 101, title = BROTHERHOOD BLANKET, ...
+FilmImpl { filmId = 102, title = BUBBLE GROSSE, ...
+FilmImpl { filmId = 103, title = BUCKET BROTHERHOOD, ...
+...
+```
+
+This stream is rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update` 
+FROM 
+    `sakila`.`film` 
+ORDER BY 
+    `sakila`.`film`.`title` ASC 
+LIMIT
+     223372036854775807 OFFSET ?, values:[100]     
+```
+
+
+## Limit
+`LIMIT` can be expressed using `.limit()`.
+
+If we want to limit the number of records in a stream them then the `.limit()` operation is useful. Suppose we want to print out the 3 first films in `last_update` order then we can do like this:
+``` java
+    films.stream()
+        .sorted(Film.TITLE.comparator())
+        .limit(3)
+        .forEachOrdered(System.out::println);
+``` 
+This will produce the following output:
+``` text
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+```
+
+This stream is rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update` 
+FROM 
+    `sakila`.`film` 
+ORDER BY 
+    `sakila`.`film`.`title` ASC 
+LIMIT
+    ?, values:[10]
+```
+
+## Count
+`COUNT` can be expressed using `.count()`.
+
+Stream counting are optimized to database queries. Consider the following stream that counts the number of long films (with a length greater than 120 minutes):
+``` java
+    long noLongFilms = films.stream()
+        .filter(Film.LENGTH.greaterThan(120))
+        .count();
+```
+When run, the code will calculate that there are 457 long films.
+
+This will be rendered to the following SQL (for MySQL):
+``` SQL
+SELECT 
+    COUNT(*) 
+FROM 
+   (
+       SELECT 
+           `film_id`,`title`,`description`,`release_year`,`language_id`,
+           `original_language_id`,`rental_duration`,`rental_rate`,
+           `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+       FROM 
+           `sakila`.`film` 
+       WHERE
+           (`sakila`.`film`.`length` > ?)
+    ) AS A, values:[120]
+```
+
 ## Group By
 `GROUP BY` can be expressed using `collect(groupingBy(...))`
 
@@ -63,6 +199,16 @@ Java has its own group by collector. If we want to group all the Films by the fi
             )
         );
 ```
+The content of the Map will correspond to:
+``` text
+Rating PG-13 has 223 films
+Rating R     has 195 films
+Rating NC-17 has 210 films
+Rating G     has 178 films
+Rating PG    has 194 films
+```
+The entire table will be pulled into the application in this example because all films will be in the Map.
+
 
 ## Having
 `HAVING` can be expressed by `.filter()` applied on a Stream from a previously collected Stream.
@@ -82,11 +228,34 @@ We can expand the previous Group By example by filtering out only those categori
             toMap(Entry::getKey, Entry::getValue)
         );
 ```
+Now that only categories with more than 200 films are shown, the content of the Map will correspond to:
+``` text
+Rating PG-13 has 223 films
+Rating NC-17 has 210 films
+```
 
 ## Join
 `JOIN` can be expressed using `.map()` and `.flatMap()`
 
-TBW
+In this example, we want to create a Map that holds which Language is spoken in a Film. This is done by joining the two tables "film" and "language". There is a foreign key from a film to the language table.
+``` java
+    Map<Language, List<Film>> languageFilmMap = films.stream()
+        .collect(
+            // Apply this foreign key classifier
+            groupingBy(languages.finderBy(Film.LANGUAGE_ID))
+        );
+```
+So the classifier will take a Film and will lookup the corresponding Language when it is called. Upon inspection of the Map we can conclude:
+``` text
+ There are 1000 films in English 
+```
+Apparently all films were in English in the database.
+
+{% include note.html content = "
+Large tables will be less efficient using this join scheme. There is a [proposed way](https://github.com/speedment/speedment/issues/360) with semantic joins that will improve performance for joins with Speedment.
+" %}
+
+
 
 ## Distinct
 `DISTINCT` can be expressed using `.distinct()`.
@@ -98,93 +267,7 @@ If we want to calculate what different ratings there are in the film tables then
         .distinct()
         .collect(Collectors.toSet());
 ```
-
-## Order By
-`ORDER BY` can be expressed using `.sorted()`.
-
-If we want to sort all our films in length order then we can do it like this:
-``` Java
-    List<Film> filmsInLengthOrder = films.stream()
-        .sorted(Film.LENGTH.comparator())
-        .collect(Collectors.toList());
-```
-
-## Offset
-`OFFSET` can be expressed using `.skip()`.
-
-If we want to skip a number of records before we are using them then the `.skip()` operation is useful. Suppose we want to print out the films in title order but staring from the 100:th film then we can do like this:
-``` java
-    films.stream()
-        .sorted(Film.TITLE.comparator())
-        .skip(100)
-        .forEachOrdered(System.out::println);
-``` 
-
-This stream is rendered to the following SQL query (for MySQL):
-``` sql
-SELECT 
-    `film_id`,`title`,`description`,`release_year`,
-    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
-    `length`,`replacement_cost`,`rating`,`special_features`,`last_update` 
-FROM 
-    `sakila`.`film` 
-ORDER BY 
-    `sakila`.`film`.`title` ASC 
-LIMIT
-     LIMIT ?, values:[10]
-```
-
-
-## Limit
-`LIMIT` can be expressed using `.limit()`.
-
-If we want to limit the number of records in a stream them then the `.limit()` operation is useful. Suppose we want to print out the 10 first films in title order then we can do like this:
-``` java
-    films.stream()
-        .sorted(Film.TITLE.comparator())
-        .limit(10)
-        .forEachOrdered(System.out::println);
-``` 
-
-This stream is rendered to the following SQL query (for MySQL):
-``` sql
-SELECT 
-    `film_id`,`title`,`description`,`release_year`,
-    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
-    `length`,`replacement_cost`,`rating`,`special_features`,`last_update` 
-FROM 
-    `sakila`.`film` 
-ORDER BY 
-    `sakila`.`film`.`title` ASC 
-LIMIT
-     223372036854775807 OFFSET ?, values:[100]
-```
-
-## Count
-`COUNT` can be expressed using `.count()`.
-
-Stream counting are optimized to database queries. Consider the following stream:
-``` java
-    long noLongFilms = films.stream()
-        .filter(Film.LENGTH.greaterThan(120))
-        .count();
-```
-This will be rendered to the following SQL (for MySQL):
-``` SQL
-SELECT 
-    COUNT(*) 
-FROM 
-   (
-       SELECT 
-           `film_id`,`title`,`description`,`release_year`,`language_id`,
-           `original_language_id`,`rental_duration`,`rental_rate`,
-           `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
-       FROM 
-           `sakila`.`film` 
-       WHERE
-           (`sakila`.`film`.`length` > ?)
-    ) AS A, values:[120]
-```
+In this example, the entire table will be pulled into the application.
 
 ## Select
 `SELECT` can be expressed using `.map()`
@@ -211,24 +294,94 @@ Currently, Speedment will read all the columns regardless of subsequent mappings
 " %}
 
 ## Union all
-`UNION ALL` can be expressed using `Stream.concat(s0, s1)`.
-TBW
+`UNION ALL` can be expressed using `StreamComposition.concatAndAutoClose(s0, s1, ..., sn)`.
+Suppose we want to create a resulting stream with all Films that are of length greater than 120 minutes and then all films that are of rating "PG-13":
+``` java
+    StreamComposition.concatAndAutoClose(
+        films.stream().filter(Film.LENGTH.greaterThan(120)),
+        films.stream().filter(Film.RATING.equal("PG-13"))
+    )
+        .forEachOrdered(System.out::println);
+```
+The resulting stream will contain duplicates with films that have a length both greater than 120 minutes and have a rating "PG-13".
+
 
 ## Union
-`UNION` can be expressed using `Stream.concat(s0, s1)` followed by `.distinct()`.
-TBW
+`UNION` can be expressed using `StreamComposition.concatAndAutoClose(s0, s1, ..., sn)` followed by `.distinct()`.
+Suppose we want to create a resulting stream with all Films that are of length greater than 120 minutes and then all films that are of rating "PG-13":
+``` java
+    StreamComposition.concatAndAutoClose(
+        films.stream().filter(Film.LENGTH.greaterThan(120)),
+        films.stream().filter(Film.RATING.equal("PG-13"))
+    )
+        .distinct()
+        .forEachOrdered(System.out::println);
+```
+The resulting stream will *not* contain duplicates because of the `.distinct()` operator.
+
+Note: It would be more efficient to produce a stream with the same content (but a different order) using this stream:
+``` java
+ films.stream()
+        .filter(Film.LENGTH.greaterThan(120).or(Film.RATING.equal("PG-13")))
+        .forEachOrdered(System.out::println);
+```
 
 
 ## Other examples
 
 
 ### Paging
-The following example shows how we can serve request for pages from a GUI or similar applications. 
-TBW
+The following example shows how we can serve request for pages from a GUI or similar applications. The page number (starting with page = 0) and ordering will be given as parameters:
+``` java
+    private List<Film> getPage(int page, Comparator<Film> comparator) {
+        log("getPage(" + page + ", " + comparator + ")");
+        return films.stream()
+            .sorted(comparator)
+            .skip(page * PAGE_SIZE)
+            .limit(PAGE_SIZE)
+            .collect(Collectors.toList());
+    }
+```
+when this method is called like this:
+``` java
+    // Show page 2 (zero is first page) of Films order by title desc
+    getPage(2, Film.TITLE.comparator().reversed());
+```
+
+then this will be rendered to the following SQL (for MySQL):
+``` sql
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+ORDER BY 
+    `sakila`.`film`.`title`IS NOT NULL, 
+    `sakila`.`film`.`title` DESC 
+LIMIT ? OFFSET ?, values:[50, 100]
+```
+
+
 
 ### Partition By
-Collectors.partitioningBy(x -> x > 50)
-TBW
+Partitioning is a special case of grouping in which there are only two different classes: `false` or `true`. Java has its own partitioner that can be used to classify database entities. In the example below, we want to classify the films in two different categories: films that are or are not long where a long film is more than 120 minutes.
+``` java
+    Map<Boolean, List<Film>> map = films.stream()
+        .collect(
+            Collectors.partitioningBy(Film.LENGTH.greaterThan(120))
+        );
+
+    map.forEach((k, v) -> {
+        System.out.format("long is %5s has %d films%n", k, v.size());
+    });
+```
+
+This will print:
+``` text
+long is false has 543 films
+long is  true has 457 films
+```
 
 ### Pivot Data
 TBW
