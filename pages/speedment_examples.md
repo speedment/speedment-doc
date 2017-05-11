@@ -252,7 +252,7 @@ So the classifier will take a Film and will lookup the corresponding Language wh
 Apparently all films were in English in the database.
 
 {% include note.html content = "
-Large tables will be less efficient using this join scheme. There is a [proposed way](https://github.com/speedment/speedment/issues/360) with semantic joins that will improve performance for joins with Speedment.
+Large tables will be less efficient using this join scheme. There is a [proposed way](https://github.com/speedment/speedment/issues/360) with semantic joins that will improve performance for joins of large tables with Speedment.
 " %}
 
 
@@ -290,7 +290,7 @@ If we want to select several fields, we can create a new custom class that holds
 This creates a stream of Tuples with two elements: title (of type `String`) and length (of type `Integer`).
 
 {% include note.html content = "
-Currently, Speedment will read all the columns regardless of subsequent mappings. Future versions might cut down on the columns actually being read following a `.map()' operation.
+Currently, Speedment will read all the columns regardless of subsequent mappings. Future versions might cut down on the columns actually being read following `.map()`, `mapToInt()`, `mapToLong()` and `mapToDouble()` operations.
 " %}
 
 ## Union all
@@ -365,7 +365,7 @@ LIMIT ? OFFSET ?, values:[50, 100]
 
 
 ### Partition By
-Partitioning is a special case of grouping in which there are only two different classes: `false` or `true`. Java has its own partitioner that can be used to classify database entities. In the example below, we want to classify the films in two different categories: films that are or are not long where a long film is more than 120 minutes.
+Partitioning is a special case of grouping in which there are only two different classes: `false` or `true`. Java has its own partitioner that can be used to classify database entities. In the example below, we want to classify the films in two different categories: films that are or are not long where a long film is of length greater than 120 minutes.
 ``` java
     Map<Boolean, List<Film>> map = films.stream()
         .collect(
@@ -384,7 +384,47 @@ long is  true has 457 films
 ```
 
 ### Pivot Data
-TBW
+Pivoting can be made using a `MapStream` which is a Stream of `Map.Entry` with a number of additional functions over a normal Stream. The following example shows a pivot table of all the actors and the number of films they have participated in for each film rating category (e.g. "PG-13"):
+```java
+    MapStream.fromKeys(
+        actors.stream(),                                       // keys  : Stream<Actor>
+        a -> filmActors.findBackwardsBy(FilmActor.ACTOR_ID, a) // values: Stream<ActorFilm>
+            .map(films.finderBy(FilmActor.FILM_ID))            // values: Stream<Film>
+            .collect(
+                Collectors.groupingBy(
+                    Film.RATING.getter(),                      // Use 'rating' as classifier
+                    Collectors.counting()                      // Count the occurrences rather than building a List
+                )
+            )                                                  // values: Map<Rating, Long>
+    )                                                          // MapStream<Actor, Map<Rating, Long>>
+
+        .forEachOrdered((k, v) -> {                            // key: Actor, value: Map<Rating, Long>
+             System.out.format("%22s  %5s %n", k.getFirstName()+" "+k.getLastName(), v);
+        });
+
+    }
+
+```
+This is a more advanced example and it requires some thinking to understand.
+
+This will produce the following output:
+``` text
+      PENELOPE GUINESS  {PG-13=1, R=3, NC-17=5, G=4, PG=6} 
+         NICK WAHLBERG  {PG-13=2, R=2, NC-17=8, G=7, PG=6} 
+              ED CHASE  {PG-13=5, R=5, NC-17=5, G=2, PG=5} 
+        JENNIFER DAVIS  {PG-13=5, R=4, NC-17=5, PG=5, G=3} 
+   JOHNNY LOLLOBRIGIDA  {PG-13=4, R=7, NC-17=7, G=7, PG=4} 
+       BETTE NICHOLSON  {PG-13=2, R=4, NC-17=7, G=4, PG=3} 
+          GRACE MOSTEL  {PG-13=9, R=1, NC-17=3, PG=7, G=10} 
+     MATTHEW JOHANSSON  {PG-13=1, R=6, NC-17=8, PG=2, G=3} 
+             JOE SWANK  {PG-13=5, R=5, NC-17=5, G=7, PG=3} 
+       CHRISTIAN GABLE  {PG-13=7, R=3, NC-17=3, G=2, PG=7} 
+             ZERO CAGE  {PG-13=3, R=7, NC-17=5, PG=6, G=4} 
+            KARL BERRY  {PG-13=9, R=8, NC-17=5, G=4, PG=5} 
+              UMA WOOD  {PG-13=5, R=8, NC-17=9, G=6, PG=7} 
+...
+```
+There will be a number of database queries sent to the database during stream execution.
 
 
 ## Database Schema
