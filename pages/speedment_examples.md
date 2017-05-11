@@ -124,14 +124,16 @@ FROM
 ORDER BY 
     `sakila`.`film`.`title` ASC 
 LIMIT
-     223372036854775807 OFFSET ?, values:[100]     
+     223372036854775807 
+OFFSET 
+     ?, values:[100]     
 ```
 
 
 ## Limit
 `LIMIT` can be expressed using `.limit()`.
 
-If we want to limit the number of records in a stream them then the `.limit()` operation is useful. Suppose we want to print out the 3 first films in `last_update` order then we can do like this:
+If we want to limit the number of records in a stream them then the `.limit()` operation is useful. Suppose we want to print out the 3 first films in title order then we can do like this:
 ``` java
     films.stream()
         .sorted(Film.TITLE.comparator())
@@ -157,6 +159,40 @@ ORDER BY
     `sakila`.`film`.`title` ASC 
 LIMIT
     ?, values:[10]
+```
+
+## Combining Offset and Limit
+`LIMIT X OFFSET Y` can be expressed by `.skip(y).limit(x)` (note the order of `skip` and `limit`) 
+There are many applications where both `.skip()` and `.limit()` are used. Remember that the order of these stream operations matters and that the order is different from what you might be used from SQL. In the following example we express a stream where we want to show 50 Films starting from the 100:th film in title order:
+``` java
+    films.stream()
+        .sorted(Film.TITLE.comparator())
+        .skip(100)
+        .limit(50)
+        .forEachOrdered(System.out::println);
+```
+This will produce the following output:
+``` text
+FilmImpl { filmId = 101, title = BROTHERHOOD BLANKET, ...
+FilmImpl { filmId = 102, title = BUBBLE GROSSE, ...
+FilmImpl { filmId = 103, title = BUCKET BROTHERHOOD, ...
+...
+```
+
+This stream is rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+    `length`,`replacement_cost`,`rating`,`special_features`,`last_update` 
+FROM 
+    `sakila`.`film` 
+ORDER BY 
+    `sakila`.`film`.`title` ASC 
+LIMIT
+    ? 
+OFFSET 
+    ?, values:[50, 100]
 ```
 
 ## Count
@@ -365,7 +401,7 @@ LIMIT ? OFFSET ?, values:[50, 100]
 
 
 ### Partition By
-Partitioning is a special case of grouping in which there are only two different classes: `false` or `true`. Java has its own partitioner that can be used to classify database entities. In the example below, we want to classify the films in two different categories: films that are or are not long where a long film is of length greater than 120 minutes.
+Partitioning is a special case of grouping in which there are only two different classes: `false` or `true`. Java has its own partitioner that can be used to classify database entities. In the example below, we want to classify the films in two different categories: films that are or are not long, where a long film is of length greater than 120 minutes.
 ``` java
     Map<Boolean, List<Film>> map = films.stream()
         .collect(
@@ -383,6 +419,15 @@ long is false has 543 films
 long is  true has 457 films
 ```
 
+### One-to-Many relations
+TBW
+
+## Many-to-One relations
+TBW
+
+### Many-to-Many relations
+TBW
+
 ### Pivot Data
 Pivoting can be made using a `MapStream` which is a Stream of `Map.Entry` with a number of additional functions over a normal Stream. The following example shows a pivot table of all the actors and the number of films they have participated in for each film rating category (e.g. "PG-13"):
 ```java
@@ -395,10 +440,10 @@ Pivoting can be made using a `MapStream` which is a Stream of `Map.Entry` with a
                     Film.RATING.getter(),                      // Use 'rating' as classifier
                     Collectors.counting()                      // Count the occurrences rather than building a List
                 )
-            )                                                  // values: Map<Rating, Long>
-    )                                                          // MapStream<Actor, Map<Rating, Long>>
+            )                                                  // values: Map<String, Long>
+    )                                                          // MapStream<Actor, Map<String, Long>>
 
-        .forEachOrdered((k, v) -> {                            // key: Actor, value: Map<Rating, Long>
+        .forEachOrdered((k, v) -> {                            // keys: Actor, values: Map<String, Long>
              System.out.format("%22s  %5s %n", k.getFirstName()+" "+k.getLastName(), v);
         });
 
