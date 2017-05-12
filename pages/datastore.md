@@ -13,7 +13,7 @@ next: datastore.html
 
 ## What is DataStore?
 
-The DataStore module is a Speedment Enterprise feature that pulls in database content from a database to an in-JVM memory data store. Because data is stored off heap, the Java garbage collector is unaffected by data that is held by the DataStore module.
+The DataStore module is a Speedment Enterprise feature that pulls in database content from a database to an in-JVM memory data store. Data can then be used in analytics applications. Because data is stored off heap, the Java garbage collector is unaffected by data that is held by the DataStore module.
 
 The DataStore modu;e can hold terabytes of data and will significantly reduce stream latency. The Stream API remains exactly the same as for SQL Streams.
 
@@ -82,15 +82,24 @@ If you want to update the DataStore to the latest state of the underlying databa
         app.get(DataStoreComponent.class)
             .ifPresent(DataStoreComponent::reload);
 ```
-This will load a new version of the database in the background and then completed, new streams will use the new data. Old ongoing streams will continue to use the old version of the DataStore content. Once all old streams are completed, the old version of the DataStore content will be released.
+This will load a new version of the database in the background and when completed, new streams will use the new data. Old ongoing streams will continue to use the old version of the DataStore content. Once all old streams are completed, the old version of the DataStore content will be released.
 
 ### Obtaining Statistics
+You can obtain statistics on how tables, columns and memory segments are used by invoking the DataStoreComponent::getStatistics method. Here is an example of how to print out DataStore statistics.
+``` java
+    app.get(DataStoreComponent.class)
+        .map(DataStoreComponent::getStatistics)
+        .map(StatisticsUtil::prettyPrint)
+        .ifPresent(s -> s.forEachOrdered(System.out::println));
+```
+This will produce something like this:
+``` text
 TBW
-
+```
 
 ## Performance
-The DataStore module will sort each table and each column upon load/re-load. This means that you can benefit from low latency regardless
-Stream latency will be orders of magnitudes better. TBW
+The DataStore module will sort each table and each column upon load/re-load. This means that you can benefit from low latency regardless on which column you use in stream filters, sorters, etc.
+When the DataStore module is being used, Stream latency will be orders of magnitudes better.
 
 {% include prev_next.html %}
 
