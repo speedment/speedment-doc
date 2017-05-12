@@ -11,7 +11,7 @@ next: getting_started.html
 
 {% include prev_next.html %}
 
-This chapter contains a number of typical database queries that can be expressed using Speedment streams. For users that are accustomed to SQL this chapter provides an overview of how translate SQL to Streams.
+This chapter contains a number of typical database queries that can be expressed using Speedment streams. For users that are accustomed to SQL, this chapter provides an overview of how to translate SQL to Streams.
 The example below are based on the ["Sakila"](#database-schema) example database. An object that corresponds to a row in the database are, by convention, called an "Entity'.
 
 ## SQL Equivalences

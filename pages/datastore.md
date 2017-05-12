@@ -18,7 +18,7 @@ The DataStore module is a Speedment Enterprise feature that pulls in database co
 The DataStore modu;e can hold terabytes of data and will significantly reduce stream latency. The Stream API remains exactly the same as for SQL Streams.
 
 
-## Installation
+## Enabling DataStore
 In order to use DataStore you need a commercial Speedment license or a trial license key. Download a free trial license using the Speedment [Initializer](https://www.speedment.com/initializer/).
 The DataStore module needs to be referenced both in your pom.xml file and in you application.
 
@@ -64,13 +64,16 @@ When you build the application, the DataStoreBundle needs to be added to the run
             .withPassword(password)
             .withBundel(DataStoreBundle.class);
 ```
+## Using DataStore
+
+### Load from the Database
 Before DataStore can be used, it has to load all database content into the JVM. This is how it is done:
 ``` java
         // Load the in-JVM-memory content into the DataStore from the database
         app.get(DataStoreComponent.class)
             .ifPresent(DataStoreComponent::load);
 ```
-After the DataStore module has been added and loaded, all stream queries will be made towards RAM instead of the remote database.
+After the DataStore module has been added and loaded, all stream queries will be made towards RAM instead of the remote database. No other change in the application is needed.
 
 ### Synchronizing with the Database
 If you want to update the DataStore to the latest state of the underlying database, do like this:
@@ -80,6 +83,9 @@ If you want to update the DataStore to the latest state of the underlying databa
             .ifPresent(DataStoreComponent::reload);
 ```
 This will load a new version of the database in the background and then completed, new streams will use the new data. Old ongoing streams will continue to use the old version of the DataStore content. Once all old streams are completed, the old version of the DataStore content will be released.
+
+### Obtaining Statistics
+TBW
 
 
 ## Performance

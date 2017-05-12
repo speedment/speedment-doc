@@ -362,18 +362,18 @@ entries:
     output: web, pdf
     folderitems:
 
-    - title: Fundamentals
-      url: datastore.html#fundamentals
+    - title: What is DataStore
+      url: datastore.html#what-is-datastore
       output: web, pdf
       type: homepage
       
-    - title: Enabling
-      url: datastore.html#enabling-data-store
+    - title: Enabling DataStore
+      url: datastore.html#enabling-datastore
       output: web, pdf
       type: homepage
 
-    - title: Configuring
-      url: datastore.html#configuring-data-store
+    - title: Using DataStore
+      url: datastore.html#using-datastore
       output: web, pdf
       type: homepage
       
