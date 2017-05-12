@@ -14,7 +14,9 @@ next: getting_started.html
 This chapter contains a number of typical database queries that can be expressed using Speedment streams. For users that are accustomed to SQL this chapter provides an overview of how translate SQL to Streams.
 The example below are based on the ["Sakila"](#database-schema) example database. An object that corresponds to a row in the database are, by convention, called an "Entity'.
 
-## From
+## SQL Equivalences
+
+### From
 `FROM` can be expressed using `.stream()`
 
 Speedment Streams can be created using a {{site.data.javadoc.Manager}}. Each table in the database has a corresponding `Manager`. For example, the table 'film' has a corresponding `Manager<Film>` allowing us to do like this:
@@ -29,7 +31,7 @@ FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
 ...
 ```
 
-## Where 
+### Where 
 `WHERE` can be expressed using `.filter()`.
 
 By applying a `filter` to a `Stream`, certain entities can be retained in the `Stream` and other entities can be dropped. For example, 
@@ -61,7 +63,7 @@ WHERE
 This means that only the relevant entities are pulled in from the database into the `Stream`.
 
 
-## Order By
+### Order By
 `ORDER BY` can be expressed using `.sorted()`.
 
 If we want to sort all our films in length order then we can do it like this:
@@ -95,7 +97,7 @@ ORDER BY
 ```
 
 
-## Offset
+### Offset
 `OFFSET` can be expressed using `.skip()`.
 
 If we want to skip a number of records before we are using them then the `.skip()` operation is useful. Suppose we want to print out the films in title order but staring from the 100:th film then we can do like this:
@@ -130,7 +132,7 @@ OFFSET
 ```
 
 
-## Limit
+### Limit
 `LIMIT` can be expressed using `.limit()`.
 
 If we want to limit the number of records in a stream them then the `.limit()` operation is useful. Suppose we want to print out the 3 first films in title order then we can do like this:
@@ -161,7 +163,7 @@ LIMIT
     ?, values:[10]
 ```
 
-## Combining Offset and Limit
+### Combining Offset and Limit
 `LIMIT X OFFSET Y` can be expressed by `.skip(y).limit(x)` (note the order of `skip` and `limit`) 
 
 There are many applications where both `.skip()` and `.limit()` are used. Remember that the order of these stream operations matters and that the order is different from what you might be used to from SQL. In the following example we express a stream where we want to show 50 films starting from the 100:th film in title order:
@@ -196,7 +198,7 @@ OFFSET
     ?, values:[50, 100]
 ```
 
-## Count
+### Count
 `COUNT` can be expressed using `.count()`.
 
 Stream counting are optimized to database queries. Consider the following stream that counts the number of long films (with a length greater than 120 minutes):
@@ -224,7 +226,7 @@ FROM
     ) AS A, values:[120]
 ```
 
-## Group By
+### Group By
 `GROUP BY` can be expressed using `collect(groupingBy(...))`
 
 Java has its own group by collector. If we want to group all the Films by the films 'rating' then we can write the following code:
@@ -247,7 +249,7 @@ Rating PG    has 194 films
 The entire table will be pulled into the application in this example because all films will be in the Map.
 
 
-## Having
+### Having
 `HAVING` can be expressed by `.filter()` applied on a Stream from a previously collected Stream.
 
 We can expand the previous Group By example by filtering out only those categories having more than 200 films. Such a Stream can be expressed by applying a new stream on a stream that has been previously collected:
@@ -271,7 +273,7 @@ Rating PG-13 has 223 films
 Rating NC-17 has 210 films
 ```
 
-## Join
+### Join
 `JOIN` can be expressed using `.map()` and `.flatMap()`
 
 In this example, we want to create a Map that holds which Language is spoken in a Film. This is done by joining the two tables "film" and "language". There is a foreign key from a film to the language table.
@@ -294,7 +296,7 @@ Large tables will be less efficient using this join scheme. There is a [proposed
 
 
 
-## Distinct
+### Distinct
 `DISTINCT` can be expressed using `.distinct()`.
 
 If we want to calculate what different ratings there are in the film tables then we can do it like this:
@@ -306,7 +308,7 @@ If we want to calculate what different ratings there are in the film tables then
 ```
 In this example, the entire table will be pulled into the application.
 
-## Select
+### Select
 `SELECT` can be expressed using `.map()`
 
 If we do not want to use the entire entity but instead only select one or several fields, we can do that by applying a `map` operation to a `Stream`. Assuming we are only interested in the field 'id' of a `Film` we can select that field like this:
@@ -330,7 +332,7 @@ This creates a stream of Tuples with two elements: title (of type `String`) and 
 Currently, Speedment will read all the columns regardless of subsequent mappings. Future versions might cut down on the columns actually being read following `.map()`, `mapToInt()`, `mapToLong()` and `mapToDouble()` operations.
 " %}
 
-## Union all
+### Union all
 `UNION ALL` can be expressed using `StreamComposition.concatAndAutoClose(s0, s1, ..., sn)`.
 Suppose we want to create a resulting stream with all Films that are of length greater than 120 minutes and then all films that are of rating "PG-13":
 ``` java
@@ -343,7 +345,7 @@ Suppose we want to create a resulting stream with all Films that are of length g
 The resulting stream will contain duplicates with films that have a length both greater than 120 minutes and have a rating "PG-13".
 
 
-## Union
+### Union
 `UNION` can be expressed using `StreamComposition.concatAndAutoClose(s0, s1, ..., sn)` followed by `.distinct()`.
 Suppose we want to create a resulting stream with all Films that are of length greater than 120 minutes and then all films that are of rating "PG-13":
 ``` java
@@ -364,7 +366,7 @@ Note: It would be more efficient to produce a stream with the same content (but 
 ```
 
 
-## Other examples
+## Stream Examples
 
 
 ### Paging
@@ -440,7 +442,7 @@ FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
 There will be a number of database queries sent to the database during stream execution.
 
 
-## Many-to-One relations
+### Many-to-One relations
 A Many-to-One relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.
 
 In this example we will print out the languages that are used for all films with a rating of "PG-13":

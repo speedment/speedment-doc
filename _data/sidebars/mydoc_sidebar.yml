@@ -132,31 +132,15 @@ entries:
     output: web, pdf
     folderitems:
 
-    - title: Basic Queries
-      url: speedment_examples.html
+    - title: SQL Equivalences
+      url: speedment_examples.html#sql-equivalences
       output: web, pdf
       type: homepage
 
-    - title: One-to-One Relations
-      url: speedment_examples.html
+    - title: Stream Examples
+      url: speedment_examples.html#stream-examples
       output: web, pdf
       type: homepage
-
-    - title: One-to-Many Relations
-      url: speedment_examples.html
-      output: web, pdf
-
-    - title: Many-to-One Relations
-      url: speedment_examples.html
-      output: web, pdf
-
-    - title: Many-to-Many Relations
-      url: speedment_examples.html
-      output: web, pdf
-
-    - title: Joins
-      url: /mydoc_about.html
-      output: web, pdf
 
   - title: Speedment Predicates
     output: web, pdf
@@ -373,6 +357,31 @@ entries:
 #      output: web, pdf
 #      type: homepage
 #
+
+  - title: DataStore Acceleration
+    output: web, pdf
+    folderitems:
+
+    - title: Fundamentals
+      url: datastore.html#fundamentals
+      output: web, pdf
+      type: homepage
+      
+    - title: Enabling
+      url: datastore.html#enabling-data-store
+      output: web, pdf
+      type: homepage
+
+    - title: Configuring
+      url: datastore.html#configuring-data-store
+      output: web, pdf
+      type: homepage
+      
+    - title: Performance
+      url: datastore.html#performance
+      output: web, pdf
+      type: homepage
+
 #  
 #  - title: Data Types
 #    output: web, pdf
