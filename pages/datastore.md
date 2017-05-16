@@ -15,7 +15,7 @@ next: datastore.html
 
 The DataStore module is a Speedment Enterprise feature that pulls in database content from a database to an in-JVM memory data store. Data can then be used in analytics applications. Because data is stored off heap, the Java garbage collector is unaffected by data that is held by the DataStore module.
 
-The DataStore modu;e can hold terabytes of data and will significantly reduce stream latency. The Stream API remains exactly the same as for SQL Streams.
+The DataStore module can hold terabytes of data and will significantly reduce stream latency. The Stream API remains exactly the same as for SQL Streams.
 
 
 ## Enabling DataStore
@@ -124,7 +124,7 @@ This will produce an output that starts like this:
 
 
 ### Showing The Load/Reload Progress
-The load and organize process can be viewed in the log by enabling `APPLICATION_BUILDER` logging.
+The load and organize process can be viewed in the log by enabling `APPLICATION_BUILDER` logging as shown hereunder:
 ``` java
     SakilaApplicationBuilder builder = new SakilaApplicationBuilder()        
         .withPassword(password)
