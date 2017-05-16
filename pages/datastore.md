@@ -119,6 +119,7 @@ This will produce an output that starts like this:
 | address  | address    |        2412 |    - |     0 |          -  | Column| IndexedStringFieldCache    | false     |
 | address  | address2   |        2404 |    - |     4 |          -  | Column| IndexedStringFieldCache    | false     |
 | address  | address_id |        2412 |    - |     0 |          -  | Column| IndexedIntFieldCache       | true      |
+
 ...
 
 
