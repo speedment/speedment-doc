@@ -19,7 +19,7 @@ There is one thing that we always need to configure and that is the database pas
 Configuration is done using an `ApplicationBuilder` that is generated for your project. Once the `ApplicationBuilder` is configured, its `build()` method is called and a configured `Application` is returned. Upon building, all the configuration parameters are frozen (made immutable) in the returned `Application`. 
 
 ## Configurations
-The table below summarizes the most important methods of the `ApplicationBuilder`. Check out the official JavaDoc about {{site.data.javadoc.ApplicationBuilder}} for more detailed information about all configuration methods.
+The table below summarizes the most important methods of the `ApplicationBuilder`. Check out the official JavaDoc about the  {{site.data.javadoc.ApplicationBuilder}} for more detailed information about all configuration methods.
 
 | Method               | Parameters                      | Description                                                                                   |
 | :------------------- | :------------------------------ | :-------------------------------------------------------------------------------------------- |
@@ -43,15 +43,15 @@ The table below summarizes the most important methods of the `ApplicationBuilder
 | `withAllowStreamIteratorAndSpliterator()` |            | Allows `Stream::iterator` and `Stream:spliterators` to be called on Speedment streams. (***)  |
 | `withSkipCheckDatabaseConnectivity()` |                | Skips the initial database connectivity check that otherwise takes place during `build()`.    |
 
-(*) There can only be one (1) database in your project if this method is called.
-(**) There can be any number (1-N) of databases in your project.
-(***) After calling `Stream::iterator` and `Stream:spliterators`, the Speedment stream *must* be closed manually to release its underlying database connection.
-(i) Character arrays can be erased after being used to prevent password Strings being held within the JVM.
+* (*) There can only be one (1) database in your project if this method is called.
+* (**) There can be any number (1-N) of databases in your project.
+* (***) After calling `Stream::iterator` and `Stream:spliterators`, the Speedment stream *must* be closed manually to release its underlying database connection.
+* (i) Character arrays can be erased after being used to prevent password Strings being held within the JVM.
 
 ## Logging
 The class {{site.data.javadoc.ApplicationBuilder.LogType}} contains a number of predefined logger names that can be used to make Speedment show what is going on internally. These LogTypes can be used in conjunction with the `withLogging()` method.
 
-| LogType Name         | Enables Logging Related to                                                                |
+| LogType Name in Enum | Enables Logging Related to                                                                |
 | :------------------- | :---------------------------------------------------------------------------------------- |
 | `APPLICATION_BUILDER`| configurating the application platform, dependency injection, component configuration etc |
 | `CONNECTION`         | Connection handling (connection pooling, Java EE connections, etc)                        |
