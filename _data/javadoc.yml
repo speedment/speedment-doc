@@ -19,6 +19,8 @@ InjectBundle: "[`InjectBundle`](http://static.javadoc.io/com.speedment/runtime-d
 
 Tuple: "[`Tuple`](https://github.com/speedment/speedment/tree/master/common-parent/tuple)"
 
+ApplicationBuilder: "[`ApplicationBuilder`](http://static.javadoc.io/com.speedment/runtime-deploy/3.0.9/com/speedment/runtime/core/ApplicationBuilder.html"
+
 #Java Stuff
 Stream: "[`Stream`](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html)"
 Predicate: "[`Predicate`](https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html)"

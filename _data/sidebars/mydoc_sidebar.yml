@@ -103,31 +103,26 @@ entries:
       url: getting_started.html#hello-world
       output: web, pdf
 
-#  - title: Application Configuration
-#    output: web, pdf
-#    folderitems:
-#
-#    - title: Database Password
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#      
-#    - title: Database User
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: Database Connection URL
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: Logging
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#
-#
+  - title: Application Configuration
+    output: web, pdf
+    folderitems:
+
+    - title: Why Configure?
+      url: /application_configuration.html#why-configure
+      output: web, pdf
+      type: homepage
+      
+    - title: Configurations
+      url: /application_configuration.html#configurations
+      output: web, pdf
+      type: homepage
+
+    - title: Logging
+      url: /application_configuration.html#logging
+      output: web, pdf
+      type: homepage
+
+
   - title: Speedment Examples
     output: web, pdf
     folderitems:
