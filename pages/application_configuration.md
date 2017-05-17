@@ -24,6 +24,13 @@ The table below summarizes the most important methods of the `ApplicationBuilder
 | Method               | Parameters                      | Description                                                                                   |
 | :------------------- | :------------------------------ | :-------------------------------------------------------------------------------------------- |
 | `withPassword`       | `String`                        | Sets the password to use when connecting to the database. (*)                                 |
+| `withLogging`        | `HasLoggerName`,                | Enables a named logger. See [Logging](#logging) below.                                        |
+| `withParam`          | `String`, `String`              | Sets a key/value configuration. These values can be used to configure components.             |
+| `withComponent`      | `Class`                         | Adds a custom component injectable implementation class to Speedment.                         |
+| `withBundle`         | `Class<? extends InjectBundle>` | Adds a custom bundle of dependency injectable implementation classes to Speedment.            |
+
+| Method               | Parameters                      | Description                                                                                   |
+| :------------------- | :------------------------------ | :-------------------------------------------------------------------------------------------- |
 | `withPassword`       | `char[]` (i)                    | Sets the password to use when connecting to the database. (*)                                 |
 | `withPassword`       | `HasDatabaseName`, `String`     | Sets the password to use when connecting to the identified database. (**)                     |
 | `withPassword`       | `HasDatabaseName`, `char[]` (i) | Sets the password to use when connecting to the identified database. (**)                     |
@@ -35,23 +42,21 @@ The table below summarizes the most important methods of the `ApplicationBuilder
 | `withPort`           | `HasDatabaseName`, `int`        | Sets the Port to use when connecting to the identified database. (**)                         |
 | `withConnectionUrl`  | `String`                        | Sets the connection URL to use when connecting to the database. (*)                           |
 | `withConnectionUrl`  | `HasDatabaseName`, `String`     | Sets the connection URL to use when connecting to the identified database. (**)               |
-| `withLogging`        | `HasLoggerName`,                | Enables a named logger. See [Logging](#logging) below.                                        |
+| `withSchema`         | `String`                        | Sets the schema name to use when connecting to the database. Useful for multi-tenant apps. (*)|
+| `withSchema`         | `HasSchemaName`, `String`       | Sets the schema name to use when connecting to the identified database. (multi-tenant) (**)   |
 | `withManager`        | `Class<? extends Manager>`,     | Adds a custom manager to Speedment.                                                           |
-| `withParam`          | `String`, `String`              | Sets a key/value configuration. These values can be used to configure components.             |
-| `withComponent`      | `Class`                         | Adds a custom component implementation class to Speedment.                                    |
-| `withBundle`         | `Class<? extends InjectBundle>` | Adds a custom bundle of dependency injectable implementation classes to Speedment.            |
 | `withAllowStreamIteratorAndSpliterator()` |            | Allows `Stream::iterator` and `Stream:spliterators` to be called on Speedment streams. (***)  |
 | `withSkipCheckDatabaseConnectivity()` |                | Skips the initial database connectivity check that otherwise takes place during `build()`.    |
 
 * (*) There can only be one (1) database in your project if this method is called.
 * (**) There can be any number (1-N) of databases in your project.
-* (***) After calling `Stream::iterator` and `Stream:spliterators`, the Speedment stream *must* be closed manually to release its underlying database connection.
+* (***) After calling `Stream::iterator` or `Stream:spliterators`, the underlying Speedment stream must be closed manually to release its underlying database connection.
 * (i) Character arrays can be erased after being used to prevent password Strings being held within the JVM.
 
 ## Logging
 The class {{site.data.javadoc.ApplicationBuilder.LogType}} contains a number of predefined logger names that can be used to make Speedment show what is going on internally. These LogTypes can be used in conjunction with the `withLogging()` method.
 
-| LogType Name in Enum | Enables Logging Related to                                                                |
+| LogType Name         | Enables Logging Related to                                                                |
 | :------------------- | :---------------------------------------------------------------------------------------- |
 | `APPLICATION_BUILDER`| configurating the application platform, dependency injection, component configuration etc |
 | `CONNECTION`         | Connection handling (connection pooling, Java EE connections, etc)                        |
