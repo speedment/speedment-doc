@@ -58,7 +58,7 @@ The class {{site.data.javadoc.ApplicationBuilder.LogType}} contains a number of 
 
 | LogType Name         | Enables Logging Related to                                                                |
 | :------------------- | :---------------------------------------------------------------------------------------- |
-| `APPLICATION_BUILDER`| configurating the application platform, dependency injection, component configuration etc |
+| `APPLICATION_BUILDER`| Configurating the application platform, dependency injection, component configuration etc |
 | `CONNECTION`         | Connection handling (connection pooling, Java EE connections, etc)                        |
 | `PERSIST`            | Persisting new entities into the database.                                                |
 | `REMOVE`             | Removing existing entities from the database.                                             |
@@ -112,4 +112,4 @@ The following example shows a solution where we set different database passwords
 ## Discussion
 Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
 
-{% include messenger.html page-url="application_configuration.html" %}
+{% include messenger.html page-url="application-configuration.html" %}
