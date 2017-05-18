@@ -3,30 +3,31 @@
 topnav:
 - title: Topnav
   items:
-    - title: News
-      url: /news
+    - title: Twitter
+      url: https://twitter.com/search?q=%23speedment&src=typd
 
 #Topnav dropdowns
 topnav_dropdowns:
 - title: Topnav dropdowns
   folders:
-    - title: Jekyll Resources
+    - title: Speedment Resources
       folderitems:
-        - title: Github Repo
-          external_url: https://github.com/tomjohnson1492/documentation-theme-jekyll
-        - title: Jekyll Talk
-          external_url: https://talk.jekyllrb.com
-        - title: Jekyll documentation
-          external_url: http://jekyllrb.com/docs/home/
-        - title: Jekyll on Stack Overflow
-          external_url: http://stackoverflow.com/questions/tagged/jekyll
-        - title: Jekyll on my blog
-          external_url: http://idratherbewriting.com/category-jekyll/
+        - title: Speedment Github Repo
+          external_url: https://github.com/speedment/speedment
+        - title: Speedment Initializer
+          external_url: https://www.speedment.com/initializer/
+        - title: Speedment JavaDocs
+          external_url: http://www.javadoc.io/doc/com.speedment/runtime-deploy/{{site.data.speedment.version}}
+          - title: Speedment on Gitter
+          external_url: https://gitter.im/speedment/speedment
+        - title: Speedment on Stack Overflow
+          external_url: http://stackoverflow.com/questions/tagged/speedment?sort=newest
+        
     - title: Products
       folderitems:
-        - title: Jekyll Documentation Theme
-          url: /mydoc_introduction.html
-        - title: Product 1
-          url: /p1_landing_page.html
-        - title: Product 2
-          url: /p2_landing_page.html
+        - title: Speedment Enterprise
+          url: https://www.speedment.com/solutions/enterprise/
+        - title: Speedment Open-Source
+          url: https://www.speedment.com/solutions/open-source/
+        - title: Ext Speeder
+          url: https://www.speedment.com/solutions/ext-speeder/          
