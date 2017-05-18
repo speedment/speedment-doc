@@ -15,7 +15,7 @@ topnav_dropdowns:
         - title: Speedment Github Repo
           external_url: https://github.com/speedment/speedment
         - title: Speedment Initializer
-          external_url: https://www.speedment.com/initializer/
+          external_url: https://www.speedment.com/initializer
         - title: Speedment JavaDocs
           external_url: http://www.javadoc.io/doc/com.speedment/runtime-deploy/{{site.data.speedment.version}}
           - title: Speedment on Gitter
@@ -26,8 +26,8 @@ topnav_dropdowns:
     - title: Products
       folderitems:
         - title: Speedment Enterprise
-          url: https://www.speedment.com/solutions/enterprise/
+          url: https://www.speedment.com/solutions/enterprise
         - title: Speedment Open-Source
-          url: https://www.speedment.com/solutions/open-source/
+          url: https://www.speedment.com/solutions/open-source
         - title: Ext Speeder
-          url: https://www.speedment.com/solutions/ext-speeder/          
+          url: https://www.speedment.com/solutions/ext-speeder
