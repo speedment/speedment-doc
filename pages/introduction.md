@@ -85,7 +85,7 @@ Ever seen a `NullPointerException` suddenly thrown out of nowhere? Null-pointers
 An on-line Initializer that can create pom.xml and application templates are available [here](http://www.speedment.com/initializer)
 
 ### JavaDoc
-The on-line JavaDocs are available [here](http://www.javadoc.io/doc/com.speedment/runtime-deploy/{{site.data.speedment.version}})
+The latest online JavaDocs are available [here](http://www.javadoc.io/doc/com.speedment/runtime-deploy)
 
 ### Release Notes
 Please refer to the [Release Notes documents](https://github.com/speedment/speedment/releases) for new features, enhancements and fixes performed for each Speedment release.
