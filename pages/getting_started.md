@@ -12,7 +12,7 @@ next: overview.html
 {% include prev_next.html %}
 
 ## Installation
-Speedment is installed in your pom.xml file. We recommend that you use the on-line (Speedment Initializer)[https://www.speedment.com/initializer/] to setup your pom file. You need to setup both the `speedment-maven-plugin` (for code generation) and the `speedment-runtime` (used by the application at runtime).
+Speedment is installed in your pom.xml file. We recommend that you use the on-line [Speedment Initializer](https://www.speedment.com/initializer/) to setup your pom file. You need to setup both the `speedment-maven-plugin` (for code generation) and the `speedment-runtime` (used by the application at runtime).
 
 Here is an example of a pom.xml file setup for Speedment and MySQL that has been used for the examples in this manual.
 ``` xml
@@ -81,7 +81,7 @@ Speedment Open Source (or just Speedment for short) contains stream handling, co
 
 ### Speedment Enterprise
 Speedment Enterprise contains additional features that are useful in enterprise environments, for example an in-memory DataStore accelerator and support for commercial databases like Oracle, Sql Server, DB2 and AS400.
-In order to activate Speedment Enterprise, you need a license that can either be purchased downloaded for free (trial) from [www.speedment.com](https::/www.speedment.com). Again, we encourage you to use the on-line (Speedment Initializer)[https://www.speedment.com/initializer/] to setup your pom file.
+In order to activate Speedment Enterprise, you need a license that can either be purchased or downloaded for free (trial) from [www.speedment.com](https::/www.speedment.com). Again, we encourage you to use the on-line [Speedment Initializer}(https://www.speedment.com/initializer/) to setup your pom file.
 
 Here is an example of a pom.xml file setup for Speedment Enterprise, in-memory acceleration (DataStore) and Oracle.
 ``` xml
@@ -192,6 +192,8 @@ The Initializer also supports Speedment Enterprise. Always use the Initializer t
 ## Starting the Tool
 The code generation and configuration tool is started using the Maven target `speedment::tool`. Once run, you can elect to use the tool to graphically maintain your project or you can use any text editor and modify the `speedment.json` file that holds the configuration model for your project.
 
+{% include image.html file="tool_screenshot.png" url="https://www.speedment.com/" alt="The Speedment Tool" caption="The Speedment Tool" %}
+
 ## Hello World
 Once your project has been setup properly and you have run the Maven target `speedment::tool`, you can start writing Speedment applications.
 
@@ -199,7 +201,7 @@ Here is a small example that will count the number of films that is rated "PG-13
 ``` java
      // Configure and start Speedment
      ApplicationBuilder app = new SakilaApplicationBuilder()
-        .withPassword("sakila-password')
+        .withPassword("sakila-password")
         .build();
 
     // Get the FilmManager (that handles the 'film' table)
