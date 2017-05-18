@@ -4,14 +4,18 @@ keywords: speedment orm java documentation database jdbc stream lambda
 tags: Start
 sidebar: mydoc_sidebar
 permalink: index.html
+toc: false
 summary: Learn how to connect a Java 8 Stream to a SQL database in an extremely efficient manner.
 previous: index.html
 next: introduction.html
 ---
 
-## Speedment Docs
+{% include prev_next.html %}
 
-Welcome to the Speedment Docs.
+## Using the Guide
 
+Welcome to the Speedment User's Guide!
 
+Use the navigation bar to get to a certain chapter or click [here](introduction.html) to go to the first chapter.
 
+{% include prev_next.html %}
