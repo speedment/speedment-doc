@@ -20,7 +20,7 @@ Speedment Open Source (or just Speedment for short) contains stream handling, co
 
 ### Speedment Enterprise
 Speedment Enterprise contains additional features that are useful in enterprise environments, for example an in-memory DataStore accelerator and support for commercial databases like Oracle, Sql Server, DB2 and AS400.
-In order to activate Speedment Enterprise, you need a license that can either be purchased or downloaded for free (trial) from [www.speedment.com](https::/www.speedment.com). Again, we encourage you to use the on-line [Speedment Initializer}(https://www.speedment.com/initializer/) to setup your pom file. [Here](#speedment-enterprise-pom-example) is an example of a pom.xml file for Speedment Enterprise.
+In order to activate Speedment Enterprise, you need a license that can either be purchased or downloaded for free (trial) from [www.speedment.com](https::/www.speedment.com). Again, we encourage you to use the on-line [Speedment Initializer](https://www.speedment.com/initializer/) to setup your pom file. [Here](#speedment-enterprise-pom-example) is an example of a pom.xml file for Speedment Enterprise.
 
 ## Starting the Tool
 The code generation and configuration tool is started using the Maven target `speedment::tool`. Once run, you can elect to use the tool to graphically maintain your project or you can use any text editor and modify the `speedment.json` file that holds the configuration model for your project.
@@ -39,7 +39,7 @@ Read more on the Speedment Maven Plugin [here](https://speedment.github.io/speed
 
 
 ## Hello World
-Once your project has been setup properly and you have run the Maven target `speedment::tool`, you can start writing Speedment applications.
+Once your project has been setup properly and you have run the Maven target `speedment::tool` and generated code, you can start writing Speedment applications.
 
 Here is a small example that will count the number of films that is rated "PG-13" from an example database named "Sakila".
 ``` java
@@ -79,9 +79,6 @@ FROM (
        (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin)
 ) AS A, values:[PG-13]
 ```
-
-{% include prev_next.html %}
-
 
 ## Speedment POM Example
 
@@ -253,6 +250,7 @@ Here is an example of a pom.xml file setup for Speedment Enterprise, in-memory a
 The Initializer also supports Speedment Enterprise. Always use the Initializer to get the most recent pom template for your project.
 " %}
 
+{% include prev_next.html %}
 
 ## Discussion
 Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
