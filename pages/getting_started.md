@@ -192,7 +192,9 @@ The Initializer also supports Speedment Enterprise. Always use the Initializer t
 ## Starting the Tool
 The code generation and configuration tool is started using the Maven target `speedment::tool`. Once run, you can elect to use the tool to graphically maintain your project or you can use any text editor and modify the `speedment.json` file that holds the configuration model for your project.
 
-{% include image.html file="tool_screenshot.png" url="https://www.speedment.com/" alt="The Speedment Tool" caption="The Speedment Tool" %}
+{% include image.html file="tool_connect_screenshot.png" url="https://www.speedment.com/" alt="The Speedment Tool - Connecting to the Database" caption="The Speedment Tool - Connecting to the Database" %}
+
+{% include image.html file="tool_screenshot.png" url="https://www.speedment.com/" alt="The Speedment Tool - Configuration and Code Generation" caption="The Speedment Tool - Configuration and Code Generation" %}
 
 ## Hello World
 Once your project has been setup properly and you have run the Maven target `speedment::tool`, you can start writing Speedment applications.
