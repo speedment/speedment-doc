@@ -16,7 +16,7 @@ __Speedment is a Java 8 Stream ORM Toolkit and Runtime__
 With Speedment you can write database applications using Java only. No SQL coding is needed.
 
 ### One-liner
-Search for an old `Hare` (of age greater than 5):
+Search for a long `Film` (of length greater than 120 minutes):
 ```java
 // Searches are optimized in the background!
 Optional<Film> longFilm = films.stream()
@@ -57,7 +57,7 @@ When we started the open-source project Speedment, the main objective was to rem
 | `GROUP BY`   | `collect(groupingBy())` |
 | `COUNT`      | `count()`    |
 
-Speedment allows all these Stream operations to be used.
+Speedment allows all these Stream operations to be used. Read more on Stream to SQL Equivalences [here](https://speedment.github.io/speedment-doc/speedment_examples.html#sql-equivalences).
 
 ### Additional Features
 Here are some of the many other features packed into the Speedment tool!
@@ -80,8 +80,11 @@ Ever seen a `NullPointerException` suddenly thrown out of nowhere? Null-pointers
 
 ## Speedment Resources
 
+### Initializer
+An on-line Initializer that can create pom.xml and application templates are available [here](http://www.speedment.com/initializer)
+
 ### JavaDoc
-On-line JavaDocs are available [here](http://www.javadoc.io/doc/com.speedment/runtime-deploy/{{site.data.speedment.version}})
+The on-line JavaDocs are available [here](http://www.javadoc.io/doc/com.speedment/runtime-deploy/{{site.data.speedment.version}})
 
 ### Release Notes
 Please refer to the [Release Notes documents](https://github.com/speedment/speedment/releases) for new features, enhancements and fixes performed for each Speedment release.
