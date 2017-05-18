@@ -182,7 +182,7 @@ Here is an example of a pom.xml file setup for Speedment Enterprise, in-memory a
       <url>http://repo.speedment.com/nexus/content/repositories/releases/</url>
     </pluginRepository>
   </pluginRepositories>
-</project>
+</project> 
 ```
 {% include tip.html content = "
 The Initializer also supports Speedment Enterprise. Always use the Initializer to get the most recent pom template for your project.
@@ -192,8 +192,14 @@ The Initializer also supports Speedment Enterprise. Always use the Initializer t
 ## Starting the Tool
 The code generation and configuration tool is started using the Maven target `speedment::tool`. Once run, you can elect to use the tool to graphically maintain your project or you can use any text editor and modify the `speedment.json` file that holds the configuration model for your project.
 
+The process is divided in two steps:
+  1 Connecting to the Database
+  2 Configuration of the Project and Code Generation
+
+### Step 1, Connecting to the Database
 {% include image.html file="tool_connect_screenshot.png" url="https://www.speedment.com/" alt="The Speedment Tool - Connecting to the Database" caption="The Speedment Tool - Connecting to the Database" %}
 
+### Step 2, Configuration of the Project and Code Generation
 {% include image.html file="tool_screenshot.png" url="https://www.speedment.com/" alt="The Speedment Tool - Configuration and Code Generation" caption="The Speedment Tool - Configuration and Code Generation" %}
 
 ## Hello World
