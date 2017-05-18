@@ -67,13 +67,13 @@ The following *Intermediate Operations* can be accepted by a `Stream`:
 | :------------     | :----------------- | :----------------------------------------------------- |
 | `filter`          | `Predicate`        | contains only those elements that match the `Predicate`
 | `map`             | `Function`         | contains the results of applying the given `Function` to the elements of this stream
-| `distinct`        | -                  | contains the distinct (i.e. unique) elements in the stream as per the element's `equals()` method.
+| `distinct`        | -                  | contains the distinct (i.e. unique) elements in the stream as per the element's `equals()` method
 | `sorted`          | -                  | contains the elements in the stream in sorted order as per the element's `compareTo()` method
 | `sorted`          | `Comparator`       | contains the elements in the stream in sorted order as per the given `Comparator`
 | `limit`           | `long`             | contains the original elements in the stream but truncated to be no longer than the given `long` value
 | `skip`            | `long`             | contains the original elements in the stream but after discarding the given `long` value of elements
 | `flatMap`         | `Function`         | contains the elements of the `Stream`s in this stream obtained by applying the given `Function` to the stream elements of this stream
-| `peek`            | `Consumer`         | contains the original elements in the stream but additionally accepting each element to the given `Consumer` (side effect)
+| `peek`            | `Consumer`         | contains the original elements in the stream but additionally letting the given `Consumer` accept each element (side effect)
 
 ### Stream Property Operations
 There are also a number of *Intermediate Operations* that controls the properties of the `Stream` and has no effect on its actual content. These are:
@@ -112,12 +112,12 @@ Here is a table of some additional *Intermediate Operations* that primitive Stre
 
 
 ### Java 9 Operations
-Two new *Intermediate Operations* were introduced in Java 9. Because these methods were added to the Stream interface with default implementations, these methods can be used by any Stream written in either Java 8 or Java 9.
+Two new *Intermediate Operations* were introduced in Java 9. Because these methods were added to the Stream interface with default implementations, these methods can be used by any Stream implementation written in either Java 8 or Java 9.
 
 | Operation         | Parameter          | Returns a `Stream` that:
 | :------------     | :----------------- | :----------------------------------------------------- |
-| `takeWhile`       | `Predicate`        | contains the elements in the original stream until the the first one fails the Predicate test 
-| `dropWhile`       | `Predicate`        | contains the elements in the original stream dropping all elements until the the first one fails the Predicate test then containing the rest of the elements
+| `takeWhile`       | `Predicate`        | contains the elements in the original stream until the the first one fails the `Predicate` test 
+| `dropWhile`       | `Predicate`        | contains the elements in the original stream dropping all elements until the the first one fails the `Predicate` test then containing the rest of the elements
 
 Please revise the complete {{site.data.javadoc.Stream}} JavaDoc for more information. Here are some examples of streams with *Intermediate Operations*:
 
@@ -197,7 +197,7 @@ returns a `Stream` with the elements "B", "A", "C" and "B" because the two lists
     Stream.of("B", "A", "C" , "B")
         .peek(System.out::print)
 ```
-is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB" as a side effect. Note that using side effects in stream are discouraged. Use this operation for debug only.
+is a `Stream` with the elements "B", "A", "C" and "B" but, when consumed in its entirety, will print out the text "BACB" as a side effect. Note that side effect usage in stream are discouraged. Use this operation for debug only.
 
 ### parallel
 ``` java
@@ -323,7 +323,7 @@ This completes the example list of *Intermediate Operation* examples.
 A *Terminal Operations* starts the `Stream` and returns a result that depends on the `Stream` pipeline and content. For example, `collect` is a *Terminal Operation* because we cannot add additional operation to a `Stream` pipeline after `collect` has been called.
 
 ### Common Operations
-Here are some of the *Terminal Operations* that can be accepted by a `Stream`:
+Here are some common examples of *Terminal Operations* that can be accepted by a `Stream`:
 
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
@@ -339,7 +339,7 @@ Here are some of the *Terminal Operations* that can be accepted by a `Stream`:
 | `findFirst`       | -                    | Returns the first element in this stream (if any)
 | `findAny`         | -                    | Returns any element in this stream (if any)
 | `toArray`         | -                    | Returns an array containing all the elements in this stream
-| `toArray`         | `IntFunction`        | Returns an array containing all the elements in this stream whereby the array is created using the provided `IntFunction`.
+| `toArray`         | `IntFunction`        | Returns an array containing all the elements in this stream whereby the array is created using the provided `IntFunction`
 
 ### Less Common Operations
 
@@ -347,12 +347,12 @@ Here is a list of other *Terminal Operations* that are a bit less commonly used 
 
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
-| `collect`         | `Supplier, BiCOnsumer, BiConsumer`   | Returns a reduction of the elements in the stream starting with an empty reduction (e.g. an empty `List`) obtained from the `Supplier` and then applying the first `BiConsumer` for each element and at the end, combining using the second `BiConsumer`.
+| `collect`         | `Supplier, BiCOnsumer, BiConsumer`   | Returns a reduction of the elements in the stream starting with an empty reduction (e.g. an empty `List`) obtained from the `Supplier` and then applying the first `BiConsumer` for each element and at the end, combining using the second `BiConsumer`
 | `reduce`          | `T, BinaryOperation` | Using a first `T` and then subsequently applying a `BinaryOperation` for each element in the stream, returns the value of the last value (reduction)
 | `reduce`          | `BinaryOperation`    | By subsequently applying a `BinaryOperation` for each element in the stream, returns the value of the last value (reduction)
 | `reduce`          | `T, BiFunction, BinaryOperator`          | In parallel, using  first values `T` and then subsequently applying a `BiFunctionn` for each element in the stream, returns the value of the last values combined using the combining `BinaryOperator`
-| `iterator`        | -                    | Returns an `Iterator` of all the values in this stream.
-| `spliterator`     | -                    | Returns a `Spliterator` with all the values in this stream.
+| `iterator`        | -                    | Returns an `Iterator` of all the values in this stream
+| `spliterator`     | -                    | Returns a `Spliterator` with all the values in this stream
 
 
 ### Primitive Stream Operations
@@ -362,8 +362,8 @@ Here is a list of additional *Terminal Operations* that are available for primit
 
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
-| `sum`             | -                    | Returns a reduction of the elements which is the sum of all elements in the stream.
-| `average`         | -                    | Returns a reduction of the elements which is the average of all elements in the stream (if any).
+| `sum`             | -                    | Returns a reduction of the elements which is the sum of all elements in the stream
+| `average`         | -                    | Returns a reduction of the elements which is the average of all elements in the stream (if any)
 | `summaryStatistics`| -                    | Returns a reduction of the elements which is a summary of a number of statistic measurements (min, max, sum, average and count)
 
 
@@ -582,7 +582,9 @@ Returns `OptionalDouble[2.5]` because 2.5 is the average of all elements in the 
     IntStream.of(1, 2, 3, 4)
         .summaryStatistics()
 ```
-Returns `IntSummaryStatistics{count=4, sum=10, min=1, average=2.500000, max=4}`. If the stream is empty, `IntSummaryStatistics{count=0, sum=0, min=2147483647, average=0.000000, max=-2147483648}` is returned (N.B. max is initially set to Integer.MIN_VALUE which is -2147483648).
+Returns `IntSummaryStatistics{count=4, sum=10, min=1, average=2.500000, max=4}`.
+
+If the stream is empty, `IntSummaryStatistics{count=0, sum=0, min=2147483647, average=0.000000, max=-2147483648}` is returned (max is initially set to Integer.MIN_VALUE which is -2147483648 and min is set to Integer.MAX_VALUE which is 2147483648).
 
 
 ## Other Operations
@@ -628,7 +630,7 @@ Prints all elements in the stream and then closes the stream. Some streams (e.g.
 
 ## Examples
 
-In the examples below we are working with entities of type `User`. The `User` class looks like this:
+In the examples below we are working with entities of type `User`. The thing with the `User`class is that the only thing we have to set is the `id` and all the other fields will be derived from the id field. This is good for tests and examples but of course not so useful in real applications.  The `User` class looks like this:
 
 ``` java 
     static class User {
@@ -690,7 +692,7 @@ In the examples below we are working with entities of type `User`. The `User` cl
     }
 
 ```
-As can be seen, users are really not real users but instead they are synthetically generated from the user id. Because the id defines all other fields, we use a "trick" and whereby we only need to use the id field in the `equals` and `hashCode` methods.
+As previously stated, users are really not real users but instead they are synthetically generated from the user id. Because the id defines all other fields, we use a "trick" and whereby we only need to use the id field in the `equals` and `hashCode` methods.
 
 The first users will thus be:
 

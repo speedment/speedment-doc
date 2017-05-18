@@ -13,6 +13,7 @@ next: stream_fundamentals.html
 
 ## What is Speedment?
 __Speedment is a Java 8 Stream ORM Toolkit and Runtime__ 
+
 With Speedment you can write database applications using Java only. No SQL coding is needed.
 
 ### One-liner
@@ -75,7 +76,7 @@ Speedment is built with the ambition to be completely modular! If you don’t li
 When the database structure changes during development of a software there is always a risk that bugs sneak into the application. Thats why type-safety is such a big deal! With Speedment, you will notice if something is wrong seconds after you generate your code instead of weeks into the testing phase.
 
 #### Null Protection
-Ever seen a `NullPointerException` suddenly thrown out of nowhere? Null-pointers have been called the billion-dollar-mistake of java, but at the same time they are used in almost every software project out there. To minimize the production risks of using null values, Speedment analyzes if null values are allowed by a column in the database and wraps the values as appropriate in Java 8 Optionals.
+Ever seen a `NullPointerException` suddenly thrown out of nowhere? Null-pointers have been called the billion-dollar-mistake of Java, but at the same time they are used in almost every software project out there. To minimize the production risks of using null values, Speedment analyzes if null values are allowed by a column in the database and wraps the values as appropriate in a Java 8 `Optional`.
 
 
 ## Speedment Resources

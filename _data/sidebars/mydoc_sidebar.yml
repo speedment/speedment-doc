@@ -546,11 +546,5 @@ entries:
       output: web, pdf
       type: homepage
 
-#  - title: UN-PLACED
-#    output: web, pdf
-#    folderitems:
-#
-#    - title: Demo
-#      url: demo.html
-#      output: web, pdf
+
 
