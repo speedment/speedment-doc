@@ -4,7 +4,7 @@ topnav:
 - title: Topnav
   items:
     - title: Twitter
-      url: https://twitter.com/search?q=%23speedment&src=typd
+      external_url: https://twitter.com/search?q=%23speedment&src=typd
 
 #Topnav dropdowns
 topnav_dropdowns:
@@ -26,8 +26,8 @@ topnav_dropdowns:
     - title: Products
       folderitems:
         - title: Speedment Enterprise
-          url: https://www.speedment.com/solutions/enterprise
+          external_url: https://www.speedment.com/solutions/enterprise
         - title: Speedment Open-Source
-          url: https://www.speedment.com/solutions/open-source
+          external_url: https://www.speedment.com/solutions/open-source
         - title: Ext Speeder
-          url: https://www.speedment.com/solutions/ext-speeder
+          external_url: https://www.speedment.com/solutions/ext-speeder
