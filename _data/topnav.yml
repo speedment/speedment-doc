@@ -18,7 +18,7 @@ topnav_dropdowns:
           external_url: https://www.speedment.com/initializer
         - title: Speedment JavaDocs
           external_url: http://www.javadoc.io/doc/com.speedment/runtime-deploy/{{site.data.speedment.version}}
-          - title: Speedment on Gitter
+        - title: Speedment on Gitter
           external_url: https://gitter.im/speedment/speedment
         - title: Speedment on Stack Overflow
           external_url: http://stackoverflow.com/questions/tagged/speedment?sort=newest
