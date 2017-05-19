@@ -873,13 +873,6 @@ span.soft {
     }
 }
 
-@media (min-width: 1000px) {
-
-    ul#mysidebar {
-        width: 225px;
-    }
-}
-
 @media (max-width: 900px) {
 
     ul#mysidebar {
