@@ -1,38 +1,6 @@
 <!DOCTYPE html>
 <head>
     {% include head.html %}
-<!--    <script>
-        $(document).ready(function() {
-            // Initialize navgoco with default options
-            $("#mysidebar").navgoco({
-                caretHtml: '',
-                accordion: true,
-                openClass: 'active', // open
-                save: false, // leave false or nav highlighting doesn't work right
-                cookie: {
-                    name: 'navgoco',
-                    expires: false,
-                    path: '/'
-                },
-                slide: {
-                    duration: 400,
-                    easing: 'swing'
-                }
-            });
-
-            $("#collapseAll").click(function(e) {
-                e.preventDefault();
-                $("#mysidebar").navgoco('toggle', false);
-            });
-
-            $("#expandAll").click(function(e) {
-                e.preventDefault();
-                $("#mysidebar").navgoco('toggle', true);
-            });
-
-        });
-
-    </script>-->
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
@@ -42,28 +10,24 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.js"></script>
     <script>
-        $(document).ready(function(){
-
-            $('table.datatable').DataTable( {
-                        paging: false,
-                        stateSave: true
-                    }
-            );
+      $(document).ready(function() {
+        $('table.datatable').DataTable({
+          paging: false,
+          stateSave: true
+        }
+      );
     </script>
     {% endif %}
-
 </head>
 <body>
 <div id="wrapper">
   {% include topnav.html %}
   <!-- Page Content -->
-    {% include sidemenu.html %}
     <div class="container-fluid" id="page-content-wrapper">
         <!-- Content Row -->
         <div class="row">
             <!-- Sidebar Column -->
             <div class="col-md-3" id="side-menu-wrapper">
-
               {% include sidebar.html %}
             </div>
             <!-- Content Column -->
@@ -76,24 +40,23 @@
         <!-- /.container -->
       </div>
   </div>
-</body>
+    
+  <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/sv_SE/sdk.js#xfbml=1&version=v2.8&appId=955237637945181";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <script>
+      $("#menu-toggle").click(function(e) {
+         e.preventDefault();
+         $("#wrapper").toggleClass("toggled");
+      });
+    </script>
 {% if site.google_analytics %}
 {% include google_analytics.html %}
 {% endif %}
+  </body>
 </html>
-
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/sv_SE/sdk.js#xfbml=1&version=v2.8&appId=955237637945181";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-<script>
-   $("#menu-toggle").click(function(e) {
-       e.preventDefault();
-       $("#wrapper").toggleClass("toggled");
-   });
-   </script>
