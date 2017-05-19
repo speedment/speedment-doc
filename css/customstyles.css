@@ -1174,3 +1174,9 @@ h4.panel-title {
     margin-top: 0px;
 }
 
+
+/** Fix first header on each page */
+h1#top {
+    margin-top: 0px;
+    padding-top: 0px;   
+}
