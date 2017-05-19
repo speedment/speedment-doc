@@ -247,7 +247,7 @@ Here is an example of a pom.xml file setup for Speedment Enterprise, in-memory a
 </project> 
 ```
 {% include tip.html content = "
-The Initializer also supports Speedment Enterprise. Always use the Initializer to get the most recent pom template for your project.
+The Initializer also supports Speedment Enterprise. Always use the [Initializer](https://speedment.com/initializer) to get the most recent pom template for your project.
 " %}
 
 {% include prev_next.html %}
