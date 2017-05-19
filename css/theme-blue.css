@@ -100,10 +100,6 @@ li.sidebarTitle {
     margin-left: 5px;
 }
 
-#side-menu-wrapper{
-  background: #f8f8f8;
-}
-
 #mysidebar {
     position: fixed;
     top: 64px;
