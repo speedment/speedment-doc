@@ -1180,3 +1180,7 @@ h1#top {
     margin-top: -65px;
     padding-top: 65px;   
 }
+
+#side-menu-wrapper {
+    margin-bottom: 35px;   
+}
