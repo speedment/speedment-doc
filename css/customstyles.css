@@ -1177,6 +1177,6 @@ h4.panel-title {
 
 /** Fix first header on each page */
 h1#top {
-    margin-top: -50px;
-    padding-top: 50px;   
+    margin-top: -65px;
+    padding-top: 65px;   
 }
