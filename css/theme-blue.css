@@ -93,17 +93,17 @@ div.sidebarTitle {
 }
 
 li.sidebarTitle {
-    margin-top:40px;
     font-weight:normal;
     font-size:130%;
     color: #ED1951;
     margin-bottom:10px;
     margin-left: 5px;
-
 }
+
 #side-menu-wrapper{
   background: #f8f8f8;
 }
+
 #mysidebar {
     position: fixed;
     top: 64px;
@@ -118,11 +118,9 @@ li.sidebarTitle {
     -webkit-overflow-scrolling: touch;
     z-index: 2;
     background: #f8f8f8;
- }
+}
+
 #mysidebar{
  padding-left: 30px;
  padding-right:2;
 }
-#main-wrapper{
-
-}    
