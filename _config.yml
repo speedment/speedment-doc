@@ -4,10 +4,10 @@ repository: speedment/speedment-doc
 output: web
 # this property is useful for conditional filtering of content that is separate from the PDF.
 
-topnav_title: Speedment Documentation
+topnav_title: Speedment User Guide
 # this appears on the top navigation bar next to the home button
 
-site_title: Speedment Documentation (Beta)
+site_title: Speedment User Guide
 # this appears in the html browser tab for the site title (seen mostly by search engines, not users)
 
 company_name: Speedment, Inc
@@ -32,7 +32,7 @@ exclude:
   - .gitignore
 # these are the files and directories that jekyll will exclude from the build
 
-feedback_subject_line: Speedment Documentation
+feedback_subject_line: Speedment User Guide
 
 feedback_email: dev@speedment.com
 # used as a contact email for the Feedback link in the top navigation bar
