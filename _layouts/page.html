@@ -4,6 +4,9 @@ layout: default
 
 <div class="post-header">
    <h1 id="top" class="post-title-main">{{ page.title }}</h1>
+   {% if site.github_editme_path %}
+   <a target="_blank" href="https://github.com/{{site.github_editme_path}}{% unless page.url contains "index.html" %}pages/{% endunless %}{{page.folder}}{{page.url | remove: ".html" | append: ".md"}}" class="btn btn-default githubEditButton" role="button"><i class="fa fa-github fa-lg"></i> Edit me</a>
+   {% endif %}
 </div>
 
 {% if page.simple_map == true %}
@@ -38,14 +41,7 @@ layout: default
     {% include toc.html %}
     {% endunless %}
 
-
-    {% if site.github_editme_path %}
-
-    <a target="_blank" href="https://github.com/{{site.github_editme_path}}{% unless page.url contains "index.html" %}pages/{% endunless %}{{page.folder}}{{page.url | remove: ".html" | append: ".md"}}" class="btn btn-default githubEditButton" role="button"><i class="fa fa-github fa-lg"></i> Edit me</a>
-
-    {% endif %}
-
-  {{content}}
+    {{content}}
 
     <div class="tags">
         {% if page.tags != null %}
