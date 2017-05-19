@@ -2,8 +2,8 @@
 
 entries:
 - title: sidebar
-  product: Jekyll Doc Theme
-  version: 6.0
+  product: Speedment
+  version: 3.0.9
   folders:
 
   - title:
@@ -19,297 +19,532 @@ entries:
       output: pdf
       type: frontmatter
 
-  - title: Overview
+  - title: Introducing Speedment
     output: web, pdf
     folderitems:
 
-    - title: Get started
-      url: /index.html
+    - title: What is Speedment?
+      url: introduction.html#what-is-speedment
       output: web, pdf
       type: homepage
 
-    - title: Introduction
-      url: /mydoc_introduction.html
+    - title: Speedment Resources
+      url: introduction.html#speedment-resources
       output: web, pdf
+      type: homepage
 
-    - title: Supported features
-      url: /mydoc_supported_features.html
+    - title: Fast Facts About Speedment
+      url: introduction.html#fast-facts-about-speedment
       output: web, pdf
+      type: homepage
 
-    - title: About the theme author
-      url: /mydoc_about.html
-      output: web, pdf
-
-    - title: Support
-      url: /mydoc_support.html
-      output: web, pdf
-
-  - title: Release Notes
+  - title: Stream Fundamentals
     output: web, pdf
     folderitems:
 
-    - title: 6.0 Release notes
-      url: /mydoc_release_notes_60.html
+    - title: What is a Stream?
+      url: stream_fundamentals.html#what-is-a-stream
+      output: web, pdf
+      type: homepage
+
+    - title: Intermediate Operations
+      url: stream_fundamentals.html#intermediate-operations
+      output: web, pdf
+      type: homepage
+
+    - title: Terminal Operations
+      url: stream_fundamentals.html#terminal-operations
       output: web, pdf
 
-    - title: 5.0 Release notes
-      url: /mydoc_release_notes_50.html
+    - title: Examples
+      url: stream_fundamentals.html#examples
       output: web, pdf
 
-  - title: Installation
-    output: web, pdf
-    folderitems:
-
-    - title: Speedment Maven Plugin
-      url: /maven.html
-      output: web, pdf
-
-    - title: Predicates
-      url: /predicate.html
-      output: web, pdf
-
-    - title: Comparators
-      url: /comparator.html
-      output: web, pdf
-
-    - title: About Ruby, Gems, Bundler, etc.
-      url: /mydoc_about_ruby_gems_etc.html
-      output: web, pdf
-
-    - title: Install Jekyll on Mac
-      url: /mydoc_install_jekyll_on_mac.html
-      output: web, pdf
-
-    - title: Install Jekyll on Windows
-      url: /mydoc_install_jekyll_on_windows.html
-      output: web, pdf
-
-  - title: Authoring
-    output: web, pdf
-
-    folderitems:
-    - title: Pages
-      url: /mydoc_pages.html
-      output: web, pdf
-
-    - title: Posts
-      url: /mydoc_posts.html
-      output: web, pdf
-
-    - title: Lists
-      url: /mydoc_lists.html
-      output: web, pdf
-
-    - title: Conditional logic
-      url: /mydoc_conditional_logic.html
-      output: web, pdf
-
-    - title: Content reuse
-      url: /mydoc_content_reuse.html
-      output: web, pdf
-
-    - title: Collections
-      url: /mydoc_collections.html
-      output: web, pdf
-
-    - title: WebStorm editor tips
-      url: /mydoc_webstorm_text_editor.html
-      output: web, pdf
-
-    - title: Atom editor tips
-      url: /mydoc_atom_text_editor.html
-      output: web, pdf
-
-  - title: Navigation
-    output: web, pdf
-
-    folderitems:
-    - title: Sidebar navigation
-      url: /mydoc_sidebar_navigation.html
-      output: web, pdf
-
-    - title: YAML tutorial in the context of Jekyll
-      url: /mydoc_yaml_tutorial.html
-      output: web, pdf
-
-    - title: Tags
-      url: /mydoc_tags.html
-      output: web, pdf
-
-    - title: Series
-      url: /mydoc_series.html
-      output: web, pdf
-
-  - title: Formatting
-    output: web, pdf
-
-    folderitems:
-    - title: Tooltips
-      url: /mydoc_adding_tooltips.html
-      output: web, pdf
-
-    - title: Alerts
-      url: /mydoc_alerts.html
-      output: web, pdf
-
-    - title: Icons
-      url: /mydoc_icons.html
-      output: web, pdf
-
-    - title: Images
-      url: /mydoc_images.html
-      output: web, pdf
-
-    - title: Code samples
-      url: /mydoc_code_samples.html
-      output: web, pdf
-
-    - title: Labels
-      url: /mydoc_labels.html
-      output: web, pdf
-
-    - title: Links
-      url: /mydoc_hyperlinks.html
-      output: web, pdf
-
-    - title: Navtabs
-      url: /mydoc_navtabs.html
-      output: web, pdf
-
-    - title: Tables
-      url: /mydoc_tables.html
-      output: web, pdf
-
-    - title: Syntax highlighting
-      url: /mydoc_syntax_highlighting.html
-      output: web, pdf
-
-    - title: Workflow maps
-      url: /mydoc_workflow_maps.html
-      output: web, pdf
-
-  - title: Handling reviews
-    output: web, pdf
-
-    folderitems:
-    - title: Commenting on files
-      url: /mydoc_commenting_on_files.html
-      output: web, pdf
-
-#    - title: Git collaboration
-#      url: /mydoc_git_collaboration
+#  - title: Speedment Overview
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Streams
+#      url: /mydoc_about.html
 #      output: web, pdf
+#      type: homepage
+#
+#    - title: Persist
+#      url: /mydoc_about.html
+#      output: web, pdf
+#
+#    - title: Update
+#      url: /mydoc_about.html
+#      output: web, pdf
+#
+#    - title: Remove
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      
+#    - title: Configuration
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
 
-  - title: Publishing
+  - title: Getting Started
     output: web, pdf
-
     folderitems:
-    - title: Build arguments
-      url: /mydoc_build_arguments.html
+
+    - title: Installation
+      url: getting_started.html#installation
+      output: web, pdf
+      type: homepage
+
+    - title: Starting the Tool
+      url: getting_started.html#starting-the-tool
       output: web, pdf
 
-    - title: Themes
-      url: /mydoc_themes.html
+    - title: Hello World
+      url: getting_started.html#hello-world
       output: web, pdf
 
-    - title: Generating PDFs
-      url: /mydoc_generating_pdfs.html
-      output: web, pdf
-
-    - title: Help APIs and UI tooltips
-      url: /mydoc_help_api.html
-      output: web, pdf
-
-    - title: Search configuration
-      url: /mydoc_search_configuration.html
-      output: web, pdf
-
-    - title: iTerm profiles
-      url: /mydoc_iterm_profiles.html
-      output: web, pdf
-
-    - title: Pushing builds to server
-      url: /mydoc_push_build_to_server.html
-      output: web, pdf
-
-    - title: Getting around the password prompts in SCP
-      url: /mydoc_no_password_prompts_scp.html
-      output: web, pdf
-
-    - title: Publishing on Github Pages
-      url: /mydoc_publishing_github_pages.html
-      output: web, pdf
-
-  - title: Special layouts
+  - title: Application Configuration
     output: web, pdf
-
     folderitems:
-    - title: Knowledge-base layout
-      url: /mydoc_kb_layout.html
-      output: web, pdf
 
-    - title: Glossary layout
-      url: /mydoc_glossary.html
+    - title: Why Configure?
+      url: /application_configuration.html#why-configure
       output: web, pdf
-
-    - title: FAQ layout
-      url: /mydoc_faq_layout.html
+      type: homepage
+      
+    - title: Configurations
+      url: /application_configuration.html#configurations
       output: web, pdf
+      type: homepage
 
-    - title: Scroll layout
-      url: /mydoc_scroll.html
+    - title: Logging
+      url: /application_configuration.html#logging
       output: web, pdf
+      type: homepage
 
-    - title: Shuffle layout
-      url: /mydoc_shuffle.html
-      output: web, pdf
 
-  - title: Troubleshooting
+  - title: Speedment Examples
     output: web, pdf
-
     folderitems:
 
-    - title: Troubleshooting
-      url: /mydoc_troubleshooting.html
+    - title: SQL Equivalences
+      url: speedment_examples.html#sql-equivalences
       output: web, pdf
+      type: homepage
 
-  - title: Tag archives
-    output: web
+    - title: Stream Examples
+      url: speedment_examples.html#stream-examples
+      output: web, pdf
+      type: homepage
+
+  - title: Speedment Predicates
+    output: web, pdf
     folderitems:
 
-    - title: Tag archives overview
-      url: /mydoc_tag_archives_overview.html
-      output: web
+    - title: What is a Predicate?
+      url: predicate.html#what-is-a-predicate
+      output: web, pdf
+      type: homepage
+      
+    - title: Reference Predicates
+      url: predicate.html#reference-predicates
+      output: web, pdf
+      type: homepage
+      
+    - title: Comparable Predicates
+      url: predicate.html#comparable-predicates
+      output: web, pdf
+      type: homepage
+      
+    - title: String Predicates
+      url: predicate.html#string-predicates
+      output: web, pdf
+      type: homepage      
 
+    - title: Predicate Examples
+      url: predicate.html#predicate-examples
+      output: web, pdf
+      type: homepage
+
+  - title: Speedment Comparators
+    output: web, pdf
+    folderitems:
+
+    - title: What is a Comparator?
+      url: comparator.html#what-is-a-comparator
+      output: web, pdf
+      type: homepage
+      
+    - title: Comparators
+      url: comparator.html#comparators
+      output: web, pdf
+      type: homepage
+
+#  - title: Speedment Advanced Features
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Parallelism
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Parallel Strategy
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#
+  - title: Speedment Maven Plugin
+    output: web, pdf
+    folderitems:
+
+    - title: Installation
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage
+      
+    - title: Installation Example
+      url: maven.html#installation-example
+      output: web, pdf
+      type: homepage
+
+    - title: Maven Targets
+      url: maven.html#maven-targets
+      output: web, pdf
+      type: homepage
+
+    - title: Tool
+      url: maven.html#tool
+      output: web, pdf
+      type: homepage
+
+    - title: Generate
+      url: maven.html#generate
+      output: web, pdf
+      type: homepage
+
+    - title: Reload
+      url: maven.html#reload
+      output: web, pdf
+      type: homepage
+
+    - title: Clear
+      url: maven.html#clear
+      output: web, pdf
+      type: homepage
+
+    - title: Configuration0
+      url: maven.html
+      output: web, pdf
       subfolders:
-      - title: Tag archive pages
-        output: web
+          
+      - title: ConfigHolder
+        output: web, pdf
         subfolderitems:
 
-        - title: Formatting pages
-          url: /tag_formatting.html
-          output: web
+        - title: Enable Debug Mode
+          url: maven.html#enable-debug-mode
+          output: web, pdf
+          type: homepage
 
-        - title: Navigation pages
-          url: /tag_navigation.html
-          output: web
+        - title: Adding a TypeMapper
+          url: maven.html#adding-a-type-mapper
+          output: web, pdf
+          type: homepage
+        
+        - title: Adding a Component
+          url: maven.html#adding-a-component
+          output: web, pdf
+          type: homepage
+        
+        - title: Adding a Bundle
+          url: maven.html#adding-a-bundle
+          output: web, pdf
+          type: homepage
+   
+        - title: Setting Component Parameters
+          url: maven.html#setting-component-parameters
+          output: web, pdf
+          type: homepage
 
-        - title: Content types pages
-          url: /tag_content_types.html
-          output: web
+    - title: Automated Maven Builds
+      url: maven.html#automated-maven-builds
+      output: web, pdf
+      type: homepage
 
-        - title: Publishing pages
-          url: /tag_publishing.html
-          output: web
+    - title: Speedment Enterprise
+      url: maven.html#speedment-enterprise
+      output: web, pdf
+      type: homepage
 
-        - title: Special layout pages
-          url: /tag_special_layouts.html
-          output: web
+    - title: Command Line Parameters
+      url: maven.html#command-line-parameters
+      output: web, pdf
+      type: homepage
 
-        - title: Collaboration pages
-          url: /tag_collaboration.html
-          output: web
+    - title: Command Line Examples
+      url: maven.html#command-line-examples
+      output: web, pdf
+      type: homepage
 
-        - title: Troubleshooting pages
-          url: /tag_troubleshooting.html
-          output: web
+    - title: The Configuration File
+      url: maven.html#the-configuration-file
+      output: web, pdf
+      type: homepage
+
+    - title: Specifying a Configuration File
+      url: maven.html#specifying-a-configuration-file
+      output: web, pdf
+      type: homepage
+
+    - title: Resetting the Configuration File
+      url: maven.html#resetting-the-configuration-file
+      output: web, pdf
+      type: homepage
+
+
+#  - title: Speedment Tool
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Connect
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Configure
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Generate Code
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#      
+#    - title: Reload
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#      
+#    - title: Components
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#
+#
+#  - title: Speedment Streams
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Supported Mehods (not iterator)
+#      url: maven.html#installation
+#      output: web, pdf
+#      type: homepage
+#      
+#    - title: Auto Closeable
+#      url: maven.html#installation
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Parallel Streams
+#      url: maven.html#installation
+#      output: web, pdf
+#      type: homepage
+#
+
+  - title: DataStore Acceleration
+    output: web, pdf
+    folderitems:
+
+    - title: What is DataStore
+      url: datastore.html#what-is-datastore
+      output: web, pdf
+      type: homepage
+      
+    - title: Enabling DataStore
+      url: datastore.html#enabling-datastore
+      output: web, pdf
+      type: homepage
+
+    - title: Using DataStore
+      url: datastore.html#using-datastore
+      output: web, pdf
+      type: homepage
+      
+    - title: Performance
+      url: datastore.html#performance
+      output: web, pdf
+      type: homepage
+
+#  
+#  - title: Data Types
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Default Types
+#      url: maven.html#installation
+#      output: web, pdf
+#      type: homepage
+#      
+#
+#  - title: Speedment Lifecycle
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Building an Application
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#    
+#    - title: Starting an Application
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#      
+#    - title: Stopping an Application
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#      
+#    - title: The Injector
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage      
+#
+#  - title: TypeMapper
+#    output: web, pdf
+#    folderitems:
+#      
+#    - title: Standard TypeMapper
+#      url: maven.html#installation
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Custom TypeMapper
+#      url: maven.html#installation
+#      output: web, pdf
+#      type: homepage
+#      
+#  - title: Component and Bundle
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Plugin Types
+#      url: maven.html#installation
+#      output: web, pdf
+#      type: homepage
+#      
+#    - title: Overrriding an Existing Component
+#      url: maven.html#installation
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Implementing a Custom Component
+#      url: maven.html#installation
+#      output: web, pdf
+#      type: homepage      
+#      
+#    - title: Bundling Components
+#      url: maven.html#installation
+#      output: web, pdf
+#      type: homepage            
+#      
+#    - title: Implementing a Bundle
+#      url: maven.html#installation
+#      output: web, pdf
+#      type: homepage                  
+#            
+#  - title: Integration
+#    output: web, pdf
+#    folderitems:      
+#
+#    - title: JavaEE
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage  
+#
+#    - title: Spring Boot
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage  
+#
+#    - title: GSON
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage        
+#      
+#      
+#
+#  - title: Management
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Overview
+#      url: /index.html
+#      output: web, pdf
+#      type: homepage
+#
+#
+#
+#  - title: Configuration File
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Location
+#      url: /index.html
+#      output: web, pdf
+#      type: homepage
+#      
+#    - title: Content
+#      url: /index.html
+#      output: web, pdf
+#      type: homepage
+#      
+#      
+#  - title: Performance
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Connection Pooling
+#      url: /index.html
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Benchmarks
+#      url: /index.html
+#      output: web, pdf
+#      type: homepage
+#
+#
+#  - title: Frequently Asked Questions (FAQ)
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Why 1
+#      url: /index.html
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: How do I 2
+#      url: /index.html
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Does Speedment support 3
+#      url: /index.html
+#      output: web, pdf
+#      type: homepage
+
+
+  - title: About the Author
+    output: web, pdf
+    folderitems:
+
+    - title: Per Minborg
+      url: author.html
+      output: web, pdf
+      type: homepage
+
+
+

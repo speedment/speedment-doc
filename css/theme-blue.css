@@ -12,7 +12,7 @@ h4 {color: #808080; }
     background-color: #248ec2;
     color: white;
 }
-
+nav ul li a {border-top:0px; background-color:transparent; color: #808080; padding-left: 15px; }
 .nav > li.active > a {
     background-color: #347DBE;
 }
@@ -101,3 +101,28 @@ li.sidebarTitle {
     margin-left: 5px;
 
 }
+#side-menu-wrapper{
+  background: #f8f8f8;
+}
+#mysidebar {
+    position: fixed;
+    top: 64px;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    width: 460px;
+    height: auto;
+    background: #f8f8f8;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    z-index: 2;
+    background: #f8f8f8;
+ }
+#mysidebar{
+ padding-left: 30px;
+ padding-right:2;
+}
+#main-wrapper{
+
+}    

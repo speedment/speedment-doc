@@ -129,7 +129,6 @@ th {
     text-align: left;
 }
 table {
-    max-width: 90%;
     margin-bottom: 20px;
     border: 1px solid #dedede;
 }
@@ -411,6 +410,7 @@ ul#mysidebar {
 
 .nav ul li a {
     background-color: #FAFAFA;
+    padding-left:20px;
 }
 
 .nav li a {
@@ -423,7 +423,7 @@ ul#mysidebar {
 
 .nav ul li a {
     border-top:1px solid whitesmoke;
-    padding-left:10px;
+    padding-left:22px;
 }
 /* end sidebar */
 
@@ -873,13 +873,6 @@ span.soft {
     }
 }
 
-@media (min-width: 1000px) {
-
-    ul#mysidebar {
-        width: 225px;
-    }
-}
-
 @media (max-width: 900px) {
 
     ul#mysidebar {
@@ -1177,3 +1170,4 @@ h4.panel-title {
     padding-top: 0px;
     margin-top: 0px;
 }
+
