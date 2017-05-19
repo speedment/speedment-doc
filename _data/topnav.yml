@@ -3,26 +3,24 @@
 topnav:
 - title: Topnav
   items:
-    - title: speedment.com
-      external_url: https://www.speedment.com
 
 #Topnav dropdowns
 topnav_dropdowns:
 - title: Topnav dropdowns
   folders:
-    - title: Speedment Resources
+    - title: Resources
       folderitems:
-        - title: Speedment Initializer
+        - title: Initializer
           external_url: https://www.speedment.com/initializer
-        - title: Speedment Github Repo
+        - title: Github Repo
           external_url: https://github.com/speedment/speedment
-        - title: Speedment JavaDocs
+        - title: JavaDocs
           external_url: http://www.javadoc.io/doc/com.speedment/runtime-deploy
-        - title: Speedment on Gitter
+        - title: Gitter
           external_url: https://gitter.im/speedment/speedment
-        - title: Speedment on Stack Overflow
+        - title: Stack Overflow
           external_url: http://stackoverflow.com/questions/tagged/speedment?sort=newest
-        - title: Speedment on Twitter
+        - title: Twitter
           external_url: https://twitter.com/search?q=%23speedment&src=typd
         
     - title: Products
