@@ -20,6 +20,7 @@ entries:
       type: frontmatter
 
   - title: Introducing Speedment
+    url: introduction.html#top
     output: web, pdf
     folderitems:
 
@@ -39,6 +40,7 @@ entries:
       type: homepage
 
   - title: Stream Fundamentals
+    url: stream_fundamentals.html#top
     output: web, pdf
     folderitems:
 
@@ -61,6 +63,7 @@ entries:
       output: web, pdf
 
 #  - title: Speedment Overview
+#    url: mydoc_about.html#top
 #    output: web, pdf
 #    folderitems:
 #
@@ -87,6 +90,7 @@ entries:
 #      type: homepage
 
   - title: Getting Started
+    url: getting_started.html#top
     output: web, pdf
     folderitems:
 
@@ -104,6 +108,7 @@ entries:
       output: web, pdf
 
   - title: Application Configuration
+    url: application_configuration.html#top
     output: web, pdf
     folderitems:
 
@@ -124,6 +129,7 @@ entries:
 
 
   - title: Speedment Examples
+    url: speedment_examples.html#top
     output: web, pdf
     folderitems:
 
@@ -138,6 +144,7 @@ entries:
       type: homepage
 
   - title: Speedment Predicates
+    url: predicate.html#top
     output: web, pdf
     folderitems:
 
@@ -167,6 +174,7 @@ entries:
       type: homepage
 
   - title: Speedment Comparators
+    url: comparator.html#top
     output: web, pdf
     folderitems:
 
@@ -181,6 +189,7 @@ entries:
       type: homepage
 
 #  - title: Speedment Advanced Features
+#    url: mydoc_about.html#top
 #    output: web, pdf
 #    folderitems:
 #
@@ -195,6 +204,7 @@ entries:
 #      type: homepage
 #
   - title: Speedment Maven Plugin
+    url: maven.html#top
     output: web, pdf
     folderitems:
 
@@ -304,6 +314,7 @@ entries:
 
 
 #  - title: Speedment Tool
+#    url: mydoc_about.html#top
 #    output: web, pdf
 #    folderitems:
 #
@@ -334,6 +345,7 @@ entries:
 #
 #
 #  - title: Speedment Streams
+#    url: maven.html#top
 #    output: web, pdf
 #    folderitems:
 #
@@ -354,6 +366,7 @@ entries:
 #
 
   - title: DataStore Acceleration
+    url: datastore.html#top
     output: web, pdf
     folderitems:
 
@@ -379,6 +392,7 @@ entries:
 
 #  
 #  - title: Data Types
+#    url: maven.html#top
 #    output: web, pdf
 #    folderitems:
 #
@@ -389,6 +403,7 @@ entries:
 #      
 #
 #  - title: Speedment Lifecycle
+#    url: mydoc_about.html#top
 #    output: web, pdf
 #    folderitems:
 #
@@ -413,6 +428,7 @@ entries:
 #      type: homepage      
 #
 #  - title: TypeMapper
+#    url: maven.html#top
 #    output: web, pdf
 #    folderitems:
 #      
@@ -427,6 +443,7 @@ entries:
 #      type: homepage
 #      
 #  - title: Component and Bundle
+#    url: maven.html#top
 #    output: web, pdf
 #    folderitems:
 #
@@ -456,6 +473,7 @@ entries:
 #      type: homepage                  
 #            
 #  - title: Integration
+#    url: mydoc_about.html#top
 #    output: web, pdf
 #    folderitems:      
 #
@@ -477,6 +495,7 @@ entries:
 #      
 #
 #  - title: Management
+#    url: index.html#top
 #    output: web, pdf
 #    folderitems:
 #
@@ -488,6 +507,7 @@ entries:
 #
 #
 #  - title: Configuration File
+#    url: index.html#top
 #    output: web, pdf
 #    folderitems:
 #
@@ -503,6 +523,7 @@ entries:
 #      
 #      
 #  - title: Performance
+#    url: index.html#top
 #    output: web, pdf
 #    folderitems:
 #
@@ -518,6 +539,7 @@ entries:
 #
 #
 #  - title: Frequently Asked Questions (FAQ)
+#    url: index.html#top
 #    output: web, pdf
 #    folderitems:
 #
@@ -538,6 +560,7 @@ entries:
 
 
   - title: About the Author
+    url: about.html#top
     output: web, pdf
     folderitems:
 
