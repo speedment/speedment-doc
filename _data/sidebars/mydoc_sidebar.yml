@@ -62,33 +62,6 @@ entries:
       url: stream_fundamentals.html#examples
       output: web, pdf
 
-#  - title: Speedment Overview
-#    url: mydoc_about.html#top
-#    output: web, pdf
-#    folderitems:
-#
-#    - title: Streams
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: Persist
-#      url: /mydoc_about.html
-#      output: web, pdf
-#
-#    - title: Update
-#      url: /mydoc_about.html
-#      output: web, pdf
-#
-#    - title: Remove
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      
-#    - title: Configuration
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-
   - title: Getting Started
     url: getting_started.html#top
     output: web, pdf
@@ -203,6 +176,30 @@ entries:
 #      output: web, pdf
 #      type: homepage
 #
+
+#  - title: CRUD Operations
+#    url: mydoc_about.html#top
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Streams
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Persist
+#      url: /mydoc_about.html
+#      output: web, pdf
+#
+#    - title: Update
+#      url: /mydoc_about.html
+#      output: web, pdf
+#
+#    - title: Remove
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      
+
   - title: Speedment Maven Plugin
     url: maven.html#top
     output: web, pdf
@@ -243,39 +240,34 @@ entries:
       output: web, pdf
       type: homepage
 
-    - title: Configuration0
-      url: maven.html
+    - title: Configuration
+      url: maven.html#configuration
       output: web, pdf
-      subfolders:
           
-      - title: ConfigHolder
-        output: web, pdf
-        subfolderitems:
+    - title: Enable Debug Mode
+      url: maven.html#enable-debug-mode
+      output: web, pdf
+      type: homepage
 
-        - title: Enable Debug Mode
-          url: maven.html#enable-debug-mode
-          output: web, pdf
-          type: homepage
-
-        - title: Adding a TypeMapper
-          url: maven.html#adding-a-type-mapper
-          output: web, pdf
-          type: homepage
+    - title: Adding a TypeMapper
+      url: maven.html#adding-a-type-mapper
+      output: web, pdf
+      type: homepage
         
-        - title: Adding a Component
-          url: maven.html#adding-a-component
-          output: web, pdf
-          type: homepage
-        
-        - title: Adding a Bundle
-          url: maven.html#adding-a-bundle
-          output: web, pdf
-          type: homepage
+    - title: Adding a Component
+      url: maven.html#adding-a-component
+      output: web, pdf
+      type: homepage
+       
+    - title: Adding a Bundle
+      url: maven.html#adding-a-bundle
+      output: web, pdf
+      type: homepage
    
-        - title: Setting Component Parameters
-          url: maven.html#setting-component-parameters
-          output: web, pdf
-          type: homepage
+    - title: Setting Component Parameters
+      url: maven.html#setting-component-parameters
+      output: web, pdf
+      type: homepage
 
     - title: Automated Maven Builds
       url: maven.html#automated-maven-builds
