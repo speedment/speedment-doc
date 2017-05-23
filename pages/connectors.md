@@ -57,7 +57,7 @@ Here is how you configure the speedment enterprise plugin:
         </configuration>
     </plugin>
 ```
-You also have to depend on the Oracle connector as a runtime dependency for your application:
+You also have to depend on the Oracle connector and JDBC connector as a runtime dependency for your application:
 ``` xml
     <dependencies>
         <dependency>
@@ -132,7 +132,7 @@ Here is how you configure the speedment enterprise plugin:
         </configuration>
     </plugin>
 ```
-You also have to depend on the Sql Server connector as a runtime dependency for your application:
+You also have to depend on the Sql Server connector and JDBC connector as a runtime dependency for your application:
 ``` xml
     <dependencies>
         <dependency>
@@ -207,7 +207,7 @@ Here is how you configure the speedment enterprise plugin:
         </configuration>
     </plugin>
 ```
-You also have to depend on the DB2 connector as a runtime dependency for your application:
+You also have to depend on the DB2 connector and JDBC connector as a runtime dependency for your application:
 ``` xml
     <dependencies>
         <dependency>
@@ -274,7 +274,7 @@ Here is how you configure the speedment enterprise plugin:
         </configuration>
     </plugin>
 ```
-You also have to depend on the DB2 connector (that also contains AS400 support) as a runtime dependency for your application:
+You also have to depend on the AS400 connector and JDBC connector as a runtime dependency for your application:
 ``` xml
     <dependencies>
         <dependency>
@@ -307,6 +307,8 @@ When you build the application, the `Db2Bundle` needs to be added to the runtime
         .withBundle(Db2Bundle.class)
         .build();
 ```
+The `Db2Bundle` supports both DB2 and AS400.
+
 {% include tip.html content= "
 The AS400 JDBC driver has some features that can be controlled using the connection URL. To activate these functions, use the method `ApplicationBuilder::withConnectionUrl` to specify a custom connection URL.
 " %}
