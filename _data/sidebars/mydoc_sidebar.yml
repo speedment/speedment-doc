@@ -381,6 +381,21 @@ entries:
     output: web, pdf
     folderitems:
 
+    - title: MySQL
+      url: connectors.html#mysql
+      output: web, pdf
+      type: homepage
+
+    - title: PostgreSQL
+      url: connectors.html#postgres
+      output: web, pdf
+      type: homepage
+      
+    - title: MariaBD
+      url: connectors.html#mariadb
+      output: web, pdf
+      type: homepage      
+    
     - title: Oracle
       url: connectors.html#oracle
       output: web, pdf

@@ -11,8 +11,20 @@ next: connectors.html
 
 {% include prev_next.html %}
 
-## Connectors
-Support for additional database types can easily be obtained by adding an appropriate connector. Adding a connector is straight forward:
+## Open Source Connectors
+
+## MySQL
+Speedment supports MySQL out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your MySQL project.
+
+## PostgreSQL
+Speedment supports PostgreSQL out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your PostgreSQL project.
+
+## MariaDB
+Speedment supports MariaDB out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your MariaDB project.
+
+
+## Enterprise Connectors
+Support for additional enterprise database types can easily be obtained by adding an appropriate connector. Adding a connector is straight forward:
 
 * Add a connector dependency in your pom file
 * Mention the connector's `Bundle` in the speedment enterprise plugin
