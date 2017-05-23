@@ -183,35 +183,35 @@ entries:
       url: crud.html#delete-with-remove
       output: web, pdf
 
-#  - title: Advanced Features
-#    url: advanced_features.html#top
-#    output: web, pdf
-#    folderitems:
+  - title: Advanced Features
+    url: advanced_features.html#top
+    output: web, pdf
+    folderitems:
 
-#    - title: Automatic Closing
-#      url: advanced_features.html#automatic-closing
-#      output: web, pdf
-#      type: homepage
+    - title: Automatic Closing
+      url: advanced_features.html#automatic-closing
+      output: web, pdf
+      type: homepage
 
-#    - title: Iterator and Spliterator
-#      url: advanced_features.html#iterator-and-spliterator
-#      output: web, pdf
-#      type: homepage
+    - title: Iterator and Spliterator
+      url: advanced_features.html#iterator-and-spliterator
+      output: web, pdf
+      type: homepage
 
-#    - title: Parallelism
-#      url: advanced_features.html#parallelism
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: Parallel Strategy
-#      url: advanced_features.html#parallel-stategy
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: Connection Pooling
-#      url: advanced_features.html#connection-pooling
-#      output: web, pdf
-#      type: homepage
+    - title: Parallelism
+      url: advanced_features.html#parallelism
+      output: web, pdf
+      type: homepage
+
+    - title: Parallel Strategy
+      url: advanced_features.html#parallel-stategy
+      output: web, pdf
+      type: homepage
+
+    - title: Connection Pooling
+      url: advanced_features.html#connection-pooling
+      output: web, pdf
+      type: homepage
 
   - title: Speedment Maven Plugin
     url: maven.html#top
