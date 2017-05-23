@@ -161,22 +161,6 @@ entries:
       output: web, pdf
       type: homepage
 
-#  - title: Speedment Advanced Features
-#    url: mydoc_about.html#top
-#    output: web, pdf
-#    folderitems:
-#
-#    - title: Parallelism
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: Parallel Strategy
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#
-
   - title: CRUD Operations
     url: crud.html#top
     output: web, pdf
@@ -198,7 +182,38 @@ entries:
     - title: Delete with Remove
       url: crud.html#delete-with-remove
       output: web, pdf
-      
+
+#  - title: Advanced Features
+#    url: advanced.html#top
+#    output: web, pdf
+#    folderitems:
+
+#    - title: Automatic Closing
+#      url: maven.html#automatic-closing
+#      output: web, pdf
+#      type: homepage
+
+#    - title: Iterator and Spliterator
+#      url: maven.html#iterator-and-spliterator
+#      output: web, pdf
+#      type: homepage
+
+#    - title: Parallelism
+#      url: advanced.html#parallelism
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Parallel Strategy
+#      url: advanced.html#parallel-stategy
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Connection Pooling
+#      url: /index.html
+#      output: web, pdf
+#      type: homepage
+
+#
 
   - title: Speedment Maven Plugin
     url: maven.html#top
@@ -336,27 +351,6 @@ entries:
 #      type: homepage
 #
 #
-#  - title: Speedment Streams
-#    url: maven.html#top
-#    output: web, pdf
-#    folderitems:
-#
-#    - title: Supported Mehods (not iterator)
-#      url: maven.html#installation
-#      output: web, pdf
-#      type: homepage
-#      
-#    - title: Auto Closeable
-#      url: maven.html#installation
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: Parallel Streams
-#      url: maven.html#installation
-#      output: web, pdf
-#      type: homepage
-#
-
   - title: DataStore Acceleration
     url: datastore.html#top
     output: web, pdf
@@ -381,6 +375,31 @@ entries:
       url: datastore.html#performance
       output: web, pdf
       type: homepage
+
+#  - title: Database Connectors
+#    url: connectors.html#top
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Oracle
+#      url: connectors.html#oracle
+#      output: web, pdf
+#      type: homepage
+#      
+#    - title: SQL Server
+#      url: connectors.html#sql-server
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: DB2
+#      url: connectors.html#db2
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: AS400
+#      url: connectors.html#as400
+#      output: web, pdf
+#      type: homepage
 
 #  
 #  - title: Data Types
