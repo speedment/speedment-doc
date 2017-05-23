@@ -177,28 +177,28 @@ entries:
 #      type: homepage
 #
 
-#  - title: CRUD Operations
-#    url: mydoc_about.html#top
-#    output: web, pdf
-#    folderitems:
-#
-#    - title: Streams
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: Persist
-#      url: /mydoc_about.html
-#      output: web, pdf
-#
-#    - title: Update
-#      url: /mydoc_about.html
-#      output: web, pdf
-#
-#    - title: Remove
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      
+  - title: CRUD Operations
+    url: crud.html#top
+    output: web, pdf
+    folderitems:
+
+    - title: Create with Persist
+      url: crud.html#create-with-persist
+      output: web, pdf
+      type: homepage
+
+    - title: Read with Stream
+      url: crud.html#read-with-stream
+      output: web, pdf
+
+    - title: Update with Update
+      url: crud.html#update-with-update
+      output: web, pdf
+
+    - title: Delete with Remove
+      url: crud.html#delete-with-remove
+      output: web, pdf
+      
 
   - title: Speedment Maven Plugin
     url: maven.html#top
