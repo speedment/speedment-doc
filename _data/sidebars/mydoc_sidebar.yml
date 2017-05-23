@@ -376,30 +376,30 @@ entries:
       output: web, pdf
       type: homepage
 
-#  - title: Database Connectors
-#    url: connectors.html#top
-#    output: web, pdf
-#    folderitems:
-#
-#    - title: Oracle
-#      url: connectors.html#oracle
-#      output: web, pdf
-#      type: homepage
-#      
-#    - title: SQL Server
-#      url: connectors.html#sql-server
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: DB2
-#      url: connectors.html#db2
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: AS400
-#      url: connectors.html#as400
-#      output: web, pdf
-#      type: homepage
+  - title: Database Connectors
+    url: connectors.html#top
+    output: web, pdf
+    folderitems:
+
+    - title: Oracle
+      url: connectors.html#oracle
+      output: web, pdf
+      type: homepage
+      
+    - title: SQL Server
+      url: connectors.html#sql-server
+      output: web, pdf
+      type: homepage
+
+    - title: DB2
+      url: connectors.html#db2
+      output: web, pdf
+      type: homepage
+
+    - title: AS400
+      url: connectors.html#as400
+      output: web, pdf
+      type: homepage
 
 #  
 #  - title: Data Types
