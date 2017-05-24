@@ -5,8 +5,8 @@ title: Integration
 keywords: Spring, Spring Boot, Java EE
 toc: false
 Tags: Spring, Spring Boot, Java EE
-previous: integration.html
-next: integration.html
+previous: crud.html
+next: advanced_features.html
 ---
 
 {% include prev_next.html %}

@@ -5,8 +5,8 @@ title: Speedment Examples
 keywords: Stream, Examples
 toc: false
 Tags: Stream, Examples
-previous: introduction.html
-next: getting_started.html
+previous: application_configuration.html
+next: predicate.html
 ---
 
 {% include prev_next.html %}

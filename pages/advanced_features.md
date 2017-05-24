@@ -5,8 +5,8 @@ title: Advanced Features
 keywords: Parallel, Iterator, Spliterator
 toc: false
 Tags: Parallel, Iterator, Spliterator
-previous: advanced_features.html
-next: advanced_features.html
+previous: integration.html
+next: maven.html
 ---
 
 {% include prev_next.html %}

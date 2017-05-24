@@ -5,7 +5,7 @@ title: About the Author
 keywords: Author
 toc: false
 Tags: Author
-previous: author.html
+previous: connectors.html
 next: author.html
 ---
 

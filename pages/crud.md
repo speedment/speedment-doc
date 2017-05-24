@@ -5,8 +5,8 @@ title: CRUD Operations
 keywords: CRUD, Create, Persist, Update, Delete, Remove
 toc: false
 Tags: CRUD, Create, Persist, Update, Delete, Remove
-previous: crud.html
-next: crud.html
+previous: comparator.html
+next: integration.html
 ---
 
 {% include prev_next.html %}

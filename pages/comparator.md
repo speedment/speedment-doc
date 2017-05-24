@@ -5,8 +5,8 @@ title: Speedment Comparator
 keywords: Comparator, Stream
 toc: false
 Tags: Stream, Comparator
-previous: comparator.html
-next: comparator.html
+previous: predicate.html
+next: crud.html
 ---
 
 {% include prev_next.html %}

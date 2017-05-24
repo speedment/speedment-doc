@@ -5,8 +5,8 @@ title: Application Configuration
 keywords: Configuration, Application
 toc: false
 Tags: Configuration, Application
-previous: application_configuration.html
-next: application_configuration.html
+previous: getting_started.html
+next: speedment_examples.html
 ---
 
 {% include prev_next.html %}

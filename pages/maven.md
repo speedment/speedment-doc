@@ -5,8 +5,8 @@ title: Speedment Maven Plugin
 keywords: Maven, Plugin, Tool, Generate, Reload, Clear
 toc: false
 Tags: Installation, Maven
-previous: predicate.html
-next: demo.html
+previous: advanced_features.html
+next: datastore.html
 ---
 
 {% include prev_next.html %}
