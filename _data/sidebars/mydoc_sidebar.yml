@@ -207,6 +207,11 @@ entries:
       url: advanced_features.html#parallel-stategy
       output: web, pdf
       type: homepage
+      
+    - title: Parallel Thread Pools
+      url: advanced_features.html#parallel-thread-pools
+      output: web, pdf
+      type: homepage
 
     - title: Connection Pooling
       url: advanced_features.html#connection-pooling
