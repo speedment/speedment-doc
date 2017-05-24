@@ -110,16 +110,17 @@ entries:
       url: speedment_examples.html#sql-equivalences
       output: web, pdf
       type: homepage
+      folderitems:
 
-    - title: * From
-      url: speedment_examples.html#from
-      output: web, pdf
-      type: homepage
+        - title: From
+          url: speedment_examples.html#from
+          output: web, pdf
+          type: homepage
 
-    - title: * Where
-      url: speedment_examples.html#where
-      output: web, pdf
-      type: homepage
+        - title: Where
+          url: speedment_examples.html#where
+          output: web, pdf
+          type: homepage
 
     - title: Stream Examples
       url: speedment_examples.html#stream-examples
