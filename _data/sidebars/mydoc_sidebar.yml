@@ -106,25 +106,44 @@ entries:
     output: web, pdf
     folderitems:
 
-    - title: SQL Equivalences
-      url: speedment_examples.html#sql-equivalences
+    - title: Examples
+      url: speedment_examples.html#top
       output: web, pdf
       type: homepage
     
-    - title: + From
-      url: speedment_examples.html#from
-      output: web, pdf
-      type: homepage
-                 
-    - title: + Where
-      url: speedment_examples.html#where
-      output: web, pdf
-      type: homepage
+      subfolders:
+        - title: SQL Equivalences
+          url: speedment_examples.html#sql-equivalences
+          output: web, pdf
+          type: homepage
+        
+          subfolderitems:
+            - title: From
+              url: speedment_examples.html#from
+              output: web, pdf
+              type: homepage
 
-    - title: Stream Examples
-      url: speedment_examples.html#stream-examples
-      output: web, pdf
-      type: homepage
+            - title: Where
+              url: speedment_examples.html#where
+              output: web, pdf
+              type: homepage
+        
+        - title: Stream Examples
+          url: speedment_examples.html#stream-examples
+          output: web, pdf
+          type: homepage
+          
+          subfolderitems:
+            - title: Paging
+              url: speedment_examples.html#paging
+              output: web, pdf
+              type: homepage
+
+            - title: Partition By
+              url: speedment_examples.html#partition-by
+              output: web, pdf
+              type: homepage
+
 
   - title: Speedment Predicates
     url: predicate.html#top
