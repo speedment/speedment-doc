@@ -110,8 +110,8 @@ entries:
       url: speedment_examples.html#sql-equivalences
       output: web, pdf
       type: homepage
-      subfolderitems:
-
+      
+      subfolders:
         - title: From
           url: speedment_examples.html#from
           output: web, pdf
