@@ -51,7 +51,6 @@ Because of this, the `Stream::iterator` and `Stream:spliterator` functions are d
 If you elect to enable these methods using the `withAllowStreamIteratorAndSpliterator()` method, it is imperative that you always close your underlying streams or you will deplete your database connection pool. Here is an example of how to make sure an `Iterator` from a Speedment stream is used properly:
 ``` java
     try (Stream<Film> filmStream = films.stream()) {
-        filmStream.onClose(() -> System.out.println("Close : iteratorWitchClose"));
         Iterator<Film> filmIterator = filmStream.iterator();
         filmIterator.forEachRemaining(System.out::println);
     };
@@ -95,7 +94,7 @@ ForkJoinPool.commonPool-worker-2 InventoryImpl { inventoryId = 3075, filmId = 67
 Read more about Parallel Database Streams with Speedment in this [blog post](http://minborgsjavapot.blogspot.com/2016/10/work-with-parallel-database-streams.html)
 
 ## Parallel Strategy
-In the [previous chapter](#parallelism) we learned about parallelism. Because the number of rows that a stream is processing is unknown, Speedment will apply a certain strategy of how to divide the workload over the available threads. By default, Speedment is using Java 8's default parallel strategy `Spliterators::spliteratorUnknownSize` whereby 1024, 2048, 3072, 4096, etc. elements will be laid out over the available threads.
+In the [previous chapter](#parallelism) we learned about parallelism. Because the number of rows that a stream is processing is unknown in the beginning, Speedment will apply a certain strategy of how to divide the workload over the available threads. By default, Speedment is using Java 8's default parallel strategy `Spliterators::spliteratorUnknownSize` whereby 1024, 2048, 3072, 4096, etc. elements will be laid out over the available threads.
 
 When the number of elements are relatively low, the default strategy will not work (for example if there are less than 1024 elements, then only one thread will be used). This is why Speedment supports different parallel strategies. You can set your own parallel strategy like this:
 ``` java
@@ -127,20 +126,24 @@ ForkJoinPool.commonPool-worker-7 InventoryImpl { inventoryId = 10, filmId = 2, s
 ```
 As can be seen, more threads are being used with the selected parallel strategy `ParallelStrategy.computeIntensityHigh()` compared to the case in the previous clause where the default strategy were used.
 
-Read more about Parallel Database Streams and Parallel strategies with Speedment in this [blog post](http://minborgsjavapot.blogspot.com/2016/10/work-with-parallel-database-streams.html)
+The following static methods are available in the `ParallelStrategy` interface:
+| Strategy                      | Elements per thread             | Description                |
+| :---------------------------- | :------------------------------ | :------------------------- |
+| `computeIntensityDefault()`   | 1024, 2048, 3072, 4096, ...     | Default Java 8 strategy that favors relatively large sets (in the ten thousands or more) with low computational overhead
+| `computeIntensityMedium()`    | 16, 32, 64, ..., up to 16384    | A Parallel Strategy that favors relatively small to medium sets with medium computational overhead
+| `computeIntensityHigh()`      | 1, 1, 2, 2, 4, 4, ..., up to 256| A Parallel Strategy that favors relatively small to medium sets with high computational overhead
+| `computeIntensityExtreme()`   | 1, 1, always                    | A Parallel Strategy that favors small sets with extremely high computational overhead. The set will be split up in solitary elements that are executed separately in their own thread
+
+It is relatively easy to implement a custom parallel strategy. Read more about that, Parallel Database Streams and Parallel strategies with Speedment in this [blog post](http://minborgsjavapot.blogspot.com/2016/10/work-with-parallel-database-streams.html)
 
 ## Parallel Thread Pools
 By default, parallel streams are executed on the Common ForkJoin pool. If you want to execute parallel streams on another thread pool then do like this:
 ``` java
-    Manager<Inventory> inventoriesWithStategy = app
-        .configure(InventoryManager.class)
-        .withParallelStrategy(ParallelStrategy.computeIntensityHigh())
-        .build();
-
+        // Create a custom ForkJoinPool with only three threads
         ForkJoinPool forkJoinPool = new ForkJoinPool(3);
 
         forkJoinPool.submit(() -> {
-            inventoriesWithStategy.stream()
+            inventories.stream()
                 .parallel()
                 .forEach(this::expensiveOperation);
         });
