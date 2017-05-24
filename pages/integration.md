@@ -103,19 +103,19 @@ This can be done like this:
 private static final int PAGE_SIZE = 50;
  
 private Stream<Film> serveFilms(
-    String rating, int page
-  ) {
+      String rating, int page
+    ) {
  
-  Stream<Film> stream = films.stream();
+     Stream<Film> stream = films.stream();
  
-  if (rating != null) {
-    stream = stream.filter(Film.RATING.equal(rating));
-  }
+    if (rating != null) {
+        stream = stream.filter(Film.RATING.equal(rating));
+    }
  
-  return stream
-    .sorted(Film.LENGTH.comparator())
-    .skip(page * PAGE_SIZE)
-    .limit(PAGE_SIZE);
+    return stream
+        .sorted(Film.LENGTH.comparator())
+        .skip(page * PAGE_SIZE)
+        .limit(PAGE_SIZE);
 }
 
 ```
@@ -126,7 +126,7 @@ The code snippet above could easily be improved to take parameters specifying a 
 ## JSON
 Often when you write database applications you will need to send different output to a client app. There are many protocols for sending results over a network. One of the most common is JSON.
 
-A number of third party JSON libraries can be used in conjunction with Speeedment including GSON. Speedment can also handle JSON output using the JSON plugin.
+A number of third party JSON libraries can be used in conjunction with Speeedment including GSON. Speedment can also handle JSON output using the Speedment JSON plugin.
 
 This is how you add the Speedment JSON plugin to your project:
 ``` xml
