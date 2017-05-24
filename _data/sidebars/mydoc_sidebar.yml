@@ -104,19 +104,32 @@ entries:
   - title: Speedment Examples
     url: speedment_examples.html#top
     output: web, pdf
-    subfolders:
+    folderitems:
 
     - title: SQL Equivalences
       url: speedment_examples.html#sql-equivalences
       output: web, pdf
       type: homepage
-      
-      subfolderitems:
+    
+      subfolders:
         - title: From
           url: speedment_examples.html#from
           output: web, pdf
           type: homepage
+        
+          subfolderitems:
+            - title: Foo
+              url: speedment_examples.html#from
+              output: web, pdf
+              type: homepage
 
+            - title: Bar
+              url: speedment_examples.html#from
+              output: web, pdf
+              type: homepage
+
+
+        
         - title: Where
           url: speedment_examples.html#where
           output: web, pdf
