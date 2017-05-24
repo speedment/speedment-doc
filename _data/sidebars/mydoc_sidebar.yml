@@ -127,6 +127,66 @@ entries:
               url: speedment_examples.html#where
               output: web, pdf
               type: homepage
+              
+            - title: Order By
+              url: speedment_examples.html#order-by
+              output: web, pdf
+              type: homepage
+              
+            - title: Offset
+              url: speedment_examples.html#offset
+              output: web, pdf
+              type: homepage
+              
+            - title: Limit
+              url: speedment_examples.html#limit
+              output: web, pdf
+              type: homepage
+              
+            - title: Offset and Limit
+              url: speedment_examples.html#combining-offset-and-limit
+              output: web, pdf
+              type: homepage
+              
+            - title: Count
+              url: speedment_examples.html#count
+              output: web, pdf
+              type: homepage
+              
+            - title: Group By
+              url: speedment_examples.html#group-by
+              output: web, pdf
+              type: homepage
+              
+            - title: Having
+              url: speedment_examples.html#having
+              output: web, pdf
+              type: homepage
+              
+            - title: Join
+              url: speedment_examples.html#join
+              output: web, pdf
+              type: homepage
+              
+            - title: Distinct
+              url: speedment_examples.html#distinct
+              output: web, pdf
+              type: homepage
+
+            - title: Select
+              url: speedment_examples.html#select
+              output: web, pdf
+              type: homepage
+
+            - title: Union All
+              url: speedment_examples.html#union-all
+              output: web, pdf
+              type: homepage
+              
+            - title: Union
+              url: speedment_examples.html#union
+              output: web, pdf
+              type: homepage
         
         - title: Stream Examples
           url: speedment_examples.html#stream-examples
@@ -143,7 +203,26 @@ entries:
               url: speedment_examples.html#partition-by
               output: web, pdf
               type: homepage
+              
+            - title: One-to-Many
+              url: speedment_examples.html#one-to-many
+              output: web, pdf
+              type: homepage
+              
+            - title: Many-to-One
+              url: speedment_examples.html#many-to-one
+              output: web, pdf
+              type: homepage
 
+            - title: Many-to-Many
+              url: speedment_examples.html#many-to-many
+              output: web, pdf
+              type: homepage
+
+            - title: Pivot Data
+              url: speedment_examples.html#pivot-data
+              output: web, pdf
+              type: homepage
 
   - title: Speedment Predicates
     url: predicate.html#top
