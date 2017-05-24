@@ -111,29 +111,15 @@ entries:
       output: web, pdf
       type: homepage
     
-      subfolders:
-        - title: From
-          url: speedment_examples.html#from
-          output: web, pdf
-          type: homepage
-        
-          subfolderitems:
-            - title: Foo
-              url: speedment_examples.html#from
-              output: web, pdf
-              type: homepage
-
-            - title: Bar
-              url: speedment_examples.html#from
-              output: web, pdf
-              type: homepage
-
-
-        
-        - title: Where
-          url: speedment_examples.html#where
-          output: web, pdf
-          type: homepage
+    - title: + From
+      url: speedment_examples.html#from
+      output: web, pdf
+      type: homepage
+                 
+    - title: + Where
+      url: speedment_examples.html#where
+      output: web, pdf
+      type: homepage
 
     - title: Stream Examples
       url: speedment_examples.html#stream-examples
