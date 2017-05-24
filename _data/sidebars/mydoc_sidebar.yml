@@ -111,6 +111,16 @@ entries:
       output: web, pdf
       type: homepage
 
+    - title:   From
+      url: speedment_examples.html#from
+      output: web, pdf
+      type: homepage
+
+    - title:   Where
+      url: speedment_examples.html#where
+      output: web, pdf
+      type: homepage
+
     - title: Stream Examples
       url: speedment_examples.html#stream-examples
       output: web, pdf
@@ -189,17 +199,22 @@ entries:
     folderitems:      
 
     - title: Spring Boot
-      url: integration.html
+      url: integration.html#spring-boot
       output: web, pdf
       type: homepage  
 
     - title: Java EE
-      url: integration.html
+      url: integration.html#java-ee
       output: web, pdf
       type: homepage  
 
-    - title: GSON
-      url: integration.html
+    - title: REST
+      url: integration.html#rest
+      output: web, pdf
+      type: homepage 
+
+    - title: JSON
+      url: integration.html#json
       output: web, pdf
       type: homepage 
 
