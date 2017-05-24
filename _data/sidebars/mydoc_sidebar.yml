@@ -111,12 +111,12 @@ entries:
       output: web, pdf
       type: homepage
 
-    - title:   From
+    - title: * From
       url: speedment_examples.html#from
       output: web, pdf
       type: homepage
 
-    - title:   Where
+    - title: * Where
       url: speedment_examples.html#where
       output: web, pdf
       type: homepage
