@@ -110,7 +110,7 @@ entries:
       url: speedment_examples.html#sql-equivalences
       output: web, pdf
       type: homepage
-      folderitems:
+      subfolderitems:
 
         - title: From
           url: speedment_examples.html#from
