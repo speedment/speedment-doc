@@ -41,14 +41,14 @@ If a Speedment stream throws an `Exception`, then it will still perform a proper
 ## Iterator and Spliterator
 Calls to either `Stream::iterator` or `Spliteraor::spliterator` will produce an object where the automatic closing property can not be ensured (Partly because neither `Iterator` nor `Spliterator` have a close method).
 
-Because of this, the `Stream::iterator` and `Stream:spliterator` functions are disabled in Speedment streams by default and they will throw an `UnsupportedOperationException` whenever they are invoked. If you are willing to assume the responsibility of always closing the underlying stream, then you can enable the `Stream::iterator` and `Stream:spliterator` methods like this:
+Because of this, the `Stream::iterator` and `Stream:spliterator` functions are disabled in Speedment streams by default and they will throw an `UnsupportedOperationException` whenever they are invoked. If you are willing to assume the responsibility of always closing the underlying stream, then you can enable the `Stream::iterator` and `Stream:spliterator` methods via your `ApplicationBuilder`:
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
         .withPassword(password)
         .withAllowStreamIteratorAndSpliterator()
         .build();
 ```
-If you elect to enable these methods using the `withAllowStreamIteratorAndSpliterator()` method, it is imperative that you always close your underlying streams or you will deplete your database connection pool. Here is an example of how to make sure an `Iterator` from a Speedment stream is used properly:
+If you elect to enable these methods using the `withAllowStreamIteratorAndSpliterator()` method, then it is imperative that you always close your underlying streams or you will deplete your database connection pool. Here is an example of how to make sure an `Iterator` from a Speedment stream is used properly:
 ``` java
     try (Stream<Film> filmStream = films.stream()) {
         Iterator<Film> filmIterator = filmStream.iterator();
@@ -57,7 +57,8 @@ If you elect to enable these methods using the `withAllowStreamIteratorAndSplite
 ```
 The `spliterator()` method can be handled much the same way. 
 
-The static method `Stream::concat` relies on merging two Spliterators of two underlying streams and thus it cannot be used unless the `withAllowStreamIteratorAndSpliterator()` has been called. Because of this, Speedment provides another support method `StreamComposition::concatAndAutoClose` that allows concatenation without using Spliterators and thus there is no need to call the `withAllowStreamIteratorAndSpliterator()` method just for the sake of being able to concatenate streams.
+### Stream.concat()
+The static method `Stream::concat` relies on merging two Spliterators from two underlying streams and thus it cannot be used unless the `withAllowStreamIteratorAndSpliterator()` has been called. Because of this, Speedment provides another support method `StreamComposition::concatAndAutoClose` that allows concatenation without using Spliterators and thus there is no need to call the `withAllowStreamIteratorAndSpliterator()` method just for the sake of being able to concatenate streams.
 
 
 ## Parallelism
@@ -94,7 +95,7 @@ ForkJoinPool.commonPool-worker-2 InventoryImpl { inventoryId = 3075, filmId = 67
 Read more about Parallel Database Streams with Speedment in this [blog post](http://minborgsjavapot.blogspot.com/2016/10/work-with-parallel-database-streams.html)
 
 ## Parallel Strategy
-In the [previous chapter](#parallelism) we learned about parallelism. Because the number of rows that a stream is processing is unknown in the beginning, Speedment will apply a certain strategy of how to divide the workload over the available threads. By default, Speedment is using Java 8's default parallel strategy `Spliterators::spliteratorUnknownSize` whereby 1024, 2048, 3072, 4096, etc. elements will be laid out over the available threads.
+In the [previous chapter](#parallelism) we learned about parallelism. Because the number of rows that a stream is processing is unknown in the beginning, Speedment will apply a certain strategy of how to divide the stream elements over the available threads. By default, Speedment is using Java 8's default parallel strategy `Spliterators::spliteratorUnknownSize` whereby an arithmetic progression in split sizes 1024, 2048, 3072, 4096, etc. elements will be laid out over the available threads.
 
 When the number of elements are relatively low, the default strategy will not work (for example if there are less than 1024 elements, then only one thread will be used). This is why Speedment supports different parallel strategies. You can set your own parallel strategy like this:
 ``` java
@@ -124,7 +125,7 @@ ForkJoinPool.commonPool-worker-5 InventoryImpl { inventoryId = 6, filmId = 1, st
 ForkJoinPool.commonPool-worker-7 InventoryImpl { inventoryId = 10, filmId = 2, storeId = 2, lastUpdate = 2006-02-15 05:09:17.0 }
 ...
 ```
-As can be seen, more threads are being used with the selected parallel strategy `ParallelStrategy.computeIntensityHigh()` compared to the case in the previous clause where the default strategy were used.
+As can be seen, more threads are being used with the selected parallel strategy `ParallelStrategy.computeIntensityHigh()` compared to the case in the previous clause where the default strategy was used.
 
 The following static methods are available in the `ParallelStrategy` interface:
 | Strategy                      | Elements per thread             | Description                |
@@ -137,7 +138,7 @@ The following static methods are available in the `ParallelStrategy` interface:
 It is relatively easy to implement a custom parallel strategy. Read more about that, Parallel Database Streams and Parallel strategies with Speedment in this [blog post](http://minborgsjavapot.blogspot.com/2016/10/work-with-parallel-database-streams.html)
 
 ## Parallel Thread Pools
-By default, parallel streams are executed on the Common ForkJoin pool. If you want to execute parallel streams on another thread pool then do like this:
+By default, parallel streams are executed by the Common ForkJoin pool. If you want to execute parallel streams using another thread pool then do like this:
 ``` java
         // Create a custom ForkJoinPool with only three threads
         ForkJoinPool forkJoinPool = new ForkJoinPool(3);
