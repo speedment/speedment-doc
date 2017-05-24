@@ -205,17 +205,17 @@ entries:
               type: homepage
               
             - title: One-to-Many
-              url: speedment_examples.html#one-to-many
+              url: speedment_examples.html#one-to-many-relations
               output: web, pdf
               type: homepage
               
             - title: Many-to-One
-              url: speedment_examples.html#many-to-one
+              url: speedment_examples.html#many-to-one-relations
               output: web, pdf
               type: homepage
 
             - title: Many-to-Many
-              url: speedment_examples.html#many-to-many
+              url: speedment_examples.html#many-to-many-relations
               output: web, pdf
               type: homepage
 
