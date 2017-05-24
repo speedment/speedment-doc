@@ -128,6 +128,7 @@ ForkJoinPool.commonPool-worker-7 InventoryImpl { inventoryId = 10, filmId = 2, s
 As can be seen, more threads are being used with the selected parallel strategy `ParallelStrategy.computeIntensityHigh()` compared to the case in the previous clause where the default strategy was used.
 
 The following static methods are available in the `ParallelStrategy` interface:
+
 | Strategy                      | Elements per thread             | Description                |
 | :---------------------------- | :------------------------------ | :------------------------- |
 | `computeIntensityDefault()`   | 1024, 2048, 3072, 4096, ...     | Default Java 8 strategy that favors relatively large sets (in the ten thousands or more) with low computational overhead
