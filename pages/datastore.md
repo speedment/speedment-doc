@@ -12,10 +12,9 @@ next: datastore.html
 {% include prev_next.html %}
 
 ## What is DataStore?
+A Java 8 Stream does not describe any details about how data is retrieved, in fact this is delegated to the framework defining the pipeline source and termination. There is nothing in the design of a stream entailing data must come from a SQL query. This fact is used by Speedment Enterprise that contains an in-JVM-memory analytics engine called DataStore, allowing streams to connect directly to RAM instead of remote databases. The engine provides streams with exactly the same API semantics as for databases but will execute queries with orders of magnitude lower latencies. This creates a new way to write high performance data applications whereby the actual source-of-truth can remain with an existing database. It is possible to provision terabytes of data in the JVM with no garbage collection impact because data is stored off heap and can optionally be mapped to SSD files. Streams can have a latency well under one microsecond. Comparing this to a traditional application with a database connection, just the TCP round-trip delay in a high-performance network is hardly ever under 40 microseconds and then database latency and data transfer times have to be added on top.
 
-The DataStore module is a Speedment Enterprise feature that pulls in database content from a database to an in-JVM memory data store. Data can then be used in analytics applications. Because data is stored off heap, the Java garbage collector is unaffected by data that is held by the DataStore module.
-
-The DataStore module can hold terabytes of data and will significantly reduce stream latency. The Stream API remains exactly the same as for SQL Streams.
+Thus, the DataStore module can be used in analytics applications. 
 
 
 ## Enabling DataStore

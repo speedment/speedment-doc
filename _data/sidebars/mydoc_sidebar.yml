@@ -183,6 +183,26 @@ entries:
       url: crud.html#delete-with-remove
       output: web, pdf
 
+  - title: Integration
+    url: integration.html#top
+    output: web, pdf
+    folderitems:      
+
+    - title: Spring Boot
+      url: integration.html
+      output: web, pdf
+      type: homepage  
+
+    - title: Java EE
+      url: integration.html
+      output: web, pdf
+      type: homepage  
+
+    - title: GSON
+      url: integration.html
+      output: web, pdf
+      type: homepage 
+
   - title: Advanced Features
     url: advanced_features.html#top
     output: web, pdf
@@ -499,28 +519,7 @@ entries:
 #    - title: Implementing a Bundle
 #      url: maven.html#installation
 #      output: web, pdf
-#      type: homepage                  
-#            
-#  - title: Integration
-#    url: mydoc_about.html#top
-#    output: web, pdf
-#    folderitems:      
-#
-#    - title: JavaEE
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage  
-#
-#    - title: Spring Boot
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage  
-#
-#    - title: GSON
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage        
-#      
+#      type: homepage                        
 #      
 #
 #  - title: Management
@@ -555,11 +554,6 @@ entries:
 #    url: index.html#top
 #    output: web, pdf
 #    folderitems:
-#
-#    - title: Connection Pooling
-#      url: /index.html
-#      output: web, pdf
-#      type: homepage
 #
 #    - title: Benchmarks
 #      url: /index.html

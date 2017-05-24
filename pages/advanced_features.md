@@ -134,7 +134,7 @@ The following static methods are available in the `ParallelStrategy` interface:
 | `computeIntensityDefault()`   | 1024, 2048, 3072, 4096, ...     | Default Java 8 strategy that favors relatively large sets (in the ten thousands or more) with low computational overhead
 | `computeIntensityMedium()`    | 16, 32, 64, ..., up to 16384    | A Parallel Strategy that favors relatively small to medium sets with medium computational overhead
 | `computeIntensityHigh()`      | 1, 1, 2, 2, 4, 4, ..., up to 256| A Parallel Strategy that favors relatively small to medium sets with high computational overhead
-| `computeIntensityExtreme()`   | 1, 1, always                    | A Parallel Strategy that favors small sets with extremely high computational overhead. The set will be split up in solitary elements that are executed separately in their own thread
+| `computeIntensityExtreme()`   | 1 always                        | A Parallel Strategy that favors small sets with extremely high computational overhead. The set will be split up in solitary elements that are executed separately in their own thread
 
 It is relatively easy to implement a custom parallel strategy. Read more about that, Parallel Database Streams and Parallel strategies with Speedment in this [blog post](http://minborgsjavapot.blogspot.com/2016/10/work-with-parallel-database-streams.html)
 
