@@ -167,7 +167,7 @@ This will only load the first 100 films from the database. Any stream operation(
 This is useful, for example when working on time based data, in micro service deployments or in various test scenarios.
 
 {% include warning.html content = "
-Providing a custom `StreamSupplierComponentDecorator` means that you are assuming the responsibility of ensuring referential integrity. If the number of entities are reduced, for example using filter() or limit() operations, then these skipped entities may be referenced by other entities. This must now be handled by your application.
+Providing a custom `StreamSupplierComponentDecorator` means that you are assuming the responsibility of ensuring referential integrity. If the number of entities are reduced, for example using `filter()` or `limit()` operations, then these skipped entities may be referenced by other entities. This must now be handled by your application.
 " %}
 
 
