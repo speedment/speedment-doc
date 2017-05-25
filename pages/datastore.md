@@ -152,7 +152,7 @@ When the DataStore is loaded, information on the loading progress will be shown 
 Finished reloading in 2.05 s.
 ```
 
-### Controlling Data
+### Selecting Rows
 If you only want to pull in a subset of the database rows, you can use a variant of the load/reload method as shown hereunder:
 ``` java
     final StreamSupplierComponentDecorator decorator = StreamSupplierComponentDecorator.builder()
@@ -167,14 +167,14 @@ This will only load the first 100 films from the database. Any stream operation(
 This is useful, for example when working on time based data, in micro service deployments or in various test scenarios.
 
 {% include warning.html content = "
-Providing a custom `StreamSupplierComponentDecorator` means that you are assuming the responsibility of ensuring referential integrity. If the number of entities are reduces, for example using filter() or limit() operations, then these skipped entities may be referenced by other entities. This must now be handled by your application.
+Providing a custom `StreamSupplierComponentDecorator` means that you are assuming the responsibility of ensuring referential integrity. If the number of entities are reduced, for example using filter() or limit() operations, then these skipped entities may be referenced by other entities. This must now be handled by your application.
 " %}
 
 
-### Selective Usage
+### Selecting Tables
 Sometimes it makes sense to just put a limited set of tables in the DataStore while other tables can be reached via the underlying database. By using the Speedment Enterprise module Meta Stream Supplier, we can select which tables are retrieved from the the DataStore and which tables will be retrieved from the database.
 
-In order to run, the module first needs to be configured using a class that implements the interface `MetaStreamSupplierConfigurator`. This is how a configurator can look like:
+In order to run, the module first needs to be configured using a class that implements the interface `MetaStreamSupplierConfigurator`. This is how a custom configurator can look like:
 ``` java
 public static class MyMetaStreamConfigurator implements MetaStreamSupplierConfigurator {
 
@@ -188,7 +188,7 @@ public static class MyMetaStreamConfigurator implements MetaStreamSupplierConfig
 
     }
 ```
-This will configure the Meta Stream Supplier to explicitly use the Data Store for the film table and the database for the artist table. Unconfigured tables will default to the top most StreamSupplierComponent (usually the DataStore) but if you like another behavior, just override the `MetaStreamSupplierConfigurator::defaultStreamSupplierComponentClass` method.
+This will configure the Meta Stream Supplier to explicitly use the Data Store for the film table and the database for the artist table. Unconfigured tables will default to the top most `StreamSupplierComponent` (usually the DataStore) but if you like another behavior, just override the `MetaStreamSupplierConfigurator::defaultStreamSupplierComponentClass` method.
 
 By installing the bundle `MetaStreamSupplierBundle` we activate the module. Here is an example of how to install the Meta Stream Supplier module:
 ``` java
@@ -199,7 +199,7 @@ By installing the bundle `MetaStreamSupplierBundle` we activate the module. Here
        .build();
 ```
 
-When you elect to used some tables from the database rather than the DataStore then you usually do not want those tables to take up valuable space in the DataStore since you are not going to use them anyhow. Read more on how to control what data goes into the DataStore [here](#controlling-data).
+When you elect to used some tables from the database rather than the DataStore then you usually do not want those tables to take up valuable space in the DataStore since you are not going to use them anyhow. Read more on how to control what data goes into the DataStore [here](#selecting-rows).
 
 
 {% include warning.html content = "
