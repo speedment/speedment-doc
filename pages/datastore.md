@@ -152,12 +152,8 @@ When the DataStore is loaded, information on the loading progress will be shown 
 Finished reloading in 2.05 s.
 ```
 
-## Performance
-The DataStore module will sort each table and each column upon load/re-load. This means that you can benefit from low latency regardless on which column you use in stream filters, sorters, etc.
-When the DataStore module is being used, Stream latency will be orders of magnitudes better.
-
-## Controlling Data
-If you only want to pull in a subset of the database rows, you can use a variant of the load/reload method like this:
+### Controlling Data
+If you only want to pull in a subset of the database rows, you can use a variant of the load/reload method as shown hereunder:
 ``` java
     final StreamSupplierComponentDecorator decorator = StreamSupplierComponentDecorator.builder()
         .withStreamDecorator(Film.FILM_ID.identifier().asTableIdentifier(), s -> s.limit(100))
@@ -166,16 +162,16 @@ If you only want to pull in a subset of the database rows, you can use a variant
     DataStoreComponent dataStoreComponent = app.getOrThrow(DataStoreComponent.class);
     dataStoreComponent.load(ForkJoinPool.commonPool(), decorator);
 ```
-This will only load the first 100 films from the database. Any stream operation(s) may be applied in the decorator such as filtering, sorting, limit and skip. Specifically, applying the operation `s -> s.limit(0)` will prevent DataStore from loading any data into memory.
+This will only load the first 100 films from the database. Any stream operation(s) that returns the same stream type (i.e. filter(), sorted(), distinct(), limit() and skip() but not map() and flatMap()) may be applied in the decorator. Specifically, applying the operation `s -> s.limit(0)` will prevent DataStore from loading any data into memory.
 
 This is useful, for example when working on time based data, in micro service deployments or in various test scenarios.
 
 {% include warning.html content = "
-Providing a custom StreamSupplierComponentDecorator means that you are assuming the responsibility of ensuring referential integrity. If the number of entities are reduces, for example using filter() or limit() operations, then these skipped entities may be referenced by other entities. This must now be handled by your application.
+Providing a custom `StreamSupplierComponentDecorator` means that you are assuming the responsibility of ensuring referential integrity. If the number of entities are reduces, for example using filter() or limit() operations, then these skipped entities may be referenced by other entities. This must now be handled by your application.
 " %}
 
 
-## Selective Usage
+### Selective Usage
 Sometimes it makes sense to just put a limited set of tables in the DataStore while other tables can be reached via the underlying database. By using the Speedment Enterprise module Meta Stream Supplier, we can select which tables are retrieved from the the DataStore and which tables will be retrieved from the database.
 
 In order to run, the module first needs to be configured using a class that implements the interface `MetaStreamSupplierConfigurator`. This is how a configurator can look like:
@@ -207,8 +203,12 @@ When you elect to used some tables from the database rather than the DataStore t
 
 
 {% include warning.html content = "
-Providing a custom MetaStreamSupplierComponent means that you are assuming the responsibility of ensuring referential integrity. If the MetaStreamSupplierComponent are using components that are from different transaction states, then these component views might violate referential integrity. This must now be handled by your application.
+Providing a custom `MetaStreamSupplierComponent` means that you are assuming the responsibility of ensuring referential integrity. If the `MetaStreamSupplierComponent` are using components that are from different transaction states, then these component views might violate referential integrity. This must now be handled by your application.
 " %}
+
+## Performance
+The DataStore module will sort each table and each column upon load/re-load. This means that you can benefit from low latency regardless on which column you use in stream filters, sorters, etc.
+When the DataStore module is being used, Stream latency will be orders of magnitudes better.
 
 
 {% include prev_next.html %}
