@@ -1,5 +1,5 @@
 ---
-permalink: enterprise-json.html
+permalink: enterprise_json.html
 sidebar: mydoc_sidebar
 title: Enterprise JSON Plugin
 keywords: Encoder, JSON, Enterprise, Aggregate
