@@ -525,6 +525,16 @@ entries:
       url: datastore.html#performance
       output: web, pdf
       type: homepage
+      
+  - title: Enterprise Plugins
+    url: enterprise_plugins.html#top
+    output: web, pdf
+    folderitems:
+
+    - title: JSON Stream
+      url: enterprise_json.html#what-is-datastore
+      output: web, pdf
+      type: homepage
 
   - title: Database Connectors
     url: connectors.html#top
