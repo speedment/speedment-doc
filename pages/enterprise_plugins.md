@@ -6,7 +6,7 @@ keywords: Enterprise, Plugin
 toc: false
 Tags: Enterprise, Plugin
 last: 
-next: 
+next: enterprise_json.html
 ---
 
 ## Enterprise Plugins
@@ -16,6 +16,11 @@ Speedment Enterprise has a number of proprietary plugins to expand the functiona
 Stream, collect and aggregate JSON representations of database entities in a very efficient manner, utilizing the in-place deserialization of the Datastore Module.
 
 [Read More](enterprise_json#top)
+
+### Enterprise Enum Serializer Plugin
+Convert String columns into Java Enums to reduce memory usage and get a cleaner API.
+
+[Read More](enterprise_enums#top)
 
 ## Discussion
 Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
