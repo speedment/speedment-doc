@@ -3,6 +3,7 @@ permalink: enterprise_plugins.html
 sidebar: mydoc_sidebar
 title: Getting Started
 keywords: Enterprise, Plugin
+enterprise: true
 toc: false
 Tags: Enterprise, Plugin
 last: 
