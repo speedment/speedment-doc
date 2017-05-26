@@ -86,20 +86,24 @@ entries:
     folderitems:
 
     - title: Why Configure?
-      url: /application_configuration.html#why-configure
+      url: application_configuration.html#why-configure
       output: web, pdf
       type: homepage
       
     - title: Configurations
-      url: /application_configuration.html#configurations
+      url: application_configuration.html#configurations
       output: web, pdf
       type: homepage
 
     - title: Logging
-      url: /application_configuration.html#logging
+      url: application_configuration.html#logging
       output: web, pdf
       type: homepage
-
+    
+    - title: The Speedment Lifecycle
+      url: application_configuration.html#the-speedment-lifecycle
+      output: web, pdf
+      type: homepage
 
   - title: Speedment Examples
     url: speedment_examples.html#top

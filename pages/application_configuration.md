@@ -79,6 +79,46 @@ If we want to enable logging of the application platform, stream and stream opti
 ```
 
 
+## The Speedment Lifecycle
+A Speedment application can move its state from Building to Started to Stopped.
+
+### Building an Application
+A `SpeedmentApplication` is built using a `SpeedmentApplicationBuilder`. During build, the application does not exist, it is merely configured. Once the builders `build()` method is called, the applications components are brought to life by passing through a series of States:
+
+| Component State   | Triggered by | Action                                                                      |
+| :---------------- | : ------------------------------------------------------------------------- |
+| CREATED           | `build()`    | The Injectable has been created but has not been exposed anywhere yet
+| INITIALIZED       | `build()`    | The Injectable has been initialized
+| RESOLVED          | `build()`    | The Injectable has been initialized and resolved
+| STARTED           | `build()`    | The Injectable has been initialized, resolved and started.
+| STOPPED           | `stop()`     | The Injectable has been initialized, resolved, started and stopped
+
+So, upon `build()` each and every component will traverse the sequence CREATED -> INITIALIZED -> RESOLVED -> STARTED
+
+
+### Starting an Application
+A `SpeedmentApplication` is automatically started by the `SpeedmentApplicationBuilder::build` method.
+
+### Stopping an Application
+Once the application has completed, is it advised to call the `SpeedmentApplication::stop` method so that the application can release any resources it is holding and clean up external resources if any. 
+
+The example below shows a complete Speedment lifecycle from configuration to stop.
+``` java
+    // This builds and starts the application
+    SakilaApplication app = new SakilaApplicationBuilder()
+        .withPassword("Jz237@h1J19!")
+        .build();
+
+    FilmManager films = app.getOrThrow(FilmManager.class);
+
+    long count = films.stream().count();
+
+    // This stops the application.
+    app.stop();
+
+```
+
+
 ## Examples
 
 ### Default Configuration
