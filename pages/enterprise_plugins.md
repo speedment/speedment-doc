@@ -1,7 +1,7 @@
 ---
 permalink: enterprise_plugins.html
 sidebar: mydoc_sidebar
-title: Getting Started
+title: Enterprise Plugins
 keywords: Enterprise, Plugin
 enterprise: true
 toc: false
