@@ -430,6 +430,7 @@ entries:
       type: homepage
 
     - title: Speedment Enterprise
+      enterprise: true
       url: maven.html#speedment-enterprise
       output: web, pdf
       type: homepage
@@ -492,41 +493,49 @@ entries:
 #
 #
   - title: DataStore Acceleration
+    enterprise: true
     url: datastore.html#top
     output: web, pdf
     folderitems:
 
     - title: What is DataStore
+      enterprise: true
       url: datastore.html#what-is-datastore
       output: web, pdf
       type: homepage
       
     - title: Integration
+      enterprise: true
       url: datastore.html#enabling-datastore
       output: web, pdf
       type: homepage
 
     - title: Usage
+      enterprise: true
       url: datastore.html#using-datastore
       output: web, pdf
       type: homepage
       
     - title: Performance
+      enterprise: true
       url: datastore.html#performance
       output: web, pdf
       type: homepage
       
   - title: Enterprise Plugins
+    enterprise: true
     url: enterprise_plugins.html#top
     output: web, pdf
     folderitems:
 
     - title: JSON Stream
+      enterprise: true
       url: enterprise_json.html#top
       output: web, pdf
       type: homepage
       
     - title: Convert Strings into Enums
+      enterprise: true
       url: enterprise_enums.html#top
       output: web, pdf
       type: homepage
@@ -552,21 +561,25 @@ entries:
       type: homepage      
     
     - title: Oracle
+      enterprise: true
       url: connectors.html#oracle
       output: web, pdf
       type: homepage
       
     - title: SQL Server
+      enterprise: true
       url: connectors.html#sql-server
       output: web, pdf
       type: homepage
 
     - title: DB2
+      enterprise: true
       url: connectors.html#db2
       output: web, pdf
       type: homepage
 
     - title: AS400
+      enterprise: true
       url: connectors.html#as400
       output: web, pdf
       type: homepage
