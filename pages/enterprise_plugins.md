@@ -1,5 +1,5 @@
 ---
-permalink: getting_started.html
+permalink: enterprise_plugins.html
 sidebar: mydoc_sidebar
 title: Getting Started
 keywords: Enterprise, Plugin
