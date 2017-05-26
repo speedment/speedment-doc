@@ -7,30 +7,30 @@
     {% for folder in entry.folders %}
     {% if folder.output contains "web" %}
     <li>
-        <a href="#">{{ folder.title }}{% if folder.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a>
+        <a href="#">{{ folder.title }}{% if folder.enterprise contains "true" %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a>
         <ul>
             {% for folderitem in folder.folderitems %}
             {% if folderitem.output contains "web" %}
             {% if folderitem.external_url %}
-            <li><a href="{{folderitem.external_url}}" target="_blank">{{folderitem.title}}{% if folderitem.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
+            <li><a href="{{folderitem.external_url}}" target="_blank">{{folderitem.title}}{% if folderitem.enterprise contains "true" %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
             {% elsif page.url == folderitem.url %}
-            <li class="active"><a href="{{folderitem.url | remove: "/"}}">{{folderitem.title}}{% if folderitem.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
+            <li class="active"><a href="{{folderitem.url | remove: "/"}}">{{folderitem.title}}{% if folderitem.enterprise contains "true" %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
             {% else %}
-            <li><a href="{{folderitem.url | remove: "/"}}">{{folderitem.title}}{{folderitem.title}}{% if folderitem.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
+            <li><a href="{{folderitem.url | remove: "/"}}">{{folderitem.title}}{{folderitem.title}}{% if folderitem.enterprise contains "true" %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
             {% endif %}
             {% for subfolders in folderitem.subfolders %}
             {% if subfolders.output contains "web" %}
             <li class="subfolders">
-                <a href="#">{{ subfolders.title }}{% if subfolders.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a>
+                <a href="#">{{ subfolders.title }}{% if subfolders.enterprise contains "true" %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a>
                 <ul>
                     {% for subfolderitem in subfolders.subfolderitems %}
                     {% if subfolderitem.output contains "web" %}
                     {% if subfolderitem.external_url %}
-                    <li><a href="{{subfolderitem.external_url}}" target="_blank">{{subfolderitem.title}}{% if subfolderitem.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
+                    <li><a href="{{subfolderitem.external_url}}" target="_blank">{{subfolderitem.title}}{% if subfolderitem.enterprise contains "true" %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
                     {% elsif page.url == subfolderitem.url %}
-                    <li class="active"><a href="{{subfolderitem.url | remove: "/"}}">{{subfolderitem.title}}{% if subfolderitem.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
+                    <li class="active"><a href="{{subfolderitem.url | remove: "/"}}">{{subfolderitem.title}}{% if subfolderitem.enterprise contains "true" %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
                     {% else %}
-                    <li><a href="{{subfolderitem.url | remove: "/"}}">{{subfolderitem.title}}{% if subfolderitem.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
+                    <li><a href="{{subfolderitem.url | remove: "/"}}">{{subfolderitem.title}}{% if subfolderitem.enterprise contains "true" %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a></li>
                     {% endif %}
                     {% endif %}
                     {% endfor %}
