@@ -522,7 +522,12 @@ entries:
     folderitems:
 
     - title: JSON Stream
-      url: enterprise_json.html#what-is-datastore
+      url: enterprise_json.html#top
+      output: web, pdf
+      type: homepage
+      
+    - title: Convert Strings into Enums
+      url: enterprise_enums.html#top
       output: web, pdf
       type: homepage
 
