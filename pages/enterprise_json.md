@@ -50,53 +50,53 @@ public static void main(String... args) {
 The JSON Plugin uses builders to create optimized encoders and collectors that can then be executed multiple times.
 
 ```java
-    final JsonEncoder<Film> filmEncoder = json.encoder(films).build();
+final JsonEncoder<Film> filmEncoder = json.encoder(films).build();
 ```
 
 The encoder extends `Function<T, String>` so it can be used as argument to the `.map()` operation in an entity stream.
 
 ```java
-    // Print all films as JSON
-    films.stream()
-        .map(filmEncoder)
-        .forEachOrdered(System.out::println);
+// Print all films as JSON
+films.stream()
+    .map(filmEncoder)
+    .forEachOrdered(System.out::println);
 ```
 
 #### Remove unwanted fields
 By default, the `JsonEncoderBuilder` includes all fields in the result. However, if only a subset of the fields are desired, the others can be removed like this:
 
 ```java
-    final JsonEncoder<Film> filmEncoder = json.encoder(films)
-        .remove(Film.RENTAL_DURATION)  // Remove a particular field
-        .remove("languageId")          // Remove a particular label
-        .build();
+final JsonEncoder<Film> filmEncoder = json.encoder(films)
+    .remove(Film.RENTAL_DURATION)  // Remove a particular field
+    .remove("languageId")          // Remove a particular label
+    .build();
 ```
 
 Another way to accomplish this is to create an empty builder and then add the fields to include excplicitly.
 
 ```java
-    final JsonEncoder<Film> filmEncoder = json.emptyEncoder()
-        .put(Film.TITLE)
-        .putAll(Film.RELEASE_YEAR, Film.LENGTH)
-        .build();
+final JsonEncoder<Film> filmEncoder = json.emptyEncoder()
+    .put(Film.TITLE)
+    .putAll(Film.RELEASE_YEAR, Film.LENGTH)
+    .build();
 ```
 
 #### Rename fields
 The `JsonEncoderBuilder` creates a default label for each field using camelCase. If a different name is desired, it can be specified explicitly.
 
 ```java
-    final JsonEncoder<Film> filmEncoder = json.encoder(films)
-        .remove(Film.RELEASE_YEAR)
-        .put("the_year_is_was_released", Film.RELEASE_YEAR)
-        .build();
+final JsonEncoder<Film> filmEncoder = json.encoder(films)
+    .remove(Film.RELEASE_YEAR)
+    .put("the_year_is_was_released", Film.RELEASE_YEAR)
+    .build();
 ```
 
 ### Collecting streams
 In most cases, an encoder is not used individually but as part of a collector. The most basic example would be to collect a stream of entities into a JSON Array.
 
 ```java
-    films.stream()
-        .collect(JsonCollectors.toList(filmEncoder)); // Can also be imported statically
+films.stream()
+    .collect(JsonCollectors.toList(filmEncoder)); // Can also be imported statically
 ```
 
 This will produce a JSON object like this:
@@ -116,16 +116,16 @@ To aggregate a stream of entities into a single JSON object, a custom collector 
 To include the total number of matched rows in the result, the `JsonCollectors.count()` collector can be used.
 
 ```java
-    final JsonCollector<Film, ?> filmCollector = json.collector(Film.class)
-        .put("total", JsonCollectors.count())
-        .put("rows", JsonCollectors.toList(filmEncoder))
-        .build();
+final JsonCollector<Film, ?> filmCollector = json.collector(Film.class)
+    .put("total", JsonCollectors.count())
+    .put("rows", JsonCollectors.toList(filmEncoder))
+    .build();
 ```
 
 We have now created an aggregate collector that can be applied to a stream.
 
 ```java
-    films.stream().collect(filmCollector);
+films.stream().collect(filmCollector);
 ```
 
 The following JSON object is returned:
