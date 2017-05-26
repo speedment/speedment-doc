@@ -6,7 +6,7 @@ keywords: Encoder, JSON, Enterprise, Aggregate
 toc: false
 Tags: Encoder, JSON, Enterprise, Aggregate
 previous: 
-next: 
+next: enterprise_enums.html
 ---
 
 {% include prev_next.html %}
