@@ -733,7 +733,12 @@ entries:
     folderitems:
 
     - title: Per Minborg
-      url: author.html
+      url: about.html#per-minborg
+      output: web, pdf
+      type: homepage
+      
+    - title: Emil Forslund
+      url: about.html#emil-forslund
       output: web, pdf
       type: homepage
 
