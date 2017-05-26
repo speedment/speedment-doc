@@ -75,7 +75,7 @@ final JsonEncoder<Film> filmEncoder = json.encoder(films)
 Another way to accomplish this is to create an empty builder and then add the fields to include excplicitly.
 
 ```java
-final JsonEncoder<Film> filmEncoder = json.emptyEncoder()
+final JsonEncoder<Film> filmEncoder = json.<Film>emptyEncoder()
     .put(Film.TITLE)
     .putAll(Film.RELEASE_YEAR, Film.LENGTH)
     .build();
