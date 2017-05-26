@@ -120,3 +120,9 @@ li.sidebarTitle {
  padding-left: 30px;
  padding-right:2;
 }
+
+/* Enterprise Functionality has a Gold Star in the sidebar */
+.enterprise-icon {
+    margin-left: 4px;
+    color: #ffcb4d;
+}
