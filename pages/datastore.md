@@ -125,7 +125,6 @@ Sometimes it makes sense to just put a limited set of tables in the DataStore wh
 In order to run, the module first needs to be configured using a class that implements the interface `MetaStreamSupplierConfigurator`. This is how a custom configurator can look like:
 ``` java
 public static class MyMetaStreamConfigurator implements MetaStreamSupplierConfigurator {
-
         @Override
         public Stream<TableMapping<Class<? extends StreamSupplierComponent>>> tableMappings() {
             return Stream.of(
@@ -133,7 +132,6 @@ public static class MyMetaStreamConfigurator implements MetaStreamSupplierConfig
                 TableMapping.of(Artist.ARTIST_ID.identifier().asTableIdentifier(), SqlStreamSupplierComponent.class)
             );
         }
-
     }
 ```
 
@@ -141,11 +139,11 @@ This will configure the Meta Stream Supplier to explicitly use the Data Store fo
 
 By installing the bundle `MetaStreamSupplierBundle` we activate the module. Here is an example of how to install the Meta Stream Supplier module:
 ``` java
-    SaklilaApplication app = new SakilaApplicationBuilder()
+    SakilaApplication app = new SakilaApplicationBuilder()
         .withBundel(DataStoreBundle.class);
         .withComponent(MyMetaStreamConfigurator.class)
         .withBundle(MetaStreamSupplierBundle.class)
-       .build();
+        .build();
 ```
 
 When you elect to used some tables from the database rather than the DataStore then you usually do not want those tables to take up valuable space in the DataStore since you are not going to use them anyhow. Read more on how to control what data goes into the DataStore [here](#selecting-rows).
@@ -160,7 +158,7 @@ The load and organize process can be viewed in the log by enabling `APPLICATION_
     SakilaApplicationBuilder builder = new SakilaApplicationBuilder()        
         .withPassword(password)
         .withLogging(LogType.APPLICATION_BUILDER)
-        .withBundel(DataStoreBundle.class);
+        .withBundle(DataStoreBundle.class);
         .build();
 ```
 
