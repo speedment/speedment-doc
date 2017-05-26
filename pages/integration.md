@@ -121,8 +121,6 @@ private Stream<Film> serveFilms(
 ```
 The code snippet above could easily be improved to take parameters specifying a dynamic sort order and a custom page size.
 
-
-
 ## JSON
 Often when you write database applications you will need to send different output to a client app. There are many protocols for sending results over a network. One of the most common is JSON.
 
@@ -138,7 +136,7 @@ This is how you add the Speedment JSON plugin to your project:
 ```
 Once the plugin is added, you gain access to a number of additional methods related to JSON handling.
 
-The Json plugin is currently under re-work and more specific information on its usage will be added later.
+A more advanced JSON Plugin is available in Speedment Enterprise. [Read more about that here](enterprise_json#top).
 
 {% include prev_next.html %}
 
