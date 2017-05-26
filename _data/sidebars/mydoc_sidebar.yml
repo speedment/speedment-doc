@@ -501,23 +501,13 @@ entries:
       output: web, pdf
       type: homepage
       
-    - title: Enabling DataStore
+    - title: Integration
       url: datastore.html#enabling-datastore
       output: web, pdf
       type: homepage
 
-    - title: Using DataStore
+    - title: Usage
       url: datastore.html#using-datastore
-      output: web, pdf
-      type: homepage
-      
-    - title: Selecting Rows
-      url: datastore.html#selecting-rows
-      output: web, pdf
-      type: homepage
-      
-    - title: Selecting Tables
-      url: datastore.html#selecting-tables
       output: web, pdf
       type: homepage
       
