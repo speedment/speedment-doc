@@ -3,6 +3,7 @@ permalink: enterprise_json.html
 sidebar: mydoc_sidebar
 title: Enterprise JSON Plugin
 keywords: Encoder, JSON, Enterprise, Aggregate
+enterprise: true
 toc: false
 Tags: Encoder, JSON, Enterprise, Aggregate
 previous: 
