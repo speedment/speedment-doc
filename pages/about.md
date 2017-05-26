@@ -17,6 +17,6 @@ This manual was written by me, Per-Åke Minborg, but of course I got a lot of he
 ## Emil Forslund
 I guess I helped some as well. I like to write about the Enterprise functionality and also did some css-magic. I agree with Per. Blame him.
 
-{% include image.html file="sf_emil.jpg" url="http://ageofjava.com/" alt="Emil Forslund" caption="This is Emil Forslund" %}
+{% include image.html file="avatar.jpg" url="http://ageofjava.com/" alt="Emil Forslund" caption="This is Emil Forslund" %}
 
 Happy Reading!
