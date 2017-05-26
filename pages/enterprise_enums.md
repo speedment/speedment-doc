@@ -3,6 +3,7 @@ permalink: enterprise_enums.html
 sidebar: mydoc_sidebar
 title: Enterprise Enum Serializer Plugin
 keywords: Serializer, Enum, Enterprise, Plugin
+enterprise: true
 toc: false
 Tags: Serializer, Enum, Enterprise, Plugin
 previous: enterprise_json.html
