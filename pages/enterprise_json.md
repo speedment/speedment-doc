@@ -165,6 +165,67 @@ All the available Aggregate Collectors are present as static methods in the `Jso
   <dd>if all values for field are the same, then that, otherwise null</dd>
 </dl>
 
+### Putting It All Togather
+If you combine encoders, collectors and aggregators into a stream, you could get something like this:
+
+```java
+System.out.println(
+    films.stream()
+        .filter(Film.DESCRIPTION.containsIgnoreCase("kill"))
+        .collect(json.collector(Film.class)
+            .put("from",    min(Film.TITLE))
+            .put("to",      max(Film.TITLE))
+            .put("count",   count())
+            .put("ratings", commaSeparated(Film.RATING))
+            .put("list", toList(json.<Film>emptyEncoder()
+                .put(Film.TITLE)
+                .put(Film.RATING)
+                .put(Film.DESCRIPTION)
+                .build()
+            ))
+            .build()
+        )
+);
+```
+
+**Result:**
+```json
+{
+  "from" : "BACKLASH UNDEFEATED",
+  "to" : "WORKING MICROCOSMOS",
+  "count" : 43,
+  "ratings" : "G,NC-17,PG,PG-13,R",
+  "list" : [
+    {
+      "title" : "BACKLASH UNDEFEATED",
+      "rating" : "PG-13",
+      "description" : "A Stunning Character Study of a Mad Scientist And a Mad Cow who must Kill a Car in A Monastery"
+    },
+    {
+      "title" : "BEAR GRACELAND",
+      "rating" : "R",
+      "description" : "A Astounding Saga of a Dog And a Boy who must Kill a Teacher in The First Manned Space Station"
+    },
+    ...
+    {
+      "title" : "WARDROBE PHANTOM",
+      "rating" : "G",
+      "description" : "A Action-Packed Display of a Mad Cow And a Astronaut who must Kill a Car in Ancient India"
+    },
+    {
+      "title" : "WHALE BIKINI",
+      "rating" : "PG-13",
+      "description" : "A Intrepid Story of a Pastry Chef And a Database Administrator who must Kill a Feminist in A MySQL Convention"
+    },
+    {
+      "title" : "WORKING MICROCOSMOS",
+      "rating" : "R",
+      "description" : "A Stunning Epistle of a Dentist And a Dog who must Kill a Madman in Ancient China"
+    }
+  ]
+}
+```
+
 {% include prev_next.html %}
 
 ## Discussion
