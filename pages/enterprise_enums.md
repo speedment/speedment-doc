@@ -7,7 +7,7 @@ enterprise: true
 toc: false
 Tags: Serializer, Enum, Enterprise, Plugin
 previous: enterprise_json.html
-next: 
+next: enterprise_virtualcolumns.html
 ---
 
 {% include prev_next.html %}
