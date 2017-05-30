@@ -38,19 +38,19 @@ No runtime dependencies are required.
 ### Define Enums in the Speedment Tool
 Open the Speedment Tool by running `mvn speedment:tool` and select the String Column you would like to enumify.
 
-(Image: Selecting a column)
+{% include image.html file="images/Enum0.png" url="https://www.speedment.com/" alt="Define an Enum - Select a Column" caption="Step 1: Select a Column" %}
 
 If you press the "JDBC Type to Java" dropdown, you will see a new option called `String to Enum`. Select that.
 
-(Image: TypeMapper dropdown)
+{% include image.html file="images/Enum1.png" url="https://www.speedment.com/" alt="Define an Enum - Set TypeMapper" caption="Step 2: Select 'String to Enum'-typemapper" %}
 
 Some new items should now appear. If the column is defined as an enum column in the database, then the "Enum Constants" field might already be populated. If it is not, then you can populate it yourself either by adding the options using the "Add Item" button (double click on a created item to change its name) or by clicking the "Populate" button.
 
-(Image: Enum Constants field)
+{% include image.html file="images/Enum2.png" url="https://www.speedment.com/" alt="Define an Enum - Edit Constants" caption="Step 3: Edit constants" %}
 
 When the column is configured, you can press "Generate" and your project will be updated.
 
-(Image: Generate button)
+{% include image.html file="images/Enum3.png" url="https://www.speedment.com/" alt="Define an Enum - Generate Code" caption="Step 4: Generate Code" %}
 
 {% include prev_next.html %}
 
