@@ -5,7 +5,7 @@ title: Speedment Predicates
 keywords: Predicate, Stream
 toc: false
 Tags: Stream
-previous: speedment_examples.html
+previous: maven.html
 next: comparator.html
 ---
 
