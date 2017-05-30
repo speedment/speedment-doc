@@ -5,7 +5,7 @@ title: Integration
 keywords: Spring, Spring Boot, Java EE
 toc: false
 Tags: Spring, Spring Boot, Java EE
-previous: crud.html
+previous: speedment_examples.html
 next: advanced_features.html
 ---
 
