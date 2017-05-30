@@ -6,7 +6,7 @@ keywords: Configuration, Application
 toc: false
 Tags: Configuration, Application
 previous: getting_started.html
-next: speedment_examples.html
+next: maven.html
 ---
 
 {% include prev_next.html %}
