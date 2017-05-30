@@ -104,6 +104,170 @@ entries:
       url: application_configuration.html#the-speedment-lifecycle
       output: web, pdf
       type: homepage
+      
+  - title: Speedment Maven Plugin
+    url: maven.html#top
+    output: web, pdf
+    folderitems:
+
+    - title: Installation
+      url: maven.html#installation
+      output: web, pdf
+      type: homepage
+
+    - title: Maven Targets
+      url: maven.html#maven-targets
+      output: web, pdf
+      type: homepage
+
+    - title: Configuration
+      url: maven.html#configuration
+      output: web, pdf
+          
+    - title: Enable Debug Mode
+      url: maven.html#enable-debug-mode
+      output: web, pdf
+      type: homepage
+
+    - title: Adding a TypeMapper
+      url: maven.html#adding-a-type-mapper
+      output: web, pdf
+      type: homepage
+        
+    - title: Adding a Component
+      url: maven.html#adding-a-component
+      output: web, pdf
+      type: homepage
+       
+    - title: Adding a Bundle
+      url: maven.html#adding-a-bundle
+      output: web, pdf
+      type: homepage
+   
+    - title: Setting Component Parameters
+      url: maven.html#setting-component-parameters
+      output: web, pdf
+      type: homepage
+
+    - title: Automated Maven Builds
+      url: maven.html#automated-maven-builds
+      output: web, pdf
+      type: homepage
+
+    - title: Speedment Enterprise
+      enterprise: true
+      url: maven.html#speedment-enterprise
+      output: web, pdf
+      type: homepage
+
+    - title: Command Line Parameters
+      url: maven.html#command-line-parameters
+      output: web, pdf
+      type: homepage
+
+    - title: The Configuration File
+      url: maven.html#the-configuration-file
+      output: web, pdf
+      type: homepage
+
+#  - title: Speedment Tool
+#    url: mydoc_about.html#top
+#    output: web, pdf
+#    folderitems:
+#
+#    - title: Connect
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Configure
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#
+#    - title: Generate Code
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#      
+#    - title: Reload
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#      
+#    - title: Components
+#      url: /mydoc_about.html
+#      output: web, pdf
+#      type: homepage
+#
+#
+
+  - title: Speedment Predicates
+    url: predicate.html#top
+    output: web, pdf
+    folderitems:
+
+    - title: What is a Predicate?
+      url: predicate.html#what-is-a-predicate
+      output: web, pdf
+      type: homepage
+      
+    - title: Reference Predicates
+      url: predicate.html#reference-predicates
+      output: web, pdf
+      type: homepage
+      
+    - title: Comparable Predicates
+      url: predicate.html#comparable-predicates
+      output: web, pdf
+      type: homepage
+      
+    - title: String Predicates
+      url: predicate.html#string-predicates
+      output: web, pdf
+      type: homepage      
+
+    - title: Predicate Examples
+      url: predicate.html#predicate-examples
+      output: web, pdf
+      type: homepage
+
+  - title: Speedment Comparators
+    url: comparator.html#top
+    output: web, pdf
+    folderitems:
+
+    - title: What is a Comparator?
+      url: comparator.html#what-is-a-comparator
+      output: web, pdf
+      type: homepage
+      
+    - title: Comparators
+      url: comparator.html#comparators
+      output: web, pdf
+      type: homepage
+
+  - title: CRUD Operations
+    url: crud.html#top
+    output: web, pdf
+    folderitems:
+
+    - title: Create with Persist
+      url: crud.html#create-with-persist
+      output: web, pdf
+      type: homepage
+
+    - title: Read with Stream
+      url: crud.html#read-with-stream
+      output: web, pdf
+
+    - title: Update with Update
+      url: crud.html#update-with-update
+      output: web, pdf
+
+    - title: Delete with Remove
+      url: crud.html#delete-with-remove
+      output: web, pdf
 
   - title: Speedment Examples
     url: speedment_examples.html#top
@@ -228,73 +392,6 @@ entries:
               output: web, pdf
               type: homepage
 
-  - title: Speedment Predicates
-    url: predicate.html#top
-    output: web, pdf
-    folderitems:
-
-    - title: What is a Predicate?
-      url: predicate.html#what-is-a-predicate
-      output: web, pdf
-      type: homepage
-      
-    - title: Reference Predicates
-      url: predicate.html#reference-predicates
-      output: web, pdf
-      type: homepage
-      
-    - title: Comparable Predicates
-      url: predicate.html#comparable-predicates
-      output: web, pdf
-      type: homepage
-      
-    - title: String Predicates
-      url: predicate.html#string-predicates
-      output: web, pdf
-      type: homepage      
-
-    - title: Predicate Examples
-      url: predicate.html#predicate-examples
-      output: web, pdf
-      type: homepage
-
-  - title: Speedment Comparators
-    url: comparator.html#top
-    output: web, pdf
-    folderitems:
-
-    - title: What is a Comparator?
-      url: comparator.html#what-is-a-comparator
-      output: web, pdf
-      type: homepage
-      
-    - title: Comparators
-      url: comparator.html#comparators
-      output: web, pdf
-      type: homepage
-
-  - title: CRUD Operations
-    url: crud.html#top
-    output: web, pdf
-    folderitems:
-
-    - title: Create with Persist
-      url: crud.html#create-with-persist
-      output: web, pdf
-      type: homepage
-
-    - title: Read with Stream
-      url: crud.html#read-with-stream
-      output: web, pdf
-
-    - title: Update with Update
-      url: crud.html#update-with-update
-      output: web, pdf
-
-    - title: Delete with Remove
-      url: crud.html#delete-with-remove
-      output: web, pdf
-
   - title: Integration
     url: integration.html#top
     output: web, pdf
@@ -355,102 +452,7 @@ entries:
       output: web, pdf
       type: homepage
 
-  - title: Speedment Maven Plugin
-    url: maven.html#top
-    output: web, pdf
-    folderitems:
 
-    - title: Installation
-      url: maven.html#installation
-      output: web, pdf
-      type: homepage
-
-    - title: Maven Targets
-      url: maven.html#maven-targets
-      output: web, pdf
-      type: homepage
-
-    - title: Configuration
-      url: maven.html#configuration
-      output: web, pdf
-          
-    - title: Enable Debug Mode
-      url: maven.html#enable-debug-mode
-      output: web, pdf
-      type: homepage
-
-    - title: Adding a TypeMapper
-      url: maven.html#adding-a-type-mapper
-      output: web, pdf
-      type: homepage
-        
-    - title: Adding a Component
-      url: maven.html#adding-a-component
-      output: web, pdf
-      type: homepage
-       
-    - title: Adding a Bundle
-      url: maven.html#adding-a-bundle
-      output: web, pdf
-      type: homepage
-   
-    - title: Setting Component Parameters
-      url: maven.html#setting-component-parameters
-      output: web, pdf
-      type: homepage
-
-    - title: Automated Maven Builds
-      url: maven.html#automated-maven-builds
-      output: web, pdf
-      type: homepage
-
-    - title: Speedment Enterprise
-      enterprise: true
-      url: maven.html#speedment-enterprise
-      output: web, pdf
-      type: homepage
-
-    - title: Command Line Parameters
-      url: maven.html#command-line-parameters
-      output: web, pdf
-      type: homepage
-
-    - title: The Configuration File
-      url: maven.html#the-configuration-file
-      output: web, pdf
-      type: homepage
-
-#  - title: Speedment Tool
-#    url: mydoc_about.html#top
-#    output: web, pdf
-#    folderitems:
-#
-#    - title: Connect
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: Configure
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#
-#    - title: Generate Code
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#      
-#    - title: Reload
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#      
-#    - title: Components
-#      url: /mydoc_about.html
-#      output: web, pdf
-#      type: homepage
-#
-#
   - title: DataStore Acceleration
     enterprise: true
     url: datastore.html#top
