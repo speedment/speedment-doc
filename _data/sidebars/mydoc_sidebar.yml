@@ -534,9 +534,15 @@ entries:
       output: web, pdf
       type: homepage
       
-    - title: Convert Strings into Enums
+    - title: Enum Serializer
       enterprise: true
       url: enterprise_enums.html#top
+      output: web, pdf
+      type: homepage
+      
+    - title: Virtual Columns
+      enterprise: true
+      url: enterprise_virtualcolumns.html#top
       output: web, pdf
       type: homepage
 
