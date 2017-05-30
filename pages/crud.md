@@ -6,7 +6,7 @@ keywords: CRUD, Create, Persist, Update, Delete, Remove
 toc: false
 Tags: CRUD, Create, Persist, Update, Delete, Remove
 previous: comparator.html
-next: integration.html
+next: speedment_examples.html
 ---
 
 {% include prev_next.html %}
