@@ -23,6 +23,11 @@ Convert String columns into Java Enums to reduce memory usage and get a cleaner 
 
 [Read More](enterprise_enums#top)
 
+### Enterprise Virtual Columns
+Denormalize entities automatically when loading from the database.
+
+[Read More](enterprise_virtualcolumns#top)
+
 ## Discussion
 Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
 
