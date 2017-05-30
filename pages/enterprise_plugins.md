@@ -6,8 +6,8 @@ keywords: Enterprise, Plugin
 enterprise: true
 toc: false
 Tags: Enterprise, Plugin
-last: 
-next: enterprise_json.html
+last: datastore.html
+next: connectors.html
 ---
 
 ## Enterprise Plugins
