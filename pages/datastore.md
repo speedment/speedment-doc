@@ -5,8 +5,8 @@ title: Data Store
 keywords: Data Store, In, Memory, Acceleration
 toc: false
 Tags: Data Store
-previous: maven.html
-next: connectors.html
+previous: advanced_features.html
+next: enterprise_plugins.html
 ---
 
 {% include prev_next.html %}

@@ -6,7 +6,7 @@ keywords: Parallel, Iterator, Spliterator
 toc: false
 Tags: Parallel, Iterator, Spliterator
 previous: integration.html
-next: maven.html
+next: datastore.html
 ---
 
 {% include prev_next.html %}

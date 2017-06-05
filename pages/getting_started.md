@@ -23,7 +23,7 @@ Speedment Enterprise contains additional features that are useful in enterprise 
 In order to activate Speedment Enterprise, you need a license that can either be purchased or downloaded for free (trial) from [www.speedment.com](https::/www.speedment.com). Again, we encourage you to use the on-line [Speedment Initializer](https://www.speedment.com/initializer/) to setup your pom file. [Here](#speedment-enterprise-pom-example) is an example of a pom.xml file for Speedment Enterprise.
 
 ## Starting the Tool
-The code generation and configuration tool is started using the Maven target `speedment::tool`. Once run, you can elect to use the tool to graphically maintain your project or you can use any text editor and modify the `speedment.json` file that holds the configuration model for your project.
+The code generation and configuration tool is started using the Maven target `speedment:tool`. Once run, you can elect to use the tool to graphically maintain your project or you can use any text editor and modify the `speedment.json` file that holds the configuration model for your project.
 
 The process is divided in two steps:
   1 Connecting to the Database
@@ -37,9 +37,8 @@ The process is divided in two steps:
 
 Read more on the Speedment Maven Plugin [here](https://speedment.github.io/speedment-doc/maven.html)
 
-
 ## Hello World
-Once your project has been setup properly and you have run the Maven target `speedment::tool` and generated code, you can start writing Speedment applications.
+Once your project has been setup properly and you have run the Maven target `speedment:tool` and generated code, you can start writing Speedment applications.
 
 Here is a small example that will count the number of films that is rated "PG-13" from an example database named "Sakila".
 ``` java
@@ -59,47 +58,46 @@ Here is a small example that will count the number of films that is rated "PG-13
     // Print out the count
     System.out.format("There are %d films(s) with a PG-13 rating %n", count);    
 ```
+
 This will produce the following output:
 ``` text
 There are 223 films(s) with a PG-13 rating 
 ```
+
 and will be rendered to the following SQL query (for MySQL):
 ``` sql
-SELECT
-    COUNT(*)
+SELECT COUNT(*)
 FROM (
     SELECT
        `film_id`,`title`,`description`,`release_year`,
        `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
        `length`,`replacement_cost`,`rating`,`special_features`,
        `last_update` 
-    FROM
-       `sakila`.`film` 
-    WHERE 
-       (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin)
+    FROM `sakila`.`film` 
+    WHERE (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin)
 ) AS A, values:[PG-13]
 ```
 
 ## Speedment POM Example
 
 Here is an example of a pom.xml file setup for Speedment and MySQL that has been used for the examples in this manual.
+
 ``` xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
     <groupId>com.speedment</groupId>
     <artifactId>documentation-examples</artifactId>
-    <version>3.0.9</version>
+    <version>3.0.10</version>
     <packaging>jar</packaging>
+    
     <name>Speedment - Documentation - Examples</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <speedment.version>3.0.9</speedment.version>
-        <db.groupId>mysql</db.groupId>
-        <db.artifactId>mysql-connector-java</db.artifactId>
-        <db.version>5.1.42</db.version>
+        <speedment.version>3.0.10</speedment.version>
     </properties>    
     
     <build>
@@ -111,6 +109,7 @@ Here is an example of a pom.xml file setup for Speedment and MySQL that has been
             </plugin> 
         </plugins>
     </build>
+    
     <dependencies>
         <dependency>
             <groupId>com.speedment</groupId>
@@ -124,28 +123,19 @@ Here is an example of a pom.xml file setup for Speedment and MySQL that has been
             <version>5.1.42</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>com.speedment</groupId>
-            <artifactId>runtime</artifactId>
-            <version>${speedment.version}</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>${db.groupId}</groupId>
-            <artifactId>${db.artifactId}</artifactId>
-            <version>${db.version}</version>
-        </dependency>
     </dependencies>
     
 </project>
 ```
+
 {% include tip.html content = "
 Always use the Initializer to get the most recent pom template for your project.
 " %}
 
 ## Speedment Enterprise POM Example
 
-Here is an example of a pom.xml file setup for Speedment Enterprise, in-memory acceleration (DataStore) and Oracle.
+Here is an example of a pom.xml file setup for [Speedment Enterprise](datastore#top), in-memory acceleration (DataStore) and Oracle.
+
 ``` xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -163,24 +153,19 @@ Here is an example of a pom.xml file setup for Speedment Enterprise, in-memory a
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <speedment.enterprise.version>1.1.6</speedment.enterprise.version>
+    <speedment.enterprise.version>1.1.7</speedment.enterprise.version>
   </properties>
   
   <dependencies>
     <dependency>
       <groupId>com.speedment.enterprise</groupId>
-      <artifactId>virtualcolumn-runtime</artifactId>
+      <artifactId>runtime</artifactId>
       <version>${speedment.enterprise.version}</version>
+      <type>pom</type>
     </dependency>
     <dependency>
-      <groupId>com.oracle</groupId>
-      <artifactId>ojdbc7</artifactId>
-      <version>12.1.0.1.0</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.speedment.enterprise.connectors</groupId>
-      <artifactId>oracle-connector</artifactId>
+      <groupId>com.speedment.enterprise</groupId>
+      <artifactId>virtualcolumn-runtime</artifactId>
       <version>${speedment.enterprise.version}</version>
     </dependency>
     <dependency>
@@ -189,10 +174,15 @@ Here is an example of a pom.xml file setup for Speedment Enterprise, in-memory a
       <version>${speedment.enterprise.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.speedment.enterprise</groupId>
-      <artifactId>runtime</artifactId>
+      <groupId>com.speedment.enterprise.connectors</groupId>
+      <artifactId>oracle-connector</artifactId>
       <version>${speedment.enterprise.version}</version>
-      <type>pom</type>
+    </dependency>
+    <dependency>
+      <groupId>com.oracle</groupId>
+      <artifactId>ojdbc7</artifactId>
+      <version>12.1.0.1.0</version>
+      <scope>runtime</scope>
     </dependency>
   </dependencies>
   
@@ -206,9 +196,10 @@ Here is an example of a pom.xml file setup for Speedment Enterprise, in-memory a
         <configuration>
           <components>
             <component>com.speedment.enterprise.virtualcolumn.tool.VirtualColumnToolBundle</component>
-            <component>com.speedment.enterprise.connectors.oracle.OracleBundle</component>
             <component>com.speedment.enterprise.datastore.tool.DataStoreToolBundle</component>
+            <component>com.speedment.enterprise.connectors.oracle.OracleBundle</component>
           </components>
+          
           <parameters>
             <parameter>
               <name>licenseKey</name>
