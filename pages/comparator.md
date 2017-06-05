@@ -227,8 +227,47 @@ The following primitive types and their corresponding field types are supported 
 
 This is something that is handled automatically by Speedment under the hood and does not require any additional coding. Our code will simply run faster width these specializations.
 
-## Examples
+
+## Combining Comparators
+Several comparators can be combined to form a composite comparator that will sort entities using a combination of sort keys with different priorities. 
+
 The following example shows a solution where we print out the films sorted firstly by rating in reversed order and then secondly (if the rating is the same) we sort by title:
+
+``` java
+    films.stream()
+        .sorted(
+            Film.RATING.comparator().reversed()
+                .thenComparing(Film.TITLE.comparator())
+        )
+        .forEachOrdered(System.out::println);
+```
+The code will produce the following output:
+``` text
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ..., rating = NC-17, ...
+FilmImpl { filmId = 10, title = ALADDIN CALENDAR, ..., rating = NC-17, specialFeatures = Trailers,Deleted Scenes, lastUpdate = 2006-02-15 05:03:42.0 }
+FilmImpl { filmId = 14, title = ALICE FANTASIA, ..., rating = NC-17, ...
+...
+```
+and will be rendered to the following SQL query (for MySQL):
+``` sql
+SELECT 
+    `film_id`,`title`,`description`,`release_year`,
+   `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
+   `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
+FROM 
+    `sakila`.`film` 
+ORDER BY
+    `sakila`.`film`.`rating`IS NOT NULL,
+    `sakila`.`film`.`rating` DESC,
+    `sakila`.`film`.`title` ASC
+```
+
+{% include note.html content = "
+This feature is available starting from version 3.0.11
+" %}
+
+## Examples
+The following example shows another solution where we print out the films sorted firstly by rating in reversed order and then secondly (if the rating is the same) we sort by title:
 
 ``` java
     films.stream()
@@ -252,11 +291,14 @@ SELECT
 FROM 
     `sakila`.`film` 
 ORDER BY
-    `sakila`.`film`.`rating` DESC, `sakila`.`film`.`title` ASC
+    `sakila`.`film`.`rating`IS NOT NULL, 
+    `sakila`.`film`.`rating` DESC, 
+    `sakila`.`film`.`title` ASC    
 ```
 
 {% include note.html content = "
 Note that the most significant (first order) comparator is given *last* in the order of `.sorted()` operators. This might look like counter-intuitive if you are used to SQL where the order is the other way around. However, this is a consequence of how Streams work. The last `sorted()` operator will supersede any preceeding `sorted()` operator but since sorting is stable (for ordered streams), the previous order will be retained for entities that has the same sort key.
+If you use version 3.0.11 or later, it is recommended to use [this](#combining-comparators) instead.
 " %}
 
 
