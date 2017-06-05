@@ -298,7 +298,8 @@ ORDER BY
 
 {% include note.html content = "
 Note that the most significant (first order) comparator is given *last* in the order of `.sorted()` operators. This might look like counter-intuitive if you are used to SQL where the order is the other way around. However, this is a consequence of how Streams work. The last `sorted()` operator will supersede any preceeding `sorted()` operator but since sorting is stable (for ordered streams), the previous order will be retained for entities that has the same sort key.
-If you use version 3.0.11 or later, it is recommended to use [this](#combining-comparators) instead.
+
+If you use version 3.0.11 or later, it is recommended to use [this](#combining-comparators) way instead.
 " %}
 
 
