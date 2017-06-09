@@ -16,11 +16,45 @@ next: author.html
 ## MySQL
 Speedment supports MySQL out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your MySQL project.
 
+Starting from version 3.0.11, the MySQL `FieldPredicatView` can be configured to use custom collations by modifying the following configuration parameters:
+
+| Name                         | Default value     |
+| :--------------------------- | :---------------- |
+| db.mysql.collationName       | utf8_general_ci   |
+| db.mysql.binaryCollationName | utf8_bin          |
+
+These values can be set to custom values using the application builder as depicted below:
+```
+     ApplicationBuilder app = new SakilaApplicationBuilder()
+        .withPassword("sakila-password")
+        .withParam("db.mysql.collationName", "utf8mb4_general_ci")
+        .withParam("db.mysql.binaryCollationName", "utf8mb4_bin");
+        .build();
+```
+The selected collations will be used for all MySQL tables.
+
 ## PostgreSQL
 Speedment supports PostgreSQL out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your PostgreSQL project.
 
 ## MariaDB
 Speedment supports MariaDB out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your MariaDB project.
+
+Starting from version 3.0.11, the MariaDB `FieldPredicatView` can be configured to use custom collations by modifying the following configuration parameters:
+
+| Name                         | Default value     |
+| :--------------------------- | :---------------- |
+| db.mysql.collationName       | utf8_general_ci   |
+| db.mysql.binaryCollationName | utf8_bin          |
+
+These values can be set to custom values using the application builder as depicted below:
+```
+     ApplicationBuilder app = new SakilaApplicationBuilder()
+        .withPassword("sakila-password")
+        .withParam("db.mysql.collationName", "utf8mb4_general_ci")
+        .withParam("db.mysql.binaryCollationName", "utf8mb4_bin");
+        .build();
+```
+The selected collations will be used for all MariaDB tables.
 
 
 ## Enterprise Connectors
