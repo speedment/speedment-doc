@@ -178,10 +178,10 @@ table th[class*="col-"] {
 }
 
 
-table td:first-child {
+/*table td:first-child {
     width: 150px;
-    /*font-weight:bold;*/
-}
+    font-weight:bold;
+}*/
 
 table.boldFirstColumn td:first-child {
     font-weight: bold;
