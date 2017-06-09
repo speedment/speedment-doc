@@ -18,10 +18,10 @@ Speedment supports MySQL out-of-the-box. Please refer to the Speedment [Initiali
 
 Starting from version 3.0.11, the MySQL `FieldPredicatView` can be configured to use custom collations by modifying the following configuration parameters:
 
-| Name                         | Default value     | A |
-| :--------------------------- | :---------------- | - |
-| db.mysql.collationName       | utf8_general_ci   | . |
-| db.mysql.binaryCollationName | utf8_bin          | . |
+| Name                                             | Default value     |
+| :----------------------------------------------- | :---------------- |
+| db.mysql.collationName                           | utf8_general_ci   |
+| db.mysql.binaryCollationName                     | utf8_bin          |
 
 These values can be set to custom values using the application builder as depicted below:
 ```
