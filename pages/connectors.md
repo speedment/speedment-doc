@@ -33,8 +33,22 @@ These values can be set to custom values using the application builder as depict
 ```
 The selected collations will be used for all MySQL tables.
 
+Speedment officially support the following MySQL JDBC versions:
+
+| Database | groupId   | artifactId           | version |
+| :------- | :-------- | :------------------- | :------ |
+| MySQL    | mysql     | mysql-connector-java | 5.1.42  |
+| MySQL    | mysql     | mysql-connector-java | 5.1.41  |
+
 ## PostgreSQL
 Speedment supports PostgreSQL out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your PostgreSQL project.
+
+Speedment officially support the following PostgreSQL JDBC versions:
+
+| Database | groupId        | artifactId           | version |
+| :------- | :------------- | :------------------- | :------ |
+| PosgreSQL| org.postgresql | postgresql           | 42.0.0  |
+
 
 ## MariaDB
 Speedment supports MariaDB out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your MariaDB project.
@@ -56,6 +70,15 @@ These values can be set to custom values using the application builder as depict
 ```
 The selected collations will be used for all MariaDB tables.
 
+Speedment officially support the following MariaDB JDBC versions:
+
+| Database | groupId          | artifactId           | version |
+| :------- | :--------------- | :------------------- | :------ |
+| MariaDB  | org.mariadb.jdbc | mariadb-java-client  | 2.0.1   |
+
+{% include important.html content= "
+Pre 2.0.1 MariaDB JDBC drivers contain significant bugs. Users are highly encouraged to upgrade to 2.x.x drivers.
+" %}
 
 ## Enterprise Connectors
 Support for additional enterprise database types can easily be obtained by adding an appropriate connector. Adding a connector is straight forward:
