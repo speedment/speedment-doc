@@ -166,9 +166,9 @@ The following additional methods are available to a {{site.data.javadoc.Referenc
 | notBetween     | `V`,`V`      | field < s && field >= e  | the field is not between p1 (exclusive) and p2 (inclusive) |
 | notBetween     | `V`,`V`, `Inclusion`| field <? s && field >? e  | the field is not between s and e with inclusion according to the given Inclusion parameter (`START_INCLUSIVE_END_INCLUSIVE`, `START_INCLUSIVE_END_EXCLUSIVE`, `START_EXCLUSIVE_END_INCLUSIVE` and `START_EXCLUSIVE_END_EXCLUSIVE`)|
 | in             | `V[]`        |  array p contains field    | the array parameter contains the field
-| in             | `Set<V>`     |  p.contains(field)         | the `Set<V>` contains the field
+| in             | `Collection<V>`     |  p.contains(field)         | the `Collection<V>` contains the field
 | notIn          | `V[]`        |  array p does not contain field    | the array parameter does not contain the field
-| notIn          | `Set<V>`     |  !p.contains(field)        | the `Set<V>` does not contain the field
+| notIn          | `Collection<V>`     |  !p.contains(field)        | the `Collection<V>` does not contain the field
 
 {% include tip.html content = "
 Fields that are `null` will never fulfill any of the predicates in the list above. Thus, neither `equals` nor `notEquals` will return `true` for null values.
@@ -524,7 +524,7 @@ FROM
 WHERE 
     (`sakila`.`film`.`rating` COLLATE utf8_bin IN (?,?,?)), values:[PG-13, G, PG]
 ```
-There is also a variant of the `in` predicate that takes a `Set` as a parameter:
+There is also a variant of the `in` predicate that takes a `Collection` as a parameter. For example like this:
 ``` java
     Set<String> set = Stream.of("G", "PG", "PG-13").collect(toSet());
 
@@ -575,7 +575,7 @@ FROM
 WHERE 
     (NOT((`sakila`.`film`.`rating` COLLATE utf8_bin IN (?,?,?)))), values:[PG-13, G, PG]
 ```
-There is also a variant of the `noIn` predicate that takes a `Set` as a parameter:
+There is also a variant of the `noIn` predicate that takes a `Collection` as a parameter. For example like this:
 ``` java
     Set<String> set = Stream.of("G", "PG", "PG-13").collect(toSet());
 
