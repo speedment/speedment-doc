@@ -103,7 +103,7 @@ In order for the Speedment tool to read the schema metadata you need the followi
 | CREATE SESSION     | GRANT CREATE SESSION TO SPEEDMENT_USER;
 | SELECT             | GRANT SELECT ON t TO SPEEDMENT_USER; (*)
 | ANALYZE            | GRANT ANALYZE ANY TO SPEEDMENT_USER;
-| ANALYZE DICTIONARY | GRANT ANALYZE DICTIONARY to SPEEDMENT_USER;
+| ANALYZE DICTIONARY | GRANT ANALYZE DICTIONARY TO SPEEDMENT_USER;
 
 (*) Repeat for each and every table t being used.
 
