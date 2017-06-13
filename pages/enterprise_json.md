@@ -47,7 +47,7 @@ public static void main(String... args) {
 }
 ```
 
-### Encoding entities
+### Encoding Entities
 The JSON Plugin uses builders to create optimized encoders and collectors that can then be executed multiple times.
 
 ```java
@@ -63,7 +63,7 @@ films.stream()
     .forEachOrdered(System.out::println);
 ```
 
-#### Remove unwanted fields
+#### Remove Unwanted Fields
 By default, the `JsonEncoderBuilder` includes all fields in the result. However, if only a subset of the fields are desired, the others can be removed like this:
 
 ```java
@@ -73,7 +73,7 @@ final JsonEncoder<Film> filmEncoder = json.encoder(films)
     .build();
 ```
 
-Another way to accomplish this is to create an empty builder and then add the fields to include excplicitly.
+Another way to accomplish this is to create an empty builder and then add the fields to include explicitly.
 
 ```java
 final JsonEncoder<Film> filmEncoder = json.<Film>emptyEncoder()
@@ -82,7 +82,7 @@ final JsonEncoder<Film> filmEncoder = json.<Film>emptyEncoder()
     .build();
 ```
 
-#### Rename fields
+#### Rename Fields
 The `JsonEncoderBuilder` creates a default label for each field using camelCase. If a different name is desired, it can be specified explicitly.
 
 ```java
@@ -92,7 +92,7 @@ final JsonEncoder<Film> filmEncoder = json.encoder(films)
     .build();
 ```
 
-### Collecting streams
+### Collecting Streams
 In most cases, an encoder is not used individually but as part of a collector. The most basic example would be to collect a stream of entities into a JSON Array.
 
 ```java
@@ -110,7 +110,7 @@ This will produce a JSON object like this:
 ]
 ```
 
-### Aggregating fields
+### Aggregating Fields
 To aggregate a stream of entities into a single JSON object, a custom collector can be created. That is also done using a builder pattern. Multiple fields can be aggregated in the same operation, creating a very powerful and performant API.
 
 #### Creating an Aggregate Collector
@@ -142,6 +142,30 @@ The following JSON object is returned:
 }
 ```
 
+#### Formatting Aggregated Fields
+By default, the `JsonEncoderBuilder` will apply the `Object::toString` on each field aggregated. However, this behavior can be overridden by providing a "finisher" to each field. The finisher will only be applied to the final result, not the individual elements.
+
+``` java
+    JsonCollector<Film, ?> filmCollector = json.collector(Film.class)
+        .put(
+            "maxLength",
+            JsonCollectors.max(
+                Film.LENGTH,
+                i -> String.format("\"%d hours and %d minutes\"", i / 60, i % 60)
+            )
+        )
+        .build();
+        
+        System.out.println(
+            films.stream().collect(filmCollector)
+        );
+```
+This will produce the following output:
+
+```
+{"maxLength":"3 hours and 5 minutes"}
+```
+
 #### Available Aggregators
 All the available Aggregate Collectors are present as static methods in the `JsonCollectors`-class. These can be mixed and matched to produce very complex objects.
 
@@ -166,7 +190,7 @@ All the available Aggregate Collectors are present as static methods in the `Jso
   <dd>if all values for field are the same, then that, otherwise null</dd>
 </dl>
 
-### Putting It All Togather
+### Putting It All Together
 If you combine encoders, collectors and aggregators into a stream, you could get something like this:
 
 ```java
