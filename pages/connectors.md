@@ -94,6 +94,21 @@ In order to use the connectors in this chapter, you need a commercial Speedment 
 ## Oracle
 This chapter shows how to add support for Oracle in Speedment. Unfortunately, Oracle does not provide a JDBC driver that you can download via a dependency in your pom file. Instead, it has to be installed manually before you can use the Oracle connector. [Here](http://www.oracle.com/technetwork/topics/jdbc-faq-090281.html) is Oracle's official JDBC FAQ that provides information on how to install the Oracle JDBC driver.
 
+
+### Rights
+In order for the Speedment tool to read the schema metadata you need the following privileges:
+
+| Privilege          | Create Example                           |
+| :----------------- | :--------------------------------------- |
+| CREATE SESSION     | GRANT CREATE SESSION TO SPEEDMENT_USER;
+| SELECT             | GRANT SELECT ON t TO SPEEDMENT_USER; (*)
+| ANALYZE            | GRANT ANALYZE ANY TO SPEEDMENT_USER;
+| ANALYZE DICTIONARY | GRANT ANALYZE DICTIONARY to SPEEDMENT_USER;
+
+(*) Repeat for each and every table t being used.
+
+When the application runs, only the CREATE SESSION and the SELECT privileges are needed (plus UPDATE/DELETE if those operations are being used).
+
 ### Oracle POM
 Always use the [Initializer](https://www.speedment.com/initializer/) to get a complete POM file template as the POM snipes hereunder just show portions of what is needed.
 
