@@ -59,6 +59,11 @@ There is a specific Spring Boot plugin that you can add to your speedment maven 
                     <version>${speedment.version}</version>
                 </dependency>
             </dependencies>
+            <configuration>
+                <components>
+                    <component>com.speedment.plugins.spring.SpringGeneratorBundle</component>
+                </components>
+            </configuration>
         </plugin> 
 ```
 
