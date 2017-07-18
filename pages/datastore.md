@@ -191,7 +191,7 @@ Open the Speedment Tool and go to the column you want to disable indexing for an
 {% include image.html file="disableindex.png" url="https://www.speedment.com/" alt="Disable In-Memory Index in Speedment Tool" caption="Select Disable In-Memory Index" %}
 
 {% include tip.html content = "
-You should take a moment to look over your indexes in the Speedment Tool to see how they are mapped. If you have low-cardinality columns (like `gender`, `city`, `category` etc), you might want to use the (Enum Generator Plugin)[enterprise_enums.html#top] for Datastore to convert them into enums. You should also try and use `(To Primitive)` as the Type Mapper wherever possible.
+You should take a moment to look over your indexes in the Speedment Tool to see how they are mapped. If you have low-cardinality columns (like `gender`, `city`, `category` etc), you might want to use the [Enum Generator Plugin](enterprise_enums#top) for Datastore to convert them into enums. You should also try and use `(To Primitive)` as the Type Mapper wherever possible.
 " %}
 
 ### Obtaining Statistics
