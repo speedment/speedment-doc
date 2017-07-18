@@ -183,6 +183,17 @@ When the DataStore is loaded, information on the loading progress will be shown 
 Finished reloading in 2.05 s.
 ```
 
+### Disable Unnescessary Indexes
+By default, the Datastore indexes every column of every table. However, since the indexes can sometimes take up quite a bit of extra space, you might want to disable indexing on columns that you are not filtering or sorting on directly.
+
+Open the Speedment Tool and go to the column you want to disable indexing for and select "Disable In-Memory Index".
+
+{% include image.html file="disableindex.png" url="https://www.speedment.com/" alt="Disable In-Memory Index in Speedment Tool" caption="Select Disable In-Memory Index" %}
+
+{% include tip.html content = "
+You should take a moment to look over your indexes in the Speedment Tool to see how they are mapped. If you have low-cardinality columns (like `gender`, `city`, `category` etc), you might want to use the (Enum Generator Plugin)[enterprise_enums.html#top] for Datastore to convert them into enums. You should also try and use `(To Primitive)` as the Type Mapper wherever possible.
+" %}
+
 ### Obtaining Statistics
 You can obtain statistics on how tables, columns and memory segments are used by invoking the DataStoreComponent::getStatistics method. Here is an example of how to print out DataStore statistics.
 ``` java
