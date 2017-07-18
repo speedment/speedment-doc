@@ -194,6 +194,33 @@ Open the Speedment Tool and go to the column you want to disable indexing for an
 You should take a moment to look over your indexes in the Speedment Tool to see how they are mapped. If you have low-cardinality columns (like `gender`, `city`, `category` etc), you might want to use the [Enum Serializer Plugin](enterprise_enums#top) for Datastore to convert them into enums. You should also try and use `(To Primitive)` as the Type Mapper wherever possible.
 " %}
 
+### Creating Multi-Indexes
+**Speedment Enterprise 1.1.10** introduced the concept of Multi-Indexes which can significantly increase the performance of filters that involve two columns of the same (or similar) type. Multi-Indexes take up the same amount of memory as a single-column index, but can filter both dimensions in `O(log N)` time-complexity.
+
+To create a Multi-Index for a pair of columns, open the Speedment Tool and right-click on the table.
+
+{% include image.html file="create_multi_index.png" url="https://www.speedment.com/" alt="Creating Multi-Indexes in Speedment Tool" caption="Step 1: Right-Click Table and select Create Multi-Index" %}
+
+In the dropdown menu, select "Create Multi Index". Scroll to the bottom of the table and select the newly created index.
+
+On the right side, you can now enter the name of the columns to use as Primary and Secondary sort order. The name must match perfectly the "Database Name" of the columns in question. You may also want to set a custom name for the index. To enable editing, right-click the "MultiIndex Name"-textfield and select "Enable editing".
+
+{% include image.html file="configure_multi_index.png" url="https://www.speedment.com/" alt="Configuring the Primary and Secondary Column of Multi-Indexes" caption="Step 2: Configure Primary and Secondary Column" %}
+
+Currently, only very specific filters are being considered when interpreting a Speedment Stream for a Multi-Index. To make sure a filter is optimized correctly, it should be written as a `.and()`-combination of two regular Speedment filters.
+
+**Example Usage:**
+```java
+flights.stream()
+    .filter(Flight.ORIGIN.equal("SFO")
+       .and(Flight.DESTINATION.equal("LAX"))
+    )
+    .skip(100_000).limit(1_000)
+    .collect(toList());
+```
+
+Only `equal`-operators can be optimized using multi-indexes.
+
 ### Obtaining Statistics
 You can obtain statistics on how tables, columns and memory segments are used by invoking the DataStoreComponent::getStatistics method. Here is an example of how to print out DataStore statistics.
 ``` java
