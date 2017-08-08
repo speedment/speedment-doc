@@ -246,6 +246,81 @@ This will produce an output that starts like this:
 
 ...
 
+## Aggregating Columns
+A common use case in analytical applications is to aggregate many results ito a few. This can be done very efficiently using the specialized collectors built into Speedment Enterprise.
+
+The following example will calculate the minimum, maximum and average rental duration for each "rating" category.
+
+```java
+System.out.println(Json.toJson(
+    films.stream()
+        .collect(groupingBy(
+            entityFunction(
+                Film::getRating,
+                store -> ref -> store.deserializeReference(ref, Film.RATING)
+            ),
+            mergeBuilder(Film.class, LinkedHashMap::new)
+                .firstReference(Film.RATING, (map, rating) -> map.put("rating", rating.name()))
+                .minShort(Film.RENTAL_DURATION, (map, duration) -> map.put("minDuration", duration))
+                .maxShort(Film.RENTAL_DURATION, (map, duration) -> map.put("maxDuration", duration))
+                .averageShort(Film.RENTAL_DURATION, (map, duration) -> map.put("averageDuration", duration))
+                .build(),
+            toList()
+        ))
+    )
+);
+```
+
+The code above outputs the following:
+
+```json
+[
+  {
+    "rating" : "PG13",
+    "minDuration" : 3,
+    "maxDuration" : 7,
+    "averageDuration" : 4.6
+  },
+  {
+    "rating" : "R",
+    "minDuration" : 3,
+    "maxDuration" : 7,
+    "averageDuration" : 4.857142857142857
+  },
+  {
+    "rating" : "G",
+    "minDuration" : 3,
+    "maxDuration" : 7,
+    "averageDuration" : 4.6
+  },
+  {
+    "rating" : "NC17",
+    "minDuration" : 3,
+    "maxDuration" : 6,
+    "averageDuration" : 4.0
+  },
+  {
+    "rating" : "PG",
+    "minDuration" : 3,
+    "maxDuration" : 7,
+    "averageDuration" : 4.666666666666667
+  }
+]
+```
+
+The collection is done in a few steps. The `groupingBy` method is statically imported from the `EntityCollectors`-class. It takes three arguments. 
+
+**Grouping Function**
+The first argument is the grouping method that will be used to categorize the incomming entities. Here we use the `entityFunction` method statically imported from the `EntityFunction`-class. This allows us to specify two different lambdas; one that operates on an already deserialized entity and one that operats directly on an in-memory reference. In the best case scenario, we can perform the categorization without deserializing more than one field.
+
+**Inner Collector**
+For the second argument of `groupingBy` is used to describe hw entities within one category are to be reduced. The method is imported statically from `EntityCollectors`. `mergeBuilder` takes the class of the incomming objects as well as a `Supplier` for the resulting type. In this case, we want to collect the inner stream into a `LinkedHashMap` so that it can be turned into JSON. `mergeBuilder` works as a Builder Pattern, allowing every field of the entity to be collected individually. The builder is terminated by calling `.build()`.
+
+**Outer Collector**
+The third argument of `groupingBy` is a regular Java `Collector` that is used to collect the results for each category. In this case, we use the stnadard Java `Collectors.toList()` method so that we get a `java.util.List`.
+
+The entire operation will complete in `O(N)` time complexity, without deserializing more than exactly the fields needed for the result.
+
 ## Performance
 The DataStore module will sort each table and each column upon load/re-load. This means that you can benefit from low latency regardless on which column you use in stream filters, sorters, etc.
 
