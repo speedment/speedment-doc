@@ -247,7 +247,7 @@ This will produce an output that starts like this:
 ...
 
 ## Aggregating Columns
-A common use case in analytical applications is to aggregate many results ito a few. This can be done very efficiently using the specialized collectors built into Speedment Enterprise.
+**Requires Speedment Enterprise 1.1.10 or later.** A common use case in analytical applications is to aggregate many results ito a few. This can be done very efficiently using the specialized collectors built into Speedment Enterprise.
 
 The following example will calculate the minimum, maximum and average rental duration for each "rating" category.
 
