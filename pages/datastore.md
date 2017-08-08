@@ -260,10 +260,10 @@ System.out.println(Json.toJson(
                 store -> ref -> store.deserializeReference(ref, Film.RATING)
             ),
             mergeBuilder(Film.class, LinkedHashMap::new)
-                .firstReference(Film.RATING, (map, rating) -> map.put("rating", rating.name()))
-                .minShort(Film.RENTAL_DURATION, (map, duration) -> map.put("minDuration", duration))
-                .maxShort(Film.RENTAL_DURATION, (map, duration) -> map.put("maxDuration", duration))
-                .averageShort(Film.RENTAL_DURATION, (map, duration) -> map.put("averageDuration", duration))
+                .first(Film.RATING, (map, rating) -> map.put("rating", rating.name()))
+                .min(Film.RENTAL_DURATION, (map, duration) -> map.put("minDuration", duration))
+                .max(Film.RENTAL_DURATION, (map, duration) -> map.put("maxDuration", duration))
+                .average(Film.RENTAL_DURATION, (map, duration) -> map.put("averageDuration", duration))
                 .build(),
             toList()
         ))
