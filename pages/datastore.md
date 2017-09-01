@@ -321,6 +321,16 @@ The third argument of `groupingBy` is a regular Java `Collector` that is used to
 
 The entire operation will complete in `O(N)` time complexity, without deserializing more than exactly the fields needed for the result.
 
+### Clear the DataStore
+You can explicitly clear the content of the DataStore by calling the `clear()` method as shown below. After the clear method has been called, streams are served by the underlying database instead.
+``` java
+    // Clear the DataStore and release all in-JVM-memory resources
+    app.get(DataStoreComponent.class)
+        .ifPresent(DataStoreComponent::load);
+    // Streams are now served by the database instead of DataStore
+```
+If `load()` is called after `clear()`, streams can again be served by DataStore.
+
 ## Performance
 The DataStore module will sort each table and each column upon load/re-load. This means that you can benefit from low latency regardless on which column you use in stream filters, sorters, etc.
 
