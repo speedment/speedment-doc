@@ -107,13 +107,13 @@ The Speedment Mavan Plugin has four Maven targets that can be used to simplify a
 
 These are the four Maven targets in the Speedment Maven Plugin:
 
-| Target                          | Purpose                                                             | Tool |
-| :------------------------------ | :------------------------------------------------------------------ | :--- |
-| [tool](maven.html#tool)         | Starts the graphical tool that connects to an existing database     | Yes  |
-| [generate](maven.html#generate) | Generates code                                                      | No   |
-| [reload](maven.html#reload)     | Reloads meta data and merges changes with the existing config file  | No   |
-| [clear](maven.html#clear)       | Removes all generated code                                          | No   |
-| [clearTables](maven.html#clear) | Removes all tables, columns, indexes etc from the config file       | No   |
+| Target                                 | Purpose                                                             | Tool |
+| :------------------------------------- | :------------------------------------------------------------------ | :--- |
+| [tool](maven.html#tool)                | Starts the graphical tool that connects to an existing database     | Yes  |
+| [generate](maven.html#generate)        | Generates code                                                      | No   |
+| [reload](maven.html#reload)            | Reloads meta data and merges changes with the existing config file  | No   |
+| [clear](maven.html#clear)              | Removes all generated code                                          | No   |
+| [clearTables](maven.html#clear-tables) | Removes all tables, columns, indexes etc from the config file       | No   |
 
 
 ### Tool
