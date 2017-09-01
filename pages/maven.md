@@ -113,6 +113,7 @@ These are the four Maven targets in the Speedment Maven Plugin:
 | [generate](maven.html#generate) | Generates code                                                      | No   |
 | [reload](maven.html#reload)     | Reloads meta data and merges changes with the existing config file  | No   |
 | [clear](maven.html#clear)       | Removes all generated code                                          | No   |
+| [clearTables](maven.html#clear) | Removes all tables, columns, indexes etc from the config file       | No   |
 
 
 ### Tool
@@ -125,7 +126,10 @@ By using the `speedment:generate` target we can generate code directly from the 
 By using the `speedment:reload` target we can reload the metadata from the database and merges any changes with the existing JSON configuration file without starting the Tool.
 
 ### Clear
-By using the `speedment:clear` target we cab remove all the generated files from our project without starting the Tool. Files that are manually changed are protected by a cryptographic hash code and will not be removed.
+By using the `speedment:clear` target we can remove all the generated files from our project without starting the Tool. Files that are manually changed are protected by a cryptographic hash code and will not be removed.
+
+### Clear Tables
+By using the `speedment:clearTables` target we can remove all tables, columns, indexes and foreign keys from the configuration file. This is useful if you want clear you config file and then run Reload to obtain an exact copy of the database, regardless of the configuration files previous state.
 
 ## Configuration
 The Speedment Maven Plugin can be configured in many ways. A special debug mode can be set and new functionality can be added dynamically by adding {{site.data.javadoc.TypeMapper}}s, Components and {{site.data.javadoc.InjectBundle}}s.
