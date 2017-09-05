@@ -183,7 +183,7 @@ When the DataStore is loaded, information on the loading progress will be shown 
 Finished reloading in 2.05 s.
 ```
 
-### Disable Unnescessary Indexes
+### Disable Unnecessary Indexes
 By default, the Datastore indexes every column of every table. However, since the indexes can sometimes take up quite a bit of extra space, you might want to disable indexing on columns that you are not filtering or sorting on directly.
 
 Open the Speedment Tool and go to the column you want to disable indexing for and select "Disable In-Memory Index".
@@ -322,7 +322,7 @@ The third argument of `groupingBy` is a regular Java `Collector` that is used to
 The entire operation will complete in `O(N)` time complexity, without deserializing more than exactly the fields needed for the result.
 
 ### Clear the DataStore
-You can explicitly clear the content of the DataStore by calling the `clear()` method as shown below. After the clear method has been called, streams are served by the underlying database instead.
+You can explicitly clear the content of the DataStore by calling the `clear()` method as shown below. After the clear method has been called, streams are not available and a DataStoreNotLoadedException will be thrown if a stream is requested.
 ``` java
     // Clear the DataStore and release all in-JVM-memory resources
     app.get(DataStoreComponent.class)
