@@ -1,11 +1,11 @@
 #!/bin/bash
 
-SPEEDMENT_VERSION=3.0.13
+SPEEDMENT_VERSION=3.0.14
 MYSQL_CONNECTOR_VERSION=5.1.42
 POSTGRES_CONNECTOR_VERSION=42.0.0
-MARIA_DB_CONNECTOR_VERSION=1.5.9
+MARIA_DB_CONNECTOR_VERSION=2.1.2
 
-if [[ `git remote -v | grep speedment-doc..git | wc -l` -eq 0 ]]; then
+if [[ `git remote -v | grep speedment-doc.git | wc -l` -eq 0 ]]; then
 	echo "The current directory does not seem to be a speedment-doc git repo"
 	exit 10
 fi
