@@ -263,13 +263,14 @@ In the following sections, the two methods are described, starting with the most
 As an example of how to use the API for super-fast off-heap aggregation, consider the following 
 example of an elaborate aggregation. 
 
-First we need an `EntityStore<X>` that holds the entities of type `X` over which the aggragation will take place.
+First we need an `EntityStore<X>` that holds the entities of type `X` over which the aggragation 
+will take place. The entity store can be retrieved from a holder of the data store component as follows.
 
 ```java
       DataStoreComponent dsc = app.getOrThrow(DataStoreComponent.class);
+      FilmManager filmManager = app.getOrThrow(FilmManager.class);
       DataStoreHolder holder = dataStore.currentHolder();
-      EntityStore<X> store = holder.getEntityStore(manager.getTableIdentifier());
-
+      EntityStore<Film> store = holder.getEntityStore(filmManager.getTableIdentifier());
 ```
 
 Then we define an aggregator object that will model
