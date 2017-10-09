@@ -261,9 +261,23 @@ In the following sections, the two methods are described, starting with the most
 ### Aggregation using the dedicated Speedment AggregatorBuilder 
 **Requires Speedment Enterprise 1.1.12 or later.** 
 As an example of how to use the API for super-fast off-heap aggregation, consider the following 
-example of an elaborate aggregation. First we define an aggregator object that will model
-the state of aggregation. It has to have a constructor that takes a reference to the datastore
-as parameter and then data fields used to accumulate results of the aggregation.
+example of an elaborate aggregation. 
+
+First we need an `EntityStore<X>` that holds the entities of type `X` over which the aggragation will take place.
+
+```java
+      DataStoreComponent dsc = app.getOrThrow(DataStoreComponent.class);
+      DataStoreHolder holder = dataStore.currentHolder();
+      EntityStore<X> store = holder.getEntityStore(manager.getTableIdentifier());
+
+```
+
+Then we define an aggregator object that will model
+the intermediate state of aggregation. It has  
+
+* a constructor that takes a reference to a datastore
+entity as parameter,
+* and data fields used to accumulate results of the aggregation.
 
 ```java
       @Data // See Project Lombok
@@ -273,7 +287,7 @@ as parameter and then data fields used to accumulate results of the aggregation.
       }
 ```
 
-With this class and a Datastore `store` an aggregation can be expressed as follows.
+With this class and an EntityStore `store` an aggregation can be expressed as follows.
 
 ```java      
       Stream<Float3> stream = Aggregator.builder(store, Float3::new)
