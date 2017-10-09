@@ -314,10 +314,10 @@ The collection is done in a few steps. The `groupingBy` method is statically imp
 The first argument is the grouping method that will be used to categorize the incomming entities. Here we use the `entityFunction` method statically imported from the `EntityFunction`-class. This allows us to specify two different lambdas; one that operates on an already deserialized entity and one that operats directly on an in-memory reference. In the best case scenario, we can perform the categorization without deserializing more than one field.
 
 **Inner Collector**
-For the second argument of `groupingBy` is used to describe hw entities within one category are to be reduced. The method is imported statically from `EntityCollectors`. `mergeBuilder` takes the class of the incomming objects as well as a `Supplier` for the resulting type. In this case, we want to collect the inner stream into a `LinkedHashMap` so that it can be turned into JSON. `mergeBuilder` works as a Builder Pattern, allowing every field of the entity to be collected individually. The builder is terminated by calling `.build()`.
+For the second argument of `groupingBy` is used to describe how entities within one category are to be reduced. The method is imported statically from `EntityCollectors`. `mergeBuilder` takes the class of the incomming objects as well as a `Supplier` for the resulting type. In this case, we want to collect the inner stream into a `LinkedHashMap` so that it can be turned into JSON. `mergeBuilder` works as a Builder Pattern, allowing every field of the entity to be collected individually. The builder is terminated by calling `.build()`.
 
 **Outer Collector**
-The third argument of `groupingBy` is a regular Java `Collector` that is used to collect the results for each category. In this case, we use the stnadard Java `Collectors.toList()` method so that we get a `java.util.List`.
+The third argument of `groupingBy` is a regular Java `Collector` that is used to collect the results for each category. In this case, we use the standard Java `Collectors.toList()` method so that we get a `java.util.List`.
 
 The entire operation will complete in `O(N)` time complexity, without deserializing more than exactly the fields needed for the result.
 
@@ -326,7 +326,7 @@ You can explicitly clear the content of the DataStore by calling the `clear()` m
 ``` java
     // Clear the DataStore and release all in-JVM-memory resources
     app.get(DataStoreComponent.class)
-        .ifPresent(DataStoreComponent::load);
+        .ifPresent(DataStoreComponent::clear);
     // Streams are now served by the database instead of DataStore
 ```
 If `load()` is called after `clear()`, streams can again be served by DataStore.
