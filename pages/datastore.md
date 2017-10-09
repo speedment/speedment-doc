@@ -247,6 +247,99 @@ This will produce an output that starts like this:
 ...
 
 ## Aggregating Columns
+
+A common use case in analytical applications is to aggregate many results ito a few. 
+This can be done very efficiently using the specialized collectors built into 
+Speedment Enterprise by leveraging the standard Java Streams API.
+
+An even more efficient way to perform off-heap aggregation using Speedment is
+enabled by the AggregatorBuilder which is designed to perform all steps of the aggragation 
+without minimal heap memory footprint. 
+
+In the following sections, the two methods are described, starting with the most efficient.
+
+### Aggregation using the dedicated Speedment AggregatorBuilder.
+**Requires Speedment Enterprise 1.1.12 or later.** 
+As an example of how to use the API for super-fast off-heap aggregation, consider the following 
+example.
+
+```java
+      @Data // See Project Lombok
+      class Float3 {
+          final long ref; // Included in generated constructor
+          float length, replacementCost, rentalDuration;
+      }
+ 
+      Stream<Float3> stream = Aggregator.builder(store, Float3::new)
+          .withByteKey(Film.RATING)
+          .withByteKey(Film.RELEASE_YEAR)
+          .withSum(Film.LENGTH, Float3::setLength)
+          .withSum(Film.REPLACEMENT_COST, Float3::setReplacementCost)
+          .withSum(Film.RENTAL_DURATION, Float3::setRentalDuration)
+          .andThen(Float3::getRef, Float3::new)
+          .withByteKey(Film.RELEASE_YEAR)
+          .withAverage(Float3::getLength, Float3::setLength)
+          .withAverage(Float3::getReplacementCost, Float3::setReplacementCost)
+          .withAverage(Float3::getRentalDuration, Float3::setRentalDuration)
+          .build()
+          .aggregate(store.references());
+```
+
+In the above, aggregation is performed in two steps. First, an inner aggregation with a 
+composite key of film rating and release year is performed, to be follows by an outer
+aggregation on release year only. 
+
+Following the builder row by row, 
+
+* the first line creates an aggregator builder which will operate
+on fields of a datastore that is supplied in the `builder` method call together with the
+constructor for the aggregation holder class (in this case `Float3`). `java
+Stream<Float3> stream = Aggregator.builder(store, Float3::new)`,
+
+* the second and third lines define the inner aggregate key as the two fields `RATING` and
+`RELEASE_VERSION`,
+```java
+          .withByteKey(Film.RATING)
+          .withByteKey(Film.RELEASE_YEAR)
+```
+
+* then the inner aggregation operations are defined
+```java
+          .withSum(Film.LENGTH, Float3::setLength)
+          .withSum(Film.REPLACEMENT_COST, Float3::setReplacementCost)
+          .withSum(Film.RENTAL_DURATION, Float3::setRentalDuration)
+```
+
+* to be turned into a different kind of aggregation builder with the `andThen` operation.
+After this step, the builder operates on aggregation objects instead of table fields.
+
+```java
+          .andThen(Float3::getRef, Float3::new)
+```
+* Thus, a new key can be defined for the new builder, typically a sub key of the inner
+aggregation.
+
+```java
+          .withByteKey(Film.RELEASE_YEAR)
+```
+
+* Having defined the key, new aggregation operations can be applied
+
+```java
+          .withAverage(Float3::getLength, Float3::setLength)
+          .withAverage(Float3::getReplacementCost, Float3::setReplacementCost)
+          .withAverage(Float3::getRentalDuration, Float3::setRentalDuration)
+```
+
+* and finally the builder is finalized and then supplied with the stream of references from the data store.
+
+```java
+          .build()
+          .aggregate(store.references());
+```
+
+### Aggregation using the standard Java Streams API
+
 **Requires Speedment Enterprise 1.1.10 or later.** A common use case in analytical applications is to aggregate many results ito a few. This can be done very efficiently using the specialized collectors built into Speedment Enterprise.
 
 The following example will calculate the minimum, maximum and average rental duration for each "rating" category.
