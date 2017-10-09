@@ -267,7 +267,7 @@ First we need an `EntityStore<X>` that holds the entities of type `X` over which
 will take place. The entity store can be retrieved from a holder of the data store component as follows.
 
 ```java
-      DataStoreComponent dsc = app.getOrThrow(DataStoreComponent.class);
+      DataStoreComponent dataStore = app.getOrThrow(DataStoreComponent.class);
       FilmManager filmManager = app.getOrThrow(FilmManager.class);
       DataStoreHolder holder = dataStore.currentHolder();
       EntityStore<Film> store = holder.getEntityStore(filmManager.getTableIdentifier());
