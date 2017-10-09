@@ -254,14 +254,16 @@ Speedment Enterprise by leveraging the standard Java Streams API.
 
 An even more efficient way to perform off-heap aggregation using Speedment is
 enabled by the AggregatorBuilder which is designed to perform all steps of the aggragation 
-without minimal heap memory footprint. 
+with minimal heap memory footprint. 
 
 In the following sections, the two methods are described, starting with the most efficient.
 
-### Aggregation using the dedicated Speedment AggregatorBuilder.
+### Aggregation using the dedicated Speedment AggregatorBuilder 
 **Requires Speedment Enterprise 1.1.12 or later.** 
 As an example of how to use the API for super-fast off-heap aggregation, consider the following 
-example.
+example of an elaborate aggregation. First we define an aggregator object that will model
+the state of aggregation. It has to have a constructor that takes a reference to the datastore
+as parameter and then data fields used to accumulate results of the aggregation.
 
 ```java
       @Data // See Project Lombok
@@ -269,7 +271,11 @@ example.
           final long ref; // Included in generated constructor
           float length, replacementCost, rentalDuration;
       }
- 
+```
+
+With this class and a Datastore `store` an aggregation can be expressed as follows.
+
+```java      
       Stream<Float3> stream = Aggregator.builder(store, Float3::new)
           .withByteKey(Film.RATING)
           .withByteKey(Film.RELEASE_YEAR)
@@ -293,8 +299,10 @@ Following the builder row by row,
 
 * the first line creates an aggregator builder which will operate
 on fields of a datastore that is supplied in the `builder` method call together with the
-constructor for the aggregation holder class (in this case `Float3`). `java
-Stream<Float3> stream = Aggregator.builder(store, Float3::new)`,
+constructor for the aggregation holder class (in this case `Float3`), 
+```java
+Stream<Float3> stream = Aggregator.builder(store, Float3::new)`
+```
 
 * the second and third lines define the inner aggregate key as the two fields `RATING` and
 `RELEASE_VERSION`,
