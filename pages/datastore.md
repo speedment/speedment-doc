@@ -63,7 +63,7 @@ When you build the application, the DataStoreBundle needs to be added to the run
 ``` java
     SakilaApplicationBuilder builder = new SakilaApplicationBuilder()            
         .withPassword(password)
-        .withBundel(DataStoreBundle.class);
+        .withBundle(DataStoreBundle.class);
 ```
 
 ## Using DataStore
@@ -140,7 +140,7 @@ This will configure the Meta Stream Supplier to explicitly use the Data Store fo
 By installing the bundle `MetaStreamSupplierBundle` we activate the module. Here is an example of how to install the Meta Stream Supplier module:
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
-        .withBundel(DataStoreBundle.class);
+        .withBundle(DataStoreBundle.class);
         .withComponent(MyMetaStreamConfigurator.class)
         .withBundle(MetaStreamSupplierBundle.class)
         .build();
