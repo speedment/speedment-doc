@@ -314,7 +314,7 @@ The `ref` of a `LengthAndCost` instance points to an entity in the entity store 
 to these particular aggregate values. This way, key instances are never instantiated and therefore stay off-heap for
 the full duration of the aggregation.
 
-### Two-step aggregation
+#### Two-step aggregation
 
 Multi-step aggregation is also supported by the API. We use an aggregator class 
 with three different float fields to aggregate values for each aggregate key.
