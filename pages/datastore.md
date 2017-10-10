@@ -261,9 +261,9 @@ In the following sections, the two methods are described, starting with the most
 ### Aggregation using the dedicated Speedment AggregatorBuilder 
 **Requires Speedment Enterprise 1.1.12 or later.** 
 As an example of how to use the API for super-fast off-heap aggregation, consider the following 
-example of an elaborate aggregation. 
+example of a rather simple aggregation. 
 
-First we need an `EntityStore<X>` that holds the entities of type `X` over which the aggragation 
+First we need an `EntityStore<X>` that holds the entities of type `X` over which the aggregation 
 will take place. The entity store can be retrieved from a holder of the data store component as follows.
 
 ```java
@@ -276,9 +276,41 @@ will take place. The entity store can be retrieved from a holder of the data sto
 Then we define an aggregator object that will model
 the intermediate state of aggregation. It has  
 
-* a constructor that takes a reference to a datastore
-entity as parameter,
+* a constructor that takes a reference to an entity in an entity store
+as parameter,
 * and data fields used to accumulate the aggregation results per key value.
+
+The `@Data` annotation of [Project Lombok](https://projectlombok.org/) 
+generates getter for all fields, setter
+for non-final fields and a constructor that takes the final field as parameter.
+
+```java
+      @Data // See Project Lombok
+      class LengthAndCost {
+          final long ref; // Included in generated constructor
+          float length, replacementCost;
+      }
+```
+
+With this class and an EntityStore `store` a straight-forward aggregation can be expressed as follows.
+The aggregation is collected into a list of `LengthAndCost` instances, one of each unique key value in the entity store. 
+The `ref` of a `LengthAndCost` instance points to an entity in the entity store with the key value that corresponds
+to these particular aggregate values.
+
+```java      
+      List<LengthAndCost> aggregate = Aggregator.builder(store, LengthAndCost::new)
+          .withByteKey(Film.RATING)
+          .withByteKey(Film.RELEASE_YEAR)
+          .withSum(Film.LENGTH, LengthAndCost::setLength)
+          .withSum(Film.REPLACEMENT_COST, LengthAndCost::setReplacementCost)
+          .build()
+          .aggregate(store.references())
+          .collect(toList());
+```
+
+
+Multi-step aggregation is also supported as can be seen in the following. We use an aggregator class 
+with three different float fields to aggregate values for each key value.
 
 ```java
       @Data // See Project Lombok
@@ -288,7 +320,8 @@ entity as parameter,
       }
 ```
 
-With this class and an EntityStore `store` an aggregation can be expressed as follows.
+Then we start out by aggregating on both rating and release year followed by an
+aggregation of those values on release year only.
 
 ```java      
       Stream<Float3> stream = Aggregator.builder(store, Float3::new)
@@ -306,7 +339,7 @@ With this class and an EntityStore `store` an aggregation can be expressed as fo
           .aggregate(store.references());
 ```
 
-In the above, aggregation is performed in two steps. First, an inner aggregation with a 
+First, an inner aggregation with a 
 composite key of film rating and release year is performed, to be follows by an outer
 aggregation on release year only. 
 
@@ -335,19 +368,17 @@ Stream<Float3> stream = Aggregator.builder(store, Float3::new)`
 
 * to be turned into a different kind of aggregation builder with the `andThen` operation.
 After this step, the builder operates on aggregation objects instead of table fields.
-
 ```java
           .andThen(Float3::getRef, Float3::new)
 ```
+
 * Thus, a new key can be defined for the new builder, typically a sub key of the inner
 aggregation.
-
 ```java
           .withByteKey(Film.RELEASE_YEAR)
 ```
 
 * Having defined the key, new aggregation operations can be applied
-
 ```java
           .withAverage(Float3::getLength, Float3::setLength)
           .withAverage(Float3::getReplacementCost, Float3::setReplacementCost)
@@ -355,7 +386,6 @@ aggregation.
 ```
 
 * and finally the builder is finalized and then supplied with the stream of references from the data store.
-
 ```java
           .build()
           .aggregate(store.references());
