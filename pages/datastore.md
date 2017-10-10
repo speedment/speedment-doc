@@ -309,7 +309,7 @@ With this class and an entity store `store` the aggregation can be expressed as 
 ```
 
 The aggregation is collected into a list of `LengthAndCost` instances, one for each unique aggregate key in the entity store. 
-Thus, for each unique pair of rating and release year we get a `LengthAndCost instance holding the corresponding aggregate values.
+Thus, for each unique pair of rating and release year we get a `LengthAndCost` instance holding the corresponding aggregate values.
 The `ref` of a `LengthAndCost` instance points to an entity in the entity store with the key that corresponds
 to these particular aggregate values. This way, key instances are never instantiated and therefore stay off-heap for
 the full duration of the aggregation.
