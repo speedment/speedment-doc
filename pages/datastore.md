@@ -278,7 +278,7 @@ the intermediate state of aggregation. It has
 
 * a constructor that takes a reference to a datastore
 entity as parameter,
-* and data fields used to accumulate results of the aggregation.
+* and data fields used to accumulate the aggregation results per key value.
 
 ```java
       @Data // See Project Lombok
