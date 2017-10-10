@@ -256,9 +256,11 @@ An even more efficient way to perform off-heap aggregation using Speedment is
 enabled by the AggregatorBuilder which is designed to perform all steps of the aggragation 
 with minimal heap memory footprint. 
 
-In the following sections, the two methods are described, starting with the most efficient.
+The two methods are described in the following two sections, starting with the most efficient
+in [Aggregation using the dedicated Speedment AggregatorBuilder](#AggregatorBuilder) and then
+[Aggregation using the standard Java Streams API](#AggregationCollections) in the following section.
 
-### Aggregation using the dedicated Speedment AggregatorBuilder 
+### <a name="AggregatorBuilder"></a> Aggregation using the dedicated Speedment AggregatorBuilder 
 **Requires Speedment Enterprise 1.1.12 or later.** 
 In the following you will find two examples of how to use the AggregatorBuilder API for super-fast off-heap aggregation.
 
@@ -398,7 +400,7 @@ aggregation.
           .aggregate(store.references());
 ```
 
-### Aggregation using the standard Java Streams API
+### <a name="AggregationCollections"></a> Aggregation using the standard Java Streams API
 
 **Requires Speedment Enterprise 1.1.10 or later.** Aggregation can also be done using the specialized collectors built into Speedment Enterprise.
 
