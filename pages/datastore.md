@@ -248,7 +248,7 @@ This will produce an output that starts like this:
 
 ## Aggregating Columns
 
-A common use case in analytical applications is to aggregate many results ito a few. 
+A common use case in analytical applications is to aggregate many results into a few. 
 This can be done very efficiently using the specialized collectors built into 
 Speedment Enterprise by leveraging the standard Java Streams API.
 
@@ -260,11 +260,11 @@ In the following sections, the two methods are described, starting with the most
 
 ### Aggregation using the dedicated Speedment AggregatorBuilder 
 **Requires Speedment Enterprise 1.1.12 or later.** 
-As an example of how to use the API for super-fast off-heap aggregation, consider the following 
-example of a rather simple aggregation. 
+In the following you will find two examples of how to use the AggregatorBuilder API for super-fast off-heap aggregation.
 
-First we need an `EntityStore<X>` that holds the entities of type `X` over which the aggregation 
-will take place. The entity store can be retrieved from a holder of the data store component as follows.
+In both examples we need an `EntityStore<X>` that holds the entities of type `X` over which the aggregation 
+will take place. In the two examples below we will be using `Film` entities. 
+The entity store can be retrieved from a holder of the data store component as follows.
 
 ```java
       DataStoreComponent dataStore = app.getOrThrow(DataStoreComponent.class);
@@ -273,12 +273,15 @@ will take place. The entity store can be retrieved from a holder of the data sto
       EntityStore<Film> store = holder.getEntityStore(filmManager.getTableIdentifier());
 ```
 
-Then we define an aggregator object that will model
-the intermediate state of aggregation. It has  
+#### A simple one-step aggregation
+
+In the first example we will compute the average length and sum of replacement cost of 
+all films in the database, grouped on rating and release year. To capture the data to
+be aggregated for each unique aggregate key we define an aggregator object. It has  
 
 * a constructor that takes a reference to an entity in an entity store
-as parameter,
-* and data fields used to accumulate the aggregation results per key value.
+as parameter
+* and data fields used to accumulate the aggregation results per key.
 
 The `@Data` annotation of [Project Lombok](https://projectlombok.org/) 
 generates getter for all fields, setter
@@ -292,25 +295,29 @@ for non-final fields and a constructor that takes the final field as parameter.
       }
 ```
 
-With this class and an EntityStore `store` a straight-forward aggregation can be expressed as follows.
-The aggregation is collected into a list of `LengthAndCost` instances, one of each unique key value in the entity store. 
-The `ref` of a `LengthAndCost` instance points to an entity in the entity store with the key value that corresponds
-to these particular aggregate values.
+With this class and an entity store `store` the aggregation can be expressed as follows.
 
 ```java      
       List<LengthAndCost> aggregate = Aggregator.builder(store, LengthAndCost::new)
           .withByteKey(Film.RATING)
           .withByteKey(Film.RELEASE_YEAR)
-          .withSum(Film.LENGTH, LengthAndCost::setLength)
+          .withAverage(Film.LENGTH, LengthAndCost::setLength)
           .withSum(Film.REPLACEMENT_COST, LengthAndCost::setReplacementCost)
           .build()
           .aggregate(store.references())
           .collect(toList());
 ```
 
+The aggregation is collected into a list of `LengthAndCost` instances, one for each unique aggregate key in the entity store. 
+Thus, for each unique pair of rating and release year we get a `LengthAndCost instance holding the corresponding aggregate values.
+The `ref` of a `LengthAndCost` instance points to an entity in the entity store with the key that corresponds
+to these particular aggregate values. This way, key instances are never instantiated and therefore stay off-heap for
+the full duration of the aggregation.
 
-Multi-step aggregation is also supported as can be seen in the following. We use an aggregator class 
-with three different float fields to aggregate values for each key value.
+### Two-step aggregation
+
+Multi-step aggregation is also supported by the API. We use an aggregator class 
+with three different float fields to aggregate values for each aggregate key.
 
 ```java
       @Data // See Project Lombok
