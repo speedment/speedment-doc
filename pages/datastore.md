@@ -347,7 +347,7 @@ aggregation of those values on release year only.
 ```
 
 First, an inner aggregation with a 
-composite key of film rating and release year is performed, to be follows by an outer
+composite key of film rating and release year is performed, to be followed by an outer
 aggregation on release year only. 
 
 Following the builder row by row, 
@@ -400,7 +400,7 @@ aggregation.
 
 ### Aggregation using the standard Java Streams API
 
-**Requires Speedment Enterprise 1.1.10 or later.** A common use case in analytical applications is to aggregate many results ito a few. This can be done very efficiently using the specialized collectors built into Speedment Enterprise.
+**Requires Speedment Enterprise 1.1.10 or later.** Aggregation can also be done using the specialized collectors built into Speedment Enterprise.
 
 The following example will calculate the minimum, maximum and average rental duration for each "rating" category.
 
