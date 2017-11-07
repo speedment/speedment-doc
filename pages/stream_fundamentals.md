@@ -57,6 +57,9 @@ With Speedment, it is possible to use exactly the same semantics as for Java 8 s
 Because a Java 8 Stream is an interface, Speedment can select from a variety of different implementations of a Stream depending on the pipeline we are setting up and other factors.
 
 
+#### Speedment Stream Order
+The order in which elements are produced by the stream is unspecified and may change from one invocation to another. Because of that, it is an error to assume any particular order. Use the intermediate operation `sorted(Comparator)` if you need a certain element order.
+
 ## Intermediate Operations
 An *Intermediate Operation* is an operation that allows further operations to be added to a `Stream`. For example, `filter` is an *Intermediate Operation* because we can add additional operations to a `Stream` pipeline after `filter` has been applied to the `Stream`.
 
