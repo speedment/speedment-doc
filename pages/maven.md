@@ -419,7 +419,7 @@ When running the maven targets, we can set a number of command line parameters t
 | dbms.password  | String   | Sets the dbms password                             | W8kAk2H!Eh  | 
 | configLocation | String   | Sets the location of the configuration file        | src/main/json/my_config.json |
 | components     | String[] | Adds one or several components or bundles to the plugin | com.company.MyComponent |
-| typeMappers    | String[] | Adds one or several {{site.data.javadoc.TypeMapper}}s to the plugin | com.so.MyTypeMapper,com.so.MyOtherTypeMapper |
+
 
 
 ## Command Line Examples
@@ -450,10 +450,6 @@ Merge changes from the database with the current configuration file without aski
   mvn speedment:reload -DdbmsPassword=W8kAk2H!Eh
 ```
 
-Generate code directly using two custom {{site.data.javadoc.TypeMapper}}s:
-``` shell
-  mvn speedment:generate -DtypeMappers=com.so.MyTypeMapper,com.so.MyOtherTypeMapper
-```
 {% include tip.html content="
 Make sure that coma-separated items do not contain any space characters after a coma, or your maven build will fail.
 " %}
