@@ -206,7 +206,7 @@ It is possible to inspect the current settings and state of the `ConnectionPoolC
     );
 ```
 
-## Custom Stream Sources
+## Custom Stream Suppliers
 If you want to work with data from another data source than originally selected, you could easily plug in your own `StreamSupplierComponent` and replace the standard one that reads from the original data source (e.g. the database).
 
 There may be many different types of sources including CSV, JSON, Binary and Excel files. There might also be other sources like remote web services or algorithms that computes data deterministically.
@@ -218,31 +218,7 @@ public class FilmCsvStreamSupplierComponent implements StreamSupplierComponent {
 
     private static final TableIdentifier<Film> FILM_TABLE_IDENTIFIER = TableIdentifier.of("sakila", "sakila", "film");
 
-    private StreamSupplierComponent previous;
-
-    /**
-     * Retrieves the previous StreamSupplierComponent under this one. This 
-     * is used to delegate streams other than Film streams.
-     * 
-     * @param injector 
-     */
-    @ExecuteBefore(State.STARTED)
-    void findPrevious(Injector injector) {
-        final List<StreamSupplierComponent> components = injector.stream(StreamSupplierComponent.class)
-            .collect(toList());
-
-        int myIndex = -1;
-        for (int i = 0; i < components.size(); i++) {
-            if (components.get(i) == this) {
-                myIndex = i;
-                break;
-            }
-        }
-        if (myIndex == -1 || myIndex == components.size() - 1) {
-            throw new IllegalStateException("There was no previous StreamSupplierComponent");
-        }
-        previous = components.get(myIndex + 1);
-    }
+    private StreamSupplierComponent previous; // Set by the findPrevious() method below
 
     @Override
     @SuppressWarnings("unchecked")
@@ -291,6 +267,31 @@ public class FilmCsvStreamSupplierComponent implements StreamSupplierComponent {
     private String unquote(String s) {
         return s.trim().substring(1, s.length() - 1);
     }
+
+   /**
+     * Retrieves the previous StreamSupplierComponent under this one. This 
+     * is used to delegate streams other than Film streams.
+     * 
+     * @param injector to use
+     */
+    @ExecuteBefore(State.STARTED)
+    void findPrevious(Injector injector) {
+        final List<StreamSupplierComponent> components = injector.stream(StreamSupplierComponent.class)
+            .collect(toList());
+
+        int myIndex = -1;
+        for (int i = 0; i < components.size(); i++) {
+            if (components.get(i) == this) {
+                myIndex = i;
+                break;
+            }
+        }
+        if (myIndex == -1 || myIndex == components.size() - 1) {
+            throw new IllegalStateException("There was no previous StreamSupplierComponent");
+        }
+        previous = components.get(myIndex + 1);
+    }
+
 
 }
 ```

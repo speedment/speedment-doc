@@ -451,6 +451,11 @@ entries:
       url: advanced_features.html#connection-pooling
       output: web, pdf
       type: homepage
+      
+    - title: Custom Stream Suppliers
+      url: advanced_features.html#custom-stream-suppliers
+      output: web, pdf
+      type: homepage
 
 
   - title: DataStore Acceleration
