@@ -307,7 +307,7 @@ In order to use the new `DataStoreComponent` it has to be mentioned in the appli
 
         final FilmManager films = app.getOrThrow(FilmManager.class);
         
-        // This will pull in Film entities from the file, not the database
+        // This will pull in Film entities from the file, not from the database
         films.stream().forEach(System.out::println); 
 ```
 
