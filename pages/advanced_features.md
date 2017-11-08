@@ -206,6 +206,110 @@ It is possible to inspect the current settings and state of the `ConnectionPoolC
     );
 ```
 
+## Custom Stream Sources
+If you want to work with data from another data source than originally selected, you could easily plug in your own `StreamSupplierComponent` and replace the standard one that reads from the original data source (e.g. the database).
+
+There may be many different types of sources including CSV, JSON, Binary and Excel files. There might also be other sources like remote web services or algorithms that computes data deterministically.
+
+The following example shows an example when films are read from a CSV file rather than the database. The other tables will be read from the database as before.
+
+```
+public class FilmCsvStreamSupplierComponent implements StreamSupplierComponent {
+
+    private static final TableIdentifier<Film> FILM_TABLE_IDENTIFIER = TableIdentifier.of("sakila", "sakila", "film");
+
+    private StreamSupplierComponent previous;
+
+    /**
+     * Retrieves the previous StreamSupplierComponent under this one. This 
+     * is used to delegate streams other than Film streams.
+     * 
+     * @param injector 
+     */
+    @ExecuteBefore(State.STARTED)
+    void findPrevious(Injector injector) {
+        final List<StreamSupplierComponent> components = injector.stream(StreamSupplierComponent.class)
+            .collect(toList());
+
+        int myIndex = -1;
+        for (int i = 0; i < components.size(); i++) {
+            if (components.get(i) == this) {
+                myIndex = i;
+                break;
+            }
+        }
+        if (myIndex == -1 || myIndex == components.size() - 1) {
+            throw new IllegalStateException("There was no previous StreamSupplierComponent");
+        }
+        previous = components.get(myIndex + 1);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <ENTITY> Stream<ENTITY> stream(TableIdentifier<ENTITY> tableIdentifier, ParallelStrategy strategy) {
+        if (FILM_TABLE_IDENTIFIER.equals(tableIdentifier)) {
+            // Read Film entities from a csv file
+            return (Stream<ENTITY>) streamFilmCsv();
+        } else {
+            // Delegate all other streams to the previous StreamSupplierComponent
+            return previous.stream(tableIdentifier, strategy);
+        }
+    }
+
+    private Stream<Film> streamFilmCsv() {
+        try {
+            return Files.lines(Paths.get("film.csv"))
+                .skip(1)                  // The first row contains headers so it should be skipped
+                .map(this::stringToFilm); // Convert a line to a Film entity
+        } catch (IOException ioe) {
+            throw new SpeedmentException("Error reading from file", ioe);
+        }
+
+    }
+
+    private static final String CSV_SEPARATOR = ";";
+
+    private Film stringToFilm(String s) {
+        final String[] arr = s.split(CSV_SEPARATOR);
+
+        return new FilmImpl()
+            .setFilmId(Integer.parseInt(arr[0]))
+            .setTitle(unquote(arr[1]))
+            .setDescription(unquote(arr[2]))
+            .setReleaseYear(Date.valueOf(unquote(arr[3]) + "-01-01"))
+            .setLanguageId(Short.parseShort(arr[4]))
+            .setOriginalLanguageId(Short.parseShort(arr[5]))
+            .setRentalDuration(Short.parseShort(arr[6]))
+            .setRentalRate(new BigDecimal(unquote(arr[7])))
+            .setLength(Integer.parseInt(arr[8]))
+            .setReplacementCost(new BigDecimal(unquote(arr[9])))
+            .setRating(unquote(arr[10]))
+            .setSpecialFeatures(unquote(arr[11]))
+            .setLastUpdate(Timestamp.valueOf(unquote(arr[12])));
+    }
+
+    private String unquote(String s) {
+        return s.trim().substring(1, s.length() - 1);
+    }
+
+}
+```
+The CSV specific code above is used because it can be easily understood. There are a number of third party libraries available for reading various file formats.
+
+
+This is how the content of the "film.csv" file could look like:
+``` text 
+"film_id";"title";"description";"release_year";"language_id";"original_language_id";"rental_duration";"rental_rate";"length";"replacement_cost";"rating";"special_features";"last_update"
+1;"ACADEMY DINOSAUR";"A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies";"2006";1;0;6;0.99;86;20.99;"PG";"Deleted Scenes,Behind the Scenes";"2006-02-15 05:03:42"
+2;"ACE GOLDFINGER";"A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China";"2006";1;0;3;4.99;48;12.99;"G";"Trailers,Deleted Scenes";"2006-02-15 05:03:42"
+3;"ADAPTATION HOLES";"A Astounding Reflection of a Lumberjack And a Car who must Sink a Lumberjack in A Baloon Factory";"2006";1;0;7;2.99;50;18.99;"NC-17";"Trailers,Deleted Scenes";"2006-02-15 05:03:42"
+...
+```
+{% include warning.html content = "
+Providing a custom `StreamSupplierComponent` means that you are assuming the responsibility of ensuring referential integrity. If the `StreamSupplierComponent` are using components that are from different transaction states, then these component views might violate referential integrity. This must now be handled by your application.
+" %}
+
+
 {% include prev_next.html %}
 
 ## Discussion
