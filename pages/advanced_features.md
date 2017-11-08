@@ -297,6 +297,20 @@ public class FilmCsvStreamSupplierComponent implements StreamSupplierComponent {
 ```
 The CSV specific code above is used because it can be easily understood. There are a number of third party libraries available for reading various file formats.
 
+In order to use the new `DataStoreComponent` it has to be mentioned in the application builder similar to what is shown hereunder:
+
+```
+        final SakilaApplication app = new SakilaApplicationBuilder()
+            .withPassword("sakila-password")
+            .withComponent(FilmCsvStreamSupplierComponent.class) // Install our new component
+            .build();
+
+        final FilmManager films = app.getOrThrow(FilmManager.class);
+        
+        // This will pull in Film entities from the file, not the database
+        films.stream().forEach(System.out::println); 
+```
+
 
 This is how the content of the "film.csv" file could look like:
 ``` text 
