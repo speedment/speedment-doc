@@ -145,14 +145,14 @@ Enable logging of the `remove()` and `remover()` operations using the `Applicati
 " %}
 
 ## Transactions
-From version 3.0.17 an onwards, Speedment supports transactions whereby a compound set of work-items can be atomically executed independent of other transactions. Transactions can be used to guarantee ACID property compliance (i.e. Atomic, Consistent, Isolated and Durable).
+From version 3.0.17 and onwards, Speedment supports transactions whereby a compound set of work-items can be atomically executed independent of other transactions. Transactions can be used to guarantee ACID property compliance (i.e. Atomic, Consistent, Isolated and Durable).
 
 A transaction is an "all-or-nothing" proposition meaning that either all work-units complete or non of the work-items complete, whereby in the latter case, the database remains completely untouched.
 
 A Speedment transaction supports all types of CRUD operations within the same transaction. Later work-items will see changes made by previous work-items within the transaction as opposed to other threads which will not see these changes until they are fully committed. Changes by other threads will not be seen within the transaction regardless of committed or not. 
 
 ### Preparations
-The `TransactionComponent` is responsible of handling transaction within the Speedment runtime and it can be used to issue 'TransactionHandler's for different transaction domains such as a particular database. This is how you can obtain a `TransactionHandler':
+The `TransactionComponent` is responsible of handling transaction within the Speedment runtime and it can be used to issue `TransactionHandler` objects for different transaction domains such as a particular database. This is how you can obtain a `TransactionHandler`:
 
 ``` java
     SakilaApplication app = ....
@@ -217,7 +217,7 @@ no languages in tx 3, no languages after transaction 1
 ```
 Thus, the two new `Language` entities we created and persisted to the database were rolled back.
 
-Data changes are persisted to the database upon invoking the `Transaction::commit` method as shown hereunder:
+Data changes are committed to the database upon invoking the `Transaction::commit` method as shown hereunder:
 
 ``` java
     long noLanguagesInTransaction = txHandler.createAndApply(
@@ -226,7 +226,7 @@ Data changes are persisted to the database upon invoking the `Transaction::commi
                 new LanguageImpl().setName("Italian"),
                 new LanguageImpl().setName("German")
             ).forEach(languages.persister());
-            tx.commit(); // Make the changes visible outside the tx
+            tx.commit(); // Commit the changes and make them visible outside the tx
             return languages.stream().count();
         }
     );
