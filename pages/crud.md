@@ -144,6 +144,139 @@ Don't do This: `.forEach(languages::remove)`
 Enable logging of the `remove()` and `remover()` operations using the `ApplicationBuilder` method `.withLogging(LogType.REMOVE)`. Read more about logging [here](application_configuration.html#logging)
 " %}
 
+## Transactions
+From version 3.0.17 an onwards, Speedment supports transactions whereby a compound set of work-items can be atomically executed independent of other transactions. Transactions can be used to guarantee ACID property compliance (i.e. Atomic, Consistent, Isolated and Durable).
+
+A transaction is an "all-or-nothing" proposition meaning that either all work-units complete or non of the work-items complete, whereby in the latter case, the database remains completely untouched.
+
+A Speedment transaction supports all types of CRUD operations within the same transaction. Later work-items will see changes made by previous work-items within the transaction as opposed to other threads which will not see these changes until they are fully committed. Changes by other threads will not be seen within the transaction regardless of committed or not. 
+
+### Preparations
+The `TransactionComponent` is responsible of handling transaction within the Speedment runtime and it can be used to issue 'TransactionHandler's for different transaction domains such as a particular database. This is how you can obtain a `TransactionHandler':
+
+``` java
+    SakilaApplication app = ....
+    FilmManager films = app.getOrThrow(FilmManager.class);
+    LanguageManager languages = app.getOrThrow(LanguageManager.class);
+    TransactionComponent transactionComponent = app.getOrThrow(TransactionComponent.class);
+    TransactionHandler txHandler = transactionComponent.createTransactionHandler();
+```
+
+### Using Transactions
+Once a `TransactionHandler` has been obtained, new transactions can easily be created and used. The `TransactionHandler` provides two ways to create and use a transaction:
+
+| Operation      | Argument                 | Description
+| :------------- | :----------------------  | :------------------------------------------------------------------------------------------------------------- |
+| createAndAccept| Consumer<Transaction>    | Creates a new Transaction and invokes the provided action with the new transaction. Any uncommitted data will be automatically rolled back when the method returns.
+| createAndApply | Function<Transaction, T> | Creates a new Transaction and applies the provided mapping function with the new transaction and returns the value. Any uncommitted data will be automatically rolled back when the method returns.
+
+
+Here is a hypothetical example where we add the number of films with a length greater than 75 with the number of languages and print out the result. Because we are computing the sum within a transaction, we are immune to any changes to the database while we are summing the data:
+
+``` java
+    txHandler.createAndAccept(
+        tx -> System.out.println(
+            films.stream().filter(Film.LENGTH.greaterThan(75)).count()
+            + languages.stream().count()
+        )
+    );
+```
+
+Here is another example where we instead return the sum outside the transaction for later use:
+
+``` java
+    long sumCount = txHandler.createAndApply(
+        tx -> films.stream().filter(Film.LENGTH.greaterThan(75)).count() + languages.stream().count()
+    );
+```
+
+Uncommitted data changes are discarded unless we commit our changes explicitly as shown in this example:
+
+``` java
+    long noLanguagesInTransaction = txHandler.createAndApply(
+        tx -> {
+            Stream.of(
+                new LanguageImpl().setName("Italian"),
+                new LanguageImpl().setName("German")
+            ).forEach(languages.persister());
+            return languages.stream().count();
+            // The transaction is implicitly rolled back 
+        }
+    );
+    long noLanguagesAfterTransaction = languages.stream().count();
+
+    System.out.format(
+        "no languages in tx %d, no languages after transaction %d %n",
+        noLanguagesInTransaction,
+        noLanguagesAfterTransaction
+    );
+```
+This will produce the following output:
+```
+no languages in tx 3, no languages after transaction 1 
+```
+Thus, the two new `Language` entities we created and persisted to the database were rolled back.
+
+Data changes are persisted to the database upon invoking the `Transaction::commit` method as shown hereunder:
+
+``` java
+    long noLanguagesInTransaction = txHandler.createAndApply(
+        tx -> {
+            Stream.of(
+                new LanguageImpl().setName("Italian"),
+                new LanguageImpl().setName("German")
+            ).forEach(languages.persister());
+            tx.commit(); // Make the changes visible outside the tx
+            return languages.stream().count();
+        }
+    );
+    long noLanguagesAfterTransaction = languages.stream().count();
+
+    System.out.format(
+        "no languages in tx %d, no languages after transaction %d %n",
+        noLanguagesInTransaction,
+        noLanguagesAfterTransaction
+    );
+```
+This will produce the following output:
+```
+no languages in tx 3, no languages after transaction 3 
+```
+
+#### Handling Simultaneous Read and Writes
+Most databases cannot handle having a ResultSet open and then accepting updates on the same connection. In these situations is it advised to collect the entities in a separate `Set` or `List` and then perform actions on the collection rather than using a direct continuous stream as shown in this example:
+
+```
+    txHandler.createAndAccept(
+        tx -> {
+           // Collect to a list before performing actions
+            List<Language> toDelete = languages.stream()
+                .filter(Language.LANGUAGE_ID.notEqual((short) 1))
+                .collect(toList());
+
+            // Do the actual actions
+            toDelete.forEach(languages.remover());
+                
+            tx.commit();
+        }
+    );
+    long cnt = languages.stream().count();
+    System.out.format("There are %d languages after delete %n", cnt);
+```
+
+#### Transaction Isolation Level
+The `TransactionHandler` provides methods to control the level of isolation across transactions. The `Isolation` level will have the following affect when passed to the `Transaction::setIsolation` method:
+
+| Operation          | Effect
+| :----------------- | :----------------------------------------------------------------------------------------------------------- |
+| DEFAULT            | Restores the Isolation level to the default for the given transaction object
+| READ_UNCOMMITTED   | Dirty reads, non-repeatable reads and phantom reads can occur. This level allows a row changed by one transaction to be read by another transaction before any changes in that row have been committed (a "dirty read"). If any of the changes are rolled back, the second transaction will have retrieved an invalid row.
+| READ_COMMITTED     | Dirty reads are prevented; non-repeatable reads and phantom reads can occur. This level only prohibits a transaction from reading a row with uncommitted changes in it.
+| REPEATABLE_READ    | dirty reads and non-repeatable reads are prevented; phantom reads can occur. This level prohibits a transaction from reading a row with uncommitted changes in it, and it also prohibits the situation where one transaction reads a row, a second transaction alters the row, and the first transaction rereads the row, getting different values the second time (a "non-repeatable read").
+| SERIALIZABLE       | Dirty reads, non-repeatable reads and phantom reads are prevented. This level includes the prohibitions in `TRANSACTION_REPEATABLE_READ` and further prohibits the situation where one transaction reads all rows that satisfy a `WHERE` condition, a second transaction inserts a row that satisfies that `WHERE` condition, and the first transaction rereads for the same condition, retrieving the additional "phantom" row in the second read.
+
+More advanced Isolation levels often requirer more resources being used by the underlying transaction domain (e.g. database).
+
 {% include prev_next.html %}
 
 ## Discussion
