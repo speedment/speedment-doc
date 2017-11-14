@@ -89,7 +89,7 @@ Here is an example of a pom.xml file setup for Speedment and MySQL that has been
     
     <groupId>com.speedment</groupId>
     <artifactId>documentation-examples</artifactId>
-    <version>3.0.16</version>
+    <version>3.0.17</version>
     <packaging>jar</packaging>
     
     <name>Speedment - Documentation - Examples</name>
@@ -97,7 +97,7 @@ Here is an example of a pom.xml file setup for Speedment and MySQL that has been
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <speedment.version>3.0.16</speedment.version>
+        <speedment.version>3.0.17</speedment.version>
     </properties>    
     
     <build>
@@ -153,7 +153,7 @@ Here is an example of a pom.xml file setup for [Speedment Enterprise](datastore#
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <speedment.enterprise.version>1.1.9</speedment.enterprise.version>
+    <speedment.enterprise.version>1.1.13</speedment.enterprise.version>
   </properties>
   
   <dependencies>
