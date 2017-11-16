@@ -37,6 +37,7 @@ Speedment officially support the following MySQL JDBC versions:
 
 | Database | groupId   | artifactId           | version |
 | :------- | :-------- | :------------------- | :------ |
+| MySQL    | mysql     | mysql-connector-java | 5.1.44  |
 | MySQL    | mysql     | mysql-connector-java | 5.1.42  |
 | MySQL    | mysql     | mysql-connector-java | 5.1.41  |
 
