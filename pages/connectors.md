@@ -48,7 +48,7 @@ Speedment officially support the following PostgreSQL JDBC versions:
 
 | Database | groupId        | artifactId           | version |
 | :------- | :------------- | :------------------- | :------ |
-| PosgreSQL| org.postgresql | postgresql           | 42.0.0  |
+| PosgreSQL| org.postgresql | postgresql           | 42.1.4  |
 
 
 ## MariaDB
