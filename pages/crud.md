@@ -59,6 +59,10 @@ Don't do This: `.forEach(languages::persist)`
 Enable logging of the `persist()` and `persister()` operations using the `ApplicationBuilder` method `.withLogging(LogType.PERSIST)`. Read more about logging [here](application_configuration.html#logging)
 " %}
 
+{% include tip.html content= "
+Grouping several persist operations in a single transaction will often improve performance considerable. Read more about transactions [here](#transactions)
+" %}
+
 {% include important.html content= "
 The `persist()` operation will return an entity that is updated with auto-generated keys from the database (if any). Remember that you have to query the database to make sure that you have the latest version of your entity that was stored in the database.
 " %}
@@ -106,6 +110,10 @@ Don't do This: `.forEach(languages::update)`
 
 {% include tip.html content= "
 Enable logging of the `update()` and `updater()` operations using the `ApplicationBuilder` method `.withLogging(LogType.UPDATE)`. Read more about logging [here](application_configuration.html#logging)
+" %}
+
+{% include tip.html content= "
+Grouping several update operations in a single transaction will often improve performance considerable. Read more about transactions [here](#transactions)
 " %}
 
 {% include important.html content= "
