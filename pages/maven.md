@@ -370,6 +370,13 @@ If we want to perform an automatic reload (and merge potential changes in the da
 ```
 This way, each time we rebuilt, the code will always reflect the current database structure.
 
+### Using target/generated-sources
+If you have an automated build, you might not want the generated code to sit in the same folder as all your other code. A common convention for these situations are to generate the code into the `target/generated-sources/`-folder. Most IDEs scan this folder automatically so you will still have access to the in-IDE documentation, but you have a clear separation between generated and hand-written code.
+
+To tell Speedment to generate all code into the `target/generated-sources/`-folder, open the Speedment tool and change the `Package Location` like this. Note that you might have to uncheck `Auto` when you switch from a default option to a custom one.
+
+{% include image.html file="use_generated_sources.png" url="https://www.speedment.com/" alt="Generate Code into the generated-sources folder in the Speedment tool" caption="Change 'Package Location' to use 'target/generated-sources/'" %}
+
 ## Speedment Enterprise
 Speedment Enterprise is configured the same way except that we have to use different group and artifact ids. Here is an example of a Speedment Enterprise plugin definition:
 
