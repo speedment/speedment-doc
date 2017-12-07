@@ -413,7 +413,7 @@ Always use the Speedment [Initializer](https://www.speedment.com/initializer/) t
 
 The Speedment Enterprise Maven Plugin works the same way as the Speedment Maven Plugin but the plugins come with more Components and Bundles pre-installed.
 
-# License Keys
+### License Keys
 Speedment Enterprise requires a valid License Key to be used. The key must be available for **both** the Speedment tool and the runtime for you to be able to build and run the application.
 
 There are two ways to enter a license key. The easiest way is to specify it as a string to both the tool (as a Maven tag) and in the `ApplicationBuilder` in your application. Here is an example of that:
