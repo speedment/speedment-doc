@@ -268,7 +268,7 @@ flights.stream()
     .collect(toList());
 ```
 
-Only `equal`-operators can be optimized using multi-indexes.
+Only `equal`- and `in`-operators can be optimized using multi-indexes.
 
 ### Obtaining Statistics
 You can obtain statistics on how tables, columns and memory segments are used by invoking the DataStoreComponent::getStatistics method. Here is an example of how to print out DataStore statistics.
