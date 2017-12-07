@@ -413,6 +413,84 @@ Always use the Speedment [Initializer](https://www.speedment.com/initializer/) t
 
 The Speedment Enterprise Maven Plugin works the same way as the Speedment Maven Plugin but the plugins come with more Components and Bundles pre-installed.
 
+# License Keys
+Speedment Enterprise requires a valid License Key to be used. The key must be available for **both** the Speedment tool and the runtime for you to be able to build and run the application.
+
+There are two ways to enter a license key. The easiest way is to specify it as a string to both the tool (as a Maven tag) and in the `ApplicationBuilder` in your application. Here is an example of that:
+
+**pom.xml**
+```xml
+<plugin>
+    <groupId>com.speedment.enterprise</groupId>
+    <artifactId>speedment-enterprise-maven-plugin</artifactId>
+    <version>${speedment.enterprise.version}</version>
+    <configuration>
+        <parameters>
+            <parameter>
+                <name>licenseKey</name>
+                <value>${speedment.licenseKey}</value> <!-- License Key must be specified! -->
+            </parameter>
+        </parameters>
+    </configuration>
+</plugin>
+```
+
+**Main.java**
+```java
+public static void main(String... param) {
+  DemoApplication app = new DemoApplicationBuilder()
+    .withUsername("your-dbms-username")
+    .withPassword("your-dbms-password")
+    .withParam("licenseKey", "(YOUR LICENSE CODE)")
+    .withBundle(VirtualColumnBundle.class)
+    .withBundle(DataStoreBundle.class)
+    .build();
+
+  // You are ready to go!
+  
+  app.stop();
+}
+```
+
+If you don't want to have your license in the code, a better way to supply it using a license file. It is a basic text-file with your license key(s) entered on separate lines. Lines that start with a `#`-character are considered comments and will not be parsed. You can enter multiple licenses into the file. Speedment will consider all of them to determine what products you have access to and for how long.
+
+The location and name of the file can be supplied like this:
+
+**pom.xml**
+```xml
+<plugin>
+    <groupId>com.speedment.enterprise</groupId>
+    <artifactId>speedment-enterprise-maven-plugin</artifactId>
+    <version>${speedment.enterprise.version}</version>
+    <configuration>
+        <parameters>
+            <parameter>
+                <name>licensePath</name>
+                <value>/opt/speedment/speedment.license</value> <!-- You need to create this file -->
+            </parameter>
+        </parameters>
+    </configuration>
+</plugin>
+```
+
+**Main.java**
+```java
+public static void main(String... param) {
+  DemoApplication app = new DemoApplicationBuilder()
+    .withParam("licensePath", "/opt/speedment/speedment.license") // Can be absolute or relative
+    .build();
+}
+```
+
+Another way is to create a file called `settings.properties` in the working directory of the application and enter the `licenseKey` and/or the `licensePath` like this:
+
+**settings.properties**
+```properties
+licensePath = /opt/speedment/speedment.license
+licenseKey = YOUR LICENSE KEY!!!
+```
+
+The default value for `licensePath` is `[User Home]/.speedment/.licenses`. If you create that folder and file and enter your license key into it, it will be loaded automatically.
 
 ## Command Line Parameters
 When running the maven targets, we can set a number of command line parameters to configure the plugins. The following command line parameters are available:
@@ -426,8 +504,6 @@ When running the maven targets, we can set a number of command line parameters t
 | dbms.password  | String   | Sets the dbms password                             | W8kAk2H!Eh  | 
 | configLocation | String   | Sets the location of the configuration file        | src/main/json/my_config.json |
 | components     | String[] | Adds one or several components or bundles to the plugin | com.company.MyComponent |
-
-
 
 ## Command Line Examples
 Below, a number of command line examples are shown:
