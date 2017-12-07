@@ -227,6 +227,22 @@ Open the Speedment Tool and go to the column you want to disable indexing for an
 You should take a moment to look over your indexes in the Speedment Tool to see how they are mapped. If you have low-cardinality columns (like `gender`, `city`, `category` etc), you might want to use the [Enum Serializer Plugin](enterprise_enums#top) for Datastore to convert them into enums. You should also try and use `(To Primitive)` as the Type Mapper wherever possible.
 " %}
 
+### Optimizing for Low Cardinality
+If you have a column in your database with a very low cardinality, you can get faster load and query times if you mark it as a "Low Cardinality" column in the Speedment Tool. 
+
+{% include image.html file="low_cardinality.png" url="https://www.speedment.com/" alt="Mark Column as Low Cardinality in Speedment Tool" caption="Mark Column as Low Cardinality" %}
+
+This tells Speedment to do two things:
+
+1. Try to optimize storage by removing duplicates
+2. Create separate buckets for every distinct value in the index
+
+There are however no guarantees that these optimizations will be done, since other factors might make them unnescessary or even slower. Marking columns as "Low Cardinality" is usually a good thing if you have up to a few hundred disinct values.
+
+{% include tip.html content = "
+If you have columns with low cardinality where the distinct values possible never changes, it will be even better to map it to an Java enum class using the [Enum Serializer Plugin](enterprise_enums#top) for Datastore.
+" %}
+
 ### Creating Multi-Indexes
 **Speedment Enterprise 1.1.10** introduced the concept of Multi-Indexes which can significantly increase the performance of filters that involve two columns of the same (or similar) type. Multi-Indexes take up the same amount of memory as a single-column index, but can filter both dimensions in `O(log N)` time-complexity.
 
