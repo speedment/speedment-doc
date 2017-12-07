@@ -228,7 +228,7 @@ You should take a moment to look over your indexes in the Speedment Tool to see 
 " %}
 
 ### Optimizing for Low Cardinality
-If you have a column in your database with a very low cardinality, you can get faster load and query times if you mark it as a "Low Cardinality" column in the Speedment Tool. 
+**Requires Speedment Enterprise 1.1.15 or later.** If you have a column in your database with a very low cardinality, you can get faster load and query times if you mark it as a "Low Cardinality" column in the Speedment Tool. 
 
 {% include image.html file="low_cardinality.png" url="https://www.speedment.com/" alt="Mark Column as Low Cardinality in Speedment Tool" caption="Mark Column as Low Cardinality" %}
 
