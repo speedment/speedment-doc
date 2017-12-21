@@ -174,7 +174,7 @@ Note that the **order is important**! The `AvroRuntimeBundle` needs to come befo
 ## Customizing Generated Code
 When the code is generated, it will look a bit different than if a regular SQL database was used. First, you no longer have any `SqlAdapter.java`-files, but instead a number of `AvroAdapter.java`-files. These handle the deserialization from Avro to Speedment.
 
-To change the location of the data file (the one that ends with `.avro`) at runtime, you can override the `dataFile`-method in `XXXSqlAdapter.java`. For an example, in the Sakila demo, I could override the method like this:
+To change the location of the data file (the one that ends with `.avro`) at runtime, you can override the `dataFile`-method in `XXXAvroAdapter.java`. For an example, in the Sakila demo, I could override the method like this:
 
 ```java
 public class FilmAvroAdapter extends GeneratedFilmAvroAdapter {
@@ -190,7 +190,7 @@ public class FilmAvroAdapter extends GeneratedFilmAvroAdapter {
 }
 ```
 
-I can now change the location of my data file without recompiling by simply creating a `settings.properties`-file in the root of my project with the line:
+You can now change the location of the data file without recompiling by simply creating a `settings.properties`-file in the root of my project with the line:
 
 ```properties
 film.data.file = another_dir/another_film.avro
