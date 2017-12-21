@@ -521,6 +521,12 @@ entries:
       url: enterprise_virtualcolumns.html#top
       output: web, pdf
       type: homepage
+      
+    - title: Avro Files
+      enterprise: true
+      url: enterprise_avro.html#top
+      output: web, pdf
+      type: homepage
 
   - title: Database Connectors
     url: connectors.html#top
