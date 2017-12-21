@@ -18,7 +18,7 @@ When working with large datavolumes, it is sometimes unnescessary to have a data
 ## Generating Code
 Speedment uses the metadata in a database as the domain model when generating code. The metadata is stored in a `speedment.json`-file, and unless you call `mvn speedment:reload`, it will only connect to the database if that file doesn't exist. When working with Avro-files, we use this to our advantage. Instead of using the database metadata to generate the `speedment.json`-file, we can use a Maven plugin called `speedment-avro-maven-plugin` to create it from a number of Avro-schemas. We can then run `mvn speedment:generate` as usual to generate Java code.
 
-```java
+```xml
 <plugin>
     <groupId>com.speedment.enterprise.plugins</groupId>
     <artifactId>speedment-avro-maven-plugin</artifactId>
@@ -85,7 +85,7 @@ We set a custom `company` and `packageName` on the project-level and also specif
 ### Override Table Specific Settings
 Here is an example of how the table-specific `src/main/json/speedment_film_override.json` could look:
 
-```java
+```json
 {
   "config" : {
     "id" : "sakila",
