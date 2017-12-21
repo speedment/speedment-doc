@@ -28,6 +28,11 @@ Denormalize entities automatically when loading from the database.
 
 [Read More](enterprise_virtualcolumns#top)
 
+### Avro Plugin
+Load data from .avro-files instead of a database.
+
+[Read More](enterprise_avro#top)
+
 ## Discussion
 Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
 
