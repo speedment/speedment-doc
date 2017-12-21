@@ -7,7 +7,7 @@ enterprise: true
 toc: false
 Tags: Enterprise, Virtual Columns, Join
 previous: enterprise_enums.html
-next:
+next: enterprise_avro.html
 ---
 
 {% include prev_next.html %}
