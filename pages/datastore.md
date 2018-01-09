@@ -175,10 +175,8 @@ Since 1.1.15, there is a general way of configuring the load process. This way w
 
 |   Method             | Parameter type             | Action
 | :------------------- | :------------------------- | ------------------------------- |
-|   withChunkSize      | chunkSize                  | Sets the positive chunk size that shall be used for all tables when loading data from the data source unless specifically overridden by the `Builder.withChunkSize(tableIdentifier, chunkSize)` method. The default chunk size is `Long.MAX_VALUE` meaning no chunk loading shall be used.
-Chunk loading can sometimes improve load performance for some database types.
-|   withChunkSize      | tableIdentifier, chunkSize | Sets the positive chunk size that shall be used for the given `tableIdentifier` when loading data from the data source. The default chunk size is `Long.MAX_VALUE` meaning no chunk loading shall be used.
-Chunk loading can sometimes improve load performance for some database types.
+|   withChunkSize      | chunkSize                  | Sets the positive chunk size that shall be used for all tables when loading data from the data source unless specifically overridden by the `Builder.withChunkSize(tableIdentifier, chunkSize)` method. The default chunk size is `Long.MAX_VALUE` meaning no chunk loading shall be used. Chunk loading can sometimes improve load performance for some database types.
+|   withChunkSize      | tableIdentifier, chunkSize | Sets the positive chunk size that shall be used for the given `tableIdentifier` when loading data from the data source. The default chunk size is `Long.MAX_VALUE` meaning no chunk loading shall be used. Chunk loading can sometimes improve load performance for some database types.
 |   withDecorator      | decorator                  | Sets the decorator to use when creating a data snapshot. The default decorator is the `StreamSupplierComponentDecorator.identity()` decorator that does not modify any stream.
 |   withExecutor       | executor                   | Sets the executor to use when creating a data snapshot. The default executor is the `ForkJoinPool.commonPool()`
 |   withExecutor       | executor                   | Sets the Transaction that shall be used when creating a data snapshot. The default transaction is no transaction.
