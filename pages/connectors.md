@@ -72,7 +72,7 @@ These values can be set to custom values using the application builder as depict
 The selected collations will be used for all MariaDB tables.
 
 {% include important.html content= "
-Some Linux distributions (noteably Debian/Ubuntu) requires the utf8mb4 collations to be used as per instructions above.
+Some Linux distributions (notable Debian/Ubuntu) requires the utf8mb4 collations to be used as per instructions above.
 " %}
 
 Speedment officially support the following MariaDB JDBC versions:
