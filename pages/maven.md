@@ -103,7 +103,7 @@ Always use the Speedment [Initializer](https://www.speedment.com/initializer/) t
 
 
 ## Maven Targets
-The Speedment Mavan Plugin has four Maven targets that can be used to simplify and/or automate our build process. These Maven targets can be used to read the meta data (e.g. schemas, tables and columns) from the database. They are also used to generate code that we can use in our applications. Therefore, before we can use Speedment, we must run at least one of the Maven targets.
+The Speedment Maven Plugin has four Maven targets that can be used to simplify and/or automate our build process. These Maven targets can be used to read the meta data (e.g. schemas, tables and columns) from the database. They are also used to generate code that we can use in our applications. Therefore, before we can use Speedment, we must run at least one of the Maven targets.
 
 These are the four Maven targets in the Speedment Maven Plugin:
 
