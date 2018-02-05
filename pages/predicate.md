@@ -186,7 +186,7 @@ In the examples below, we assume that the database contains a number of films wi
 
 | Rating | Meaning                                                              |
 | :--- | :---------------------------------------------------------------- |
-| G | Gerneal Audience |
+| G | Gerneral Audience |
 | PG | Parental Guidance Suggested |
 | PG-13 | PG-13 – Parents Strongly Cautioned |
 | R | R – Restricted |
