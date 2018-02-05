@@ -122,7 +122,7 @@ FROM (
 ```
 
 ### isNotNull
-We can count all films with a title that is *not* null like this:
+We can count all films with a rating that is *not* null like this:
 ``` java
     long count = films.stream()
         .filter(Film.RATING.isNotNull())
