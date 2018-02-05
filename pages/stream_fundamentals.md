@@ -498,7 +498,7 @@ might return `Optional[C]` or any other element in the stream.
 
 ``` java
     Stream.<String>empty()
-        .findFirst();
+        .findAny();
 ```
 returns `Optional.empty` because the stream is empty.
 
