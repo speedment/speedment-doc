@@ -94,7 +94,7 @@ A {{site.data.javadoc.ReferenceField}} implements the interface trait {{site.dat
 Here is a list with examples for the *Reference Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/ReferencePredicates.java)
 
 ### isNull
-We can count all films with a title that is null like this:
+We can count all films with a rating that is null like this:
 ``` java
     long count = films.stream()
         .filter(Film.RATING.isNull())
