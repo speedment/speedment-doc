@@ -513,7 +513,7 @@ The code above outputs the following:
 The collection is done in a few steps. The `groupingBy` method is statically imported from the `EntityCollectors`-class. It takes three arguments. 
 
 **Grouping Function**
-The first argument is the grouping method that will be used to categorize the incomming entities. Here we use the `entityFunction` method statically imported from the `EntityFunction`-class. This allows us to specify two different lambdas; one that operates on an already deserialized entity and one that operats directly on an in-memory reference. In the best case scenario, we can perform the categorization without deserializing more than one field.
+The first argument is the grouping method that will be used to categorize the incomming entities. Here we use the `entityFunction` method statically imported from the `EntityFunction`-class. This allows us to specify two different lambdas; one that operates on an already deserialized entity and one that operates directly on an in-memory reference. In the best case scenario, we can perform the categorization without deserializing more than one field.
 
 **Inner Collector**
 For the second argument of `groupingBy` is used to describe how entities within one category are to be reduced. The method is imported statically from `EntityCollectors`. `mergeBuilder` takes the class of the incomming objects as well as a `Supplier` for the resulting type. In this case, we want to collect the inner stream into a `LinkedHashMap` so that it can be turned into JSON. `mergeBuilder` works as a Builder Pattern, allowing every field of the entity to be collected individually. The builder is terminated by calling `.build()`.
