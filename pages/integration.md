@@ -143,6 +143,28 @@ Once the plugin is added, you gain access to a number of additional methods rela
 
 A more advanced JSON Plugin is available in Speedment Enterprise. [Read more about that here](enterprise_json#top).
 
+## ENUM
+If you have a database where many of the columns are stored as Strings, consider using the Speedment Enum plugin. It will enable mapping of String columns to java enums, allowing more efficient use of memory. 
+
+This is how you add the Speedment Enum plugin to your project:
+``` xml
+    <plugin>
+        <groupId>com.speedment</groupId>
+        <artifactId>speedment-maven-plugin</artifactId>
+        <version>${speedment.version}</version>
+        
+        <configuration>
+          <components>
+            <component>com.speedment.plugins.enums.EnumGeneratorBundle</component>
+          </components>
+        </configuration>
+    </plugin>
+```
+
+When the plugin has been configured, you gain access to additional methods related to Enum handling. 
+
+A more advanced Enum Plugin is available in Speedment Enterprise. [Read more about that here](enterprise_enums#top).
+
 {% include prev_next.html %}
 
 ## Discussion
