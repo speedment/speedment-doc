@@ -419,6 +419,11 @@ entries:
     - title: JSON
       url: integration.html#json
       output: web, pdf
+      type: homepage
+      
+    - title: Enum
+      url: integration.html#json
+      output: web, pdf
       type: homepage 
 
   - title: Advanced Features
