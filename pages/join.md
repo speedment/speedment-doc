@@ -35,30 +35,32 @@ Below is a picture of the different set of Tuples a join can produce. The yellow
 
 Given the picture above, the joins produces Tuples as indicated in the following table:
 
-| Join Type      |  Method       | Tuples from the Set       |
-| :------------- | :------------ | :------------------------ |
-| INNER JOIN     | innerJoinOn() | {2}
-| LEFT JOIN      | leftJoinOn()  | {1, 2}
-| RIGHT JOIN     | rightJoinOn() | {2, 3}
+| Join Type      | Tuples from the Set       | Tuples Produced
+| :------------- | :------------------------ | :---------------
+| INNER JOIN     | {2}                       | Tuple(A, B)
+| LEFT JOIN      | {1, 2}                    | Tuple(A, B) and Tuple(A, null)
+| RIGHT JOIN     | {2, 3}                    | Tuple(A, B) and Tuple(null, B)
 
 {% include tip.html content= "
 A `FULL OUTER JOIN` can be obtained by creating a concatenation of distinct elements from a `LEFT JOIN` and a `RIGHT JOIN` like this: `crossJoinStream = Stream.concat(leftJoin.stream(), rightJoin.stream()).distinct()`. However, because the stream is using the `.distinct()` operation, it must first produce all elements in the Stream before they can be consumed.
 " %}
 
-## Join Operations
-The most common way of joining tables is by means of an equality operation. However, tables can be joined by means of a number of operations as indicated in the table below:
+## Join Operators
+The most common way of joining tables is by means of an equality operator. However, tables can be joined by means of a number of operators as indicated in the table below:
 
-
-| Operation      | Effect
+| Operator       | Effect
 | :------------- | :----------------------------------------------------------------------------------- |
-| equal()        | Matches columns from table A that is equal to a column in table B
-| notEqual()     | ne
-| lessThan()     | lt
-| lessOrEqual()  | le
-
+| equal()        | Matches a column from table A that is *equal to* a column in table B
+| notEqual()     | Matches a column from table A that is *not equal to* a column in table B
+| lessThan()     | Matches a column from table A that is *less than* a column in table B
+| lessOrEqual()  | Matches a column from table A that is *less than or equal to* a column in table B
+| greaterThan()  | Matches a column from table A that is *greater than* a column in table B
+| lessOrEqual()  | Matches a column from table A that is *less than or equal to* a column in table B
+| between()      | Matches a column from table A that is *between* a first column in table B and a second column in table B
+| notBetween()   | Matches a column from table A that is *not between* a first column in table B and a second column in table B
 
 ## Join Streams
-Join objects...
+The `JoinComponent` produces `Join` objects that can be reused.
 
 ## Tuple Constructors
 By default, tuples are of type `TupleXOfNullables` where X is the number of tables that are joined. If you are using only 'INNER JOIN' or 'CROSS JOIN', the entities are never `null` and this allows us to use `TupleX` instead. In fact, any java object can be used as a tuple by providing a custom constructor in the `JoinComponent`s `build()` method.
