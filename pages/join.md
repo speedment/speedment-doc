@@ -1,5 +1,5 @@
 ---
-permalink: crud.html
+permalink: join.html
 sidebar: mydoc_sidebar
 title: Join Operations
 keywords: Join
