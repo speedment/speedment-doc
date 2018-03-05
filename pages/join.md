@@ -69,7 +69,7 @@ public interface Join<T> {
 ```
 Thus, once a `Join` object of a certain type `T` has been obtained, we can use that object over and over again to create streams with elements of type `T`. It should be noted that the order in which elements appear in the stream is unspecified, even between different invocations on the same Join object. It shall further be noted that by default, elements appearing in the stream may be deeply immutable meaning that Tuples in the stream are immutable and that entities contained in the Tuple may also be immutable.
 
-Here is a full example of how `Join` object can be created an used:
+Here is a full example of how a `Join` object can be created an used:
 
 ``` java
     SakilaApplication app = ...;
@@ -103,9 +103,7 @@ Tuple2OfNullablesImpl {LanguageImpl { languageId = 1, name = English, ... }, Fil
 
 
 ## Tuple Constructors
-By default, tuples are of type `TupleXOfNullables` where X is the number of tables that are joined. If you are using only 'INNER JOIN' or 'CROSS JOIN', the entities are never `null` and this allows us to use element of type `TupleX` instead as shown here:
-
-In the example above, we used an `INNER JOIN` which is guaranteed to produce only non-null entities. By providing another constructor upon building the Join object, we can create a more simple Tuple variant like this:
+By default, tuples are of type `TupleXOfNullables` where X is the number of tables that are joined. If you are using only `INNER JOIN` or `CROSS JOIN`, the entities are never `null` and this allows us to use element of type `TupleX` instead as shown here:
 
 ``` java
     Join<Tuple2<Language, Film>> join = joinComponent
@@ -125,7 +123,8 @@ Tuple2Impl {LanguageImpl { languageId = 1, name = English, ... }, FilmImpl { fil
 Tuple2Impl {LanguageImpl { languageId = 1, name = English, ... }, FilmImpl { filmId = 3, title = ADAPTATION HOLES, ... }}
 ...
 ```
-It might not look as a big difference compared to the default case where we got `Tuple2OfNullables` but `Tuple2` are slightly easier to use because the can be used to retrieve entities directly rather then indirectly via an `Optional` object. In the general case, *any* constructor can be provided upon building a Join object, allowing great flexibility. We might, for example, create a specialized object in the stream that can be constructed from a Language and a Film as shown hereunder:
+
+It might not look as a big difference compared to the default case where we got `Tuple2OfNullables` but `Tuple2` are slightly easier to use because it can be used to retrieve entities directly rather then indirectly via an `Optional` object. In the general case, *any* constructor can be provided upon building a `Join` object, allowing great flexibility. We might, for example, create a specialized object in the stream that can be constructed from a `Language` entity and a `Film` entity as shown hereunder:
 
 ``` java
 
@@ -134,9 +133,9 @@ It might not look as a big difference compared to the default case where we got 
         private final String title;
         private final String language;
 
-        private TitleLanguage(String title, String language) {
-            this.title = Objects.requireNonNull(title);
-            this.language = Objects.requireNonNull(language);
+        private TitleLanguage(Language language, Film film) {
+            this.title = film.getTitle();
+            this.language = language.getName();
         }
 
         public String title() {
@@ -161,7 +160,7 @@ It might not look as a big difference compared to the default case where we got 
         .innerJoinOn(Film.LANGUAGE_ID).equal(Language.LANGUAGE_ID)
         // Use a custom constructor that takes a Language and
         // Film as input.
-        .build((language, film) -> new TitleLanguage(language.getName(), film.getTitle()));
+        .build(TitleLanguage::new);
 
         join.stream()
             .forEach(System.out::println);
@@ -170,21 +169,32 @@ It might not look as a big difference compared to the default case where we got 
 
 This might produce the following output:
 ``` text
-TitleLanguage{title=English, language=ACADEMY DINOSAUR}
-TitleLanguage{title=English, language=ACE GOLDFINGER}
-TitleLanguage{title=English, language=ADAPTATION HOLES}
+TitleLanguage{title=ACADEMY DINOSAUR, language=English}
+TitleLanguage{title=ACE GOLDFINGER, language=English}
+TitleLanguage{title=ADAPTATION HOLES, language=English}
 ...
 ```
 
 ### Filtering Tables
-Many times, we want to restrict the number of entities over which we are creating join streams. This can be done using the `.where()` method in the Join builder as exemplified below:
+Many times, we want to restrict the number of entities from a table over which we are creating join streams. This can be done using the `.where()` method in the join builder as exemplified below:
 
+``` java
+    Join<Tuple2<Film, Language>> join = joinComponent
+        .from(FilmManager.IDENTIFIER)
+            // Restrict films so that only PG-13 rated films appear            
+            .where(Film.RATING.equal("PG-13"))
+        .crossJoin(LanguageManager.IDENTIFIER)
+            // Restrict languages so that only films where English is spoken appear
+            .where(Language.NAME.equal("English"))
+        .build(Tuples::of);
 
+    join.stream()
+       .forEach(System.out::println);
+```
 
 {% include important.html content= "
 Currently, only predicates obtained from the entity fields can be used. Furthermore, predicates cannot be composed using the `.and()` and `.or()` methods. Instead. several invocations of the `.where()` method can be used to express `AND` compositions. This (limitation)[https://github.com/speedment/speedment/issues/601] will be removed in a future version of Speedment.
 " %}
-
 
 
 ## Examples
@@ -193,13 +203,13 @@ This section contains examples of a number of commonly used join scenarios.
 ### Cross Join
 Here is an example of a `CROSS JOIN`:
 ``` java
-Join<Tuple2<Film, Language>> join = joinComponent
-            .from(FilmManager.IDENTIFIER)
-            .crossJoin(LanguageManager.IDENTIFIER)
-            .build(Tuples::of);
+   Join<Tuple2<Film, Language>> join = joinComponent
+        .from(FilmManager.IDENTIFIER)
+        .crossJoin(LanguageManager.IDENTIFIER)
+        .build(Tuples::of);
 
-        join.stream()
-            .forEach(System.out::println);
+    join.stream()
+        .forEach(System.out::println);
 ```
 
 
