@@ -263,7 +263,7 @@ entries:
       type: homepage
       
     - title: Join Operators
-      url: join.html#join-types
+      url: join.html#join-operators
       output: web, pdf
       type: homepage
 
