@@ -247,7 +247,7 @@ entries:
       output: web, pdf
       type: homepage
 
-    - title: Joins
+  - title: Joins
     url: join.html#top
     output: web, pdf
     folderitems:
