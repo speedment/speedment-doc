@@ -6,7 +6,7 @@ keywords: Comparator, Stream
 toc: false
 Tags: Stream, Comparator
 previous: predicate.html
-next: crud.html
+next: join.html
 ---
 
 {% include prev_next.html %}
