@@ -274,7 +274,7 @@ Rating NC-17 has 210 films
 ```
 
 ### Join
-`JOIN` can be expressed using `.map()` and `.flatMap()`
+`JOIN` can be expressed using `.map()` and `.flatMap()`. However, since version 3.0.23, there is support for semantic joins that are much more efficient for large tables. See below. 
 
 In this example, we want to create a Map that holds which Language is spoken in a Film. This is done by joining the two tables "film" and "language". There is a foreign key from a film to the language table.
 ``` java
@@ -291,10 +291,24 @@ So the classifier will take a Film and will lookup the corresponding Language wh
 Apparently all films were in English in the database.
 
 {% include note.html content = "
-Large tables will be less efficient using this join scheme. There is a [proposed way](https://github.com/speedment/speedment/issues/360) with semantic joins that will improve performance for joins of large tables with Speedment.
+Large tables will be less efficient using this join scheme so users are encouraged to use semantic joins that will improve performance for joins of large tables with Speedment.
 " %}
 
+#### Semantic Joins
+Semantic joins creates a separate specialized `Stream` with tuples of entities that can be joined dynamically. Here is how we could create a Map that holds which Language is spoken in a Film using semantic joins:
+```java
+Join<Tuple2<Film, Language>> join = joinComponent
+    .from(FilmManager.IDENTIFIER)
+    .innerJoinOn(Language.LANGUAGE_ID).equal(Film.LANGUAGE_ID)
+    .build(Tuples::of);
 
+Map<Language, List<Tuple2<Film, Language>>> languageFilmMap = join.stream()
+    .collect(
+        // Apply this classifier
+        groupingBy(Tuple2::get1)
+     ); 
+ 
+```
 
 ### Distinct
 `DISTINCT` can be expressed using `.distinct()`.
@@ -439,8 +453,26 @@ FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
 FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
 ...
 ```
-There will be a number of database queries sent to the database during stream execution.
+There will be a number of database queries sent to the database during stream execution. This can be avoided using semantic joins as described here:
 
+``` java
+
+    Join<Tuple2<Language, Film>> join = joinComponent
+        .from(LanguageManager.IDENTIFIER)
+        .innerJoinOn(Film.LANGUAGE_ID).equal(Language.LANGUAGE_ID)
+        .build(Tuples::of);
+
+       join.stream()
+            .forEach(System.out::println);
+
+```
+this might print:
+``` text
+Tuple2Impl {LanguageImpl { languageId = 1, name = English, ... }, FilmImpl { filmId = 1, title = ACADEMY DINOSAUR,... }}
+Tuple2Impl {LanguageImpl { languageId = 1, name = English, ... }, FilmImpl { filmId = 2, title = ACE GOLDFINGER, ... }}
+Tuple2Impl {LanguageImpl { languageId = 1, name = English, ... }, FilmImpl { filmId = 3, title = ADAPTATION HOLES,... }}
+...
+```
 
 ### Many-to-One relations
 A Many-to-One relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.
@@ -459,68 +491,97 @@ LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.
 LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.0 }
 ...
 ```
-There will be a number of database queries sent to the database during stream execution.
+There will be a number of database queries sent to the database during stream execution.This can be avoided using semantic joins as described here:
+
+``` java
+
+    Join<Tuple2<Film, Language>> join = joinComponent
+        .from(FilmManager.IDENTIFIER).where(Film.RATING.equal("PG-13"))
+        .innerJoinOn(Language.LANGUAGE_ID).equal(Film.LANGUAGE_ID)
+        .build(Tuples::of);
+
+    join.stream()
+        .forEach(System.out::println);
+```
+this might print:
+``` text
+Tuple2Impl {FilmImpl { filmId = 7, title = AIRPLANE SIERRA,...., rating = PG-13, ... }, LanguageImpl { languageId = 1, name = English, ... }}
+Tuple2Impl {FilmImpl { filmId = 9, title = ALABAMA DEVIL, ..., rating = PG-13, ... }, LanguageImpl { languageId = 1, name = English, ... }}
+Tuple2Impl {FilmImpl { filmId = 18, title = ALTER VICTORY, ..., rating = PG-13, ... }, LanguageImpl { languageId = 1, name = English, ... }}
+
+```
 
 
 ### Many-to-Many relations
-TBW
+
 A Many-to-Many relationship is defined as a relationship between two tables where many multiple rows from a first table can match multiple rows in a second table. Often a third table is used to form these relations. For example, an actor may participate in several films and a film usually have several actors.
 
 In this example we will create a filmography for all actors using a third table `film_actors` that contains foreign keys to both films and actors.
-``` java 
-    Map<Actor, List<Film>> filmographies = filmActors.stream()
-        .collect(
-            groupingBy(actors.finderBy(FilmActor.ACTOR_ID), // Applies the FilmActor to ACTOR classifier
-                Collectors.mapping(
-                    films.finderBy(FilmActor.FILM_ID),      // Applies the FilmActor to Film finder
-                    Collectors.toList()                     // Use a List collector for downstream aggregation.
-                )
-            )
-        );
 
-        // Print out the Map in a nice way
+``` java 
+    Join<Tuple3<FilmActor, Film, Actor>> join = joinComponent
+        .from(FilmActorManager.IDENTIFIER)
+        .innerJoinOn(Film.FILM_ID).equal(FilmActor.FILM_ID)
+        .innerJoinOn(Actor.ACTOR_ID).equal(FilmActor.ACTOR_ID)
+        .build(Tuples::of);
+
+        Map<Actor, List<Film>> filmographies = join.stream()
+            .collect(
+                groupingBy(Tuple3::get2, // Applies Actor as classifier
+                    mapping(
+                        Tuple3::get1, // Extracts Film from the Tuple
+                        toList() // Use a List collector for downstream aggregation.
+                    )
+                )
+            );
+
         filmographies.forEach((a, fl) -> {
-            System.out.format(
-                "%20s appered in films [%s)]%n",
+            System.out.format("%s -> %s %n",
                 a.getFirstName() + " " + a.getLastName(),
-                fl.stream()
-                    .mapToInt(Film.FILM_ID.getter())
-                    .mapToObj(Integer::toString)
-                    .collect(joining(", "))
+                fl.stream().map(Film::getTitle).sorted().collect(toList())
             );
         });
 
 ```
-this will print:
+this might print:
 ``` text
-      MICHAEL BOLGER appered in films [7, 95, 138, 265, 286, 360, 411, 427, 437, ...
-         LAURA BRODY appered in films [20, 82, 127, 187, 206, 208, 223, 248, 342, ...
-   CAMERON ZELLWEGER appered in films [61, 78, 98, 162, 179, 194, 325, 359, 382, ...
-        GARY PHOENIX appered in films [5, 63, 103, 112, 121, 153, 395, 408, 420, ...
-...
+
+    MICHAEL BOLGER -> [AIRPLANE SIERRA, BREAKFAST GOLDFINGER, CHARIOTS CONSPIRACY, ...] 
+    LAURA BRODY -> [AMELIE HELLFIGHTERS, BLOOD ARGONAUTS, CAT CONEHEADS, ...] 
+    CAMERON ZELLWEGER -> [BEAUTY GREASE, BLACKOUT PRIVATE, BRIGHT ENCOUNTERS, CLUELESS BUCKET, ...] 
 ```
-There will be a number of database queries sent to the database during stream execution.
+As can be seen in the example above, the table `FilmActor` is not used within the join stream and can be discarded once the join is made as illustrated in this snippet:
+
+``` java
+
+    Join<Tuple2<Film, Actor>> join = joinComponent
+        .from(FilmActorManager.IDENTIFIER)
+        .innerJoinOn(Film.FILM_ID).equal(FilmActor.FILM_ID)
+        .innerJoinOn(Actor.ACTOR_ID).equal(FilmActor.ACTOR_ID)
+        .build((fa, f, a) -> Tuples.of(f, a)); // Apply a custom constructor, discarding FilmActor
+
+```
 
 
 ### Pivot Data
-Pivoting can be made using a `MapStream` which is a Stream of `Map.Entry` with a number of additional functions over a normal Stream. The following example shows a pivot table of all the actors and the number of films they have participated in for each film rating category (e.g. "PG-13"):
+Pivoting can be made using a `Join`. The following example shows a pivot table of all the actors and the number of films they have participated in for each film rating category (e.g. "PG-13"):
 ```java
-    MapStream.fromKeys(
-        actors.stream(),                                       // keys  : Stream<Actor>
-        a -> filmActors.findBackwardsBy(FilmActor.ACTOR_ID, a) // values: Stream<ActorFilm>
-            .map(films.finderBy(FilmActor.FILM_ID))            // values: Stream<Film>
-            .collect(
-                Collectors.groupingBy(
-                    Film.RATING.getter(),                      // Use 'rating' as classifier
-                    Collectors.counting()                      // Count the occurrences rather than building a List
+    Join<Tuple3<FilmActor, Film, Actor>> join = joinComponent
+        .from(FilmActorManager.IDENTIFIER)
+        .innerJoinOn(Film.FILM_ID).equal(FilmActor.FILM_ID)
+        .innerJoinOn(Actor.ACTOR_ID).equal(FilmActor.ACTOR_ID)
+        .build(Tuples::of);
+
+    Map<Actor, Map<String, Long>> pivot = join.stream()
+        .collect(
+            groupingBy(
+                Tuple3::get2, // Applies Actor as classifier
+                groupingBy(
+                    tu -> tu.get1().getRating().get(), // Applies rating as second level classifier
+                    counting() // Counts the elements 
                 )
-            )                                                  // values: Map<String, Long>
-    )                                                          // MapStream<Actor, Map<String, Long>>
-
-        .forEachOrdered((k, v) -> {                            // keys: Actor, values: Map<String, Long>
-             System.out.format("%22s  %5s %n", k.getFirstName()+" "+k.getLastName(), v);
-        });
-
+            )
+        );
     }
 
 ```
@@ -528,22 +589,11 @@ This is a more advanced example and it requires some thinking to understand.
 
 This will produce the following output:
 ``` text
-      PENELOPE GUINESS  {PG-13=1, R=3, NC-17=5, G=4, PG=6} 
-         NICK WAHLBERG  {PG-13=2, R=2, NC-17=8, G=7, PG=6} 
-              ED CHASE  {PG-13=5, R=5, NC-17=5, G=2, PG=5} 
-        JENNIFER DAVIS  {PG-13=5, R=4, NC-17=5, PG=5, G=3} 
-   JOHNNY LOLLOBRIGIDA  {PG-13=4, R=7, NC-17=7, G=7, PG=4} 
-       BETTE NICHOLSON  {PG-13=2, R=4, NC-17=7, G=4, PG=3} 
-          GRACE MOSTEL  {PG-13=9, R=1, NC-17=3, PG=7, G=10} 
-     MATTHEW JOHANSSON  {PG-13=1, R=6, NC-17=8, PG=2, G=3} 
-             JOE SWANK  {PG-13=5, R=5, NC-17=5, G=7, PG=3} 
-       CHRISTIAN GABLE  {PG-13=7, R=3, NC-17=3, G=2, PG=7} 
-             ZERO CAGE  {PG-13=3, R=7, NC-17=5, PG=6, G=4} 
-            KARL BERRY  {PG-13=9, R=8, NC-17=5, G=4, PG=5} 
-              UMA WOOD  {PG-13=5, R=8, NC-17=9, G=6, PG=7} 
+MICHAEL BOLGER  {PG-13=9, R=3, NC-17=6, PG=4, G=8} 
+LAURA BRODY  {PG-13=8, R=3, NC-17=6, PG=6, G=3} 
+CAMERON ZELLWEGER  {PG-13=8, R=2, NC-17=3, PG=15, G=5}  
 ...
 ```
-There will be a number of database queries sent to the database during stream execution.
 
 
 ## Database Schema
