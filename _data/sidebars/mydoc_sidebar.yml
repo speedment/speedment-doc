@@ -253,17 +253,17 @@ entries:
     folderitems:
 
     - title: The Join Component
-      url: crud.html#the-join-component
+      url: join.html#the-join-component
       output: web, pdf
       type: homepage
       
     - title: Join Types
-      url: crud.html#join-types
+      url: join.html#join-types
       output: web, pdf
       type: homepage
       
     - title: Join Operators
-      url: crud.html#join-types
+      url: join.html#join-types
       output: web, pdf
       type: homepage
 
