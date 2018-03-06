@@ -22,31 +22,31 @@ The following join types are supported:
 
 | Join Type      |  Method       | Description of Join Output                           |
 | :------------- | :------------ | :---------------------------------------------------------------------------------- |
-| INNER JOIN     | innerJoinOn() | A Stream with entities from tables (A and B) in the join with matching column values. Inner join creates Tuples by combining entities from two tables (A and B) based upon the join-predicate. The query compares each entity of A with each entity of B to find all pairs of entities which satisfy the join-predicate. When the join-predicate is satisfied by matching non-NULL values, entities for each matched pair of rows of A and B are combined into a result Tuple.
+| INNER JOIN     | innerJoinOn() | A Stream with entities from tables (A and B) in the join with matching column values. Inner join creates Tuples by combining entities from two tables (A and B) based upon the join-predicate. The stream compares each entity of A with each entity of B to find all pairs of entities which satisfy the join-predicate. When the join-predicate is satisfied by matching non-NULL values, entities for each matched pair of rows of A and B are combined into a result Tuple.
 | LEFT JOIN      | leftJoinOn()  | A Stream with entities from tables (A and B) in the join with matching column values or just an entity from A. The result of a left join for tables A and B always contains all entities of the "left" table (A), even if the join-condition does not find any matching row in the "right" table (B). This means that if the ON clause matches 0 (zero) entities in B (for a given entity in A), the join will still return an entity in the result Tuple (for that row)—but with an entity from B that is `null` in the Tuple. A left join returns all the values from an inner join plus all values in the left table (A) that do not match to the right table (B), including rows with NULL (empty) values in the linking column.
 | RIGHT JOIN     | rightJoinOn() | A Stream with entities from tables (A and B) in the join with matching column values or just an entity from B. The result of a right join for tables A and B always contains all entities of the "right" table (B), even if the join-condition does not find any matching row in the "left" table (A). This means that if the ON clause matches 0 (zero) entities in A (for a given entity in B), the join will still return a entity in the result Tuple (for that row)—but with an entity from A that is `null` in the Tuple. A right join returns all the values from an inner join plus all values in the left table (B) that do not match to the right table (A), including rows with NULL (empty) values in the linking column.
-| CROSS JOIN     | crossJoin()   | A Stream with Cartesian products of entities from tables in the join. In other words, it will produce a Stream with Tuples from two tables (A and B) which combine each entity from the A table with each entity from the B table.
+| CROSS JOIN     | crossJoin()   | A Stream with the Cartesian product of entities from tables (A and B) in the join. In other words, it will produce a Stream with Tuples from two tables (A and B) which combine each entity from the A table with each entity from the B table.
 
 Left Join and Right Join creates Tuples with entities that are `null` for elements that are not part of the inner set. 
 
-Below is a picture of the different set of Tuples a join can produce. The yellow circle marked with A is the "left" table and the blue circle marked with B is the "right" table. The middle set marked 2 (where the circles overlaps) represents Tuple(A entity, B entity) of entities where the join-condition matches. The set marked 1 represents Tuples(A entity, null) of A entities where the join-condition have no match in B. Finally, set marked 3 represents Tuples(null, B entity) of B entities where the join-condition have no match in A.
+Below is a picture of the different categories of Tuples a join can produce. The yellow circle marked with A is the "left" table and the blue circle marked with B is the "right" table. The middle category marked 2 (where the circles overlaps) represents Tuple(A entity, B entity) of entities where the join-condition matches. The category marked 1 represents Tuples(A entity, null) of A entities where the join-condition have no match in B. Finally, the category marked 3 represents Tuples(null, B entity) of B entities where the join-condition have no match in A.
 
-{% include image.html file="JoinTypes.png" alt="Join Types" caption="The different join areas" %}
+{% include image.html file="JoinTypes.png" alt="Join Types" caption="Different Categories of Tuples produced by a Join" %}
 
-Given the picture above, the joins produces Tuples as indicated in the following table:
+Given the picture above, the joins produce Tuples as indicated in the following table:
 
-| Join Type      | Tuples from the Set       | Tuples Produced
+| Join Type      | Tuples from the Categories| Tuples Produced
 | :------------- | :------------------------ | :---------------
 | INNER JOIN     | {2}                       | Tuple(A, B)
 | LEFT JOIN      | {1, 2}                    | Tuple(A, B) and Tuple(A, null)
 | RIGHT JOIN     | {2, 3}                    | Tuple(A, B) and Tuple(null, B)
 
 {% include tip.html content= "
-A `FULL OUTER JOIN` (with tuples from the set {1, 2, 3}) can be obtained by creating a concatenation of distinct elements from a `LEFT JOIN` and a `RIGHT JOIN` like this: `crossJoinStream = Stream.concat(leftJoin.stream(), rightJoin.stream()).distinct()`. However, because the stream is using the `.distinct()` operation, it must first produce all elements in the Stream before they can be consumed.
+A `FULL OUTER JOIN` (with tuples from the categories {1, 2, 3}) can be obtained by creating a concatenation of distinct elements from a `LEFT JOIN` and a `RIGHT JOIN` like this: `crossJoinStream = Stream.concat(leftJoin.stream(), rightJoin.stream()).distinct()`. However, because the stream is using the `.distinct()` operation, it must first produce all elements in the Stream before they can be consumed.
 " %}
 
 ## Join Operators
-The most common way of joining tables is by means of an equality operator. However, tables can also be joined by means of a number of other operators as indicated in the table below:
+The most common way of joining tables is by means of an equality operator. However, tables can also be joined using a number of other operators as indicated in the table below:
 
 | Operator       | Effect
 | :------------- | :----------------------------------------------------------------------------------- |
@@ -124,7 +124,7 @@ Tuple2Impl {LanguageImpl { languageId = 1, name = English, ... }, FilmImpl { fil
 ...
 ```
 
-It might not look as a big difference compared to the default case where we got `Tuple2OfNullables` but `Tuple2` are slightly easier to use because it can be used to retrieve entities directly rather then indirectly via an `Optional` object. In the general case, *any* constructor can be provided upon building a `Join` object, allowing great flexibility. We might, for example, create a specialized object in the stream that can be constructed from a `Language` entity and a `Film` entity as shown hereunder:
+It might not look as a big difference compared to the default case where we got `Tuple2OfNullables` but `Tuple2` are slightly easier to use because they can be used to retrieve entities directly rather then indirectly via an `Optional` object. In the general case, *any* constructor can be provided upon building a `Join` object, allowing great flexibility. We might, for example, create a specialized object in the stream that can be constructed from a `Language` entity and a `Film` entity as shown hereunder:
 
 ``` java
 
@@ -176,7 +176,7 @@ TitleLanguageName{title=ADAPTATION HOLES, languageName=English}
 ```
 
 ### Filtering Tables
-Many times, we want to restrict the number of entities from a table over which we are creating join streams. This can be done using the `.where()` method in the join builder as exemplified below:
+Many times, we want to restrict the number of entities from a table that can appear in a join stream. This can be done using the `.where()` method in the join builder as exemplified below:
 
 ``` java
     Join<Tuple2<Film, Language>> join = joinComponent
@@ -193,7 +193,7 @@ Many times, we want to restrict the number of entities from a table over which w
 ```
 
 {% include important.html content= "
-Currently, only predicates obtained from the entity fields can be used. Furthermore, predicates cannot be composed using the `.and()` and `.or()` methods. Instead. several invocations of the `.where()` method can be used to express `AND` compositions. This [limitation](https://github.com/speedment/speedment/issues/601) will be removed in a future version of Speedment.
+Currently, only predicates obtained from the entity fields can be used (thus, anonymous lambdas cannot be used). Furthermore, predicates cannot be composed using the `.and()` and `.or()` methods. Instead. several invocations of the `.where()` method can be used to express `AND` compositions. This [limitation](https://github.com/speedment/speedment/issues/601) will be removed in a future version of Speedment.
 " %}
 
 
@@ -289,12 +289,12 @@ Tuple2Impl {ActorImpl { actorId = 104, firstName = PENELOPE, lastName = CRONYN, 
 ### Other Examples
 See other join examples in the manual here: 
 
-[One-to-Many}(https://speedment.github.io/speedment-doc/speedment_examples.html#one-to-many-relations) 
-{Many-to-One}(https://speedment.github.io/speedment-doc/speedment_examples.html#many-to-one-relations) 
-{Many-to-Many}(https://speedment.github.io/speedment-doc/speedment_examples.html#many-to-many-relations)
+[One-to-Many](https://speedment.github.io/speedment-doc/speedment_examples.html#one-to-many-relations) 
+[Many-to-One](https://speedment.github.io/speedment-doc/speedment_examples.html#many-to-one-relations) 
+[Many-to-Many](https://speedment.github.io/speedment-doc/speedment_examples.html#many-to-many-relations)
 
 ## Limitations
-If there is a Join that contains the same table several times, there might be cases where we are not able to specify which of these table variants we want to use when specifying join conditions. For example, self-joins of levels greater or equal to three will resolve predicates to the first variant of the table. Currently, the API does not allow us to specify other instances of the table.
+If there is a Join that contains the same table several times, there might be cases where we are not able to specify which of these table instances we want to use when specifying join conditions. For example, self-joins of levels greater or equal to three will resolve predicates to the first variant of the table. Currently, the API does not allow us to specify other instances of the table.
 
 
 
