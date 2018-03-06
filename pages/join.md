@@ -14,7 +14,7 @@ next: crud.html
 
 ## The Join Component
 
-The `JoinComponent` can be used to create type safe joins between tables. Any number between two and six tables can be joined.
+The `JoinComponent` (available in Speedment 3.0.23 and later) can be used to create type safe joins between tables. It allows up to six table to be joined in different ways as described in this chapter.
 
 
 ## Join Types
@@ -27,7 +27,7 @@ The following join types are supported:
 | RIGHT JOIN     | rightJoinOn() | A Stream with entities from tables (A and B) in the join with matching column values or just an entity from B. The result of a right join for tables A and B always contains all entities of the "right" table (B), even if the join-condition does not find any matching row in the "left" table (A). This means that if the ON clause matches 0 (zero) entities in A (for a given entity in B), the join will still return a entity in the result Tuple (for that row)—but with an entity from A that is `null` in the Tuple. A right join returns all the values from an inner join plus all values in the left table (B) that do not match to the right table (A), including rows with NULL (empty) values in the linking column.
 | CROSS JOIN     | crossJoin()   | A Stream with the Cartesian product of entities from tables (A and B) in the join. In other words, it will produce a Stream with Tuples from two tables (A and B) which combine each entity from the A table with each entity from the B table.
 
-Left Join and Right Join creates Tuples with entities that are `null` for elements that are not part of the inner set. 
+`LEFT JOIN` and `RIGHT JOIN` creates Tuples with entities that are `null` for elements that are not part of the inner set whereas `INNER JOIN` and `CROSS JOIN` creates Tuples with entities that are never `null`.
 
 Below is a picture of the different categories of Tuples a join can produce. The yellow circle marked with A is the "left" table and the blue circle marked with B is the "right" table. The middle category marked 2 (where the circles overlaps) represents Tuple(A entity, B entity) of entities where the join-condition matches. The category marked 1 represents Tuples(A entity, null) of A entities where the join-condition have no match in B. Finally, the category marked 3 represents Tuples(null, B entity) of B entities where the join-condition have no match in A.
 
@@ -46,7 +46,7 @@ A `FULL OUTER JOIN` (with tuples from the categories {1, 2, 3}) can be obtained 
 " %}
 
 ## Join Operators
-The most common way of joining tables is by means of an equality operator. However, tables can also be joined using a number of other operators as indicated in the table below:
+The most common way of joining tables is by means of an equality operator (i.e. `equal()`). However, tables can also be joined using a number of other operators as indicated in the table below:
 
 | Operator       | Effect
 | :------------- | :----------------------------------------------------------------------------------- |
@@ -59,17 +59,18 @@ The most common way of joining tables is by means of an equality operator. Howev
 | between()      | Matches a column from table A that is *between* a first column in table B and a second column in table B
 | notBetween()   | Matches a column from table A that is *not between* a first column in table B and a second column in table B
 
+
 ## Join Streams
-The `JoinComponent` produces reusable `Join` objects that, in turn, can be used to create streams. The interface `Join` looks similar to this:
+Using a builder pattern, the `JoinComponent` can produce reusable `Join` objects that, in turn, can be used to create streams. The interface `Join` looks similar to this:
 
 ``` java
 public interface Join<T> {
     Stream<T> stream();
 }
 ```
-Thus, once a `Join` object of a certain type `T` has been obtained, we can use that object over and over again to create streams with elements of type `T`. It should be noted that the order in which elements appear in the stream is unspecified, even between different invocations on the same Join object. It shall further be noted that by default, elements appearing in the stream may be deeply immutable meaning that Tuples in the stream are immutable and that entities contained in the Tuple may also be immutable.
+Thus, once a `Join` object of a certain type `T` has been obtained, we can use that `Join` object over and over again to create streams with elements of type `T`. It should be noted that the order in which elements appear in the stream is unspecified, even between different invocations on the same Join object. It shall further be noted that by default, elements appearing in the stream may be deeply immutable meaning that Tuples in the stream are immutable and that entities contained in the Tuple may also be immutable.
 
-Here is a full example of how a `Join` object can be created an used:
+Here is a full example of how a `Join` object can be created and used:
 
 ``` java
     SakilaApplication app = ...;
@@ -103,7 +104,7 @@ Tuple2OfNullablesImpl {LanguageImpl { languageId = 1, name = English, ... }, Fil
 
 
 ## Tuple Constructors
-By default, tuples are of type `TupleXOfNullables` where X is the number of tables that are joined. If you are using only `INNER JOIN` or `CROSS JOIN`, the entities are never `null` and this allows us to use element of type `TupleX` instead as shown here:
+By default, tuples are of type `TupleXOfNullables` where X is the number of tables that are joined. If you are using only `INNER JOIN` or `CROSS JOIN`, the entities are never `null` and this allows us to use elements of type `TupleX` instead as shown here:
 
 ``` java
     Join<Tuple2<Language, Film>> join = joinComponent
@@ -191,6 +192,8 @@ Many times, we want to restrict the number of entities from a table that can app
     join.stream()
        .forEach(System.out::println);
 ```
+
+The `.where()` method can be called several times with different predicates to further reduce the number of elements in the stream. The different predicates will be combined using an `AND` operation.
 
 {% include important.html content= "
 Currently, only predicates obtained from the entity fields can be used (thus, anonymous lambdas cannot be used). Furthermore, predicates cannot be composed using the `.and()` and `.or()` methods. Instead. several invocations of the `.where()` method can be used to express `AND` compositions. This [limitation](https://github.com/speedment/speedment/issues/601) will be removed in a future version of Speedment.
