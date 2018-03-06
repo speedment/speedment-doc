@@ -128,27 +128,27 @@ It might not look as a big difference compared to the default case where we got 
 
 ``` java
 
-    private final class TitleLanguage {
+    private final class TitleLanguageName {
 
         private final String title;
-        private final String language;
+        private final String languageName;
 
-        private TitleLanguage(Language language, Film film) {
+        private TitleLanguageName(Language language, Film film) {
             this.title = film.getTitle();
-            this.language = language.getName();
+            this.languageName = language.getName();
         }
 
         public String title() {
             return title;
         }
 
-        public String language() {
-            return language;
+        public String languageName() {
+            return languageName;
         }
 
         @Override
         public String toString() {
-            return "TitleLanguage{" + "title=" + title + ", language=" + language + '}';
+            return "TitleLanguageName{" + "title=" + title + ", languageName=" + languageName + '}';
         }
 
     }
@@ -158,8 +158,8 @@ It might not look as a big difference compared to the default case where we got 
     Join<TitleLanguage> join = joinComponent
         .from(LanguageManager.IDENTIFIER)
         .innerJoinOn(Film.LANGUAGE_ID).equal(Language.LANGUAGE_ID)
-        // Use a custom constructor that takes a Language and
-        // Film as input.
+        // Use a custom constructor that takes a Language entity and
+        // a Film entity as input.
         .build(TitleLanguage::new);
 
         join.stream()
@@ -169,9 +169,9 @@ It might not look as a big difference compared to the default case where we got 
 
 This might produce the following output:
 ``` text
-TitleLanguage{title=ACADEMY DINOSAUR, language=English}
-TitleLanguage{title=ACE GOLDFINGER, language=English}
-TitleLanguage{title=ADAPTATION HOLES, language=English}
+TitleLanguageName{title=ACADEMY DINOSAUR, languageName=English}
+TitleLanguageName{title=ACE GOLDFINGER, languageName=English}
+TitleLanguageName{title=ADAPTATION HOLES, languageName=English}
 ...
 ```
 
@@ -193,15 +193,15 @@ Many times, we want to restrict the number of entities from a table over which w
 ```
 
 {% include important.html content= "
-Currently, only predicates obtained from the entity fields can be used. Furthermore, predicates cannot be composed using the `.and()` and `.or()` methods. Instead. several invocations of the `.where()` method can be used to express `AND` compositions. This (limitation)[https://github.com/speedment/speedment/issues/601] will be removed in a future version of Speedment.
+Currently, only predicates obtained from the entity fields can be used. Furthermore, predicates cannot be composed using the `.and()` and `.or()` methods. Instead. several invocations of the `.where()` method can be used to express `AND` compositions. This [limitation](https://github.com/speedment/speedment/issues/601) will be removed in a future version of Speedment.
 " %}
 
 
-## Examples
+## Join Examples
 This section contains examples of a number of commonly used join scenarios. 
 
 ### Cross Join
-Here is an example of a `CROSS JOIN`:
+Here is an example of a `CROSS JOIN`. All possible combinations of `Film` and `Language` entities will appear in the Stream.
 ``` java
    Join<Tuple2<Film, Language>> join = joinComponent
         .from(FilmManager.IDENTIFIER)
@@ -211,10 +211,87 @@ Here is an example of a `CROSS JOIN`:
     join.stream()
         .forEach(System.out::println);
 ```
+This might produce the following output:
+``` text
+Tuple2Impl {FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ... }, LanguageImpl { languageId = 1, name = English, ... }}
+Tuple2Impl {FilmImpl { filmId = 2, title = ACE GOLDFINGER, ... }, LanguageImpl { languageId = 1, name = English, ... }}
+Tuple2Impl {FilmImpl { filmId = 3, title = ADAPTATION HOLES, ... }, LanguageImpl { languageId = 1, name = English, ... }}
+...
+```
+
+### Collect Join Stream to Map
+A join steam can easily be collected to a `Map` as shown hereunder:
+
+``` java
+        Join<Tuple2<Film, Language>> join = joinComponent
+            .from(FilmManager.IDENTIFIER)
+            .innerJoinOn(Language.LANGUAGE_ID).equal(Film.LANGUAGE_ID)
+            .build(Tuples::of);
+
+        Map<Language, List<Tuple2<Film, Language>>> languageFilmMap = join.stream()
+            .collect(
+                // Apply this classifier
+                groupingBy(Tuple2::get1)
+            );
+
+```
+If we only want lists of Film objects instead of Tuple2 we can re-map the down-stream elements like this:
+
+``` java
+        Join<Tuple2<Film, Language>> join = joinComponent
+            .from(FilmManager.IDENTIFIER)
+            .innerJoinOn(Language.LANGUAGE_ID).equal(Film.LANGUAGE_ID)
+            .build(Tuples::of);
+
+        Map<Language, List<Film>> languageFilmMap2 = join.stream()
+            .collect(
+                // Apply this classifier
+                groupingBy(Tuple2::get1,
+                    // Map down-stream elements and collect to a list
+                    mapping(Tuple2::get0, toList())
+                )
+            );
+
+        languageFilmMap2.forEach((l, fl)
+            -> System.out.format("%s: %s%n", l.getName(), fl.stream().map(Film::getTitle).collect(joining(", ")))
+        );
+```
+this might produce the following output:
+
+``` text
+English: ACADEMY DINOSAUR, ACE GOLDFINGER, ADAPTATION HOLES, ...
+```
 
 
 ### Self Join
+Here is an example of a self join where Actors with the same first name are matched:
 
+``` java
+
+    Join<Tuple2<Actor, Actor>> join = joinComponent
+        .from(ActorManager.IDENTIFIER)
+        .innerJoinOn(Actor.FIRST_NAME).equal(Actor.FIRST_NAME)
+        .build(Tuples::of);
+
+    join.stream()
+        .forEach(System.out::println);
+
+```
+
+This might produce the following output:
+``` text
+Tuple2Impl {ActorImpl { actorId = 1, firstName = PENELOPE, lastName = GUINESS, ... }, ActorImpl { actorId = 1, firstName = PENELOPE, lastName = GUINESS, ... }}
+Tuple2Impl {ActorImpl { actorId = 54, firstName = PENELOPE, lastName = PINKETT, ... }, ActorImpl { actorId = 1, firstName = PENELOPE, lastName = GUINESS, ... }}
+Tuple2Impl {ActorImpl { actorId = 104, firstName = PENELOPE, lastName = CRONYN, ... }, ActorImpl { actorId = 1, firstName = PENELOPE, lastName = GUINESS, ...}}
+...
+```
+
+### Other Examples
+See other join examples in the manual here: 
+
+[One-to-Many}(https://speedment.github.io/speedment-doc/speedment_examples.html#one-to-many-relations) 
+{Many-to-One}(https://speedment.github.io/speedment-doc/speedment_examples.html#many-to-one-relations) 
+{Many-to-Many}(https://speedment.github.io/speedment-doc/speedment_examples.html#many-to-many-relations)
 
 ## Limitations
 If there is a Join that contains the same table several times, there might be cases where we are not able to specify which of these table variants we want to use when specifying join conditions. For example, self-joins of levels greater or equal to three will resolve predicates to the first variant of the table. Currently, the API does not allow us to specify other instances of the table.
