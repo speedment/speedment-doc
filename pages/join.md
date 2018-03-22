@@ -56,8 +56,6 @@ The most common way of joining tables is by means of an equality operator (i.e. 
 | lessOrEqual()  | Matches a column from table A that is *less than or equal to* a column in table B
 | greaterThan()  | Matches a column from table A that is *greater than* a column in table B
 | lessOrEqual()  | Matches a column from table A that is *less than or equal to* a column in table B
-| between()      | Matches a column from table A that is *between* a first column in table B and a second column in table B
-| notBetween()   | Matches a column from table A that is *not between* a first column in table B and a second column in table B
 
 
 ## Join Streams
