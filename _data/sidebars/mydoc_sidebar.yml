@@ -522,6 +522,18 @@ entries:
       url: datastore.html#performance
       output: web, pdf
       type: homepage
+
+  - title: General Computation
+    enterprise: true
+    url: computation.html#top
+    output: web, pdf
+    folderitems:
+
+    - title: Setup
+      enterprise: true
+      url: computation.html#setup
+      output: web, pdf
+      type: homepage
       
   - title: Enterprise Plugins
     enterprise: true

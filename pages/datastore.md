@@ -6,7 +6,7 @@ keywords: Data Store, In, Memory, Acceleration
 toc: false
 Tags: Data Store
 previous: advanced_features.html
-next: enterprise_plugins.html
+next: computation.html
 ---
 
 {% include prev_next.html %}
