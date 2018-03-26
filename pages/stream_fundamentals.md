@@ -39,7 +39,7 @@ This operation is different to all the previous operations in the way that it is
 
 It shall be noted that elements in a `Stream` are pulled by the *Terminal Operation* (i.e. the `collect` operation) and not pushed by the stream source. So, `Collect` will ask for the first element and that request will traverse up to the stream source that will provide the first element "Zlatan".
 The `filter` operation will check if the length of "Zlatan" is greater than two (which it is) and will then propagate "Zlatan" to the `sorted` operation.
-Because the `sorted` operation needs to see all strings before it can decide on its output order, it will ask the stream source for all its remaining elements which, via the filter, is sent down the stream. Once all stings are received by the `sorted` operator, it will sort the strings and then output its first element (i.e. "Adam") to the `collect` operation. The result of the entire stream statement will thus be:
+Because the `sorted` operation needs to see all strings before it can decide on its output order, it will ask the stream source for all its remaining elements which, via the filter, is sent down the stream. Once all strings are received by the `sorted` operator, it will sort the strings and then output its first element (i.e. "Adam") to the `collect` operation. The result of the entire stream statement will thus be:
 
 ``` text
 "Adam", "George", "Oscar", "Tim", "Zlatan"
@@ -350,10 +350,10 @@ Here is a list of other *Terminal Operations* that are a bit less commonly used 
 
 | Operation         | Parameter(s)         | Action
 | :------------     | :------------------- | :----------------------------------------------------- |
-| `collect`         | `Supplier, BiCOnsumer, BiConsumer`   | Returns a reduction of the elements in the stream starting with an empty reduction (e.g. an empty `List`) obtained from the `Supplier` and then applying the first `BiConsumer` for each element and at the end, combining using the second `BiConsumer`
+| `collect`         | `Supplier, BiConsumer, BiConsumer`   | Returns a reduction of the elements in the stream starting with an empty reduction (e.g. an empty `List`) obtained from the `Supplier` and then applying the first `BiConsumer` for each element and at the end, combining using the second `BiConsumer`
 | `reduce`          | `T, BinaryOperation` | Using a first `T` and then subsequently applying a `BinaryOperation` for each element in the stream, returns the value of the last value (reduction)
 | `reduce`          | `BinaryOperation`    | By subsequently applying a `BinaryOperation` for each element in the stream, returns the value of the last value (reduction)
-| `reduce`          | `T, BiFunction, BinaryOperator`          | In parallel, using  first values `T` and then subsequently applying a `BiFunctionn` for each element in the stream, returns the value of the last values combined using the combining `BinaryOperator`
+| `reduce`          | `T, BiFunction, BinaryOperator`          | In parallel, using  first values `T` and then subsequently applying a `BiFunction` for each element in the stream, returns the value of the last values combined using the combining `BinaryOperator`
 | `iterator`        | -                    | Returns an `Iterator` of all the values in this stream
 | `spliterator`     | -                    | Returns a `Spliterator` with all the values in this stream
 
