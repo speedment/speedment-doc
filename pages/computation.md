@@ -12,24 +12,24 @@ next: enterprise_plugins.html
 {% include prev_next.html %}
 
 ## General Computation
-It is possible to use Speedment as a General Computation model whereby results are computed between several Speedment instances. Each successive step will read directly from memory from a previous stage instead of reading from a regular database. 
+It is possible to use Speedment as a General Computation engine whereby results are computed between several Speedment instances. Each successive step will read directly from memory from one or more previous stages instead of reading from a regular database. 
 
 
 | Step # | Data Source            | Action
 | :----- | :--------------------- | ------------------------------- |
-|  0     | Database               | The initial step reads from a general data source as per default case.
+|  0     | Database               | The initial step reads from a general data source as per default
 |  1     | Step 0                 | Step 1 reads input data from Step 0
-|  2     | Step 0 and/or Step 1   | Step 1 reads input data from any previous step 0, 1
+|  2     | Step 0 and/or Step 1   | Step 1 reads input data from a set of previous steps {0, 1}
 |  ...   | ...                    | ...
-|  N     | Step (0..N-1)          | Step N reads input data from any previous step 0, 1, ..., N-1
+|  N     | Step (0..N-1)          | Step N reads input data from a set of previous steps {0, 1, ..., N-1}
 
-The General Computation features will be improved in coming releases.
+The General Computation engine features will be improved in coming releases.
 
 
 ### Setup
-By replacing the `SqlStreamSupplierComponent` in a step, that step can be made to read from previous stages instead of reading from a database. The method of using Custom Stream Suppliers is generally described [here](advanced_features.html#custom-stream-suppliers)
+By replacing the `SqlStreamSupplierComponent` in a step, that step can be made to read from previous stages instead of reading from a database. The method of using Custom Stream Suppliers is generally described [here](advanced_features.html#custom-stream-suppliers).
 
-The following example shows how a simplistic two step computation model can be implemented using the Sakila Database. No modification of the data is made between the steps in this example.
+The following example shows how a simplistic two-step computation engine can be implemented using the Sakila Database. No modification of the data is made between the steps in this simple example.
 
 ``` java
 public class SimpleTwoStepExample {
@@ -89,8 +89,7 @@ public class SimpleTwoStepExample {
 }
 
 ```
-
-It should be noted that in a more realistic example, the data model may be different for each step. In such cases, the same principle as shown above can be applied but the implementation of the custom stream supplier's `stream()` method must be tailored to match the input requirements of the new stage.
+It should be noted that in a more realistic example than above, the data model may be different for each step and stream content may be modified. In such cases, the same principle as shown above can be applied but the implementation of the custom stream supplier's `stream()` method must be tailored to match the input requirements of the new stage.
 
 
 {% include prev_next.html %}
