@@ -18,9 +18,9 @@ In the table below, the steps 0 - N are illustrated where the initial step 0 is 
 
 | Step # | Data Source     | Action
 | :----- | :-------------- | ------------------------------- |
-|  0     | Database        | The initial step reads from a general data source as per default
+|  0     | Database        | Step 0 (the initial step) reads from a general data source as per default a database
 |  1     | Step 0          | Step 1 reads input data from Step 0
-|  2     | Step {0-1}      | Step 1 reads input data from a set of previous steps {0, 1}
+|  2     | Step {0-1}      | Step 2 reads input data from a set of previous steps {0, 1}
 |  ...   | ...             | ...
 |  N     | Step {0..N-1}   | Step N reads input data from a set of previous steps {0, 1, ..., N-1}
 
@@ -30,7 +30,7 @@ The General Computation engine features will be improved over the course of the 
 ### Setup
 By replacing the `SqlStreamSupplierComponent` in a step, that step can be made to read from previous stages instead of reading from a database. The method of using Custom Stream Suppliers is generally described [here](advanced_features.html#custom-stream-suppliers).
 
-The following example shows how a simplistic two-step computation engine can be implemented using the Sakila Database. No modification of the data is made between the steps in this simple example.
+The following example shows how a simplistic two-step computation engine can be implemented for the Sakila Database. No modification of the data is made between the steps in this simple example.
 
 ``` java
 public class SimpleTwoStepExample {
@@ -90,7 +90,7 @@ public class SimpleTwoStepExample {
 }
 
 ```
-It should be noted that in a more realistic example than above, the data model may be different for each step and stream content may be modified. In such cases, the same principle as shown above can be applied but the implementation of the custom stream supplier's `stream()` method must be tailored to match the input requirements of the new stage.
+It should be noted that in a more realistic example than above, the data model may be different for each step and the stream content may also be modified. In such cases, the same principle as shown above can be applied but the implementation of the custom stream supplier's `stream()` method must be tailored to match the input requirements of the new stage.
 
 
 {% include prev_next.html %}
