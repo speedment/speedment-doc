@@ -14,16 +14,17 @@ next: enterprise_plugins.html
 ## General Computation
 It is possible to use Speedment as a General Computation engine whereby results are computed between several Speedment instances. Each successive step will read directly from memory from one or more previous stages instead of reading from a regular database. 
 
+In the table below, the steps 0 - N are illustrated where the initial step 0 is populated from a database:
 
-| Step # | Data Source            | Action
-| :----- | :--------------------- | ------------------------------- |
-|  0     | Database               | The initial step reads from a general data source as per default
-|  1     | Step 0                 | Step 1 reads input data from Step 0
-|  2     | Step 0 and/or Step 1   | Step 1 reads input data from a set of previous steps {0, 1}
-|  ...   | ...                    | ...
-|  N     | Step (0..N-1)          | Step N reads input data from a set of previous steps {0, 1, ..., N-1}
+| Step # | Data Source     | Action
+| :----- | :-------------- | ------------------------------- |
+|  0     | Database        | The initial step reads from a general data source as per default
+|  1     | Step 0          | Step 1 reads input data from Step 0
+|  2     | Step {0-1}      | Step 1 reads input data from a set of previous steps {0, 1}
+|  ...   | ...             | ...
+|  N     | Step {0..N-1}   | Step N reads input data from a set of previous steps {0, 1, ..., N-1}
 
-The General Computation engine features will be improved in coming releases.
+The General Computation engine features will be improved over the course of the coming releases.
 
 
 ### Setup
