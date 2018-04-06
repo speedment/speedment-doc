@@ -80,7 +80,7 @@ If we want to enable logging of the application platform, stream and stream opti
 
 
 ## The Speedment Lifecycle
-A Speedment application can move its state from Building to Started to Stopped.
+A Speedment application can move its state from Building to Started to Closed.
 
 ### Building an Application
 A `SpeedmentApplication` is built using a `SpeedmentApplicationBuilder`. During build, the application does not exist, it is merely configured. Once the builders `build()` method is called, the applications components are brought to life by passing through a series of States:
@@ -91,18 +91,17 @@ A `SpeedmentApplication` is built using a `SpeedmentApplicationBuilder`. During 
 | INITIALIZED       | `build()`    | The Injectable has been initialized
 | RESOLVED          | `build()`    | The Injectable has been initialized and resolved
 | STARTED           | `build()`    | The Injectable has been initialized, resolved and started.
-| STOPPED           | `stop()`     | The Injectable has been initialized, resolved, started and stopped
+| CLOSED            | `close()`    | The Injectable has been initialized, resolved, started and closed
 
 So, upon `build()` each and every component will traverse the sequence CREATED -> INITIALIZED -> RESOLVED -> STARTED
-
 
 ### Starting an Application
 A `SpeedmentApplication` is automatically started by the `SpeedmentApplicationBuilder::build` method.
 
-### Stopping an Application
-Once the application has completed, is it advised to call the `SpeedmentApplication::stop` method so that the application can release any resources it is holding and clean up external resources if any. 
+### Closing an Application
+Once the application has completed, is it advised to call the `SpeedmentApplication::close` method so that the application can release any resources it is holding and clean up external resources if any. 
 
-The example below shows a complete Speedment lifecycle from configuration to stop.
+The example below shows a complete Speedment lifecycle from configuration to close.
 ``` java
     // This builds and starts the application
     SakilaApplication app = new SakilaApplicationBuilder()
@@ -113,8 +112,8 @@ The example below shows a complete Speedment lifecycle from configuration to sto
 
     long count = films.stream().count();
 
-    // This stops the application.
-    app.stop();
+    // This closes the application.
+    app.close();
 
 ```
 
