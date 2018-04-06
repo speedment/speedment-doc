@@ -448,7 +448,7 @@ public static void main(String... param) {
 
   // You are ready to go!
   
-  app.stop();
+  app.close();
 }
 ```
 
