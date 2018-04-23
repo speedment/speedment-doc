@@ -159,7 +159,7 @@ Debug mode can be used to track what TypeMappers and Components exist and how th
 " %}
 
 ### Adding a Type Mapper
-{{site.data.javadoc.TypeMapper}}s are used to map a database type to a Java type and vice versa. For example, a `Timestamp` field can  be mapped to the Java type `long` to save memory and reduce the number of objects that are created during execution. {{site.data.javadoc.TypeMapper}}s can be added to the Maven Targets dynamically and will then be available like any built-in {{site.data.javadoc.TypeMapper}}.
+{{site.data.javadoc.TypeMapper}}s are used to map a database type to a Java type and vice versa. For example, a `Timestamp` field can  be mapped to the Java type `long` to save memory and reduce the number of objects that are created during execution. Any number of {{site.data.javadoc.TypeMapper}}s can be added to the Maven Targets dynamically and will then be available like any built-in {{site.data.javadoc.TypeMapper}}.
 
 A custom {{site.data.javadoc.TypeMapper}} should be created in a separate project together with a component that is used to install the `TypeMapper` as described in [this tutorial](https://github.com/speedment/speedment/wiki/Tutorial:-Plug-in-a-Custom-TypeMapper)
 
@@ -194,7 +194,7 @@ public enum Gender {
 }
 ```
 
-Here is the custom TypeMapper:
+Here is the custom TypeMapper that will convert a database String column value to the Gender class and vice versa:
 
 ``` java
 public final class StringToGenderMapper implements TypeMapper<String, Gender> {
@@ -221,7 +221,7 @@ public final class StringToGenderMapper implements TypeMapper<String, Gender> {
 ```
 
 
-Here is the installation Component:
+Here is the installation Component that is used to associate the custom `TypeMapper` to the Set of string-based`TypeMapper` objects that exists in the system:
 
 ``` java
 public final class CustomMappingComponent {
@@ -234,7 +234,7 @@ public final class CustomMappingComponent {
 ```
 
 
-This is how you configer your POM file to use the custom component, booth for code generation and for your application's runtime:
+This is how you configer your POM file to use the custom component, both for code generation and for your application's runtime:
 
 ``` xml
     <build>
