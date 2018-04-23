@@ -159,7 +159,7 @@ Debug mode can be used to track what TypeMappers and Components exist and how th
 " %}
 
 ### Adding a Type Mapper
-{{site.data.javadoc.TypeMapper}}s are used to map a database type to a Java type and vice versa. For example, a `Timestamp` field can  be mapped to the Java type `long` to save memory and reduce the number of objects that are created during execution. Any number of {{site.data.javadoc.TypeMapper}}s can be added to the Maven Targets dynamically and will then be available like any built-in {{site.data.javadoc.TypeMapper}}.
+{{site.data.javadoc.TypeMapper}}s are used to map a database type to a Java type and vice versa. For example, a `Timestamp` field can  be mapped to the Java type `long` to save memory and reduce the number of objects that are created during execution. Any number of `TypeMapper`s can be added to the Maven Targets dynamically and will then be available like any built-in {{site.data.javadoc.TypeMapper}}.
 
 A custom {{site.data.javadoc.TypeMapper}} should be created in a separate project together with a component that is used to install the `TypeMapper` as described in [this tutorial](https://github.com/speedment/speedment/wiki/Tutorial:-Plug-in-a-Custom-TypeMapper)
 
@@ -262,7 +262,7 @@ This is how you configer your POM file to use the custom component, both for cod
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.40</version>
         </dependency>
-        <!-- Remember to depend on the external project with the custom TypeMapper
+        <!-- Remember to depend on the external project with the custom TypeMapper -->
         <dependency>
             <groupId>com.github.pyknic</groupId>
             <artifactId>custom-mapping-component</artifactId>
