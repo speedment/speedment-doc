@@ -161,7 +161,80 @@ Debug mode can be used to track what TypeMappers and Components exist and how th
 ### Adding a Type Mapper
 {{site.data.javadoc.TypeMapper}}s are used to map a database type to a Java type and vice versa. For example, a `Timestamp` field can  be mapped to the Java type `long` to save memory and reduce the number of objects that are created during execution. {{site.data.javadoc.TypeMapper}}s can be added to the Maven Targets dynamically and will then be available like any built-in {{site.data.javadoc.TypeMapper}}.
 
-This example show a fictive German {{site.data.javadoc.TypeMapper}} that converts a `String` that is either "Ja" (Yes) or "Nein" (No) and maps that to a `boolean` that is either `true` ("Ja") or `false` ("Nein"):
+A custom {{site.data.javadoc.TypeMapper}} should be created in a separate project together with a component that is used to install the `TypeMapper` as described in [this tutorial](https://github.com/speedment/speedment/wiki/Tutorial:-Plug-in-a-Custom-TypeMapper)
+
+This example show a Gender {{site.data.javadoc.TypeMapper}} that converts a `String` to one of the `Enum` objects `MALE`, `FEMALE` or `OTHER`:
+
+``` java
+public enum Gender {
+    MALE   ("Male"),
+    FEMALE ("Female"),
+    OTHER  ("Other");
+
+    private final String databaseName;
+
+    Gender(String databaseName) {
+        this.databaseName = databaseName;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
+    }
+
+    public static Gender ofDatabaseName(String name) {
+        for (Gender gender : values()) {
+            if (gender.databaseName.equals(name)) {
+                return gender;
+            }
+        }
+        throw new UnsupportedOperationException(
+                "Unknown gender '" + name + "'."
+        );
+    }
+}
+```
+
+Here is the custom TypeMapper:
+
+``` java
+public final class StringToGenderMapper implements TypeMapper<String, Gender> {
+    @Override
+    public String getLabel() {
+        return "String to Gender";
+    }
+
+    @Override
+    public Type getJavaType(Column column) {
+        return Gender.class;
+    }
+
+    @Override
+    public Gender toJavaType(Column column, Class<?> aClass, String value) {
+        return value != null ? Gender.ofDatabaseName(value) : null;
+    }
+
+    @Override
+    public String toDatabaseType(Gender value) {
+        return value != null ? value.getDatabaseName() : null;
+    }
+}
+```
+
+
+Here is the installation Component:
+
+``` java
+public final class CustomMappingComponent {
+
+    @ExecuteBefore(RESOLVED)
+    public void onResolve(@WithState(INITIALIZED) TypeMapperComponent typeMapper) {
+        typeMapper.install(String.class, StringToGenderMapper::new);
+    }
+}
+```
+
+
+This is how you configer your POM file to use the custom component, booth for code generation and for your application's runtime:
 
 ``` xml
     <build>
@@ -170,12 +243,10 @@ This example show a fictive German {{site.data.javadoc.TypeMapper}} that convert
             <artifactId>speedment-maven-plugin</artifactId>
             <version>${speedment.version}</version>
             <configuration>
-                <typeMappers>
-                    <typeMapper>
-                        <databaseType>java.lang.String</databaseType>
-                        <implementation>de.entwicklung.typemappers.JaNeinStringToBooleanTypeMapper</implementation>
-                    </typeMapper>
-                </typeMappers>
+                <components>
+                    <!-- Path to the component installer -->
+                    <component>com.github.pyknic.salesinfo.plugin.CustomMappingComponent</component>
+                </components>
             </configuration>
         </plugin>
     <build>
@@ -191,24 +262,24 @@ This example show a fictive German {{site.data.javadoc.TypeMapper}} that convert
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.40</version>
         </dependency>
+        <!-- Remember to depend on the external project with the custom TypeMapper
         <dependency>
-            <groupId>de.entwicklung</groupId>
-            <artifactId>typemappers</artifactId>
-            <version>1.0.0</version>
+            <groupId>com.github.pyknic</groupId>
+            <artifactId>custom-mapping-component</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 ```
 
-The {{site.data.javadoc.TypeMapper}} above also converts information in the other direction. For example, if a mapped property is `false` and is persisted in the database, the value in the database will read "Nein".
+The {{site.data.javadoc.TypeMapper}} above also converts information in the other direction. For example, if a mapped property is `MALE` and is persisted in the database, the value in the database will read "Male".
 
 {% include tip.html content="
 `TypeMapper`s that are added to the plugins must also be on the class path once our application run. If the `TypeMapper` comes from an external project, remember to depend on the artifact that contains the `TypeMapper` in your POM file as shown in the last part of the example above.
 " %}
 
-(Placeholder -> Link to text about creating your own TypeMapper)
 
 ### Adding a Component
-A component can add or change Speedment functionality. Most functions within Speedment are handled by Components. Components are easily added to the plugins like this:
+A component can extend or change Speedment functionality. Most functions within Speedment are handled by Components. Components are easily added to the plugins like this:
 
 ``` xml
 <plugin>
