@@ -14,7 +14,7 @@ next: crud.html
 
 ## The Join Component
 
-The `JoinComponent` (available in Speedment 3.0.23 and later) can be used to create type safe joins between tables. It allows up to six table to be joined in different ways as described in this chapter.
+The `JoinComponent` (available in Speedment 3.1.0 and later) can be used to create type safe joins between tables. It allows up to six table to be joined in different ways as described in this chapter.
 
 
 ## Join Types
