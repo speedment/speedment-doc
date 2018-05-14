@@ -37,9 +37,7 @@ Speedment officially support the following MySQL JDBC versions:
 
 | Database | groupId   | artifactId           | version |
 | :------- | :-------- | :------------------- | :------ |
-| MySQL    | mysql     | mysql-connector-java | 5.1.44  |
-| MySQL    | mysql     | mysql-connector-java | 5.1.42  |
-| MySQL    | mysql     | mysql-connector-java | 5.1.41  |
+| MySQL    | mysql     | mysql-connector-java | 5.1.46  |
 
 ## PostgreSQL
 Speedment supports PostgreSQL out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your PostgreSQL project.
@@ -48,7 +46,7 @@ Speedment officially support the following PostgreSQL JDBC versions:
 
 | Database | groupId        | artifactId           | version |
 | :------- | :------------- | :------------------- | :------ |
-| PosgreSQL| org.postgresql | postgresql           | 42.1.4  |
+| PosgreSQL| org.postgresql | postgresql           | 42.2.2  |
 
 
 ## MariaDB
@@ -79,7 +77,7 @@ Speedment officially support the following MariaDB JDBC versions:
 
 | Database | groupId          | artifactId           | version |
 | :------- | :--------------- | :------------------- | :------ |
-| MariaDB  | org.mariadb.jdbc | mariadb-java-client  | 2.2.1   |
+| MariaDB  | org.mariadb.jdbc | mariadb-java-client  | 2.2.3   |
 
 {% include important.html content= "
 Pre 2.0.1 MariaDB JDBC drivers contain significant bugs. Users are highly encouraged to upgrade to 2.x.x drivers.
