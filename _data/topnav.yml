@@ -3,6 +3,8 @@
 topnav:
 - title: Topnav
   items:
+    -title: GitHub Repo
+    external_url: https://github.com/speedment/speedment
 
 #Topnav dropdowns
 topnav_dropdowns:
