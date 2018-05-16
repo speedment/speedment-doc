@@ -69,7 +69,7 @@ This means that only the relevant entities are pulled in from the database into 
 If we want to sort all our films in length order then we can do it like this:
 ``` Java
     List<Film> filmsInLengthOrder = films.stream()
-        .sorted(Film.LENGTH.comparator())
+        .sorted(Film.LENGTH)
         .collect(Collectors.toList());
 ```
 The list will have the following content:
@@ -103,7 +103,7 @@ ORDER BY
 If we want to skip a number of records before we are using them then the `.skip()` operation is useful. Suppose we want to print out the films in title order but staring from the 100:th film then we can do like this:
 ``` java
     films.stream()
-        .sorted(Film.TITLE.comparator())
+        .sorted(Film.TITLE)
         .skip(100)
         .forEachOrdered(System.out::println);
 ``` 
@@ -138,7 +138,7 @@ OFFSET
 If we want to limit the number of records in a stream them then the `.limit()` operation is useful. Suppose we want to print out the 3 first films in title order then we can do like this:
 ``` java
     films.stream()
-        .sorted(Film.TITLE.comparator())
+        .sorted(Film.TITLE)
         .limit(3)
         .forEachOrdered(System.out::println);
 ``` 
@@ -169,7 +169,7 @@ LIMIT
 There are many applications where both `.skip()` and `.limit()` are used. Remember that the order of these stream operations matters and that the order is different from what you might be used to from SQL. In the following example we express a stream where we want to show 50 films starting from the 100:th film in title order:
 ``` java
     films.stream()
-        .sorted(Film.TITLE.comparator())
+        .sorted(Film.TITLE)
         .skip(100)
         .limit(50)
         .forEachOrdered(System.out::println);
@@ -234,7 +234,7 @@ Java has its own group by collector. If we want to group all the Films by the fi
     Map<String, List<Film>> filmCategories = films.stream()
         .collect(
             Collectors.groupingBy(
-                Film.RATING.getter()
+                Film.RATING
             )
         );
 ```
@@ -257,7 +257,7 @@ We can expand the previous Group By example by filtering out only those categori
     Map<String, List<Film>> filmCategories = films.stream()
         .collect(
             Collectors.groupingBy(
-                Film.RATING.getter()
+                Film.RATING
             )
         )
         .entrySet()
@@ -296,7 +296,7 @@ Large tables will be less efficient using this join scheme so users are encourag
 
 #### Semantic Joins
 Semantic joins creates a separate specialized `Stream` with tuples of entities that can be joined dynamically. Here is how we could create a Map that holds which Language is spoken in a Film using semantic joins:
-```java
+``` java
 Join<Tuple2<Film, Language>> join = joinComponent
     .from(FilmManager.IDENTIFIER)
     .innerJoinOn(Language.LANGUAGE_ID).equal(Film.LANGUAGE_ID)
@@ -316,7 +316,7 @@ Map<Language, List<Tuple2<Film, Language>>> languageFilmMap = join.stream()
 If we want to calculate what different ratings there are in the film tables then we can do it like this:
 ``` java
     Set<String> ratings = films.stream()
-        .map(Film.RATING.getter())
+        .map(Film.RATING)
         .distinct()
         .collect(Collectors.toSet());
 ```
@@ -329,7 +329,7 @@ If we do not want to use the entire entity but instead only select one or severa
 ``` java
 // Creates a stream with the ids of the films by applying the FILM_ID getter
 final IntStream ids = films.stream()
-    .mapToInt(Film.FILM_ID.getter());
+    .mapToInt(Film.FILM_ID);
 ```
 This creates an `IntStream` consisting of the ids of all `Film`s by applying the Film.FILM_ID getter for each hare in the original stream.
 
@@ -337,7 +337,7 @@ If we want to select several fields, we can create a new custom class that holds
 ``` java
     // Creates a stream of Tuples with two elements: title and length
     Stream<Tuple2<String, Integer>> items = films.stream()
-        .map(Tuples.toTuple(Film.TITLE.getter(), Film.LENGTH.getter()));
+        .map(Tuples.toTuple(Film.TITLE, Film.LENGTH.getter()));
 
 ```
 This creates a stream of Tuples with two elements: title (of type `String`) and length (of type `Integer`).
@@ -398,7 +398,7 @@ The following example shows how we can serve request for pages from a GUI or sim
 when this method is called like this:
 ``` java
     // Show page 2 (zero is first page) of Films order by title desc
-    getPage(2, Film.TITLE.comparator().reversed());
+    getPage(2, Film.TITLE.reversed());
 ```
 
 then this will be rendered to the following SQL (for MySQL):
@@ -439,21 +439,7 @@ long is  true has 457 films
 ### One-to-Many relations
 A One-to-Many relationship is defined as a relationship between two tables where a row from a first table can have multiple matching rows in a second table. For example, many films can be in the same language.
 
-In this example we will print out all films that are in the English language:
-``` java
-    languages.stream()
-        .filter(Language.NAME.equal("English"))
-        .flatMap(films.finderBackwardsBy(Film.LANGUAGE_ID))
-        .forEach(System.out::println);
-```
-This will print:
-``` text
-FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
-FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
-FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
-...
-```
-There will be a number of database queries sent to the database during stream execution. This can be avoided using semantic joins as described here:
+In this example we will print out all films and the corresponding language spoken. More formally, we create a stream of matching pairs (called Tuple2) of `Language` and `Film` entitites where the language ids are equal:
 
 ``` java
 
@@ -474,25 +460,26 @@ Tuple2Impl {LanguageImpl { languageId = 1, name = English, ... }, FilmImpl { fil
 ...
 ```
 
+When we are working with very small tables, we could use an alternate method where values are mapped in from another table for each iteration. In this example we will print out all films that are in the English language:
+``` java
+    languages.stream()
+        .filter(Language.NAME.equal("English"))
+        .flatMap(films.finderBackwardsBy(Film.LANGUAGE_ID))
+        .forEach(System.out::println);
+```
+This will print:
+``` text
+FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ...
+FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
+FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
+...
+```
+
+
 ### Many-to-One relations
 A Many-to-One relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.
 
 In this example we will print out the languages that are used for all films with a rating of "PG-13":
-``` java 
-    films.stream()
-        .filter(Film.RATING.equal("PG-13"))
-        .map(languages.finderBy(Film.LANGUAGE_ID))
-        .forEach(System.out::println);
-```
-this will print:
-``` text
-LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.0 }
-LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.0 }
-LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.0 }
-...
-```
-There will be a number of database queries sent to the database during stream execution.This can be avoided using semantic joins as described here:
-
 ``` java
 
     Join<Tuple2<Film, Language>> join = joinComponent
@@ -509,6 +496,21 @@ Tuple2Impl {FilmImpl { filmId = 7, title = AIRPLANE SIERRA,...., rating = PG-13,
 Tuple2Impl {FilmImpl { filmId = 9, title = ALABAMA DEVIL, ..., rating = PG-13, ... }, LanguageImpl { languageId = 1, name = English, ... }}
 Tuple2Impl {FilmImpl { filmId = 18, title = ALTER VICTORY, ..., rating = PG-13, ... }, LanguageImpl { languageId = 1, name = English, ... }}
 
+```
+
+When we are working with very small tables, we could use an alternate method where values are mapped in from another table for each iteration.
+``` java 
+    films.stream()
+        .filter(Film.RATING.equal("PG-13"))
+        .map(languages.finderBy(Film.LANGUAGE_ID))
+        .forEach(System.out::println);
+```
+this will print:
+``` text
+LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.0 }
+LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.0 }
+LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.0 }
+...
 ```
 
 
@@ -565,7 +567,7 @@ As can be seen in the example above, the table `FilmActor` is not used within th
 
 ### Pivot Data
 Pivoting can be made using a `Join`. The following example shows a pivot table of all the actors and the number of films they have participated in for each film rating category (e.g. "PG-13"):
-```java
+``` java
     Join<Tuple3<FilmActor, Film, Actor>> join = joinComponent
         .from(FilmActorManager.IDENTIFIER)
         .innerJoinOn(Film.FILM_ID).equal(FilmActor.FILM_ID)
