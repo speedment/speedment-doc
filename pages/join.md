@@ -14,7 +14,7 @@ next: crud.html
 
 ## The Join Component
 
-The `JoinComponent` (available in Speedment 3.1.0 and later) can be used to create type safe joins between tables. It allows up to six table to be joined in different ways as described in this chapter.
+The `JoinComponent` (available in Speedment 3.1.0 and later) can be used to create type safe joins between tables. It allows up to ten (10) tables to be joined in different ways as described in this chapter.
 
 
 ## Join Types
@@ -295,6 +295,8 @@ See other join examples in the manual here:
 [Many-to-Many](https://speedment.github.io/speedment-doc/speedment_examples.html#many-to-many-relations)
 
 ## Limitations
+The current API supports joining of up to ten (10) tables.
+
 If there is a Join that contains the same table several times, there might be cases where we are not able to specify which of these table instances we want to use when specifying join conditions. For example, self-joins of levels greater or equal to three will resolve predicates to the first variant of the table. Currently, the API does not allow us to specify other instances of the table.
 
 
