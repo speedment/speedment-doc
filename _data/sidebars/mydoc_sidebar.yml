@@ -531,19 +531,19 @@ entries:
 
     - title: What are Aggregations?
       enterprise: true
-      url: computation.html#what-are-aggregations
+      url: aggregations.html#what-are-aggregations
       output: web, pdf
       type: homepage
 
     - title: Aggregating
       enterprise: true
-      url: computation.html#aggregating
+      url: aggregations.html#aggregating
       output: web, pdf
       type: homepage
 
     - title: Performance
       enterprise: true
-      url: computation.html#performance
+      url: aggregations.html#performance
       output: web, pdf
       type: homepage
 
