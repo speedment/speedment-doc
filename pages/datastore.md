@@ -295,233 +295,149 @@ This will produce an output that starts like this:
 
 ## Aggregating Columns
 
+**Requires Speedment Enterprise 1.1.12 or later.** 
 A common use case in analytical applications is to aggregate many results into a few. 
 This can be done very efficiently using the specialized collectors built into 
 Speedment Enterprise by leveraging the standard Java Streams API.
 
-An even more efficient way to perform off-heap aggregation using Speedment is
-enabled by the AggregatorBuilder which is designed to perform all steps of the aggragation 
-with minimal heap memory footprint. 
+Since the Aggregator is designed to perform all steps of the aggregation off-heap, aggregations 
+of large data sets can be performed with minimal heap memory footprint. 
 
-The two methods are described in the following two sections, starting with the most efficient
-in [Aggregation using the dedicated Speedment AggregatorBuilder](#AggregatorBuilder) and then
-[Aggregation using the standard Java Streams API](#AggregationCollections) in the following section.
+In the following examples we will aggregate data entities of the type `Person`, defined by the following fields.
 
-### <a name="AggregatorBuilder"></a> Aggregation using the dedicated Speedment AggregatorBuilder 
-**Requires Speedment Enterprise 1.1.12 or later.** 
-In the following you will find two examples of how to use the AggregatorBuilder API for super-fast off-heap aggregation.
-
-In both examples we need an `EntityStore<X>` that holds the entities of type `X` over which the aggregation 
-will take place. In the two examples below we will be using `Film` entities. 
-The entity store can be retrieved from a holder of the data store component as follows.
-
-```java
-      DataStoreComponent dataStore = app.getOrThrow(DataStoreComponent.class);
-      FilmManager filmManager = app.getOrThrow(FilmManager.class);
-      DataStoreHolder holder = dataStore.currentHolder();
-      EntityStore<Film> store = holder.getEntityStore(filmManager.getTableIdentifier());
+``` java
+    private static class Person {
+        private final int age;
+        private final short height;
+        private final short weight;        
+        private final String gender;
+        private final double salary;
+        ...
+    }
 ```
 
-#### A simple one-step aggregation
+To represent results of aggregations we will be using a data class called `AgeSalary` which 
+associates a certain age with an average salary.
 
-In the first example we will compute the average length and sum of replacement cost of 
-all films in the database, grouped on rating and release year. To capture the data to
-be aggregated for each unique aggregate key we define an aggregator object. It has  
-
-* a constructor that takes a reference to an entity in an entity store
-as parameter
-* and data fields used to accumulate the aggregation results per key.
-
-The `@Data` annotation of [Project Lombok](https://projectlombok.org/) 
-generates getter for all fields, setter
-for non-final fields and a constructor that takes the final field as parameter.
-
-```java
-      @Data // See Project Lombok
-      class LengthAndCost {
-          final long ref; // Included in generated constructor
-          float length, replacementCost;
-      }
+``` java
+    private static class AgeSalary {
+         private int age;
+         private double avgSalary;
+         ...
+    }
 ```
 
-With this class and an entity store `store` the aggregation can be expressed as follows.
+#### Aggregation to Explicitly Typed Results
 
-```java      
-      List<LengthAndCost> aggregate = Aggregator.builder(store, LengthAndCost::new)
-          .withByteKey(Film.RATING)
-          .withByteKey(Film.RELEASE_YEAR)
-          .withAverage(Film.LENGTH, LengthAndCost::setLength)
-          .withSum(Film.REPLACEMENT_COST, LengthAndCost::setReplacementCost)
-          .build()
-          .aggregate(store.references())
-          .collect(toList());
+To compute the average salary for each age, we will first create an `Aggregator<Person, ?, AgeSalary>` as follows.
+
+``` java
+    Aggregator<Person, ?, AgeSalary> aggregator = Aggregator.builder(AgeSalary::new)
+        .on(Person::age).key(AgeSalary::setAge)
+        .on(Person::salary).average(AgeSalary::setAvgSalary)
+        .build();
 ```
 
-The aggregation is collected into a list of `LengthAndCost` instances, one for each unique aggregate key in the entity store. 
-Thus, for each unique pair of rating and release year we get a `LengthAndCost` instance holding the corresponding aggregate values.
-The `ref` of a `LengthAndCost` instance points to an entity in the entity store with the key that corresponds
-to these particular aggregate values. This way, key instances are never instantiated and therefore stay off-heap for
-the full duration of the aggregation.
+The first line calls the defines the `Aggregator` to use and determines the constructor
+for result objects as `AgeSalary::new`. The second line declares the key for the aggregation;
+first in terms of how to find the key value in an incoming `Person` instance and then
+how to set the key value in our result object. The third line is similar, but instead of
+a key it defines an average value to be computed from the salaries of `Person` instances.
 
-#### Two-step aggregation
+An `Aggregator` can produce a collector that can be used in any standard Java stream. 
+Thus, having a `Stream<Person> persons` we can compute the aggregation of average salaries as follows.
 
-Multi-step aggregation is also supported by the API. We use an aggregator class 
-with three different float fields to aggregate values for each aggregate key.
-
-```java
-      @Data // See Project Lombok
-      class Float3 {
-          final long ref; // Included in generated constructor
-          float length, replacementCost, rentalDuration;
-      }
+``` java
+    Aggregation<AgeSalary> aggregation = persons().collect(aggregator.createCollector());
 ```
 
-Then we start out by aggregating on both rating and release year followed by an
-aggregation of those values on release year only.
+The `Aggregation` holds the state of the aggregation data and allows repeated streaming over 
+the data. 
 
-```java      
-      Stream<Float3> stream = Aggregator.builder(store, Float3::new)
-          .withByteKey(Film.RATING)
-          .withByteKey(Film.RELEASE_YEAR)
-          .withSum(Film.LENGTH, Float3::setLength)
-          .withSum(Film.REPLACEMENT_COST, Float3::setReplacementCost)
-          .withSum(Film.RENTAL_DURATION, Float3::setRentalDuration)
-          .andThen(Float3::getRef, Float3::new)
-          .withByteKey(Film.RELEASE_YEAR)
-          .withAverage(Float3::getLength, Float3::setLength)
-          .withAverage(Float3::getReplacementCost, Float3::setReplacementCost)
-          .withAverage(Float3::getRentalDuration, Float3::setRentalDuration)
-          .build()
-          .aggregate(store.references());
+``` java
+    aggregation.streamAndClose()
+        .forEach(System.out::println);
 ```
 
-First, an inner aggregation with a 
-composite key of film rating and release year is performed, to be followed by an outer
-aggregation on release year only. 
+Since the `Aggregation` may hold data that is stored off-heap, it may benefit from 
+explicit closing rather than just being garbage collected. Closing the `Aggregation` can 
+be done by calling the `close()` method, possibly by taking advantage of the `AutoCloseable` 
+trait, or as in the example above by using `streamAndClose()` which returns a stream that 
+will close the `Aggregation` after stream termination.
 
-Following the builder row by row, 
+In summary, the aggregation can be condensed as follows. 
 
-* the first line creates an aggregator builder which will operate
-on fields of a datastore that is supplied in the `builder` method call together with the
-constructor for the aggregation holder class (in this case `Float3`), 
-```java
-Stream<Float3> stream = Aggregator.builder(store, Float3::new)`
+``` java
+    persons().collect(Aggregator.builderOfType(Person.class, AgeSalary::new)
+        .on(Person::age).key(AgeSalary::setAge)
+        .on(Person::salary).average(AgeSalary::setAvgSalary)
+        .build()
+        .createCollector()
+    ).streamAndClose()
+        .forEach(System.out::println);
 ```
 
-* the second and third lines define the inner aggregate key as the two fields `RATING` and
-`RELEASE_VERSION`,
-```java
-          .withByteKey(Film.RATING)
-          .withByteKey(Film.RELEASE_YEAR)
+#### Aggregation to Generic Tuples
+
+Sometimes designing an explicit result data class is overly verbose without adding much
+clarity. In such cases, Speedment `MutableTuples` can be used to create result data on the fly.
+
+``` java
+    persons().collect(
+        Aggregator.builder(MutableTuples.constructor(Integer.class, Double.class))
+            .on(Person::age).key(MutableTuple2::set0)
+            .on(Person::salary).average(MutableTuple2::set1)
+            .build()
+            .createCollector()
+    ).streamAndClose()
+        .forEach(System.out::println);
 ```
 
-* then the inner aggregation operations are defined
-```java
-          .withSum(Film.LENGTH, Float3::setLength)
-          .withSum(Film.REPLACEMENT_COST, Float3::setReplacementCost)
-          .withSum(Film.RENTAL_DURATION, Float3::setRentalDuration)
+#### Using Expressions to Construct Derived Keys and Values
+
+The functions supplied to the aggregator for finding and setting keys and result field values are general functions,
+meaning that they do not necessarily need to be simple getters and setters as in the above examples. Using the Speedment 
+predefined utilities for composing functions from basic building blocks, the example above can easily be extended to
+aggregate on decades instead of specific years. The key is then not the age, but age divided by 10 and that can
+be expressed as follows.
+
+``` java
+    Aggregator.builder(MutableTuples.constructor(Integer.class, Double.class))
+        .on(divide(Person::age, 10).asInt()).key(MutableTuple2::set0)
+        .on(Person::salary).average(MutableTuple2::set1)
+        .build()
 ```
 
-* to be turned into a different kind of aggregation builder with the `andThen` operation.
-After this step, the builder operates on aggregation objects instead of table fields.
-```java
-          .andThen(Float3::getRef, Float3::new)
+where the method `divide` is statically imported from the Speedment utility class `Expressions`. Clearly, one can
+use any kind of function here, but using the Speedment utility functions allows the Speedment runtime to optimize
+the stream operations and is therefore potentially significantly more efficient.
+
+As a second example, consider the following code aggregating the BMI per gender of persons in a data set.
+
+``` java
+    Aggregator<Person, ?, Result> aggregator = Aggregator.builder(Result::new)
+        .on(Person::getGender)
+        .key(Result::setGender)
+        .on(shortToDouble(Person::getWeight)
+            .divide(Expressions.pow(
+                Expressions.divide(Person::getHeight, 100),
+                2)))
+        .average(Result::setBMI)
+        .build();
 ```
 
-* Thus, a new key can be defined for the new builder, typically a sub key of the inner
-aggregation.
-```java
-          .withByteKey(Film.RELEASE_YEAR)
-```
+Here, the `Result` class is defined to have setter methods for BMI and gender, `Result::setBMI` and `Result::setGender`.
 
-* Having defined the key, new aggregation operations can be applied
-```java
-          .withAverage(Float3::getLength, Float3::setLength)
-          .withAverage(Float3::getReplacementCost, Float3::setReplacementCost)
-          .withAverage(Float3::getRentalDuration, Float3::setRentalDuration)
-```
+#### Aggregating DataStore Data
 
-* and finally the builder is finalized and then supplied with the stream of references from the data store.
-```java
-          .build()
-          .aggregate(store.references());
-```
+The actual aggregation computations are performed in off-heap memory, meaning that garbage collection is not affected 
+and that the size of the aggregated data is not bounded by the size of the heap. 
 
-### <a name="AggregationCollections"></a> Aggregation using the standard Java Streams API
-
-**Requires Speedment Enterprise 1.1.10 or later.** Aggregation can also be done using the specialized collectors built into Speedment Enterprise.
-
-The following example will calculate the minimum, maximum and average rental duration for each "rating" category.
-
-```java
-System.out.println(Json.toJson(
-    films.stream()
-        .collect(groupingBy(
-            entityFunction(
-                Film::getRating,
-                store -> ref -> store.deserializeReference(ref, Film.RATING)
-            ),
-            mergeBuilder(Film.class, LinkedHashMap::new)
-                .first(Film.RATING, (map, rating) -> map.put("rating", rating.name()))
-                .min(Film.RENTAL_DURATION, (map, duration) -> map.put("minDuration", duration))
-                .max(Film.RENTAL_DURATION, (map, duration) -> map.put("maxDuration", duration))
-                .average(Film.RENTAL_DURATION, (map, duration) -> map.put("averageDuration", duration))
-                .build(),
-            toList()
-        ))
-    )
-);
-```
-
-The code above outputs the following:
-
-```json
-[
-  {
-    "rating" : "PG13",
-    "minDuration" : 3,
-    "maxDuration" : 7,
-    "averageDuration" : 4.6
-  },
-  {
-    "rating" : "R",
-    "minDuration" : 3,
-    "maxDuration" : 7,
-    "averageDuration" : 4.857142857142857
-  },
-  {
-    "rating" : "G",
-    "minDuration" : 3,
-    "maxDuration" : 7,
-    "averageDuration" : 4.6
-  },
-  {
-    "rating" : "NC17",
-    "minDuration" : 3,
-    "maxDuration" : 6,
-    "averageDuration" : 4.0
-  },
-  {
-    "rating" : "PG",
-    "minDuration" : 3,
-    "maxDuration" : 7,
-    "averageDuration" : 4.666666666666667
-  }
-]
-```
-
-The collection is done in a few steps. The `groupingBy` method is statically imported from the `EntityCollectors`-class. It takes three arguments. 
-
-**Grouping Function**
-The first argument is the grouping method that will be used to categorize the incomming entities. Here we use the `entityFunction` method statically imported from the `EntityFunction`-class. This allows us to specify two different lambdas; one that operates on an already deserialized entity and one that operates directly on an in-memory reference. In the best case scenario, we can perform the categorization without deserializing more than one field.
-
-**Inner Collector**
-For the second argument of `groupingBy` is used to describe how entities within one category are to be reduced. The method is imported statically from `EntityCollectors`. `mergeBuilder` takes the class of the incomming objects as well as a `Supplier` for the resulting type. In this case, we want to collect the inner stream into a `LinkedHashMap` so that it can be turned into JSON. `mergeBuilder` works as a Builder Pattern, allowing every field of the entity to be collected individually. The builder is terminated by calling `.build()`.
-
-**Outer Collector**
-The third argument of `groupingBy` is a regular Java `Collector` that is used to collect the results for each category. In this case, we use the standard Java `Collectors.toList()` method so that we get a `java.util.List`.
-
-The entire operation will complete in `O(N)` time complexity, without deserializing more than exactly the fields needed for the result.
+In the above examples, incoming data to aggregate is heap objects, meaning that no matter how the stream supplying the
+data creates it, all the incoming data objects will need to be garbage collected at some point. To address this,
+Speedment supports aggregating off-heap data in place in a DataStore, minimizing the need for heap materialization and 
+the implied garbage collection load. This is achieved automatically if the Speedment aggregator is used to collect
+a stream from a DataStore.
 
 ### Clear the DataStore
 You can explicitly clear the content of the DataStore by calling the `clear()` method as shown below. After the clear method has been called, streams are not available and a DataStoreNotLoadedException will be thrown if a stream is requested.
