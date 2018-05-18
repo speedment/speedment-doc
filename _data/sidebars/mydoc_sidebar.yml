@@ -523,6 +523,12 @@ entries:
       output: web, pdf
       type: homepage
 
+  - title: Aggregations
+    enterprise: true
+    url: aggregations.html#top
+    output: web, pdf
+    folderitems:
+
   - title: General Computation
     enterprise: true
     url: computation.html#top
