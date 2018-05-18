@@ -162,9 +162,7 @@ a stream from a DataStore.
 
 
 ## Performance
-The DataStore module will sort each table and each column upon load/re-load. This means that you can benefit from low latency regardless on which column you use in stream filters, sorters, etc.
-
-When the DataStore module is being used, Stream latency will be orders of magnitudes better.
+The Aggregator will store intermediate results off-heap and can operate without creating any intermediate result objects during aggregation. If an Aggregator is used in conjunction with a Stream form a [DataStore](datastore.html#top) component, then the Aggregator could provide additional performance benefits such as only extracting needed column values without actually materializing the entities in the stream.
 
 {% include prev_next.html %}
 

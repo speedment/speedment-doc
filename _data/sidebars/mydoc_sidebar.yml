@@ -529,6 +529,24 @@ entries:
     output: web, pdf
     folderitems:
 
+    - title: What are Aggregations?
+      enterprise: true
+      url: computation.html#what-are-aggregations
+      output: web, pdf
+      type: homepage
+
+    - title: Aggregating
+      enterprise: true
+      url: computation.html#aggregating
+      output: web, pdf
+      type: homepage
+
+    - title: Performance
+      enterprise: true
+      url: computation.html#performance
+      output: web, pdf
+      type: homepage
+
   - title: General Computation
     enterprise: true
     url: computation.html#top
