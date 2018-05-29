@@ -58,13 +58,16 @@ The class {{site.data.javadoc.ApplicationBuilder.LogType}} contains a number of 
 
 | LogType Name         | Enables Logging Related to                                                                |
 | :------------------- | :---------------------------------------------------------------------------------------- |
-| `APPLICATION_BUILDER`| Configurating the application platform, dependency injection, component configuration etc |
+| `APPLICATION_BUILDER`| Configuring the application platform, dependency injection, component configuration etc   |
 | `CONNECTION`         | Connection handling (connection pooling, Java EE connections, etc)                        |
 | `PERSIST`            | Persisting new entities into the database.                                                |
 | `REMOVE`             | Removing existing entities from the database.                                             |
 | `STREAM`             | Querying the data source.                                                                 |
 | `STREAM_OPTIMIZER`   | Stream optimization (e.g. how a stream is rendered to a SQL statement).                   |
-| `UPDATE          `   | Updating existing entities from the database.                                             |
+| `UPDATE`             | Updating existing entities from the database.                                             |
+| `TRANSACTION`        | UHandling of transactions.                                                                |
+| `JOIN`               | Creating and performing table joins.                                                      |
+
 
 These are the standard logging alternatives. Custom components can have other log names.
 
