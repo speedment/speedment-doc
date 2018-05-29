@@ -67,9 +67,18 @@ The class {{site.data.javadoc.ApplicationBuilder.LogType}} contains a number of 
 | `UPDATE`             | Updating existing entities from the database.                                             |
 | `TRANSACTION`        | Handling of transactions.                                                                 |
 | `JOIN`               | Creating and performing table joins.                                                      |
+| `LICENSE`            | Enterprise: Handling of commercial licenses                                               |
+| `AGGREGATE`          | Computation of aggregates.                                                                |
 
+These are the standard logging alternatives.
 
-These are the standard logging alternatives. Custom components can have other log names.
+There are also some Enterprise specific logger name defined for features that are unique to Enterprise features:
+| HasLoggerName        | Enables Logging Related to                                                                |
+| :------------------------- | :-------------------------------------------------------------------------------- |
+| `LicenseComponent.LICENSE` | Handling of commercial licenses.                                                  |
+| `Aggregator.AGGREGATE`     | Computation of aggregates.                                                        |
+
+Custom components can have other log names.
 
 If we want to enable logging of the application platform, stream and stream optimization we can do like this:
 ``` java
