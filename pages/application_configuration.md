@@ -73,7 +73,8 @@ The class {{site.data.javadoc.ApplicationBuilder.LogType}} contains a number of 
 These are the standard logging alternatives.
 
 There are also some Enterprise specific logger name defined for features that are unique to Enterprise features:
-| HasLoggerName        | Enables Logging Related to                                                                |
+
+| HasLoggerName              | Enables Logging Related to                                                                |
 | :------------------------- | :-------------------------------------------------------------------------------- |
 | `LicenseComponent.LICENSE` | Handling of commercial licenses.                                                  |
 | `Aggregator.AGGREGATE`     | Computation of aggregates.                                                        |
