@@ -65,7 +65,7 @@ The class {{site.data.javadoc.ApplicationBuilder.LogType}} contains a number of 
 | `STREAM`             | Querying the data source.                                                                 |
 | `STREAM_OPTIMIZER`   | Stream optimization (e.g. how a stream is rendered to a SQL statement).                   |
 | `UPDATE`             | Updating existing entities from the database.                                             |
-| `TRANSACTION`        | UHandling of transactions.                                                                |
+| `TRANSACTION`        | Handling of transactions.                                                                 |
 | `JOIN`               | Creating and performing table joins.                                                      |
 
 
