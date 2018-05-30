@@ -67,8 +67,6 @@ The class {{site.data.javadoc.ApplicationBuilder.LogType}} contains a number of 
 | `UPDATE`             | Updating existing entities from the database.                                             |
 | `TRANSACTION`        | Handling of transactions.                                                                 |
 | `JOIN`               | Creating and performing table joins.                                                      |
-| `LICENSE`            | Enterprise: Handling of commercial licenses                                               |
-| `AGGREGATE`          | Computation of aggregates.                                                                |
 
 These are the standard logging alternatives.
 
