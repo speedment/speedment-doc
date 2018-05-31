@@ -84,10 +84,6 @@ public class SimpleTwoStepExample {
             return ssc.stream(tableIdentifier, strategy);
         }
 
-        @Override
-        public <ENTITY> void install(TableIdentifier<ENTITY> tableIdentifier, SqlFunction<ResultSet, ENTITY> entityMapper) {
-        }
-
         public void setPreviousStage(SakilaApplication previousStageApp) {
             this.previousStageApp = requireNonNull(previousStageApp);
         }
