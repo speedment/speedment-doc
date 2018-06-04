@@ -511,12 +511,6 @@ entries:
       output: web, pdf
       type: homepage
       
-    - title: Aggregating Columns
-      enterprise: true
-      url: datastore.html#aggregating-columns
-      output: web, pdf
-      type: homepage
-      
     - title: Performance
       enterprise: true
       url: datastore.html#performance

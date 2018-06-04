@@ -104,7 +104,7 @@ You can provide any executor to the `load()` and `reload()` methods like this:
 If you only want to pull in a subset of the database rows, you can use a variant of the load/reload method as shown hereunder:
 ``` java
     final StreamSupplierComponentDecorator decorator = StreamSupplierComponentDecorator.builder()
-        .withStreamDecorator(Film.FILM_ID.identifier().asTableIdentifier(), s -> s.limit(100))
+        .withStreamDecorator(FilmManager.IDENTIFIER, s -> s.limit(100))
         .build();
 
     DataStoreComponent dataStoreComponent = app.getOrThrow(DataStoreComponent.class);
@@ -128,8 +128,8 @@ public static class MyMetaStreamConfigurator implements MetaStreamSupplierConfig
         @Override
         public Stream<TableMapping<Class<? extends StreamSupplierComponent>>> tableMappings() {
             return Stream.of(
-                TableMapping.of(Film.FILM_ID.identifier().asTableIdentifier(), DataStoreStreamSupplierComponent.class),
-                TableMapping.of(Artist.ARTIST_ID.identifier().asTableIdentifier(), SqlStreamSupplierComponent.class)
+                TableMapping.of(FilmManager.IDENTIFIER, DataStoreStreamSupplierComponent.class),
+                TableMapping.of(ArtistManager.IDENTIFIER, SqlStreamSupplierComponent.class)
             );
         }
     }
