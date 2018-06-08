@@ -106,6 +106,16 @@ Here is an example of a pom.xml file setup for Speedment and MySQL that has been
                 <groupId>com.speedment</groupId>
                 <artifactId>speedment-maven-plugin</artifactId>
                 <version>${speedment.version}</version>
+                
+                <dependencies>
+                     <dependency>
+                             <groupId>mysql</groupId>
+                             <artifactId>mysql-connector-java</artifactId>
+                             <version>5.1.46</version>
+                         <scope>runtime</scope>
+                     </dependency>
+                 </dependencies>
+                
             </plugin> 
         </plugins>
     </build>
@@ -120,7 +130,7 @@ Here is an example of a pom.xml file setup for Speedment and MySQL that has been
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.42</version>
+            <version>5.1.46</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
