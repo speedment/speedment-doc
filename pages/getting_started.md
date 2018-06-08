@@ -109,9 +109,9 @@ Here is an example of a pom.xml file setup for Speedment and MySQL that has been
                 
                 <dependencies>
                      <dependency>
-                             <groupId>mysql</groupId>
-                             <artifactId>mysql-connector-java</artifactId>
-                             <version>5.1.46</version>
+                         <groupId>mysql</groupId>
+                         <artifactId>mysql-connector-java</artifactId>
+                         <version>5.1.46</version>
                          <scope>runtime</scope>
                      </dependency>
                  </dependencies>
