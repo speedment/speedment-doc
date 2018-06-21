@@ -31,8 +31,7 @@ Once the file has been saved, the new Maven targets are immediately available to
 
 Set the property `${speedment.version}` to the latest Speedment version released (currently {{ site.data.speedment.version }}). A list of all versions of the Speedment Maven Plugin can be found [here](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.speedment%22%20AND%20a%3A%22speedment-maven-plugin%22).
 
-
-The Speedment Maven Plugin automatically depends on relevant version of open-source JDBC database drivers. These dependencies can be overridden should we want to use another version. In the example below, we override the MySql JDBC version with a newer one:
+Since Speedment generates code from a database, you usually need to specify a JDBC Driver as a dependency so that Speedment knows how to connect to it. In the example below, we specify the MySql JDBC Driver:
 
 ``` xml
     <build>
@@ -52,7 +51,6 @@ The Speedment Maven Plugin automatically depends on relevant version of open-sou
         </plugins>
     </build>
 ```
-
 
 ## Installation Example
 
@@ -78,6 +76,13 @@ Here is an example of a complete POM file that is setup for a Speedment applicat
                 <groupId>com.speedment</groupId>
                 <artifactId>speedment-maven-plugin</artifactId>
                 <version>${speedment.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.46</version>
+                    </dependency>
+                </dependencies> 
             </plugin>
         </plugins>
     </build>
@@ -91,7 +96,7 @@ Here is an example of a complete POM file that is setup for a Speedment applicat
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.40</version>
+            <version>5.1.46</version>
         </dependency>
     </dependencies>
 </project>
