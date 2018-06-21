@@ -461,18 +461,54 @@ Some Componens can be configured directly using the POM file. This is done using
 ```
 Check the documentation for the individual Components to see what parameters can be set.
 
+### Disable Clear-Before-Generate
+The default behvaiour in `speedment-maven-plugin` is that previously generated files are always removed before new ones are generated. To disable this behaviour, you can set the `skipClear` option either in the `speedment.properties`-file or as a parameter in the Maven plugin.
+
+**Using speedment.properties**
+```properties
+skipClear=true
+```
+
+***Using property in pom.xml**
+```xml
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.speedment</groupId>
+                <artifactId>speedment-maven-plugin</artifactId>
+                <version>${speedment.version}</version>
+                <configuration>
+                    <parameters>
+                        <parameter>
+                            <name>skipClear</name>
+                            <value>true</name>
+                        </parameter>
+                    </parameters>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+```
+
+If you call the Maven goal `mvn speedment:clear`, then it will still clear everything, even if the `skipClear` property is set to `true`.
 
 ### Setting Other Plugin POM Parameters 
 A number of Plugin parameters can be set in the POM file as shown in this table:
 
-| Name           | Type     | Purpose                                            | Example     |
-| :------------- | :------- | :------------------------------------------------- | :---------- |
-| debug          | boolean  | Enables debug mode for the plugin                  | true        |
-| dbmsHost       | String   | Sets the dbms host name                            | 192.168.0.4 |         
-| dbmsPort       | int      | Sets the dbms port                                 | 3306        |
-| dbmsUsername   | String   | Sets the dbms username                             | john.smith  |
-| dbmsPassword   | String   | Sets the dbms password                             | W8kAk2H!Eh  | 
-| configFile     | String   | Sets the location of the configuration file        | src/main/json/my_config.json |
+| Name           | Type          | Purpose                                                       | Example                        |
+| :------------- | :------------ | :------------------------------------------------------------ | :----------------------------- |
+| debug          | boolean       | Enables debug mode for the plugin                             | `true`                         |
+| dbms.type      | String        | MySQL, MariaDB, PostgreSQL, Oracle, DB2, SQLServer, etc       | `MySQL`                        |
+| dbms.host      | String        | Sets the dbms host name (or IP-address)                       | `192.168.0.4`                  |
+| dbms.port      | int           | Sets the dbms port                                            | `3306`                         |
+| dbms.schemas   | String        | Schemas to reload from (comma separated)                      | `employees,sakila`             |
+| dbms.username  | String        | Sets the dbms username                                        | `john.smith`                   |
+| dbms.password  | String        | Sets the dbms password                                        | `W8kAk2H!Eh`                   | 
+| configLocation | String        | Sets the location of the configuration file                   | `src/main/json/my_config.json` |
+| parameters     | ConfigParam[] | Additional parameters to inject into Speedment classes        | `<licenseKey></licenseKey>`    |
+| typeMappers    | Mapper[]      | Additional typeMappers to use with `tool` and `generate`      | `<typeMapper></typeMapper>`    |
+| components     | String[]      | Adds one or several components or bundles to the plugin       | `com.company.MyComponent`      |
+| configFile     | String        | Specify a custom location for the `speedment.properties`-file | `<typeMapper></typeMapper>`    |
 
 Here is an example where we set a number of database parameters for the plugins.
 ``` xml
@@ -554,6 +590,23 @@ If you have an automated build, you might not want the generated code to sit in 
 To tell Speedment to generate all code into the `target/generated-sources/`-folder, open the Speedment tool and change the `Package Location` like this. Note that you might have to uncheck `Auto` when you switch from a default option to a custom one.
 
 {% include image.html file="use_generated_sources.png" url="https://www.speedment.com/" alt="Generate Code into the generated-sources folder in the Speedment tool" caption="Change 'Package Location' to use 'target/generated-sources/'" %}
+
+You can also change this without launching the tool by setting the property `packageLocation` directly in the Maven Plugin.
+
+```xml
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.speedment</groupId>
+                <artifactId>speedment-maven-plugin</artifactId>
+                <version>${speedment.version}</version>
+                <configuration>
+                    <packageLocation>target/generated-sources/</packageLocation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+```
 
 ## Speedment Enterprise
 Speedment Enterprise is configured the same way except that we have to use different group and artifact ids. Here is an example of a Speedment Enterprise plugin definition:
@@ -673,20 +726,17 @@ The default value for `licensePath` is `[User Home]/.speedment/.licenses`. If yo
 ## Command Line Parameters
 When running the maven targets, we can set a number of command line parameters to configure the plugins. The following command line parameters are available:
 
-| Name           | Type          | Purpose                                                       | Example                        |
-| :------------- | :------------ | :------------------------------------------------------------ | :----------------------------- |
-| debug          | boolean       | Enables debug mode for the plugin                             | `true`                         |
-| dbms.type      | String        | MySQL, MariaDB, PostgreSQL, Oracle, DB2, SQLServer, etc       | `MySQL`                        |
-| dbms.host      | String        | Sets the dbms host name (or IP-address)                       | `192.168.0.4`                  |
-| dbms.port      | int           | Sets the dbms port                                            | `3306`                         |
-| dbms.schemas   | String        | Schemas to reload from (comma separated)                      | `employees,sakila`             |
-| dbms.username  | String        | Sets the dbms username                                        | `john.smith`                   |
-| dbms.password  | String        | Sets the dbms password                                        | `W8kAk2H!Eh`                   | 
-| configLocation | String        | Sets the location of the configuration file                   | `src/main/json/my_config.json` |
-| parameters     | ConfigParam[] | Additional parameters to inject into Speedment classes        | `<licenseKey></licenseKey>`    |
-| typeMappers    | Mapper[]      | Additional typeMappers to use with `tool` and `generate`      | `<typeMapper></typeMapper>`    |
-| components     | String[]      | Adds one or several components or bundles to the plugin       | `com.company.MyComponent`      |
-| configFile     | String        | Specify a custom location for the `speedment.properties`-file | `<typeMapper></typeMapper>`    |
+| Name             | Type          | Purpose                                                       | Example                        |
+| :--------------- | :------------ | :------------------------------------------------------------ | :----------------------------- |
+| -Ddebug          | boolean       | Enables debug mode for the plugin                             | `true`                         |
+| -Ddbms.type      | String        | MySQL, MariaDB, PostgreSQL, Oracle, DB2, SQLServer, etc       | `MySQL`                        |
+| -Ddbms.host      | String        | Sets the dbms host name (or IP-address)                       | `192.168.0.4`                  |
+| -Ddbms.port      | int           | Sets the dbms port                                            | `3306`                         |
+| -Ddbms.schemas   | String        | Schemas to reload from (comma separated)                      | `employees,sakila`             |
+| -Ddbms.username  | String        | Sets the dbms username                                        | `john.smith`                   |
+| -Ddbms.password  | String        | Sets the dbms password                                        | `W8kAk2H!Eh`                   | 
+| -DconfigLocation | String        | Sets the location of the configuration file                   | `src/main/json/my_config.json` |
+| -DconfigFile     | String        | Specify a custom location for the `speedment.properties`-file | `<typeMapper></typeMapper>`    |
 
 ## Command Line Examples
 Below, a number of command line examples are shown:
