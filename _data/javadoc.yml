@@ -1,26 +1,26 @@
-javadocurl: http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/
+javadocurl: http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/
 
-Manager: "[`Manager`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/core/manager/Manager.html)"
+Manager: "[`Manager`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/core/manager/Manager.html)"
 
-Field: "[`Field`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/field/Field.html)"
-ReferenceField: "[`ReferenceField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/field/ReferenceField.html)"
-ComparableField: "[`ComparableField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/field/ComparableField.html)"
-StringField: "[`StringField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/field/StringField.html)"
+Field: "[`Field`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/field/Field.html)"
+ReferenceField: "[`ReferenceField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/field/ReferenceField.html)"
+ComparableField: "[`ComparableField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/field/ComparableField.html)"
+StringField: "[`StringField`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/field/StringField.html)"
 
-Inclusion: "[`Inclusion`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/field/predicate/Inclusion.html)"
+Inclusion: "[`Inclusion`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/field/predicate/Inclusion.html)"
 
-HasReferenceOperators: "[`HasReferenceOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/field/trait/HasReferenceOperators.html)"
-HasComparableOperators: "[`HasComparableOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/field/trait/HasComparableOperators.html)"
-HasStringOperators: "[`HasStringOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/field/trait/HasStringOperators.html)"
+HasReferenceOperators: "[`HasReferenceOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/field/trait/HasReferenceOperators.html)"
+HasComparableOperators: "[`HasComparableOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/field/trait/HasComparableOperators.html)"
+HasStringOperators: "[`HasStringOperators`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/field/trait/HasStringOperators.html)"
 
-TypeMapper: "[`TypeMapper`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/typemapper/TypeMapper.html)"
+TypeMapper: "[`TypeMapper`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/typemapper/TypeMapper.html)"
 
-InjectBundle: "[`InjectBundle`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/common/injector.InjectBundle.html)"
+InjectBundle: "[`InjectBundle`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/common/injector.InjectBundle.html)"
 
 Tuple: "[`Tuple`](https://github.com/speedment/speedment/tree/master/common-parent/tuple)"
 
-ApplicationBuilder: "[`ApplicationBuilder`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/core/ApplicationBuilder.html)"
-ApplicationBuilder.LogType: "[`ApplicationBuilder.LogType`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.3/com/speedment/runtime/core/ApplicationBuilder.LogType.html)"
+ApplicationBuilder: "[`ApplicationBuilder`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/core/ApplicationBuilder.html)"
+ApplicationBuilder.LogType: "[`ApplicationBuilder.LogType`](http://static.javadoc.io/com.speedment/runtime-deploy/3.1.4/com/speedment/runtime/core/ApplicationBuilder.LogType.html)"
 
 #Java Stuff
 Stream: "[`Stream`](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html)"
