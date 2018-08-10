@@ -107,3 +107,6 @@ description: "Documentation of Speedment. A Java 8 Stream based ORM."
 
 # needed for sitemap.xml file only
 url: http://idratherbewriting.com
+
+gems:
+  - jekyll-pdf
