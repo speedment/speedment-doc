@@ -116,7 +116,7 @@ These are the seven Maven targets in the Speedment Maven Plugin:
 | :------------------------------------- | :------------------------------------------------------------------ | :--- |
 | [tool](maven.html#tool)                | Starts the graphical tool that connects to an existing database     | Yes  |
 | [init](maven.html#init)                | Initializes a new Speedment project (without using Tool)            | No   |
-| [edit](maven.html#init)                | Modifies the speedment.json-file (without using Tool)               | No   |
+| [edit](maven.html#edit)                | Modifies the speedment.json-file (without using Tool)               | No   |
 | [generate](maven.html#generate)        | Generates code from the speedment.json-file (without using Tool)    | No   |
 | [reload](maven.html#reload)            | Reloads meta data and merges changes with the existing config file  | No   |
 | [clear](maven.html#clear)              | Removes all generated code                                          | No   |
@@ -154,12 +154,13 @@ Typically, you will want to specify atleast `-Ddbms.schemas` and `-Ddbms.type` t
 By using the `speedment:init` target we can search and insert/replace something in the `speedment.json`-file without having to do it manually in the tool. A common use case for this is to batch-disable multiple tables that you don't need or to change the `typeMapper` of all columns of a particular type.
 
 The following parameters are available:
-| Parameter     | Optional |
-| :------------ | :------- |
-| -Dset         | No       |
-| -Dwhere       | Yes*     |
-| -Dwhat        | Tes*     |
-*The default behaviour is that all objects are matched. 
+| Parameter     | Optional | Type                      |
+| :------------ | :------- | :------------------------ |
+| -Dset         | No       | <key>:<value>             |
+| -Dwhere       | Yes*     | <key>:<regex>             |
+| -Dwhat        | Yes*     | Project, Dbms, Table, etc |
+| -Ddelete      | Yes      | Boolean (default `false`) |
+*The default behaviour is that all objects are matched.
 
 **-Dset=[KEY]:[VALUE]**
 This parameter is required. It specified which JSON-attribute to edit or create, and the new value. If the attribute doesn't exist, then it will be created in every JSON object that matches the condition.
@@ -180,6 +181,17 @@ Note that the search engine doesn't take default values into consideration. Even
 
 **-Dwhat=[TYPE]**
 The type of objects to match. This parameter is optional. This is case insensitive and can take many different forms. Typical values are either `project`, `dbms`, `schema`, `table`, `column`, `primarykeycolumn`, `index`, `indexcolumn`, `foreignkey` or `foreignkeycolumn`. This parameter is optional, and if left out, then the set-operation will be used on all otherwise matched objects. If the parameter is used togather with `-Dwhere=`, then the last expression will beapplied to objects of this type, the second-last expression will be applied to its parent and so on.
+
+**-Ddelete=[BOOL]**
+This parameter can be used to delete matched nodes from the speedment.json-file. It is therefore used as an alternative to `-Dset=` that simply modifies matched nodes.
+
+Removes all disabled tables:
+```shell
+mvn speedment:edit \
+  -Dwhat=table \
+  -Dwhere=enabled:false \
+  -Ddelete=true
+```
 
 #### Usage
 Here are some examples on how it can be used:
