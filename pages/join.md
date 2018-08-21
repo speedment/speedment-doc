@@ -316,7 +316,7 @@ The predicates used in the `where()` clause cannot be annonymous lambdas because
 The current API does not support general join conditions with several join expressions. This limitation can be overcomed if the Enterprise Version is used under some condictions see below.
 
 
-## Enterprise Join Features {% include star.html }
+## Enterprise Join Features
 
 The fetures described in this chapter are only available in Speedment Enterprise
 
