@@ -160,6 +160,7 @@ The following parameters are available:
 | -Dwhere       | Yes*     | <key>:<regex>             |
 | -Dwhat        | Yes*     | Project, Dbms, Table, etc |
 | -Ddelete      | Yes      | Boolean (default `false`) |
+
 *The default behaviour is that all objects are matched.
 
 **-Dset=[KEY]:[VALUE]**
