@@ -154,6 +154,7 @@ Typically, you will want to specify atleast `-Ddbms.schemas` and `-Ddbms.type` t
 By using the `speedment:init` target we can search and insert/replace something in the `speedment.json`-file without having to do it manually in the tool. A common use case for this is to batch-disable multiple tables that you don't need or to change the `typeMapper` of all columns of a particular type.
 
 The following parameters are available:
+
 | Parameter     | Optional | Type                      |
 | :------------ | :------- | :------------------------ |
 | -Dset         | No       | <key>:<value>             |
