@@ -26,7 +26,7 @@ As we will see, the functional references are often useful when composing stream
 
 ## Create with Persist
 The `persist()` and `persister()` methods persist a provided entity to the underlying database and return a potentially updated entity. If the persistence fails for any reason, an unchecked `SpeedmentException` is thrown.
-The fields of returned entity instance may differ from the provided entity fields due to auto-generated column(s) or because of any other modification that the underlying database imposed on the persisted entity.
+The fields of returned entity instance may differ from the provided entity fields due to auto-generated key column(s).
 
 Here is an example of how to create a new language in the Sakila database using the `persist()` method:
 ``` java
@@ -64,9 +64,15 @@ Grouping several persist operations in a single transaction will often improve p
 " %}
 
 {% include important.html content= "
-The `persist()` operation will return an entity that is updated with auto-generated keys from the database (if any). Remember that you have to query the database to make sure that you have the latest version of your entity that was stored in the database.
+The `persist()` operation will return an entity that is updated with auto-generated keys from the database (if any) nut not default and trigger calculated column values. Remember that you have to query the database to make sure that you have the latest version of your entity that was stored in the database.
 " %}
 
+### Persist Field Handling
+Beginning from Speedment version 3.1.5, changes to an entity made via its setters will be tracked using a set of modification flags. These modifiaction flags are subsequently used
+by the persister to determine which fields shall be conveyed to the database using a corresponding SQL `INSERT` statement. Flagged fields are sent to the database where as their un-flagged counterparts are not.
+This scheme allows default column values in the database to be honored properly. This means, for example, that if a `null` value is to be inserted in the database, the corresponding setter must be invoked with a `null` argument, or else the field will not be flagged for `INSERT` inclusion.
+
+If a primary key field is changed, all modification flags are implicitly set because in that case, it is equivalent that the entity (representing the new primary key(s)) are all derived from the same entity (representing the old primary key(s)).
 
 ## Read with Stream
 
@@ -117,8 +123,16 @@ Grouping several update operations in a single transaction will often improve pe
 " %}
 
 {% include important.html content= "
-The `update()` operation will return an entity that may be updated with auto-generated keys from the database (if any) and other fields. Remember that you have to query the database to make sure that you have the exact version of your entity that was stored in the database. If the update operation fails, a `SpeedmentException` will be thrown.
+Only the database is updated, the entity itself will not be updated by the updater. If the database impose additional modifications (e.g. via triggers) to columns, they are not seen in the entity. Remember that you have to query the database to make sure that you have the exact version of your entity that was stored in the database. If the update operation fails, a `SpeedmentException` will be thrown.
 " %}
+
+### Update Field Handling
+Beginning from Speedment version 3.1.5, changes to an entity made via its setters will be tracked using a set of modification flags. These modifiaction flags are subsequently used
+by the updater to determine which fields shall be conveyed to the database using a corresponding SQL `UPDATE` statement. Flagged fields are sent to the database where as their un-flagged counterparts are not.
+
+If a primary key field is changed, all modification flags are implicitly set because in that case, it is equivalent that the entity (representing the new primary key(s)) are all derived from the same entity (representing the old primary key(s)).
+
+
 
 ## Delete with Remove
 The `remove()` and `remover()` methods remove a provided entity from the underlying database and returns the provided entity instance. If the deletion fails for any reason, an unchecked `SpeedmentException` is thrown.
