@@ -316,7 +316,7 @@ The predicates used in the `where()` clause cannot be annonymous lambdas because
 The current API does not support general join conditions with several join expressions. This limitation can be overcomed if the Enterprise Version is used under some condictions. See [stream joins](#stream-joins) below.
 
 
-## Enterprise Join Features
+## Enterprise Join Features {% include star.html %}
 
 The fetures described in this chapter are only available in Speedment Enterprise
 
@@ -330,16 +330,16 @@ The stream join features are available via the `StreamJoinUtil` class. Here is a
     import static com.speedment.enterprise.join.StreamJoinUtil.JoinStream.innerJoin;
     import static com.speedment.enterprise.join.StreamJoinUtil.streamJoin;
 
-        Supplier<Stream<Integer>> s0 = () -> Stream.of(1, 2, 3);
-        Function<Integer, Stream<String>> j1 = i -> IntStream.of(i * 2, i * 2 + 1).mapToObj(Integer::toString);
+    Supplier<Stream<Integer>> s0 = () -> Stream.of(1, 2, 3);
+    Function<Integer, Stream<String>> j1 = i -> IntStream.of(i * 2, i * 2 + 1).mapToObj(Integer::toString);
 
-        final Join<Tuple2<Integer, String>> join = streamJoin(
-            s0,
-            innerJoin(j1),
-            Tuples::of
-        );
+    final Join<Tuple2<Integer, String>> join = streamJoin(
+        s0,
+        innerJoin(j1),
+        Tuples::of
+    );
 
-        join.stream().forEachOrdered(System.out::println);
+    join.stream().forEachOrdered(System.out::println);
 ```
 
 This will produce the follwoing oputpt:
@@ -364,7 +364,7 @@ Thus, we have joined two regular Streams. Here is another example where we join 
         Tuples::of
      )
 ```
-Because we are using pure streams, we can apply any stream operaions including mapping and flat mapping.
+Because we are using pure streams, we can apply *any* stream operaions including mapping and flat mapping.
 
 It should be noted that the stream join feture will not be able to optimize away object creation under most conditions. Instead, an exchaustive cartesian produce will be produced by the Join object upon stream invocation.
 
