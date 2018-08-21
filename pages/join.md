@@ -322,7 +322,7 @@ The fetures described in this chapter are only available in Speedment Enterprise
 
 ### Stream Joins {% include star.html %}
 
-The Enterprise Verions of Speedment comes with general joining of Streams whereby any stream types can be joined (left or inner joins) to an initial stream. Any Stream source can be used including Speedment streams and vanilla custom Streams.
+The Enterprise Verions of Speedment come with general joining of Streams whereby any type of stream can be joined (using left or inner joins) to an initial stream. Any Stream source can be used including Speedment streams and vanilla custom Streams.
 
 The stream join features are available via the `StreamJoinUtil` class. Here is an example of how to use stream joins:
 
@@ -359,7 +359,7 @@ Thus, we have joined two regular Streams. Here is another example where we join 
         innerJoin(t0 ->
             t1Manager.stream()
             .filter(T1.COL_A.equal(t0.getColA()))
-            .filter(T1.COL_B.equal(t1.getColB()))
+            .filter(T1.COL_B.equal(t0.getColB()))
         ),
         Tuples::of
      )
