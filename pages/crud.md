@@ -77,6 +77,8 @@ If a primary key field is changed, all modification flags are implicitly set bec
 
 Setting a field to the same value it alredy has, will set its modification flag.
 
+Following a successful persistence to the database, all modification flags are cleared.
+
 ## Read with Stream
 
 Speedment streams are described extensively in other parts of this manual for example in the [Speedment Examples](https://speedment.github.io/speedment-doc/speedment_examples.html#top) chapter.
@@ -138,6 +140,8 @@ This scheme makes sure that only touched fields are updated in the database impr
 If a primary key field is changed, all modification flags are implicitly set because in that case, it is equivalent that the entity (representing the new primary key(s)) are all derived from the same entity (representing the old primary key(s)).
 
 Setting a field to the same value it alredy has, will set its modification flag.
+
+Following a successful update of the database, all modification flags are cleared.
 
 
 ## Delete with Remove

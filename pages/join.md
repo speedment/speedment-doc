@@ -364,7 +364,7 @@ Thus, we have joined two regular Streams. Here is another example where we join 
         Tuples::of
      )
 ```
-Because we are using pure streams, we can apply *any* stream operaions including mapping and flat mapping.
+Because we are using pure streams, we can apply *any* stream operaion including mapping and flat mapping.
 
 It should be noted that the stream join feture will not be able to optimize away object creation under most conditions. Instead, an exchaustive cartesian produce will be produced by the Join object upon stream invocation.
 
