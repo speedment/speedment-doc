@@ -71,7 +71,7 @@ The `persist()` operation will return an entity that is updated with auto-genera
 Beginning from Speedment version 3.1.5, changes to an entity made via its setters will be tracked using a set of modification flags. These modifiaction flags are subsequently used
 by the persister to determine which fields shall be conveyed to the database using a corresponding SQL `INSERT` statement. Flagged fields are sent to the database where as their un-flagged counterparts are not.
 
-This scheme allows default column values in the database to be honored properly. This means, for example, that if a `null` value is to be inserted in the database, the corresponding setter must be invoked with a `null` argument, or else the field will not be flagged for `INSERT` inclusion.
+This scheme allows default column values in the database to be honored properly. This also means that if a `null` value is to be inserted in the database, the corresponding setter must be invoked with a `null` argument, or else the field will not be flagged for `INSERT` inclusion.
 
 If a primary key field is changed, all modification flags are implicitly set because in that case, it is equivalent that the entity (representing the new primary key(s)) are all derived from the same entity (representing the old primary key(s)).
 
@@ -133,7 +133,7 @@ Only the database is updated, the entity itself will not be updated by the updat
 Beginning from Speedment version 3.1.5, changes to an entity made via its setters will be tracked using a set of modification flags. These modifiaction flags are subsequently used
 by the updater to determine which fields shall be conveyed to the database using a corresponding SQL `UPDATE` statement. Flagged fields are sent to the database where as their un-flagged counterparts are not.
 
-This scheme makes sure that only touched fields are updated in the database improving performance and reducing the risk of inconsistencies due to overwritten column values. This means, for example, that if a `null` value is to be used in an update ofthe database, the corresponding setter must be invoked with a `null` argument, or else the field will not be flagged for `INSERT` inclusion.
+This scheme makes sure that only touched fields are updated in the database improving performance and reducing the risk of inconsistencies due to overwritten column values.
 
 If a primary key field is changed, all modification flags are implicitly set because in that case, it is equivalent that the entity (representing the new primary key(s)) are all derived from the same entity (representing the old primary key(s)).
 
