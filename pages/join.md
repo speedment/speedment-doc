@@ -271,13 +271,14 @@ Here is an example of a self join where Actors with the same first name are matc
 
     Join<Tuple2<Actor, Actor>> join = joinComponent
         .from(ActorManager.IDENTIFIER)
-        .innerJoinOn(Actor.FIRST_NAME).equal(Actor.FIRST_NAME)
+        .innerJoinOn(Actor.FIRST_NAME.tableAlias("B")).equal(Actor.FIRST_NAME)
         .build(Tuples::of);
 
     join.stream()
         .forEach(System.out::println);
 
 ```
+Note that we need to alias the table in the `innerJoinOn()` method to distiguish it from the original Actor table.
 
 This might produce the following output:
 ``` text
@@ -294,11 +295,80 @@ See other join examples in the manual here:
 [Many-to-One](https://speedment.github.io/speedment-doc/speedment_examples.html#many-to-one-relations) 
 [Many-to-Many](https://speedment.github.io/speedment-doc/speedment_examples.html#many-to-many-relations)
 
+## Joining Tables Several Times
+If there is a Join that mentions the same table several times, we need to specify which of these table instances we want to use when specifying join conditions. This can be done using the `tableAlias()` method as depicted below:
+
+``` java
+
+    Join<Tuple3<Actor, Actor, Actor>> join = joinComponent
+        .from(ActorManager.IDENTIFIER)
+        .innerJoinOn(Actor.FIRST_NAME.tableAlias("B")).equal(Actor.FIRST_NAME) // Join with the initial table
+        .innerJoinOn(Actor.LAST_NAME.tableAlias("C")).equal(Actor.LAST_NAME.tableAlias("B")) // Join with the second table
+        .build(Tuples::of);
+```
+
+
 ## Limitations
 The current API supports joining of up to ten (10) tables.
 
-If there is a Join that contains the same table several times, there might be cases where we are not able to specify which of these table instances we want to use when specifying join conditions. For example, self-joins of levels greater or equal to three will resolve predicates to the first variant of the table. Currently, the API does not allow us to specify other instances of the table.
+The predicates used in the `where()` clause cannot be annonymous lambdas because they must be renderable to SQL.
 
+The current API does not support general join conditions with several join expressions. This limitation can be overcomed if the Enterprise Version is used under some condictions see below.
+
+
+## Enterprise Join Features {% include star.html }
+
+The fetures described in this chapter are only available in Speedment Enterprise
+
+### Stream Joins
+
+The Enterprise Verions of Speedment comes with general joining of Streams whereby any stream types can be joined (left or inner joins) to an initial stream. Any Stream source can be used including Speedment streams and vanilla custom Streams.
+
+The stream join features are available via the `StreamJoinUtil` class. Here is an example of how to use stream joins:
+
+``` java
+    import static com.speedment.enterprise.join.StreamJoinUtil.JoinStream.innerJoin;
+    import static com.speedment.enterprise.join.StreamJoinUtil.streamJoin;
+
+        Supplier<Stream<Integer>> s0 = () -> Stream.of(1, 2, 3);
+        Function<Integer, Stream<String>> j1 = i -> IntStream.of(i * 2, i * 2 + 1).mapToObj(Integer::toString);
+
+        final Join<Tuple2<Integer, String>> join = streamJoin(
+            s0,
+            innerJoin(j1),
+            Tuples::of
+        );
+
+        join.stream().forEachOrdered(System.out::println);
+```
+
+This will produce the follwoing oputpt:
+``` text
+Tuple2Impl {1, 2}
+Tuple2Impl {1, 3}
+Tuple2Impl {2, 4}
+Tuple2Impl {2, 5}
+Tuple2Impl {3, 6}
+Tuple2Impl {3, 7}
+```
+Thus, we have joined two regular Streams. Here is another example where we join two Speedment streams of type T0 and T1 using a composite key consisting of the columns "col_a" and "col_b":
+
+``` java
+    Join<Tuples2<T0, T1>> join = streamJoin(
+        t0Manager::stream,
+        innerJoin(t0 ->
+            t1Manager.stream()
+            .filter(T1.COL_A.equal(t0.getColA()))
+            .filter(T1.COL_B.equal(t1.getColB()))
+        ),
+        Tuples::of
+     )
+```
+Because we are using pure streams, we can apply any stream operaions including mapping and flat mapping.
+
+It should be noted that the stream join feture will not be able to optimize away object creation under most conditions. Instead, an exchaustive cartesian produce will be produced by the Join object upon stream invocation.
+
+Currently, stream joins up to 5 levels are supported and joins can only be made with the initial stream.
 
 
 {% include prev_next.html %}
