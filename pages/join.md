@@ -313,7 +313,7 @@ The current API supports joining of up to ten (10) tables.
 
 The predicates used in the `where()` clause cannot be annonymous lambdas because they must be renderable to SQL.
 
-The current API does not support general join conditions with several join expressions. This limitation can be overcomed if the Enterprise Version is used under some condictions see below.
+The current API does not support general join conditions with several join expressions. This limitation can be overcomed if the Enterprise Version is used under some condictions. See [stream joins](#stream-joins) below.
 
 
 ## Enterprise Join Features
