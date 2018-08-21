@@ -318,9 +318,9 @@ The current API does not support general join conditions with several join expre
 
 ## Enterprise Join Features {% include star.html %}
 
-The fetures described in this chapter are only available in Speedment Enterprise
+The fetures described in this chapter are only available in Speedment Enterprise.
 
-### Stream Joins
+### Stream Joins {% include star.html %}
 
 The Enterprise Verions of Speedment comes with general joining of Streams whereby any stream types can be joined (left or inner joins) to an initial stream. Any Stream source can be used including Speedment streams and vanilla custom Streams.
 
