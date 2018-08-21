@@ -267,6 +267,12 @@ entries:
       output: web, pdf
       type: homepage
 
+    - title: Enterprise Join Features
+      url: join.html#enterprise-join-features-
+      enterprise: true
+      output: web, pdf
+      type: homepage
+
   - title: CRUD Operations
     url: crud.html#top
     output: web, pdf
