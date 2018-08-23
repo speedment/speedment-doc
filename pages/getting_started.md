@@ -97,7 +97,7 @@ Here is an example of a pom.xml file setup for Speedment and MySQL that has been
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <speedment.version>3.1.4</speedment.version>
+        <speedment.version>3.1.5</speedment.version>
     </properties>    
     
     <build>
