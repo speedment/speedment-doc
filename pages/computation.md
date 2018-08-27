@@ -5,7 +5,7 @@ title: General Computation
 keywords: Data Store, Computation, Compute
 toc: false
 Tags: Compute
-previous: datastore.html
+previous: sharding.html
 next: enterprise_plugins.html
 ---
 
