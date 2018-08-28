@@ -18,10 +18,11 @@ For example, if we have a number of countries, we can shard them using the first
 Sharded Speedment instances come in two different flavors:
 
 `ShardedSpeedment` which is using immutable sharding with ahead-of-time sharding key
+
 `MutableShardedSpeedment` which can use dynamic sharding keys discovered at run-time
 
 ### Immutable Sharding
-Immutable sharding means that the set of shard keys will be defined ahead-of-time. Once all shards has been defined, they can all
+Immutable sharding means that the set of shard keys will be defined ahead-of-time. Once all shards has been defined, their corresponding data sets can all
 be loaded into memory in a single operation and once loaded, they are instantly available.
 
 The following example will shard all countries that starts with an "A" in one shard and all the countries that starts with a "B" in another shard. Countries that begins with any other letter will not be loaded at all and cannot be accessed.
@@ -110,7 +111,7 @@ CountryImpl { id = 105, abbrevation = IO, name = British Indian Ocean Territory,
 
 
 ### Mutable Sharding
-Mutable sharding means that the set of shard key can be dynamically managed (added and removed) on demand. Thus, the set of chard keys must not be known in advance. However, when a new shard is first used, the
+Mutable sharding means that the set of shard key can be dynamically managed (added and removed) on demand. Thus, the set of shard keys must not be known in advance. However, when a new shard is first used, the
 data set corresponding to that shard must be loaded into memory, implying an initial first time delay.
 
 The following example will shard countries on demand as shard keys are first seen.
@@ -157,7 +158,7 @@ shardedSpeedemnt.close();
 
 This will produce the same output as the immutable shard example above.
 
-### Integer Shard Keys
+### Shard Keys of Type int
 There is a specialized `IntShardedSpeedment` implemetation that can be used if shard keys are of the primitive type `int`. The following example shows how it can be used to shard countries on regions rather than on first-letter-names.
 
 ``` java
