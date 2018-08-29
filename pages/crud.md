@@ -68,12 +68,12 @@ The `persist()` operation will return an entity that is updated with auto-genera
 " %}
 
 ### Selecting fields to persist
-By default, the persister returned from `persister()` will persist the values of all non-generated fields of the given entity. 
-In some cases, for example for values that have defaults, it is useful to be able to exclude some fields from the database persistence
-operation. This can be done by supplying a field set definition when retrieving the persister. 
+By default, the persister will persist the values of all non-generated fields of the given entity. 
+In some cases it is useful to be able to exclude some fields from the database persistence
+operation. This can be done by supplying a `FieldSet` when retrieving the persister. 
 
 Assume that the `Language` table in the database has a field called `REF` for which `null` values are not allowed, but
-the database will create a useful default value if none is given. In such a situation it is useful to be able to instruct
+the database will create a default value if none is given. In such a situation it is useful to be able to instruct
 Speedment not to mention that field in the `SQL INSERT` statement.
 
 The following code will use SQL statements that do not mention the REF of the Language. In case the
@@ -88,7 +88,7 @@ value that equals `null`, since REF is not explicitly set in the `LanguageImpl`.
 ``` 
 
 Analogously, the fields to use can be given in a white-list. The following persister will yield `INSERT` statements
-that only set the `NAME` column.
+that only explicitly sets the `NAME` column.
 
 ``` java
     Persister<Language> persister = languages.persister(FieldSet.of(Language.NAME));
