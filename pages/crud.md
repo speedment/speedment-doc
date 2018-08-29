@@ -67,15 +67,19 @@ Grouping several persist operations in a single transaction will often improve p
 The `persist()` operation will return an entity that is updated with auto-generated keys from the database (if any) nut not default and trigger calculated column values. Remember that you have to query the database to make sure that you have the latest version of your entity that was stored in the database.
 " %}
 
-### Persist Field Handling
-Beginning from Speedment version 3.1.5, changes to an entity made via its setters will be tracked using a set of modification flags. These modifiaction flags are subsequently used
-by the persister to determine which fields shall be conveyed to the database using a corresponding SQL `INSERT` statement. Flagged fields are sent to the database where as their un-flagged counterparts are not.
+### Selecting fields to persist
+By default, the persister returned from `persister()` will persist the values of all non-generated fields of the given entity. 
+In some cases, for example for values that have defaults, it is useful to be able to exclude some fields from the database persistence
+operation. This can be done by supplying a field set definition when retrieving the persister. 
 
-This scheme allows default column values in the database to be honored properly. This also means that if a `null` value is to be inserted in the database, the corresponding setter must be invoked with a `null` argument, or else the field will not be flagged for `INSERT` inclusion.
+Assume that the `Language` table in the database has a field called `REF` for which `null` values are not allowed, but
+the database will create a useful default value if none is given. In such a situation it is useful to be able to instruct
+Speedment not to mention that field in the `SQL INSERT` statement.
 
-If a primary key field is changed, all modification flags are implicitly set because in that case, it is equivalent that the entity (representing the new primary key(s)) are all derived from the same entity (representing the old primary key(s)).
+The following code will use SQL statements that do not mention the REF of the Language. In case the
+default persister was used, the `INSERT` statement would have tried to insert the Language with a `REF` 
+value that equals `null`, since REF is not explicitly set in the `LanguageImpl`.
 
-Setting a field to the same value it alredy has, will set its modification flag.
 
 Following a successful persistence to the database, all modification flags are cleared.
 
