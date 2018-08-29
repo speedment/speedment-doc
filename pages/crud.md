@@ -147,11 +147,54 @@ Grouping several update operations in a single transaction will often improve pe
 Only the database is updated, the entity itself will not be updated by the updater. If the database impose additional modifications (e.g. via triggers) to columns, they are not seen in the entity. Remember that you have to query the database to make sure that you have the exact version of your entity that was stored in the database. If the update operation fails, a `SpeedmentException` will be thrown.
 " %}
 
+### Selecting Fields to Update
+By default, the updater returned from `updater()` will update the values of all non-generated fields of the given entity. 
+In some cases, for example when updating a particular field, it is useful to be able to exclude some fields from the database update
+operation. This can be done since Speedment 3.1.6 by supplying a field set definition when retrieving the updater. 
 
+The following code will use SQL `UPDATE` statements that only refer to the `NAME` field (in addition to the 
+primary keys, of course). If the default updater were used instead, the `UPDATE` statement 
+would set all fields.
 
+``` java
+    Updater<Language> updater = languages.updater(FieldSet.of(Language.NAME));
+    languages.stream()
+        .map(ln -> ln.setName(ln.getName() + " 2"))
+        .forEach(updater);
+``` 
 
+#### Piecewise Definition of FieldSets
+As described above, both persisters and updaters can be created to apply only to a subset of the fields
+of the entity. This is done by supplying a `FieldSet` that determines the fields to use. In addition to the 
+`FieldSet.allExcept()` and `FieldSet.of()` methods, there is a way to iteratively build a `FieldSet`. 
 
+This can be done by starting with the empty set of fields and iteratively adding the fields,
 
+``` java
+    FieldSet<Language> fields = FieldSet.noneOf(Language.class);  // The empty set of fields
+    fields = fields.add(Language.NAME);
+    languages.persister(fields).apply(language);  // Will persist the language entity by only mentioning name    
+```
+
+or by starting with all fields and excluding unwanted fields.
+
+``` java
+    FieldSet<Language> fields = FieldSet.allOf(Language.class);  // All fields of the Language
+    fields = fields.except(Language.REF);
+    languages.persister(fields).apply(language);  // Will persist the language entity by mentioning all fields wxcept the `REF` field.    
+```
+
+More elaborate chaining is also allowed, meaning that  
+
+``` java
+    manager.updater(FieldSet.of(F1, F2, F3, F4).and(F5).except(F4).except(F1))
+```
+
+is a complicated way of expressing the same set of fields as
+
+``` java
+    manager.updater(FieldSet.of(F2, F3, F5))
+```
 
 ## Delete with Remove
 The `remove()` and `remover()` methods remove a provided entity from the underlying database and returns the provided entity instance. If the deletion fails for any reason, an unchecked `SpeedmentException` is thrown.
