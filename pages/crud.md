@@ -80,8 +80,20 @@ The following code will use SQL statements that do not mention the REF of the La
 default persister was used, the `INSERT` statement would have tried to insert the Language with a `REF` 
 value that equals `null`, since REF is not explicitly set in the `LanguageImpl`.
 
+``` java
+    Persister<Language> persister = languages.persister(FieldSet.allExcept(Language.REF));
+    Stream.of("Italiano", "Español")
+        .map(ln -> new LanguageImpl().setName(ln))
+        .forEach(persister);
+``` 
 
-Following a successful persistence to the database, all modification flags are cleared.
+Analogously, the fields to use can be given in a white-list. The following persister will yield `INSERT` statements
+that only set the `NAME` column.
+
+``` java
+    Persister<Language> persister = languages.persister(FieldSet.of(Language.NAME));
+``` 
+
 
 ## Read with Stream
 
