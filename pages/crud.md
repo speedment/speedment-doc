@@ -70,7 +70,7 @@ The `persist()` operation will return an entity that is updated with auto-genera
 ### Selecting fields to persist
 By default, the persister will persist the values of all non-generated fields of the given entity. 
 In some cases it is useful to be able to exclude some fields from the database persistence
-operation. This can be done by supplying a `FieldSet` when retrieving the persister. 
+operation. This can be done since Speedment 3.1.6 by supplying a `FieldSet` when retrieving the persister. 
 
 Assume that the `Language` table in the database has a field called `REF` for which `null` values are not allowed, but
 the database will create a default value if none is given. In such a situation it is useful to be able to instruct
