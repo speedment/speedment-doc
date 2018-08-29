@@ -147,17 +147,10 @@ Grouping several update operations in a single transaction will often improve pe
 Only the database is updated, the entity itself will not be updated by the updater. If the database impose additional modifications (e.g. via triggers) to columns, they are not seen in the entity. Remember that you have to query the database to make sure that you have the exact version of your entity that was stored in the database. If the update operation fails, a `SpeedmentException` will be thrown.
 " %}
 
-### Update Field Handling
-Beginning from Speedment version 3.1.5, changes to an entity made via its setters will be tracked using a set of modification flags. These modifiaction flags are subsequently used
-by the updater to determine which fields shall be conveyed to the database using a corresponding SQL `UPDATE` statement. Flagged fields are sent to the database where as their un-flagged counterparts are not.
 
-This scheme makes sure that only touched fields are updated in the database improving performance and reducing the risk of inconsistencies due to overwritten column values.
 
-If a primary key field is changed, all modification flags are implicitly set because in that case, it is equivalent that the entity (representing the new primary key(s)) are all derived from the same entity (representing the old primary key(s)).
 
-Setting a field to the same value it alredy has, will set its modification flag.
 
-Following a successful update of the database, all modification flags are cleared.
 
 
 ## Delete with Remove
