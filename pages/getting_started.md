@@ -163,7 +163,7 @@ Here is an example of a pom.xml file setup for [Speedment Enterprise](datastore#
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <speedment.enterprise.version>3.1.5</speedment.enterprise.version>
+    <speedment.enterprise.version>3.1.7</speedment.enterprise.version>
   </properties>
   
   <dependencies>
