@@ -46,28 +46,9 @@ So, when you need to use a `Manager` in a Spring MVC Controller, you can now sim
 private @Autowired FilmManager films;
 ```
 
-There is a specific Spring Boot plugin that you can add to your speedment maven plugin that will automatically generate Spring Boot configuration classes. This is how you add the Spring Boot plugin to you project:
-``` xml
-        <plugin>
-            <groupId>com.speedment</groupId>
-            <artifactId>speedment-maven-plugin</artifactId>
-            <version>${speedment.version}</version>
-            <dependencies>
-                <dependency>
-                    <groupId>com.speedment.plugins</groupId>
-                    <artifactId>spring-generator</artifactId>
-                    <version>${speedment.version}</version>
-                </dependency>
-            </dependencies>
-            <configuration>
-                <components>
-                    <component>com.speedment.plugins.spring.SpringGeneratorBundle</component>
-                </components>
-            </configuration>
-        </plugin> 
-```
+There is a specific Spring Boot plugin that you can add to your speedment maven plugin of you use the Enterprise version.
 
-Read more on how to use the Speedment Spring Boot plugin [here](https://github.com/speedment/speedment/wiki/Tutorial:-Speedment-Spring-Boot-Integration)
+Read more on how to use the Speedment with Spring Boot [here](https://github.com/speedment/speedment/wiki/Tutorial:-Speedment-Spring-Boot-Integration)
 
 
 ## Java EE
