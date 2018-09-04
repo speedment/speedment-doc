@@ -18,6 +18,11 @@ Stream, collect and aggregate JSON representations of database entities in a ver
 
 [Read More](enterprise_json#top)
 
+### Spring Boot REST/JSON Plugin
+Generates Spring Boot configurations automatically. Optionally generates complete REST API endpoints for your entire database schema.
+
+[Read More](enterprise_spring#top)
+
 ### Enum Serializer Plugin
 Convert String columns into Java Enums to reduce memory usage and get a cleaner API.
 

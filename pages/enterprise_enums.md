@@ -6,7 +6,7 @@ keywords: Serializer, Enum, Enterprise, Plugin
 enterprise: true
 toc: false
 Tags: Serializer, Enum, Enterprise, Plugin
-previous: enterprise_json.html
+previous: enterprise_spring.html
 next: enterprise_virtualcolumns.html
 ---
 

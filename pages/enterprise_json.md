@@ -6,8 +6,8 @@ keywords: Encoder, JSON, Enterprise, Aggregate
 enterprise: true
 toc: false
 Tags: Encoder, JSON, Enterprise, Aggregate
-previous: 
-next: enterprise_enums.html
+previous: enterprise_plugins.html
+next: enterprise_spring.html
 ---
 
 {% include prev_next.html %}
