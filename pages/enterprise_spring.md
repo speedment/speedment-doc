@@ -18,16 +18,26 @@ The plugin can also generate complete REST endpints for tables and views. These 
 
 
 ### Integration
-To include the Enterprise Spring Boot Plugin in your Speedment project, add the following maven plugin:
-
+To include the Enterprise Spring Boot Plugin in your Speedment project, add the `SpringGeneratorBundle` to the speedment enterprise maven plugin:
 ```xml
-<dependency>
-    <groupId>com.speedment.enterprise.plugins</groupId>
-    <artifactId>spring-runtime</artifactId>
-    <version>${speedment.enterprise.version}</version>
-</dependency>
-```
+<plugin>
+    <groupId>com.speedment.enterprise</groupId>
+    <artifactId>speedment-enterprise-maven-plugin</artifactId>
+    <version>${speedment.version}</version>
 
+    <configuration>
+        <components>
+            <component>com.speedment.enterprise.plugins.spring.SpringGeneratorBundle</component>
+        </components>
+        <appName>${project.artifactId}</appName>
+        <packageName>${project.groupId}</packageName>
+     </configuration>
+
+     ...
+
+</plugin>
+
+```
 
 In order to run a Spring Boot/Speedment application, you also need to include the Enterprise Spring Boot Plugin runtime dependency in your Speedment project:
 
@@ -39,27 +49,25 @@ In order to run a Spring Boot/Speedment application, you also need to include th
 </dependency>
 ```
 
-To activate the plugin in the code, simply add the plugin bundle class to the Speedment Application Builder:
+### Spring Configuration
+TBW
 
-```java
-public static void main(String... args) {
-    final SakilaApplication app = new SakilaApplicationBuilder()
-        .withBundle(DatastoreBundle.class) // Only if Datastore is used
-        .withBundle(JsonBundle.class)      // The Enterprise JSON Plugin
-        .withUsername("")
-        .withPassword("")
-        .build();
-        
-    // The following instances are used in the examples:
-    final FilmManager films  = app.getOrThrow(FilmManager.class);
-    final JsonComponent json = app.getOrThrow(JsonComponent.class);
-    
-    ...
-}
-```
+### Application Settings
+There are a number of custom application settings that can be set without modifying any code:
 
-## TBW
-Tbw
+| Name                      | Meaning |
+| :------------------------ | :-------|
+| spring.speedment.password | The database password credential to be used when loging into the backing database |
+| spring.speedment.username | The database username credential to be used when loging into the backing database. If not set, uses the same username that was used for code generation |
+| spring.speedment.host     | The database host name to be used when connecting to the backing database. If not set, uses the same address that was used for code generation|
+| spring.speedment.port     | The port number of the Spring web server (1 - 65535). If not set, uses the same port that was used for code generation |
+| spring.speedment.logging  | If set to `true`, enables logging of various evenst such as streaming and application build |
+| spring.speedment.url      | The database connection URL to be used when connecting to the backing database. If not set, a default conneciton URL is used|
+
+These parameters can be set on the command line or in a resource file.
+
+### REST Controllers
+TBW
 
 {% include prev_next.html %}
 
