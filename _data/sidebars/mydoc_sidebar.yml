@@ -588,6 +588,12 @@ entries:
       url: enterprise_json.html#top
       output: web, pdf
       type: homepage
+
+    - title: Spring Boot REST/JSON
+      enterprise: true
+      url: enterprise_spring.html#top
+      output: web, pdf
+      type: homepage
       
     - title: Enum Serializer
       enterprise: true
