@@ -141,9 +141,9 @@ It is also possible to use `application.properties` files instead if the propert
 
 
 ### REST Controllers
-In order to open up a table for REST access, The REST controllers must be enabled in the Speedment Tool for the corresponding table as shown int the picture below:
+In order to open up a table for REST access, The REST controllers must be enabled in the Speedment Tool for the corresponding table as shown in the picture below:
 
-{% include image.html file="spring-plugin-table-props.png" alt="Spring Plugin Table Properties" caption="Enable REST table access" %}
+{% include image.html file="spring-plugin-table-props.png" alt="Spring Plugin Table Properties" caption="Tool: How to Enable REST Table Access." %}
 
 
 ### REST Syntax
