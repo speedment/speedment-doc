@@ -12,8 +12,8 @@ next: computation.html
 {% include prev_next.html %}
 
 ## Sharding
-Sharding can be used to sub-divide different data sets into several Speedment instances. This can potentially increase performance since we are able to reduce the data set to search using a knowm sharding key. The sharding key can be of any type but are many times a `String` or an `int`.
-For example, if we have a number of countries, we can shard them using the first character of the name. When we later use the name (an potentially other search arguments), we can immediately look up the correct shard that contains the name we are looking for.
+Sharding can be used to sub-divide different data sets into several Speedment instances. This can potentially increase performance since we are able to reduce the data set to search using a known sharding key. The sharding key can be of any type but are many times a `String` or an `int`.
+For example, if we have a number of countries, we can shard them using the first character of the name. When we later use the name (and potentially other search arguments), we can immediately look up the correct shard that contains the name we are looking for.
 
 Sharded Speedment instances come in two different flavors:
 
@@ -22,10 +22,10 @@ Sharded Speedment instances come in two different flavors:
 `MutableShardedSpeedment` which can use dynamic sharding keys discovered at run-time
 
 ### Immutable Sharding
-Immutable sharding means that the set of shard keys will be defined ahead-of-time. Once all shards has been defined, their corresponding data sets can all
+Immutable sharding means that the set of shard keys will be defined ahead-of-time. Once all shards have been defined, their corresponding data sets can all
 be loaded into memory in a single operation and once loaded, they are instantly available.
 
-The following example will shard all countries that starts with an "A" in one shard and all the countries that starts with a "B" in another shard. Countries that begins with any other letter will not be loaded at all and cannot be accessed.
+The following example will shard all countries that starts with an "A" in one shard and all the countries that starts with a "B" in another shard. Countries that begin with any other letter will not be loaded at all and cannot be accessed.
 
 ``` java
 
@@ -111,7 +111,7 @@ CountryImpl { id = 105, abbrevation = IO, name = British Indian Ocean Territory,
 
 
 ### Mutable Sharding
-Mutable sharding means that the set of shard key can be dynamically managed (added and removed) on demand. Thus, the set of shard keys must not be known in advance. However, when a new shard is first used, the
+Mutable sharding means that the set of shard keys can be dynamically managed (added and removed) on demand. Thus, the set of shard keys must not be known in advance. However, when a new shard is first used, the
 data set corresponding to that shard must be loaded into memory, implying an initial first time delay.
 
 The following example will shard countries on demand as shard keys are first seen.
