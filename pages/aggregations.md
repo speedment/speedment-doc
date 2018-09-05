@@ -12,7 +12,7 @@ next: sharding.html
 {% include prev_next.html %}
 
 ## What are Aggregations?
-TBW
+Data aggregation is any process in which information is gathered and expressed in a summary form, for purposes such as statistical analysis. A common aggregation purpose is to get more information about particular groups based on specific variables such as gender, age, profession, or income.
 
 ## Aggregating
 

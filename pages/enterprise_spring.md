@@ -49,8 +49,63 @@ In order to run a Spring Boot/Speedment application, you also need to include th
 </dependency>
 ```
 
+{% include important.html content= "
+The `Main.java` file that starts Spring must be located in a package above or on the same level as the generated files or else the Controllers and rest points will not be picked up by Spring's class scanner.
+" %}
+
+
 ### Spring Configuration
-TBW
+The Spring Boot plugin will automatically generate Spring configuration files that can be picked up by Spring's dependency injection features. For example, the following file will be generated if the plugin runs against the Sakila database (`GeneratedSakilaConfiguration.java` truncated for brievity):
+
+``` Java
+@GeneratedCode("Speedment")
+public class GeneratedSakilaConfiguration {
+
+    @Bean
+    public SakilaApplication getApplication() {
+        return getApplicationBuilder().build();
+    }
+
+    public SakilaApplicationBuilder getApplicationBuilder() {
+        ...
+    }
+
+    @Bean
+    public JsonComponent getJsonComponent(SakilaApplication app) {
+        return app.getOrThrow(JsonComponent.class);
+    }
+
+    @Bean
+    public JoinComponent getJoinComponent(SakilaApplication app) {
+        return app.getOrThrow(JoinComponent.class);
+    }
+
+    @Bean
+    public FilmActorManager getFilmActorManager(SakilaApplication app) {
+        return app.getOrThrow(FilmActorManager.class);
+    }
+
+    ...
+
+}
+```
+
+These beans can then be picked up in Spring application by means of the `@Autowired` annotation as shown here:
+
+``` java
+
+    @Autowired FilmManager films:
+
+    ...
+
+    public long countAllFilms() {
+        return films.stream().count();
+     }
+
+```
+
+This greatly simplifies application development and creates a losened coupling between components compared to explicitly handling the components.
+
 
 ### Application Settings
 There are a number of custom application settings that can be set without modifying any code:
@@ -86,8 +141,9 @@ It is also possible to use `application.properties` files instead if the propert
 
 
 ### REST Controllers
-In order to open up a table for REST access, The REST controllers must be enabled in the Speedment Tool for the corresponding table.
+In order to open up a table for REST access, The REST controllers must be enabled in the Speedment Tool for the corresponding table as shown int the picture below:
 
+{% include image.html file="spring-plugin-table-props.png" alt="Spring Plugin Table Properties" caption="Enable REST table access" %}
 
 
 ### REST Syntax
@@ -483,8 +539,6 @@ curl -G localhost:8080/sakila/film --data-urlencode \
    &start=150 \
    &limit50'
 ```
-
-
 
 ## Discussion
 Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
