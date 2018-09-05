@@ -97,7 +97,7 @@ When REST is enabled for a table, it contents can be retrieved by invoking a res
  curl localhost:8080/sakila/film
  ```
 
-This will retrieve the first 25 films (where only the first two are shown for brievity):
+This will retrieve the first 25 films (where only the first two elements are shown for brievity):
 
 ``` json
 [
@@ -150,9 +150,9 @@ The syntax for the JSON filters is straight forward and is using a property/oper
 filter={"property":"xx","operator":"yy","value":zz}
 ```
 
-The xx "property" is the name of the column you want to apply the filter to. For example "length" or "name".
+The "property" xx is the name of the column you want to apply the filter to. For example "length" or "name".
 
-The yy "operator" can be any operator shown in the table below:
+The "operator" yy can be any operator shown in the table below:
 
 | Operator | Equivalence | Meaning             |
 | :------- | :---------- | :------------------ |
@@ -164,9 +164,9 @@ The yy "operator" can be any operator shown in the table below:
 | ge       | `>=`        | Greater or equal to |
 | like     | contains()  | Contains            |
 
-The zz "value" is the fixed numeric or string value to use when applying the operator. For example, 60 or "The Golden Era".
+The "value" zz is the fixed numeric or string value to use when applying the operator. For example, 60 or "The Golden Era".
 
-The following example shows how to get films with a length less than 60 minutes:
+The following example shows how to retrieve films with a length less than 60 minutes:
 
 ```
 curl -G localhost:8080/sakila/film --data-urlencode \
@@ -175,7 +175,7 @@ curl -G localhost:8080/sakila/film --data-urlencode \
 
 (The -G argument makes sure that the command is sent as a GET request and not a POST request)
 
-This will produce the following output (only the first two are shown for brievity):
+This will produce the following output (only the first two elements are shown for brievity):
 
 ``` json
 [
@@ -214,7 +214,7 @@ This will produce the following output (only the first two are shown for brievit
 ```
 
 
-Multiple filters can be used by wrapping the filters objects into a list like this:
+Multiple filters can be used by wrapping the filters objects into an array like this:
 
 ```
 curl -G localhost:8080/sakila/film --data-urlencode \
@@ -222,7 +222,7 @@ curl -G localhost:8080/sakila/film --data-urlencode \
    {"property":"length","operator":"ge","value":30}]'
 ```
 
-This will return all films with a length between 30 and 60 minutes. By default, all the operators in the filter list are assumed to be separated with AND-operators. Thus, all the conditions must apply for a row to pass the filter. It is also possible to use an explicit OR-statement as shown hereunder:
+This will return all films with a length between 30 and 60 minutes. By default, all the operators in the filter array are assumed to be separated with AND-operators. Thus, all the conditions must apply for a row to pass the filter. It is also possible to use an explicit OR-statement as shown hereunder:
 
 ```
 curl -G localhost:8080/sakila/film --data-urlencode \
@@ -242,7 +242,7 @@ The following example shows how to sort film elements by lenght in the default o
 curl -G localhost:8080/sakila/film --data-urlencode \
    'sort={"property":"length"}'
 ```
-This will produce the following output (only the first two are shown for brievity):
+This will produce the following output (only the first two elements are shown for brievity):
 
 ``` json
 [
@@ -288,7 +288,7 @@ curl -G localhost:8080/sakila/film --data-urlencode \
    'sort={"property":"length","direction":"DESC"}'
 ```
 
-This will produce the following output (only the first two are shown for brievity):
+This will produce the following output (only the first two elements are shown for brievity):
 
 ``` json
 [
@@ -327,12 +327,50 @@ This will produce the following output (only the first two are shown for brievit
 ```
 
 
-Several sort orders can be use as shown hereunder:
+By wrapping sort objects into an array, several sort orders can be use as shown hereunder:
 
 ```
 curl -G localhost:8080/sakila/film --data-urlencode \
    'sort=[{"property":"length","direction":"DESC"},
    {"property":"title","direction":"ASC"}]'
+```
+
+This will prouduce an output sorded by lenght in decending order as primary sort criteria and by title in ascending order as secondary sort cirteria (only the first two elements are shown for brievity):
+
+``` json
+[
+    {
+        "description": "A Fateful Yarn of a Mad Cow And a Waitress who must Battle a Student in California",
+        "filmId": 141,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "185",
+        "originalLanguageId": null,
+        "rating": "PG-13",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 6,
+        "rentalRate": "4.99",
+        "replacementCost": "11.99",
+        "specialFeatures": "Deleted Scenes,Behind the Scenes",
+        "title": "CHICAGO NORTH"
+    },
+    {
+        "description": "A Fateful Documentary of a Robot And a Student who must Battle a Cat in A Monastery",
+        "filmId": 182,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "185",
+        "originalLanguageId": null,
+        "rating": "G",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 7,
+        "rentalRate": "4.99",
+        "replacementCost": "9.99",
+        "specialFeatures": "Commentaries",
+        "title": "CONTROL ANTHEM"
+    },
+    ...
+]
 ```
 
 #### Using Paging
@@ -348,7 +386,7 @@ This will skip the first 25 elements and begin at the 26th. The default page siz
 curl 'localhost:8080/sakila/film?start=25&limit=5'
 ```
 
-This also begins at the 26th element, but only returns 5 elements instead of 25 as show hereunder:
+This also begins at the 26th element, but only returns 5 elements instead of 25 as show hereunder (all five element are shown):
 
 ``` json
 [
