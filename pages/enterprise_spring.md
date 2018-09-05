@@ -64,13 +64,82 @@ There are a number of custom application settings that can be set without modify
 | spring.speedment.logging  | If set to `true`, enables logging of various evenst such as streaming and application build |
 | spring.speedment.url      | The database connection URL to be used when connecting to the backing database. If not set, a default conneciton URL is used|
 
-These parameters can be set on the command line or in a resource file.
+These parameters can be set in resource files and/or on the command line.
+
+The following command sets the database password to "sakila-password" for application when run:
+
+```
+java -jar target/rest-api-example-1.0.0-SNAPSHOT.jar --spring.speedment.password=sakila-password
+```
+
+The parameter resource file can be located either in the file '/src/main/resources/application.yml' and/or in a file 'application.yml' located in the current directory of the application. Elements in the latter file will take precidence over elemeents in the former file. The following `application.yml` file sets the database password to "sakila-password":
+
+``` yml
+spring:
+  speedment:
+    password: sakila-password
+```
+
+{% include tip.html content = "
+It is also possible to use `application.properties` files instead if the property file format is preferred
+" %}
+
 
 ### REST Controllers
-TBW
+In order to open up a table for REST access, The REST controllers must be enabled in the Speedment Tool for the corresponding table.
+
 
 
 ### REST Syntax
+When REST is enabled for a table, it contents can be retrieved by invoking a rest call. For example, elements from the "film" table can be retrieved like this:
+
+ ```
+ curl localhost:8080/sakila/film
+ ```
+
+This will retrieve the first 25 films (where only the first two are shown for brievity):
+
+``` json
+[
+   {
+        "description": "A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies",
+        "filmId": 1,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "86",
+        "originalLanguageId": null,
+        "rating": "PG",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 6,
+        "rentalRate": "0.99",
+        "replacementCost": "20.99",
+        "specialFeatures": "Deleted Scenes,Behind the Scenes",
+        "title": "ACADEMY DINOSAUR"
+    },
+    {
+        "description": "A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China",
+        "filmId": 2,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "48",
+        "originalLanguageId": null,
+        "rating": "G",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 3,
+        "rentalRate": "4.99",
+        "replacementCost": "12.99",
+        "specialFeatures": "Trailers,Deleted Scenes",
+        "title": "ACE GOLDFINGER"
+    },
+    ....
+]
+```
+By default, only the first 25 elements are returned. See [paging](#using-paging) for information on retrieving any number of elements.
+
+{% include tip.html content = "
+All the discovered REST end points are printed out in the logs when Spring starts up.
+" %}
+
 
 #### Using Filters
 The spring-generator plugin supports remote filtering. It means that the frontend can send predicates encoded as JSON-objects to the server, and the server will respond with a filtered JSON response. Speedment automatically parses the JSON filters into a SQL SELECT-statement or an in-memroy index search.
@@ -81,9 +150,9 @@ The syntax for the JSON filters is straight forward and is using a property/oper
 filter={"property":"xx","operator":"yy","value":zz}
 ```
 
-The "property" is the name of the column you want to apply the filter to. For example `length' or `name`.
+The xx "property" is the name of the column you want to apply the filter to. For example "length" or "name".
 
-The "operator" can be any operator shown in the table below:
+The yy "operator" can be any operator shown in the table below:
 
 | Operator | Equivalence | Meaning             |
 | :------- | :---------- | :------------------ |
@@ -95,21 +164,60 @@ The "operator" can be any operator shown in the table below:
 | ge       | `>=`        | Greater or equal to |
 | like     | contains()  | Contains            |
 
-The "value" is the fixed numeric or string value to use when comparing. For example, 60 or "The Golden Era".
+The zz "value" is the fixed numeric or string value to use when applying the operator. For example, 60 or "The Golden Era".
 
 The following example shows how to get films with a length less than 60 minutes:
 
 ```
-curl -G localhost:8080/film --data-urlencode \
+curl -G localhost:8080/sakila/film --data-urlencode \
    'filter={"property":"length","operator":"lt","value":60}'
 ```
 
 (The -G argument makes sure that the command is sent as a GET request and not a POST request)
 
+This will produce the following output (only the first two are shown for brievity):
+
+``` json
+[
+    {
+        "description": "A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China",
+        "filmId": 2,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "48",
+        "originalLanguageId": null,
+        "rating": "G",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 3,
+        "rentalRate": "4.99",
+        "replacementCost": "12.99",
+        "specialFeatures": "Trailers,Deleted Scenes",
+        "title": "ACE GOLDFINGER"
+    },
+    {
+        "description": "A Astounding Reflection of a Lumberjack And a Car who must Sink a Lumberjack in A Baloon Factory",
+        "filmId": 3,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "50",
+        "originalLanguageId": null,
+        "rating": "NC-17",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 7,
+        "rentalRate": "2.99",
+        "replacementCost": "18.99",
+        "specialFeatures": "Trailers,Deleted Scenes",
+        "title": "ADAPTATION HOLES"
+    },
+    ...
+]
+```
+
+
 Multiple filters can be used by wrapping the filters objects into a list like this:
 
 ```
-curl -G localhost:8080/film --data-urlencode \
+curl -G localhost:8080/sakila/film --data-urlencode \
    'filter=[{"property":"length","operator":"lt","value":60},
    {"property":"length","operator":"ge","value":30}]'
 ```
@@ -117,7 +225,7 @@ curl -G localhost:8080/film --data-urlencode \
 This will return all films with a length between 30 and 60 minutes. By default, all the operators in the filter list are assumed to be separated with AND-operators. Thus, all the conditions must apply for a row to pass the filter. It is also possible to use an explicit OR-statement as shown hereunder:
 
 ```
-curl -G localhost:8080/film --data-urlencode \
+curl -G localhost:8080/sakila/film --data-urlencode \
    'filter={"or":[{"property":"length","operator":"lt","value":30},
    {"property":"length","operator":"ge","value":60}]}'
 ```
@@ -131,21 +239,98 @@ The order in which elements appear in the output is undefined. To define a certa
 The following example shows how to sort film elements by lenght in the default order (ascending):
 
 ```
-curl -G localhost:8080/film --data-urlencode \
-   'sort={"property":"length"}
+curl -G localhost:8080/sakila/film --data-urlencode \
+   'sort={"property":"length"}'
 ```
+This will produce the following output (only the first two are shown for brievity):
+
+``` json
+[
+    {
+        "description": "A Brilliant Drama of a Cat And a Mad Scientist who must Battle a Feminist in A MySQL Convention",
+        "filmId": 15,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "46",
+        "originalLanguageId": null,
+        "rating": "NC-17",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 5,
+        "rentalRate": "2.99",
+        "replacementCost": "10.99",
+        "specialFeatures": "Trailers,Commentaries,Behind the Scenes",
+        "title": "ALIEN CENTER"
+    },
+    {
+        "description": "A Fast-Paced Documentary of a Mad Cow And a Boy who must Pursue a Dentist in A Baloon",
+        "filmId": 469,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "46",
+        "originalLanguageId": null,
+        "rating": "PG",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 7,
+        "rentalRate": "4.99",
+        "replacementCost": "27.99",
+        "specialFeatures": "Commentaries,Behind the Scenes",
+        "title": "IRON MOON"
+    },
+    ...
+]
+```
+
 
 The following example shows how to sort film elements by lenght in reversed (decending) order:
 
 ```
-curl -G localhost:8080/film --data-urlencode \
+curl -G localhost:8080/sakila/film --data-urlencode \
    'sort={"property":"length","direction":"DESC"}'
 ```
+
+This will produce the following output (only the first two are shown for brievity):
+
+``` json
+[
+    {
+        "description": "A Lacklusture Panorama of a A Shark And a Pioneer who must Confront a Student in The First Manned Space Station",
+        "filmId": 817,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "185",
+        "originalLanguageId": null,
+        "rating": "R",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 7,
+        "rentalRate": "4.99",
+        "replacementCost": "27.99",
+        "specialFeatures": "Trailers,Commentaries,Deleted Scenes,Behind the Scenes",
+        "title": "SOLDIERS EVOLUTION"
+    },
+    {
+        "description": "A Taut Character Study of a Woman And a A Shark who must Confront a Frisbee in Berlin",
+        "filmId": 349,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "185",
+        "originalLanguageId": null,
+        "rating": "PG-13",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 4,
+        "rentalRate": "2.99",
+        "replacementCost": "27.99",
+        "specialFeatures": "Behind the Scenes",
+        "title": "GANGS PRIDE"
+    },
+    ...
+]
+```
+
 
 Several sort orders can be use as shown hereunder:
 
 ```
-curl -G localhost:8080/film --data-urlencode \
+curl -G localhost:8080/sakila/film --data-urlencode \
    'sort=[{"property":"length","direction":"DESC"},
    {"property":"title","direction":"ASC"}]'
 ```
@@ -154,18 +339,114 @@ curl -G localhost:8080/film --data-urlencode \
 The last feature of the spring-generator plugin is the ability to page results to avoid sending unnecessary large objects to the consuming end. This is enabled by default, which is why at most 25 results are seen when querying the backend. To skip a number of results (not pages), the ?start= parameter can be used as shown here:
 
 ```
-curl localhost:8080/film?start=25
+curl localhost:8080/sakila/film?start=25
 ```
 
 This will skip the first 25 elements and begin at the 26th. The default page size can also be changed by adding the ?limit= parameter:
 
 ```
-curl 'localhost:8080/film?start=25&limit=5'
+curl 'localhost:8080/sakila/film?start=25&limit=5'
 ```
 
-This also begins at the 26th element, but only returns 5 elements instead of 25.
+This also begins at the 26th element, but only returns 5 elements instead of 25 as show hereunder:
+
+``` json
+[
+    {
+        "description": "A Amazing Panorama of a Pastry Chef And a Boat who must Escape a Woman in An Abandoned Amusement Park",
+        "filmId": 26,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "86",
+        "originalLanguageId": null,
+        "rating": "G",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 3,
+        "rentalRate": "0.99",
+        "replacementCost": "15.99",
+        "specialFeatures": "Commentaries,Deleted Scenes",
+        "title": "ANNIE IDENTITY"
+    },
+    {
+        "description": "A Amazing Reflection of a Database Administrator And a Astronaut who must Outrace a Database Administrator in A Shark Tank",
+        "filmId": 27,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "179",
+        "originalLanguageId": null,
+        "rating": "NC-17",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 7,
+        "rentalRate": "0.99",
+        "replacementCost": "12.99",
+        "specialFeatures": "Deleted Scenes,Behind the Scenes",
+        "title": "ANONYMOUS HUMAN"
+    },
+    {
+        "description": "A Touching Panorama of a Waitress And a Woman who must Outrace a Dog in An Abandoned Amusement Park",
+        "filmId": 28,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "91",
+        "originalLanguageId": null,
+        "rating": "PG-13",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 5,
+        "rentalRate": "4.99",
+        "replacementCost": "16.99",
+        "specialFeatures": "Deleted Scenes,Behind the Scenes",
+        "title": "ANTHEM LUKE"
+    },
+    {
+        "description": "A Fateful Yarn of a Womanizer And a Feminist who must Succumb a Database Administrator in Ancient India",
+        "filmId": 29,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "168",
+        "originalLanguageId": null,
+        "rating": "NC-17",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 5,
+        "rentalRate": "2.99",
+        "replacementCost": "11.99",
+        "specialFeatures": "Trailers,Commentaries,Deleted Scenes",
+        "title": "ANTITRUST TOMATOES"
+    },
+    {
+        "description": "A Epic Story of a Pastry Chef And a Woman who must Chase a Feminist in An Abandoned Fun House",
+        "filmId": 30,
+        "languageId": 1,
+        "lastUpdate": "2006-02-15 14:03:42.0",
+        "length": "82",
+        "originalLanguageId": null,
+        "rating": "R",
+        "releaseYear": "2006-01-01",
+        "rentalDuration": 4,
+        "rentalRate": "2.99",
+        "replacementCost": "27.99",
+        "specialFeatures": "Trailers,Deleted Scenes,Behind the Scenes",
+        "title": "ANYTHING SAVANNAH"
+    }
+]
+```
+
 
 {% include prev_next.html %}
+
+#### Combinations
+Filters, sorters and paging can be combined to create a compound REST backend operation.
+
+The following example will retrieve all films that are shorter than 60 minutes and that are sorted by title showing the third page (i.e. skipping 150 films and showing the following 50 films):
+
+```
+curl -G localhost:8080/sakila/film --data-urlencode \
+   'filter={"property":"length","operator":"lt","value":60} \
+   &sort={"property":"length"} \
+   &start=150 \
+   &limit50'
+```
+
+
 
 ## Discussion
 Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
