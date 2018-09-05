@@ -14,11 +14,11 @@ next: enterprise_enums.html
 
 ## About
 Speedment Enterprise offers a Spring Boot plugin that allows generation of Spring configurations, greatly simplifying integration between Speedment and Spring.
-The plugin can also generate complete REST endpints for tables and views. These endponds can be queried using filters, sorters and pagers.
+The plugin can also generate complete REST endpoints for tables and views. These endpoints can be queried using filters, sorters and/or pagers.
 
 
 ### Integration
-To include the Enterprise Spring Boot Plugin in your Speedment project, add the `SpringGeneratorBundle` to the speedment enterprise maven plugin:
+To include the Enterprise Spring Boot Plugin in your Speedment project, add the `SpringGeneratorBundle` to the speedment-enterprise-maven-plugin:
 ```xml
 <plugin>
     <groupId>com.speedment.enterprise</groupId>
@@ -127,7 +127,7 @@ The following command sets the database password to "sakila-password" for applic
 java -jar target/rest-api-example-1.0.0-SNAPSHOT.jar --spring.speedment.password=sakila-password
 ```
 
-The parameter resource file can be located either in the file '/src/main/resources/application.yml' and/or in a file 'application.yml' located in the current directory of the application. Elements in the latter file will take precidence over elemeents in the former file. The following `application.yml` file sets the database password to "sakila-password":
+The parameter resource file can be located either in the file '/src/main/resources/application.yml' and/or in a file 'application.yml' located in the current directory of the application. Elements in the latter file will take precidence over eleeents in the former file and elements on the command line will take absoulte precidence. The following `application.yml` file sets the database password to "sakila-password":
 
 ``` yml
 spring:
@@ -198,7 +198,7 @@ All the discovered REST end points are printed out in the logs when Spring start
 
 
 #### Using Filters
-The spring-generator plugin supports remote filtering. It means that the frontend can send predicates encoded as JSON-objects to the server, and the server will respond with a filtered JSON response. Speedment automatically parses the JSON filters into a SQL SELECT-statement or an in-memroy index search.
+The spring plugin supports remote filtering. It means that the frontend can send predicates encoded as JSON-objects to the server, and the server will respond with a filtered JSON response. Speedment automatically parses the JSON filters into a SQL SELECT-statement or an in-memroy index search.
 
 The syntax for the JSON filters is straight forward and is using a property/operator/value tuple to define the filters:
 
@@ -430,7 +430,7 @@ This will prouduce an output sorded by lenght in decending order as primary sort
 ```
 
 #### Using Paging
-The last feature of the spring-generator plugin is the ability to page results to avoid sending unnecessary large objects to the consuming end. This is enabled by default, which is why at most 25 results are seen when querying the backend. To skip a number of results (not pages), the ?start= parameter can be used as shown here:
+The last feature of the spring plugin plugin is the ability to page results to avoid sending unnecessary large objects to the consuming end. This is enabled by default, which is why at most 25 results are seen when querying the backend. To skip a number of results (not pages), the ?start= parameter can be used as shown here:
 
 ```
 curl localhost:8080/sakila/film?start=25
