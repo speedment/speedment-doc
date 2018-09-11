@@ -43,7 +43,7 @@ Once your project has been setup properly and you have run the Maven target `spe
 Here is a small example that will count the number of films that is rated "PG-13" from an example database named "Sakila".
 ``` java
      // Configure and start Speedment
-     ApplicationBuilder app = new SakilaApplicationBuilder()
+     Speedment app = new SakilaApplicationBuilder()
         .withPassword("sakila-password")
         .build();
 
