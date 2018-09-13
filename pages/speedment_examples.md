@@ -264,7 +264,7 @@ Map<String, Long> map = films.stream()
             // Apply this classifier
             Film.RATING,
             // Then apply this down-stream collector
-            counting()
+            Collectors.counting()
         )
     );
 
