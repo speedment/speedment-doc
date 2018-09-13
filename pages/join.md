@@ -281,11 +281,11 @@ is sorted in `Film.LENGTH` order (ascending):
 
 This will produce the following output (truncated for brievity):
 ``` text
-Tuple3Impl {FilmActorImpl { actorId = 5, filmId = 730, ... }, FilmImpl { filmId = 730, ..., length = 46, ... }, ActorImpl { actorId = 5, firstName = JOHNNY, lastName = LOLLOBRIGIDA, ... }}
-Tuple3Impl {FilmActorImpl { actorId = 17, filmId = 469, ... }, FilmImpl { filmId = 469, ... length = 46, ... }, ActorImpl { actorId = 17, firstName = HELEN, lastName = VOIGHT,... }}
-Tuple3Impl {FilmActorImpl { actorId = 36, filmId = 15, ... }, FilmImpl { filmId = 15, ..., length = 46, ... }, ActorImpl { actorId = 36, firstName = BURT, lastName = DUKAKIS, ... }}
+Tuple3Impl {FilmActorImpl { ... }, FilmImpl { filmId = 730, ..., length = 46, ... }, ActorImpl { actorId = 5, firstName = JOHNNY, lastName = LOLLOBRIGIDA, ... }}
+Tuple3Impl {FilmActorImpl { ... }, FilmImpl { filmId = 469, ... length = 46, ... }, ActorImpl { actorId = 17, firstName = HELEN, lastName = VOIGHT,... }}
+Tuple3Impl {FilmActorImpl { ... }, FilmImpl { filmId = 15, ..., length = 46, ... }, ActorImpl { actorId = 36, firstName = BURT, lastName = DUKAKIS, ... }}
 ...
-Tuple3Impl {FilmActorImpl { actorId = 52, filmId = 407, ... }, FilmImpl { filmId = 407, ..., length = 47, ... }, ActorImpl { actorId = 52, firstName = CARMEN, lastName = HUNT, ... }}
+Tuple3Impl {FilmActorImpl { ... }, FilmImpl { filmId = 407, ..., length = 47, ... }, ActorImpl { actorId = 52, firstName = CARMEN, lastName = HUNT, ... }}
 ...
 ```
 
@@ -301,7 +301,7 @@ In the current API, combining several Tuple fields and sorting in the other dire
         .limit(100)
         .forEach(System.out::println);
 ```
-This will produce a stream in decending `Film.LENGT` order (primary order) and then by `Actor.LAST_NAME` (secondary order).
+This will produce a stream of `Tuple3<FilmActor, Film, Actor>` elements in decending `Film.LENGT` order (primary order) and then by `Actor.LAST_NAME` (secondary order).
 
 ### Self Join
 Here is an example of a self join where Actors with the same first name are matched:
