@@ -237,8 +237,15 @@ Java has its own group by collector. If we want to group all the Films by the fi
                 Film.RATING
             )
         );
+
+        map.forEach((k, v) ->
+            System.out.format(
+                 "Rating %-5s maps to %d films %n", k, v.size()
+            )
+        );
+
 ```
-The content of the Map will correspond to:
+This will produce the following output:
 ``` text
 Rating PG-13 has 223 films
 Rating R     has 195 films
@@ -247,6 +254,21 @@ Rating G     has 178 films
 Rating PG    has 194 films
 ```
 The entire table will be pulled into the application in this example because all films will be in the Map.
+
+If we only want to count the occurances of items for different classifications then a down-stream collector can be used instead:
+
+``` java
+Map<String, Long> map = films.stream()
+    .collect(
+        Collectors.groupingBy(
+            // Apply this classifier
+            Film.RATING,
+            // Then apply this down-stream collector
+            counting()
+        )
+    );
+```
+
 
 
 ### Having
