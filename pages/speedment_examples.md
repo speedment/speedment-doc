@@ -245,7 +245,7 @@ Java has its own group by collector. If we want to group all the Films by the fi
         );
 
 ```
-This will produce the following output:
+This might produce the following output:
 ``` text
 Rating PG-13 has 223 films
 Rating R     has 195 films
@@ -267,8 +267,13 @@ Map<String, Long> map = films.stream()
             counting()
         )
     );
-```
 
+    System.out.println(map);
+```
+This might produce the following output:
+``` text
+{PG-13=223, R=195, NC-17=210, G=178, PG=194}
+```
 
 
 ### Having
