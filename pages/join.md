@@ -263,12 +263,50 @@ this might produce the following output:
 English: ACADEMY DINOSAUR, ACE GOLDFINGER, ADAPTATION HOLES, ...
 ```
 
+### Sorting Join Streams
+A join stream can be sorted by means of the `Stream::sorted` method. In the example below a Stream of `Tuple3<FilmActor, Film, Actor>`
+is sorted in `Film.LENGTH` order (ascending):
+
+``` java
+    Join<Tuple3<FilmActor, Film, Actor>> join = joinComponent
+        .from(FilmActorManager.IDENTIFIER)
+        .innerJoinOn(Film.FILM_ID).equal(FilmActor.FILM_ID)
+        .innerJoinOn(Actor.ACTOR_ID).equal(FilmActor.ACTOR_ID)
+        .build(Tuples::of);
+
+    join.stream()
+        .sorted(Film.LENGTH.asInt().compose(Tuple3.getter1()))
+        .forEach(System.out::println);
+```
+
+This will produce the following output (truncated for brievity):
+``` text
+Tuple3Impl {FilmActorImpl { actorId = 5, filmId = 730, ... }, FilmImpl { filmId = 730, ..., length = 46, ... }, ActorImpl { actorId = 5, firstName = JOHNNY, lastName = LOLLOBRIGIDA, ... }}
+Tuple3Impl {FilmActorImpl { actorId = 17, filmId = 469, ... }, FilmImpl { filmId = 469, ... length = 46, ... }, ActorImpl { actorId = 17, firstName = HELEN, lastName = VOIGHT,... }}
+Tuple3Impl {FilmActorImpl { actorId = 36, filmId = 15, ... }, FilmImpl { filmId = 15, ..., length = 46, ... }, ActorImpl { actorId = 36, firstName = BURT, lastName = DUKAKIS, ... }}
+...
+Tuple3Impl {FilmActorImpl { actorId = 52, filmId = 407, ... }, FilmImpl { filmId = 407, ..., length = 47, ... }, ActorImpl { actorId = 52, firstName = CARMEN, lastName = HUNT, ... }}
+...
+```
+
+#### Combining and Reversing Comparators
+In the current API, combining several Tuple fields and sorting in the other direction (descending) must be done using explicit `Comparator` types as shown in the example below:
+``` java
+    // Explicitly declare the Comparator types
+    Comparator<Tuple3<FilmActor, Film, Actor>> byLength = Film.LENGTH.asInt().compose(Tuple3.getter1());
+    Comparator<Tuple3<FilmActor, Film, Actor>> byActorName = Actor.LAST_NAME.compose(Tuple3.getter2());
+
+    join.stream()
+        .sorted(byLength.reversed().thenComparing(byActorName))
+        .limit(100)
+        .forEach(System.out::println);
+```
+This will produce a stream in decending `Film.LENGT` order (primary order) and then by `Actor.LAST_NAME` (secondary order).
 
 ### Self Join
 Here is an example of a self join where Actors with the same first name are matched:
 
 ``` java
-
     Join<Tuple2<Actor, Actor>> join = joinComponent
         .from(ActorManager.IDENTIFIER)
         .innerJoinOn(Actor.FIRST_NAME.tableAlias("B")).equal(Actor.FIRST_NAME)
