@@ -54,7 +54,7 @@ To activate the plugin in the code, simply add the plugin bundle class to the Sp
 public static void main(String... args) {
     final SakilaApplication app = new SakilaApplicationBuilder()
         .withBundle(VirtualColumnBundle.class) // Order is important!
-        .withBundle(DataStoreBundle.class)     // <-- Only if Datastore is used 
+        .withBundle(InMemoryBundle.class)     // <-- Only if Datastore is used 
         .withUsername("")
         .withPassword("")
         .build();
@@ -62,7 +62,7 @@ public static void main(String... args) {
 }
 ```
 
-{% include tip.html content = "`VirtualColumnBundle` must come before `DataStoreBundle` if both are to be used!" %}
+{% include tip.html content = "`VirtualColumnBundle` must come before `InMemoryBundle` if both are to be used!" %}
 
 ### Usage
 A virtual column is created by right-clicking on a table in the Speedment UI and selecting "Add Virtual Column" in the drop-down menu. This should be done on the most commonly linked table (a table from which many other tables can be accessed using foreign keys).
