@@ -67,7 +67,7 @@ This means that only the relevant entities are pulled in from the database into 
 `ORDER BY` can be expressed using `.sorted()`.
 
 If we want to sort all our films in length order then we can do it like this:
-``` Java
+``` java
     List<Film> filmsInLengthOrder = films.stream()
         .sorted(Film.LENGTH)
         .collect(Collectors.toList());
@@ -97,7 +97,7 @@ ORDER BY
 ```
 
 Several "ORDER BY" columns can be used by composing comparators:
-```
+``` java
     .sorted(Film.LENGTH.thenComparing(Film.TITLE.comparator())
 ```
 Note that the `.comparator()` method must be used for secondary fields.
