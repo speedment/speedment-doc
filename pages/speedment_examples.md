@@ -96,6 +96,13 @@ ORDER BY
     `sakila`.`film`.`length` ASC
 ```
 
+Several "ORDER BY" columns can be used by composing comparators:
+```
+    .sorted(Film.LENGTH.thenComparing(Film.TITLE.comparator())
+```
+Note that the `.comparator()` method must be used for secondary fields.
+
+Descending order can be obtained by calling, for example, `Film.LENGHT.reversed()`. 
 
 ### Offset
 `OFFSET` can be expressed using `.skip()`.
