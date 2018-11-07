@@ -77,7 +77,7 @@ Speedment officially support the following MariaDB JDBC versions:
 
 | Database | groupId          | artifactId           | version |
 | :------- | :--------------- | :------------------- | :------ |
-| MariaDB  | org.mariadb.jdbc | mariadb-java-client  | 2.3.0   |
+| MariaDB  | org.mariadb.jdbc | mariadb-java-client  | 2.3.0  |
 
 {% include important.html content= "
 Pre 2.0.1 MariaDB JDBC drivers contain significant bugs. Users are highly encouraged to upgrade to 2.x.x drivers.
