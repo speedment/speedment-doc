@@ -327,6 +327,14 @@ This will produce the following output:
 no languages in tx 3, no languages after transaction 3 
 ```
 
+#### Transactions and Threads
+A `Transaction` is, by default, only valid to the `Thread` in which it was created. It is not possible to hand off the transaction to another `Thread` or to a `CompletableFuture` unless the new `Thread` is attached to the existing transaction.
+
+A new `Thread` can attach to a transaction created by another thread using the `Transaction::attachCurrentThread` method. It is imperative that the new `Thread` detach from the `Transaction` once its task is completed using the `Transaction::detachCurrentThread` or else transaction resources cannot be released.  
+ 
+Rather than create a Transaction in one `Thread` and then attaching it to a new `Thread`, it is many times better to create and complete the entire `Transaction` in a new `Thread`.   
+ 
+
 #### Handling Simultaneous Read and Writes
 Most databases cannot handle having a ResultSet open and then accepting updates on the same connection. In these situations is it advised to collect the entities in a separate `Set` or `List` and then perform actions on the collection rather than using a direct continuous stream as shown in this example:
 
