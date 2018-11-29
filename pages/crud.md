@@ -328,11 +328,11 @@ no languages in tx 3, no languages after transaction 3
 ```
 
 #### Transactions and Threads
-A `Transaction` is, by default, only valid to the `Thread` in which it was created. It is not possible to hand off the transaction to another `Thread` or to a `CompletableFuture` unless the new `Thread` is attached to the existing transaction.
+A `Transaction` is, by default, only valid to the `Thread` in which it was created. It is not possible to hand off a `transaction` to another `Thread` or to a `CompletableFuture` unless the new `Thread` is attached to the existing transaction.
 
-A new `Thread` can attach to a transaction created by another thread using the `Transaction::attachCurrentThread` method. It is imperative that the new `Thread` detach from the `Transaction` once its task is completed using the `Transaction::detachCurrentThread` or else transaction resources cannot be released.  
+A new `Thread` can attach to a transaction created by another `Thread` using the `Transaction::attachCurrentThread` method. It is imperative that the new `Thread` detach from the `Transaction` once its task is completed using the `Transaction::detachCurrentThread` method or else transaction resources cannot be released.  
  
-Rather than create a Transaction in one `Thread` and then attaching it to a new `Thread`, it is many times better to create and complete the entire `Transaction` in a new `Thread`.   
+Rather than create a `Transaction` in one `Thread` and then attaching it to a new `Thread`, it is many times better to create and complete the entire `Transaction` in the new `Thread`.   
  
 
 #### Handling Simultaneous Read and Writes
