@@ -194,7 +194,7 @@ Many times, we want to restrict the number of entities from a table that can app
 The `.where()` method can be called several times with different predicates to further reduce the number of elements in the stream. The different predicates will be combined using an `AND` operation.
 
 {% include important.html content= "
-Currently, only predicates obtained from the entity fields can be used (thus, anonymous lambdas cannot be used). Furthermore, predicates cannot be composed using the `.and()` and `.or()` methods. Instead. several invocations of the `.where()` method can be used to express `AND` compositions. This [limitation](https://github.com/speedment/speedment/issues/601) will be removed in a future version of Speedment.
+Currently, only predicates obtained from the entity fields can be used (thus, anonymous lambdas cannot be used). Since version 3.1.10, predicates can also be composed using the `Predicate::and` and `Predicate::or` methods. 
 " %}
 
 
@@ -349,18 +349,18 @@ If there is a Join that mentions the same table several times, we need to specif
 ## Limitations
 The current API supports joining of up to ten (10) tables.
 
-The predicates used in the `where()` clause cannot be annonymous lambdas because they must be renderable to SQL.
+The predicates used in the `where()` clause cannot be anonymous lambdas because they must be renderable to SQL.
 
-The current API does not support general join conditions with several join expressions. This limitation can be overcomed if the Enterprise Version is used under some condictions. See [stream joins](#stream-joins) below.
+The current API does not support general join conditions with several join expressions. This limitation can be overcomed if the Enterprise Version is used under some conditions. See [stream joins](#stream-joins) below.
 
 
 ## Enterprise Join Features {% include star.html %}
 
-The fetures described in this chapter are only available in Speedment Enterprise.
+The features described in this chapter are only available in Speedment Enterprise.
 
 ### Stream Joins {% include star.html %}
 
-The Enterprise Verions of Speedment come with general joining of Streams whereby any type of stream can be joined (using left or inner joins) to an initial stream. Any Stream source can be used including Speedment streams and vanilla custom Streams.
+The Enterprise Versions of Speedment come with general joining of Streams whereby any type of stream can be joined (using left or inner joins) to an initial stream. Any Stream source can be used including Speedment streams and vanilla custom Streams.
 
 The stream join features are available via the `StreamJoinUtil` class. Here is an example of how to use stream joins:
 
@@ -380,7 +380,7 @@ The stream join features are available via the `StreamJoinUtil` class. Here is a
     join.stream().forEachOrdered(System.out::println);
 ```
 
-This will produce the follwoing oputpt:
+This will produce the following output:
 ``` text
 Tuple2Impl {1, 2}
 Tuple2Impl {1, 3}
@@ -402,9 +402,9 @@ Thus, we have joined two regular Streams. Here is another example where we join 
         Tuples::of
      )
 ```
-Because we are using pure streams, we can apply *any* stream operaion including mapping and flat mapping.
+Because we are using pure streams, we can apply *any* stream operation including mapping and flat mapping.
 
-It should be noted that the stream join feture will not be able to optimize away object creation under most conditions. Instead, an exchaustive cartesian produce will be produced by the Join object upon stream invocation.
+It should be noted that the stream join feature will not be able to optimize away object creation under most conditions. Instead, an exhaustive cartesian produce will be produced by the Join object upon stream invocation.
 
 Currently, stream joins up to 5 levels are supported and joins can only be made with the initial stream.
 
