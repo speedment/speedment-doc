@@ -355,7 +355,7 @@ public final class CustomMappingComponent {
 ```
 
 
-This is how you configer your POM file to use the custom component, both for code generation and for your application's runtime:
+This is how you configure your POM file to use the custom component, both for code generation and for your application's runtime:
 
 ``` xml
     <build>
