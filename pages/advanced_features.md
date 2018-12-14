@@ -16,7 +16,7 @@ next: datastore.html
 This chapter covers features and properties that are more advanced and that might not be needed or used by the average Speedment user. 
 
 ## Automatic Closing
-Speedment Streams are closed automatically as apposed to ordinary `Collection` streams such as `List::stream`. This was an API decision taken early because otherwise the application logic would be cluttered with numerous try/catch/finally statements defying the purpose of having a fluent and simple API. It is important that streams are properly closed because as long as they are open, they will hold a database connection and other resources.
+Speedment Streams from databases are closed automatically as apposed to ordinary `Collection` streams such as `List::stream`. This was an API decision taken early because otherwise the application logic would be cluttered with numerous try/catch/finally statements defying the purpose of having a fluent and simple API. It is important that streams are properly closed because as long as they are open, they will hold a database connection and other resources.
 
 If Speedment did not have automatically closed streams, then a Speedment application would look something like this:
 ``` java
@@ -35,6 +35,10 @@ instead of this:
 ```
 {% include note.html content= "
 If a Speedment stream throws an `Exception`, then it will still perform a proper automatic close. Closing a Speedment stream explicitly after is has already been automatically closed is a no-op and it is guaranteed that the stream only calls its close handlers once.
+" %}
+
+{% include note.html content= "
+If you use `DataStore` in-JVM-memory acceleration, which does not hold any database resources, Speedment streams will not auto-close. If you have installed custom close handlers using the method `Stream::onClose` and want those handlers to run, you have to use try-resource with your streams to make sure they always run regardless of source: SQL or DataStore.  
 " %}
 
 
