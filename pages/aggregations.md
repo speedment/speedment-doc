@@ -98,6 +98,9 @@ In summary, the aggregation can be condensed as follows.
         .forEach(System.out::println);
 ```
 
+{% include warning.html content = "
+If you want to invoke `Stream::iterator` or `Stream::spliterator`, you cannot use `streamAndClose()` because the auto-closing stream does not support these operations. Use try-resource in combination with `stream()` instead. 
+" %}
 #### Aggregation to Generic Tuples
 
 Sometimes designing an explicit result data class is overly verbose without adding much
