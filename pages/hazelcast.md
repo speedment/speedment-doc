@@ -56,7 +56,7 @@ There are two Hazelcast bundles:
 ### Installing the HazelcastToolBundle
 In the `pom.xml` file, the `speedment-enterprise-maven-plugin` configuration needs to be updated so that the `HazelcastToolBundle` class is added and the `hazelcast-tool` dependency is added:
  
-``` xml
+```xml
 <plugins>
     <plugin>
         <groupId>com.speedment.enterprise</groupId>
@@ -96,7 +96,7 @@ In the `pom.xml` file, the `speedment-enterprise-maven-plugin` configuration nee
 In the `pom.xml` file, the following dependencies needs to be added to make the `HazelcastBundle` present on the classpath:
 
 ```xml
-</dependencies>
+<dependencies>
 
     <!-- other dependencies -->
 
@@ -116,7 +116,7 @@ In the `pom.xml` file, the following dependencies needs to be added to make the 
 
 In the application builder, the `HazelcastBundle` needs to be added to allow injection of the Hazelcast runtime components as shown in this example:
 
-```
+``` java
 final Speedment hazelcastApp = new SakilaApplicationBuilder()
     .withPassword("sakila-password")
     .withBundle(HazelcastBundle.class)
@@ -124,7 +124,6 @@ final Speedment hazelcastApp = new SakilaApplicationBuilder()
     .build();
 ```
 Note: The `SakilaHazelcastConfigComponent` is a generated configuration class and its meaning is explained [later](#configuration) in this chapter.
-
 
 ## Entities
 Hazelcast compatible Data Entities are automatically generated from the database metadata. The generated entities implements Hazelcasts [`Portable`](https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#implementing-portable-serialization) interface.  
@@ -214,34 +213,168 @@ public class GeneratedSakilaHazelcastConfigComponent implements HazelcastConfigC
     }
 }
 ``` 
+As can be seen, the generated configuration class adds all the portable serialization factories and all class definitions that has been automatically generated 
 
 ## Ingesting Data
-TBW
+Ingesting data from a database into the Hazelcast server nodes is greatly simplified with the methods added via the Hazelcast bundles. The process involves creating a Speedment instance that is connected to the database and one Hazelcast client instance connected to the Hazelcast server cluster.
+The following example shows a method that will invoke `IngestUtil::ingest` to ingest data from all tables in the the database into the Hazelcast server grid:
 
-{% include warning.html content = "
-If  
+``` java
+    public void ingestAll() {
+
+        // Create a Speedment application connected to a SQL database
+        final Speedment sqlApp = new SakilaApplicationBuilder()
+            .withPassword("sakila-password")
+            .build();
+
+        // Create a Hazelcast client instance connected to a Hazelcast server grid
+        final HazelcastInstance hazelcastClientInstance =
+            HazelcastClient.newHazelcastClient(new SakilaHazelcastConfigComponent().get());
+
+        // Ingest all tables from the database into the Hazelcast
+        // server grid using the default IngestConfiguration:
+        //
+        // - Load all data (i.e. all rows) from the tables
+        // - Use the default ForkJoin pool for parallel loading
+        // - Perform loading outside any database transaction
+        // - Do not clear the maps before loading
+        CompletableFuture<Void> job = IngestUtil.ingest(hazelcastClientInstance, sqlApp);
+
+        // Wait for the ingest job to complete
+        job.join();
+
+        // Close the Speedment SQL application
+        sqlApp.close();
+
+        // Print out att the distributed maps that now has been
+        // created and populated with data
+        hazelcastClientInstance.getDistributedObjects().stream()
+            .forEach(System.out::println);
+
+        // Close the Hazelcast client instance
+        hazelcastClientInstance.shutdown();
+    }
+```
+This might produce the following output showing all the `IMap` objects in which data was ingested:
+``` text
+IMap{name='sakila.sakila.nicer_but_slower_film_list'}
+IMap{name='sakila.sakila.film'}
+IMap{name='sakila.sakila.payment'}
+IMap{name='sakila.sakila.film_list'}
+IMap{name='sakila.sakila.sales_by_store'}
+IMap{name='sakila.sakila.address'}
+IMap{name='sakila.sakila.rental'}
+IMap{name='sakila.sakila.staff'}
+IMap{name='sakila.sakila.country'}
+IMap{name='sakila.sakila.store'}
+IMap{name='sakila.sakila.category'}
+IMap{name='sakila.sakila.customer'}
+IMap{name='sakila.sakila.staff_list'}
+IMap{name='sakila.sakila.actor'}
+IMap{name='sakila.sakila.inventory'}
+IMap{name='sakila.sakila.film_text'}
+IMap{name='sakila.sakila.customer_list'}
+IMap{name='sakila.sakila.film_actor'}
+IMap{name='sakila.sakila.language'}
+IMap{name='sakila.sakila.film_category'}
+IMap{name='sakila.sakila.actor_info'}
+IMap{name='sakila.sakila.city'}
+IMap{name='sakila.sakila.sales_by_film_category'}
+```
+The utility class `IngestUtil` contains a number of related methods that can be used to control the ingest process in more detail including:
+- Selecting a custom `ExecutorService` used to ingest data
+- Selecting a database transaction to use during data ingest
+- Applying arbitrary `Stream` operators on the database source Stream (e.g. to limit or filter the database content)
+- Clearing all data before start of data ingest
+- Selecting a subset of database tables to use during ingest
+
+See the JavaDoc for the classes `IngestUtil` and `IngestConfiguration` for a detailed description on these features. 
+
+{% include tip.html content = "
+Because the Hazelcast nodes must be able to operate independent on the Java data model, data is loaded from the database via the application to the Hazelcast nodes.
 " %}
 
 ## Query Data 
-
-### Streams
-TBW
+Data can be queried using at least three different methods:
+- Hazelcast IMap API
+- Hazelcast Jet (distributed streams)
+- Standard Java Streams 
 
 ### Hazelcast Map
+Applications can use the Hazelcast `Map` and `IMap` interfaces directly and work with data this way. The name of a distributed map can be obtained using the `HazelcastMapUtil::mapName` method as shown hereunder:
+``` java
+String filmMapName = HazelcastMapUtil.mapName(FilmManager.IDENTIFIER); 
+```
+Read more on the Hazelcast `IMap` API [here](https://docs.hazelcast.org/docs/latest/javadoc/com/hazelcast/core/IMap.html)
+
+### Hazelcast Jet
+Read more on connecting Hazelcast Jet to Hazelcast `IMap` objects [here](https://docs.hazelcast.org/docs/jet/latest/manual/#connector-imdg)
+
+### Streams
+As for all Speedment applications, data in the Hazelcast grid can be queried using standard `java.util.stream.Stream` objects.
+Here is an example where we are collecting a list of the film titles of the films with a rating of PG-13 that has a length greater than 75 minutes:
+``` java
+FilmManager films = hazelcastApp.getOrThrow(FilmManager.class);
+
+List<String> list = films.stream()
+    .filter(Film.RATING.equal("PG-13"))
+    .filter(Film.LENGTH.greaterThan(75))
+    .map(Film.TITLE)
+    .sorted()
+    .collect(Collectors.toList());
+```
+Read more about Speedment streams [here (examples)](https://speedment.github.io/speedment-doc/speedment_examples.html#top) and [here (fundamentals)](https://speedment.github.io/speedment-doc/stream_fundamentals.html#top)
 
 
 ### Other Languages
-Data in the Hazelcast grid can also be queried using other languages. 
+Because data is stored using `Portable` entity classes, data in the Hazelcast server nodes can also be queried using other languages. Read more [here](https://hazelcast.org/clients-languages/).
 
-
+{% include tip.html content = "
+Remember to check for `null` values explicitly in your predicates if you have Wrapper classes (e.g. Integer, Long, Double) that are nullable.
+" %}
+ 
 ## Persistence
 TBW
 
 ## Indexing
-TBW
+Upon generation, Speedment examines the database metadata and suggests indexing based on how the database is indexed. This provides a solid baseline for grid indexing.
+In the following example, an index utility method was automatically generated when working with the Sakila database (the class has been shortened for brevity):
+``` java
+@GeneratedCode("Speedment")
+public final class GeneratedSakilaIndexUtil {
+    
+    private GeneratedSakilaIndexUtil() {}
+    
+    public static void setupIndex(final HazelcastInstance h) {
+        
+        // Indexes for table actor
+        // Index PRIMARY (unique) using column actor_id
+        h.getMap("sakila.sakila.actor").addIndex("actor_id", true);
+        // Index idx_actor_last_name  using column last_name
+        h.getMap("sakila.sakila.actor").addIndex("last_name", true);
+        
+        // ... Rows hidden for brevity
+        
+        // Indexes for table film
+        // Index PRIMARY (unique) using column film_id
+        h.getMap("sakila.sakila.film").addIndex("film_id", true);
+        // Index idx_film_rating  using column rating
+        h.getMap("sakila.sakila.film").addIndex("rating", true);
+        // Index idx_fk_language_id  using column language_id
+        h.getMap("sakila.sakila.film").addIndex("language_id", true);
+        // Index idx_fk_original_language_id  using column original_language_id
+        h.getMap("sakila.sakila.film").addIndex("original_language_id", true);
+        // Index idx_title  using column title
+        h.getMap("sakila.sakila.film").addIndex("title", true);
+        
+        // ... Rows hidden for brevity
+    }
+}
+```  
+As can be seen, creating a `HazelcastInstance` and then just invoking the method `GeneratedSakilaIndexUtil::setupIndex` will create the same indexes in the Hazelcast grid that were present in the database.
 
 ## Performance
-TBW
+Thanks to the `Portable` entity classes, Hazelcast server nodes can benefit from indexing and partial deserialization when testing predicates. This greatly speedup querying in many cases. 
 
 {% include prev_next.html %}
 
