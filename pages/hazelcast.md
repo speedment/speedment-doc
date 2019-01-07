@@ -21,6 +21,7 @@ In the current release, Hazelcast support is experimental and it is not advised 
 " %}
 
 **Requires Speedment Enterprise 3.1.10 or later.**
+
 Using the Hazelcast Bundles, Speedment can greatly simplify working with Hazelcast and can:
 - Automatically generate a Java domain model from an existing database
 - Automatically generate serialization support for Hazelcast
@@ -36,7 +37,14 @@ Using the Hazelcast Bundles, Speedment can greatly simplify working with Hazelca
   -  and many other languages
      
 
-## Installing the Hazelcast Plugin
+## Architecture
+The Hazelcast Bundles support storage of entities in distributed maps in a client/server architecture where the Bundles reside on the client side. No extra software is required on the server side which allows easy setup, migration and management of Hazelcast clusters.
+
+{% include image.html file="hazelcast-architecture.png" alt="Hazelcast Architecture" caption="The Hazelcast client/server architecture" %}
+
+As
+
+## Installing the Hazelcast Bundles
 In the `pom.xml` file, the following dependencies needs to be added:
 
 ``` xml
@@ -69,6 +77,7 @@ In the `pom.xml` file, the `speedment-enterprise-maven-plugin` configuration nee
 
         <configuration>
             <components>
+                <!-- Add the following component to the plugin -->
                 <component>com.speedment.enterprise.hazelcast.tool.HazelcastToolBundle</component>
             </components>
             <appName>${project.artifactId}</appName>
@@ -82,6 +91,8 @@ In the `pom.xml` file, the `speedment-enterprise-maven-plugin` configuration nee
                 <version>${mysql.version}</version>
                 <scope>runtime</scope>
             </dependency>
+            
+            <!-- The dependency below needs to be added -->            
             <dependency>
                 <groupId>com.speedment.enterprise.hazelcast</groupId>
                 <artifactId>hazelcast-tool</artifactId>
@@ -93,8 +104,17 @@ In the `pom.xml` file, the `speedment-enterprise-maven-plugin` configuration nee
 </plugins>
 ``` 
 
-## Architecture
-The Hazelcast Bundles support a client/server architecture where the Bundles reside on the client side. No extra software is required on the server side which allows easy setup, migration and management of Hazelcast clusters.
+In the application builder, the `HazelcastBundle` needs to be added to allow injection of the Hazelcast runtime components as shown in this example:
+
+```
+final Speedment hazelcastApp = new SakilaApplicationBuilder()
+    .withPassword("sakila-password")
+    .withBundle(HazelcastBundle.class)
+    .withComponent(SakilaHazelcastConfigComponent.class)
+    .build();
+```
+Note: The `SakilaHazelcastConfigComponent` is a generated configuration class and its meaning is explained [later](#configuration) in this chapter.
+
 
 ## Entities
 Hazelcast compatible Data Entities are automatically generated from the database metadata. The generated entities implements Hazelcasts [`Portable`](https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#implementing-portable-serialization) interface.  
