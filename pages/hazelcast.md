@@ -22,13 +22,15 @@ In the current release, Hazelcast support is experimental and it is not advised 
 
 **Requires Speedment Enterprise 3.1.10 or later.**
 
-Using the Hazelcast Bundles, Speedment can greatly simplify working with Hazelcast and can:
-- Automatically generate a Java domain model from an existing database
-- Automatically generate serialization support for Hazelcast
-- Automatically generate configuration handling for Hazelcast
-- Automatically generate Hazelcast indexing based on the underlying database indexing
-- Provide automatic ingest of data from an existing database to the Hazelcast grid
-- Provide access to the Hazelcast grid for additional languages such as
+Using the Hazelcast Bundles, Speedment can greatly simplify working with Hazelcast and can, from an existing database, automatically generate:
+- Java domain data model (e.g. entities) 
+- Hazelcast Serialization support
+- Hazelcast configuration handling
+- Hazelcast indexing based on the underlying database indexing
+
+In addition to this, Speedment and the Hazelcast Bundles also provides:
+- Automatic ingest of data from an existing database to the Hazelcast grid
+- Access to the Hazelcast grid for additional languages such as
   -  C++
   -  node.js
   -  C#
@@ -135,17 +137,17 @@ Hazelcast serialization and `Map` handling involves several aspects as described
 Because entities are stored in distributed maps, each entry must have a unique key. The key is extracted from an entity depending on its primary key(s) (if any). This works in the following way:
 
 #### No Primary Key
-A synthetic key is used in the form of a `Long` that generates a unique value each time an entry is added to the map. The specific sequence is undefined but it is guaranteed keys are never repeated within the same cluster. It is not recommended to use entities with no primary key.
+A synthetic key is used in the form of a `Long` that generates a unique value each time an entry is added to the map. The specific sequence is undefined but it is guaranteed keys are never repeated for the same `Map` within the same cluster. It is not recommended to use entities with no primary key.
 
 #### One Primary Key
-The primary key is extracted from the entity and is used as a key in the `Map`. For example, if a `Film` entity has a primary key "film_id" that is of type `int`, then a corresponding `Integer` will be used as key.
+The primary key is extracted from the entity and is used as a key in the `Map`. For example, if a `Film` entity has a primary key "film_id" that is of type `int`, then a corresponding `Integer` will be used as key. This is the recommended way for optimum performance.  
 
 #### Two or More Primary Keys
 The primary keys are extracted from the entry and are put in a `List` that is used as a key in the `Map`. For example, if a `FilmActor` entity has a compound primary key consisting of the columns `actor_id` and `film_id` (both of type `int`), then a `List` containing two corresponding `Integer` objects will be used as key.  
 
 ### Portable Factories
 The `HazelcastToolBundle` automatically generates the necessary `PortableFactory` objects. These are used to create `Portable` entities without resorting to reflection.    
-All `PortableFactory` classes are hold together in a single holder class and there is one `PortableFactory` for each schema in the database. For the Sakila sample database (that consist only of one schema) the following classes are generated:
+All `PortableFactory` classes are collected together in a single holder class and there is one `PortableFactory` for each schema in the database. For the Sakila sample database (that consist only of one schema also named "sakila") the following classes are generated:
 ```java
 public final class SakilaPortableFactories {
     
@@ -212,7 +214,7 @@ The `PortableFactory` objects are automatically added by the generated [Configur
 
 ### Class Definitions
 The `HazelcastToolBundle` automatically generates `ClassDefinition` objects for each entity type. `ClassDefinitiona` are used by Hazelcast to internally define how the entity classes look like.    
-For the Sakila sample database table "film" the following `ClassDefinition` are generated:
+For the Sakila sample database table "film", the following `ClassDefinition` objects are generated:
 ```java
 public class FilmClassDefinition extends GeneratedFilmClassDefinition {}
 ```
@@ -265,7 +267,7 @@ The following Java data types are supported:
 - Time
 - Date
 - BLOB
-- CLOB via String mapping
+CLOB and Text columns are supported via String mapping.
 
 For each column, there are a number of [type mapping](maven.html#adding-a-type-mapper) possibilities that can be applied using the UI Tool.
  
@@ -493,6 +495,102 @@ As can be seen, creating a `HazelcastInstance` and then just invoking the method
 
 ## Performance
 Thanks to the `Portable` entity classes, Hazelcast server nodes can benefit from indexing and partial deserialization when applying predicates on large data sets. This greatly speeds up querying in many cases. 
+
+## Example Clients
+The following examples show different variants of Hazelcast clients that can connect to a Hazelcast server grid that already contains data (e.g. by means of the [ingest feature](#ingest-data)):
+
+### Using the Hazelcast IMap API
+This example is using the native Hazelcast `IMap` interface to select data from a Hazelcast server grid:
+```java
+public class IMapClientExample {
+
+    public static void main(String... args) {
+
+        // Create the Speedment instance with the HazelcastBundle
+        Speedment hazelcastApp = new SakilaApplicationBuilder()
+            .withPassword("sakila-password")
+            .withBundle(HazelcastBundle.class)
+            .build();
+
+        // Retrieve the HazecastInstance from the app
+        HazelcastInstance hazelcastClient = hazelcastApp.getOrThrow(HazelcastInstanceComponent.class).get();
+
+        // Calculate the IMap name given a TableIdentifier
+        String mapName = mapName(FilmManager.IDENTIFIER);
+        IMap<Integer, Film> filmMap = hazelcastClient.getMap(mapName);
+
+        Predicate predicate = new SqlPredicate("rating = 'PG-13' and length >= 180");
+        Collection<Film> collection = filmMap.values(predicate);
+
+        // print out all Film entities that matches the predicates
+        collection
+            .forEach(System.out::println);
+
+        // Close the hazelcastApp which, in turn, closes the hazelcastClient
+        hazelcastApp.close();
+
+    }
+
+}
+```
+The code above can be shortened like this:
+``` java
+        try(Speedment app = new SakilaApplicationBuilder()
+            .withPassword("sakila-password")
+            .withBundle(HazelcastBundle.class)
+            .build()) {
+            
+            app.getOrThrow(HazelcastInstanceComponent.class)
+                .get()
+                .getMap(mapName(FilmManager.IDENTIFIER))
+                .values(new SqlPredicate("rating = 'PG-13' and length >= 180"))
+                .forEach(System.out::println);
+        }
+```
+
+### Using the Speedment Stream API
+This example is using the Speedment Stream API to select data from a Hazelcast server grid:
+```java
+public class StreamClientExample {
+
+    public static void main(String... args) {
+
+        // Create the Speedment instance with the HazelcastBundle
+        Speedment hazelcastApp = new SakilaApplicationBuilder()
+            .withPassword("sakila-password")
+            .withBundle(HazelcastBundle.class)
+            .build();
+
+        // Retrieve the FilmManager from the app
+        FilmManager films = hazelcastApp.getOrThrow(FilmManager.class);
+
+        // Print out all Film entities that matches the predicates
+        films.stream()
+            .filter(Film.RATING.equal("PG-13"))
+            .filter(Film.LENGTH.greaterOrEqual(180))
+            .forEach(System.out::println);
+
+        // Close the hazelcastApp which, in turn, closes the hazelcastClient
+        hazelcastApp.close();
+
+    }
+
+}
+```
+The code above can be shortened like this:
+``` java
+        try (Speedment app = new SakilaApplicationBuilder()
+            .withPassword("sakila-password")
+            .withBundle(HazelcastBundle.class)
+            .build()) {
+
+            app.getOrThrow(FilmManager.class).stream()
+                .filter(Film.RATING.equal("PG-13"))
+                .filter(Film.LENGTH.greaterOrEqual(180))
+                .forEach(System.out::println);
+
+        }
+```
 
 {% include prev_next.html %}
 
