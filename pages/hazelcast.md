@@ -127,11 +127,137 @@ final Speedment hazelcastApp = new SakilaApplicationBuilder()
 
 ## Entities
 Hazelcast compatible data Entities are automatically generated from the database metadata. The generated entities implements Hazelcast's [`Portable`](https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#implementing-portable-serialization) interface.
-
+Hazelcast serialization and `Map` handling involves several aspects as described in this chapter.
 In all the code examples below, the [Sakila](https://dev.mysql.com/doc/index-other.html) sample database are being used.
 
 ### Serialization
-Hazelcast serialization and `Map` handling involves several aspects as described in this chapter.
+The `HazelcastToolBundle` automatically generates the necessary entity POJO objects including `Portable` serialization. For example, the implementation of the `Film` interface is generated like this:
+```java
+public final class FilmImpl extends GeneratedFilmImpl implements Film {}
+``` 
+As can be seen, an entity implementation class just inherits all its methods from another generated class. This allows the possibility to override generated methods with custom code that is retained between re-generation of code.
+```java
+@GeneratedCode("Speedment")
+public abstract class GeneratedFilmImpl implements Film {
+    
+    private int filmId;
+    private String title;
+    private String description;
+    private Date releaseYear;
+    private short languageId;
+    private Short originalLanguageId;
+    private short rentalDuration;
+    private BigDecimal rentalRate;
+    private Integer length;
+    private BigDecimal replacementCost;
+    private String rating;
+    private String specialFeatures;
+    private Timestamp lastUpdate;
+    
+    protected GeneratedFilmImpl() {}
+    
+    @Override 
+    public int getFilmId() { return filmId; }
+    
+    @Override 
+    public String getTitle() { return title; }
+    
+    @Override 
+    public Optional<String> getDescription() { return Optional.ofNullable(description); }
+    
+    // Rest of getters hidden for brevity
+    
+    @Override
+    public Film setFilmId(int filmId) {
+        this.filmId = filmId;
+        return this;
+    }
+    
+    @Override
+    public Film setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+    
+    @Override
+    public Film setDescription(String description) {
+        this.description = description;
+        return this;
+    }    
+    // Rest of setters and finders removed for brevity
+    
+    @Override 
+    public int getFactoryId() { return 1321754994;}
+    
+    @Override 
+    public int getClassId() { return 3143044; }
+    
+    @Override
+    public void writePortable(PortableWriter writer) throws IOException {
+        writer.writeInt("film_id", getFilmId());
+        writer.writeUTF("title", getTitle());
+        writer.writeUTF("description", getDescription().orElse(null));
+        if (getReleaseYear().isPresent()){
+            writer.writeBoolean("__null__release_year", false);
+            writer.writeLong("release_year", getReleaseYear().get().getTime());
+        } else {
+            writer.writeBoolean("__null__release_year", true);
+            writer.writeLong("release_year", Long.MIN_VALUE);
+        }
+        writer.writeShort("language_id", getLanguageId());
+        if (getOriginalLanguageId().isPresent()){
+            writer.writeBoolean("__null__original_language_id", false);
+            writer.writeShort("original_language_id", getOriginalLanguageId().get());
+        } else {
+            writer.writeBoolean("__null__original_language_id", true);
+            writer.writeShort("original_language_id", Short.MIN_VALUE);
+        }
+        writer.writeShort("rental_duration", getRentalDuration());
+        writer.writeUTF("rental_rate", getRentalRate().toString());
+        if (getLength().isPresent()){
+            writer.writeBoolean("__null__length", false);
+            writer.writeInt("length", getLength().getAsInt());
+        } else {
+            writer.writeBoolean("__null__length", true);
+            writer.writeInt("length", Integer.MIN_VALUE);
+        }
+        writer.writeUTF("replacement_cost", getReplacementCost().toString());
+        writer.writeUTF("rating", getRating().orElse(null));
+        writer.writeUTF("special_features", getSpecialFeatures().orElse(null));
+        writer.writeLong("last_update", getLastUpdate().getTime());
+    }
+    
+    @Override
+    public void readPortable(PortableReader reader) throws IOException {
+        setFilmId(reader.readInt("film_id"));
+        setTitle(reader.readUTF("title"));
+        setDescription(reader.readUTF("description"));
+        setReleaseYear(reader.readBoolean("__null__release_year")
+            ? null
+            : new Date(reader.readLong("release_year")));
+        setLanguageId(reader.readShort("language_id"));
+        setOriginalLanguageId(reader.readBoolean("__null__original_language_id")
+            ? null
+            : reader.readShort("original_language_id"));
+        setRentalDuration(reader.readShort("rental_duration"));
+        setRentalRate(new BigDecimal(reader.readUTF("rental_rate")));
+        setLength(reader.readBoolean("__null__length")
+            ? null
+            : reader.readInt("length"));
+        setReplacementCost(new BigDecimal(reader.readUTF("replacement_cost")));
+        setRating(reader.readUTF("rating"));
+        setSpecialFeatures(reader.readUTF("special_features"));
+        setLastUpdate(new Timestamp(reader.readLong("last_update")));
+    }
+    
+    // toString, equals and hashCode hidden for brevity
+}
+```
+Because `Portable` objects cannot handle nullable wrapper classes in Hazelcast, these fields are handled with an extra synthetic fields beginning with "__null__" (two understrokes at both ends).
+
+{% include warning.html content = "
+When writing your own predicates using the Hazelcast IMap API, make sure to check the null state or else your predicate will not work as expected. Applications using the Speedment Stream API will handle the null fields automatically. 
+" %}  
 
 ### Primary Keys
 Because entities are stored in distributed maps, each entry must have a unique key. The key is extracted from an entity depending on its primary key(s) (if any). This works in the following way:
@@ -432,13 +558,13 @@ Read more on connecting Hazelcast Jet to Hazelcast `IMap` objects [here](https:/
 
 ### Streams
 As for all Speedment applications, data in the Hazelcast grid can be queried using standard `java.util.stream.Stream` objects.
-Here is an example where we are collecting a list of the film titles (in alphabetical order) of the films with a rating of PG-13 that has a length greater than 75 minutes:
+Here is an example where we are collecting a list of the film titles (in alphabetical order) of the films with a rating of PG-13 that has a length greater or equal to 180 minutes:
 ``` java
 FilmManager films = hazelcastApp.getOrThrow(FilmManager.class);
 
 List<String> list = films.stream()
     .filter(Film.RATING.equal("PG-13"))
-    .filter(Film.LENGTH.greaterThan(75))
+    .filter(Film.LENGTH.greaterOrEqua(180))
     .map(Film.TITLE)
     .sorted()
     .collect(Collectors.toList());
