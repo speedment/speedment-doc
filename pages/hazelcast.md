@@ -49,8 +49,8 @@ The application can query and manipulate data in the Hazelcast server grid witho
 Since the database is no longer involved in querying, application speed may be greatly improved in many cases.  
 
 ## Installing the Hazelcast Bundles
-There are two Hazelcast bundles: 
-- `HazelcastToolBundle` that is needed by the UI Tool to generate entity classes (generation)
+There are two Hazelcast bundles that need to be installed: 
+- `HazelcastToolBundle` that is needed by the UI Tool to generate entity classes and other support classes (generation)
 - `HazelcastBundle`  that is needed at runtime by the Hazelcast client application (runtime)
  
 ### Installing the HazelcastToolBundle
@@ -126,11 +126,15 @@ final Speedment hazelcastApp = new SakilaApplicationBuilder()
 Note: The `SakilaHazelcastConfigComponent` is a generated configuration class and its meaning is explained [later](#configuration) in this chapter.
 
 ## Entities
-Hazelcast compatible Data Entities are automatically generated from the database metadata. The generated entities implements Hazelcasts [`Portable`](https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#implementing-portable-serialization) interface.  
+Hazelcast compatible data Entities are automatically generated from the database metadata. The generated entities implements Hazelcast's [`Portable`](https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#implementing-portable-serialization) interface.  
 
 ### Serialization
 
 ### Primary Keys
+
+### Portable Factories
+
+### Class Definitions
 
 ### Supported Data Types
 The following Java data types are supported:
@@ -150,7 +154,9 @@ The following Java data types are supported:
 - Date
 - BLOB
 - CLOB via String mapping
-For each column, there are a number of [type mapping](maven.html#adding-a-type-mapper) possibilities that can be applied using the UI Tool. 
+
+For each column, there are a number of [type mapping](maven.html#adding-a-type-mapper) possibilities that can be applied using the UI Tool.
+ 
 
 ### Null Handling
 Via the UI Tool, nullable columns can be configured to use getters returning either `null` or `Optional` objects. 
