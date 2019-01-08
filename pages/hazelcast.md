@@ -120,21 +120,133 @@ In the application builder, the `HazelcastBundle` needs to be added to allow inj
 final Speedment hazelcastApp = new SakilaApplicationBuilder()
     .withPassword("sakila-password")
     .withBundle(HazelcastBundle.class)
-    .withComponent(SakilaHazelcastConfigComponent.class)
     .build();
 ```
-Note: The `SakilaHazelcastConfigComponent` is a generated configuration class and its meaning is explained [later](#configuration) in this chapter.
 
 ## Entities
-Hazelcast compatible data Entities are automatically generated from the database metadata. The generated entities implements Hazelcast's [`Portable`](https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#implementing-portable-serialization) interface.  
+Hazelcast compatible data Entities are automatically generated from the database metadata. The generated entities implements Hazelcast's [`Portable`](https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#implementing-portable-serialization) interface.
+
+In all the code examples below, the [Sakila](https://dev.mysql.com/doc/index-other.html) sample database are being used.
 
 ### Serialization
+Hazelcast serialization and `Map` handling involves several aspects as described in this chapter.
 
 ### Primary Keys
+Because entities are stored in distributed maps, each entry must have a unique key. The key is extracted from an entity depending on its primary key(s) (if any). This works in the following way:
+
+#### No Primary Key
+A synthetic key is used in the form of a `Long` that generates a unique value each time an entry is added to the map. The specific sequence is undefined but it is guaranteed keys are never repeated within the same cluster. It is not recommended to use entities with no primary key.
+
+#### One Primary Key
+The primary key is extracted from the entity and is used as a key in the `Map`. For example, if a `Film` entity has a primary key "film_id" that is of type `int`, then a corresponding `Integer` will be used as key.
+
+#### Two or More Primary Keys
+The primary keys are extracted from the entry and are put in a `List` that is used as a key in the `Map`. For example, if a `FilmActor` entity has a compound primary key consisting of the columns `actor_id` and `film_id` (both of type `int`), then a `List` containing two corresponding `Integer` objects will be used as key.  
 
 ### Portable Factories
+The `HazelcastToolBundle` automatically generates the necessary `PortableFactory` objects. These are used to create `Portable` entities without resorting to reflection.    
+All `PortableFactory` classes are hold together in a single holder class and there is one `PortableFactory` for each schema in the database. For the Sakila sample database (that consist only of one schema) the following classes are generated:
+```java
+public final class SakilaPortableFactories {
+    
+    private SakilaPortableFactories() {}
+    
+    /**
+     * A {@link PortableFactory } class for the schema sakila
+     * <p>
+     * This PortableFactory has an id of 1321754994
+     */
+    public final static class SakilaSakilaPortableFactory 
+    extends GeneratedSakilaSakilaPortableFactory 
+    implements PortableFactory {}
+}
+```
+As can be seen, `PortableFactory` class just inherits all its methods from another generated class. This allows the possibility to override generated methods with custom code that is retained between re-generation of code. 
+```java
+@GeneratedCode("Speedment")
+public final class GeneratedSakilaPortableFactories {
+    
+    private GeneratedSakilaPortableFactories() {}
+    
+    /**
+     * A {@link PortableFactory } class for the schema sakila
+     * <p>
+     * This PortableFactory has an id of 1321754994
+     */
+    public abstract static class GeneratedSakilaSakilaPortableFactory implements PortableFactory {
+        
+        @Override
+        public Portable create(int classId) {
+            switch (classId) {
+                case 92645877: return new ActorImpl();
+                case 1147692044: return new AddressImpl();
+                case 50511102: return new CategoryImpl();
+                case 3053931: return new CityImpl();
+                case 957831062: return new CountryImpl();
+                case 606175198: return new CustomerImpl();
+                case 3143044: return new FilmImpl();
+                case 637325178: return new FilmActorImpl();
+                case 205122905: return new FilmCategoryImpl();
+                case 1087251704: return new FilmTextImpl();
+                case 2020599460: return new InventoryImpl();
+                case 1613589672: return new LanguageImpl();
+                case 786681338: return new PaymentImpl();
+                case 934576860: return new RentalImpl();
+                case 109757152: return new StaffImpl();
+                case 109770977: return new StoreImpl();
+                case 1340382024: return new ActorInfoImpl();
+                case 2143869857: return new CustomerListImpl();
+                case 1087486343: return new FilmListImpl();
+                case 970270416: return new NicerButSlowerFilmListImpl();
+                case 47400380: return new SalesByFilmCategoryImpl();
+                case 58908876: return new SalesByStoreImpl();
+                case 260666013: return new StaffListImpl();
+            }
+            return null;
+        }
+    }
+}
+```
+The `PortableFactory` objects are automatically added by the generated [Configuration](#configuration) classes.
+
 
 ### Class Definitions
+The `HazelcastToolBundle` automatically generates `ClassDefinition` objects for each entity type. `ClassDefinitiona` are used by Hazelcast to internally define how the entity classes look like.    
+For the Sakila sample database table "film" the following `ClassDefinition` are generated:
+```java
+public class FilmClassDefinition extends GeneratedFilmClassDefinition {}
+```
+As can be seen, `ClassDefinition` class just inherits all its methods from another generated class. This allows the possibility to override generated methods with custom code that is retained between re-generation of code. 
+```java
+@GeneratedCode("Speedment")
+public abstract class GeneratedFilmClassDefinition implements IntFunction<ClassDefinition> {
+    
+    protected GeneratedFilmClassDefinition() {}
+    
+    @Override
+    public ClassDefinition apply(int version) {
+        return new ClassDefinitionBuilder(1321754994, 3143044, version)
+            .addIntField("film_id")
+            .addUTFField("title")
+            .addUTFField("description")
+            .addLongField("release_year")
+            .addBooleanField("__null__release_year")
+            .addShortField("language_id")
+            .addShortField("original_language_id")
+            .addBooleanField("__null__original_language_id")
+            .addShortField("rental_duration")
+            .addUTFField("rental_rate")
+            .addIntField("length")
+            .addBooleanField("__null__length")
+            .addUTFField("replacement_cost")
+            .addUTFField("rating")
+            .addUTFField("special_features")
+            .addLongField("last_update")
+            .build();
+    }
+}
+```
+The `ClassDefinition` objects are automatically added by the generated [Configuration](#configuration) classes.
 
 ### Supported Data Types
 The following Java data types are supported:
@@ -162,15 +274,15 @@ For each column, there are a number of [type mapping](maven.html#adding-a-type-m
 Via the UI Tool, nullable columns can be configured to use getters returning either `null` or `Optional` objects. 
 
 ## Configuration
-Speedment generates a complete class that can provide a Hazelcast `ClientConfiguration` containing all serialization factories and class definitions already pre-configured.
+Speedment generates a complete class that provides a Hazelcast `ClientConfiguration` containing all serialization factories and class definitions already pre-configured.
 This class is named after the project name. For example, for a project named "Sakila", then the configuration class will be named `SakilaHazelcastConfigComponent`. 
 This is how an exemplary generated class looks like:
 ```java
 public class SakilaHazelcastConfigComponent extends GeneratedSakilaHazelcastConfigComponent {}
 ```
-As can be seen, this class just inherits all it method from another generated class. This allows the possibility to override generated methods with custom code that is retained between re-generation of code.  
+As can be seen, this class just inherits all its methods from another generated class. This allows the possibility to override generated methods with custom code that is retained between re-generation of code.  
 
-``` java
+```java
 @GeneratedCode("Speedment")
 public class GeneratedSakilaHazelcastConfigComponent implements HazelcastConfigComponent {
     
@@ -219,7 +331,7 @@ public class GeneratedSakilaHazelcastConfigComponent implements HazelcastConfigC
     }
 }
 ``` 
-As can be seen, the generated configuration class adds all the portable serialization factories and all class definitions that has been automatically generated 
+Thus, the generated configuration class adds all the portable serialization factories and all class definitions that has been automatically generated. This class is automatically added as a component by the application builder. 
 
 ## Ingesting Data
 Ingesting data from a database into the Hazelcast server nodes is greatly simplified with the methods added via the Hazelcast bundles. The process involves creating a Speedment instance that is connected to the database and one Hazelcast client instance connected to the Hazelcast server cluster.
@@ -252,7 +364,7 @@ The following example shows a method that will invoke `IngestUtil::ingest` to in
         // Close the Speedment SQL application
         sqlApp.close();
 
-        // Print out att the distributed maps that now has been
+        // Print out the distributed maps that now has been
         // created and populated with data
         hazelcastClientInstance.getDistributedObjects().stream()
             .forEach(System.out::println);
@@ -262,7 +374,7 @@ The following example shows a method that will invoke `IngestUtil::ingest` to in
     }
 ```
 This might produce the following output showing all the `IMap` objects in which data was ingested:
-``` text
+```text
 IMap{name='sakila.sakila.nicer_but_slower_film_list'}
 IMap{name='sakila.sakila.film'}
 IMap{name='sakila.sakila.payment'}
@@ -287,10 +399,10 @@ IMap{name='sakila.sakila.actor_info'}
 IMap{name='sakila.sakila.city'}
 IMap{name='sakila.sakila.sales_by_film_category'}
 ```
-The utility class `IngestUtil` contains a number of related methods that can be used to control the ingest process in more detail including:
+The utility class `IngestUtil` contains a number of related methods that can be used to control the ingest process in more detail, including:
 - Selecting a custom `ExecutorService` used to ingest data
 - Selecting a database transaction to use during data ingest
-- Applying arbitrary `Stream` operators on the database source Stream (e.g. to limit or filter the database content)
+- Applying arbitrary `Stream` operators on the database source Stream (e.g. limiting or filtering the database content)
 - Clearing all data before start of data ingest
 - Selecting a subset of database tables to use during ingest
 
@@ -318,7 +430,7 @@ Read more on connecting Hazelcast Jet to Hazelcast `IMap` objects [here](https:/
 
 ### Streams
 As for all Speedment applications, data in the Hazelcast grid can be queried using standard `java.util.stream.Stream` objects.
-Here is an example where we are collecting a list of the film titles of the films with a rating of PG-13 that has a length greater than 75 minutes:
+Here is an example where we are collecting a list of the film titles (in alphabetical order) of the films with a rating of PG-13 that has a length greater than 75 minutes:
 ``` java
 FilmManager films = hazelcastApp.getOrThrow(FilmManager.class);
 
@@ -329,7 +441,7 @@ List<String> list = films.stream()
     .sorted()
     .collect(Collectors.toList());
 ```
-Read more about Speedment streams [here (examples)](https://speedment.github.io/speedment-doc/speedment_examples.html#top) and [here (fundamentals)](https://speedment.github.io/speedment-doc/stream_fundamentals.html#top)
+Read more about Speedment streams [here (examples)](https://speedment.github.io/speedment-doc/speedment_examples.html#top) and [here (stream fundamentals)](https://speedment.github.io/speedment-doc/stream_fundamentals.html#top)
 
 
 ### Other Languages
@@ -345,7 +457,7 @@ TBW
 ## Indexing
 Upon generation, Speedment examines the database metadata and suggests indexing based on how the database is indexed. This provides a solid baseline for grid indexing.
 In the following example, an index utility method was automatically generated when working with the Sakila database (the class has been shortened for brevity):
-``` java
+```java
 @GeneratedCode("Speedment")
 public final class GeneratedSakilaIndexUtil {
     
@@ -380,7 +492,7 @@ public final class GeneratedSakilaIndexUtil {
 As can be seen, creating a `HazelcastInstance` and then just invoking the method `GeneratedSakilaIndexUtil::setupIndex` will create the same indexes in the Hazelcast grid that were present in the database.
 
 ## Performance
-Thanks to the `Portable` entity classes, Hazelcast server nodes can benefit from indexing and partial deserialization when testing predicates. This greatly speedup querying in many cases. 
+Thanks to the `Portable` entity classes, Hazelcast server nodes can benefit from indexing and partial deserialization when applying predicates on large data sets. This greatly speeds up querying in many cases. 
 
 {% include prev_next.html %}
 
