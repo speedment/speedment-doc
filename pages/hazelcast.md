@@ -126,7 +126,7 @@ final Speedment hazelcastApp = new SakilaApplicationBuilder()
 ```
 
 ## Entities
-Hazelcast compatible data Entities are automatically generated from the database metadata. The generated entities implements Hazelcast's [`Portable`](https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#implementing-portable-serialization) interface.
+Hazelcast compatible data entities are automatically generated from the database metadata. The generated entities implements Hazelcast's [`Portable`](https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#implementing-portable-serialization) interface.
 Hazelcast serialization and `Map` handling involves several aspects as described in this chapter.
 In all the code examples below, the [Sakila](https://dev.mysql.com/doc/index-other.html) sample database are being used.
 
@@ -184,7 +184,7 @@ public abstract class GeneratedFilmImpl implements Film {
         this.description = description;
         return this;
     }    
-    // Rest of setters and finders removed for brevity
+    // Rest of setters and finders hidden for brevity
     
     @Override 
     public int getFactoryId() { return 1321754994;}
@@ -253,7 +253,7 @@ public abstract class GeneratedFilmImpl implements Film {
     // toString, equals and hashCode hidden for brevity
 }
 ```
-Because `Portable` objects cannot handle nullable wrapper classes in Hazelcast, these fields are handled with an extra synthetic fields beginning with "__null__" (two understrokes at both ends).
+Because `Portable` objects cannot handle nullable wrapper classes in Hazelcast, these fields are handled with an extra synthetic fields beginning with `__null__` (two understrokes at both ends).
 
 {% include warning.html content = "
 When writing your own predicates using the Hazelcast IMap API, make sure to check the null state or else your predicate will not work as expected. Applications using the Speedment Stream API will handle the null fields automatically. 
@@ -399,7 +399,7 @@ For each column, there are a number of [type mapping](maven.html#adding-a-type-m
  
 
 ### Null Handling
-Via the UI Tool, nullable columns can be configured to use getters returning either `null` or `Optional` objects. 
+Via the UI Tool, nullable columns can be configured to use getters returning either `null` (i.e standard POJO) or `Optional` objects. 
 
 ## Configuration
 Speedment generates a complete class that provides a Hazelcast `ClientConfiguration` containing all serialization factories and class definitions already pre-configured.
@@ -462,43 +462,40 @@ public class GeneratedSakilaHazelcastConfigComponent implements HazelcastConfigC
 Thus, the generated configuration class adds all the portable serialization factories and all class definitions that has been automatically generated. This class is automatically added as a component by the application builder. 
 
 ## Ingesting Data
-Ingesting data from a database into the Hazelcast server nodes is greatly simplified with the methods added via the Hazelcast bundles. The process involves creating a Speedment instance that is connected to the database and one Hazelcast client instance connected to the Hazelcast server cluster.
+Ingesting data from a database into the Hazelcast server nodes is greatly simplified with a provided utility class. The process involves creating a Speedment instance that is connected to the database and one Hazelcast client instance connected to the Hazelcast server cluster.
 The following example shows a method that will invoke `IngestUtil::ingest` to ingest data from all tables in the the database into the Hazelcast server grid:
 
 ``` java
     public void ingestAll() {
 
         // Create a Speedment application connected to a SQL database
-        final Speedment sqlApp = new SakilaApplicationBuilder()
+        // and that also contains a Hazelcast client
+        final Speedment app = new SakilaApplicationBuilder()
             .withPassword("sakila-password")
+            .withBundle(HazelcastBundle.class)
             .build();
-
-        // Create a Hazelcast client instance connected to a Hazelcast server grid
-        final HazelcastInstance hazelcastClientInstance =
-            HazelcastClient.newHazelcastClient(new SakilaHazelcastConfigComponent().get());
 
         // Ingest all tables from the database into the Hazelcast
         // server grid using the default IngestConfiguration:
-        //
         // - Load all data (i.e. all rows) from the tables
         // - Use the default ForkJoin pool for parallel loading
         // - Perform loading outside any database transaction
         // - Do not clear the maps before loading
-        CompletableFuture<Void> job = IngestUtil.ingest(hazelcastClientInstance, sqlApp);
+        CompletableFuture<Void> job = IngestUtil.ingest(app);
 
         // Wait for the ingest job to complete
         job.join();
 
-        // Close the Speedment SQL application
-        sqlApp.close();
-
-        // Print out the distributed maps that now has been
+        // Print out att the distributed maps that now has been
         // created and populated with data
-        hazelcastClientInstance.getDistributedObjects().stream()
+        app.getOrThrow(HazelcastInstanceComponent.class).get()
+            .getDistributedObjects()
+            .stream()
             .forEach(System.out::println);
 
-        // Close the Hazelcast client instance
-        hazelcastClientInstance.shutdown();
+        // Close the app and thereby also the hazelcastInstance
+        app.close();
+
     }
 ```
 This might produce the following output showing all the `IMap` objects in which data was ingested:
@@ -534,7 +531,22 @@ The utility class `IngestUtil` contains a number of related methods that can be 
 - Clearing all data before start of data ingest
 - Selecting a subset of database tables to use during ingest
 
-See the JavaDoc for the classes `IngestUtil` and `IngestConfiguration` for a detailed description on these features. 
+See the JavaDoc for the classes `IngestUtil` and `IngestConfiguration` for a detailed description on these features.
+
+The code above can be shortened like this (provided that the print out section is skipped):
+``` java
+    public void ingestAllShort() {
+
+        try (Speedment app = new SakilaApplicationBuilder()
+            .withPassword("sakila-password")
+            .withBundle(HazelcastBundle.class)
+            .build()) {
+
+            IngestUtil.ingest(app).join();
+        };
+
+    }
+```
 
 {% include tip.html content = "
 Because the Hazelcast nodes must be able to operate independent on the Java data model, data is loaded from the database via the application to the Hazelcast nodes.
