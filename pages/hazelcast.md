@@ -462,8 +462,8 @@ public class GeneratedSakilaHazelcastConfigComponent implements HazelcastConfigC
 Thus, the generated configuration class adds all the portable serialization factories and all class definitions that has been automatically generated. This class is automatically added as a component by the application builder. 
 
 ## Ingesting Data
-Ingesting data from a database into the Hazelcast server nodes is greatly simplified with a provided utility class. The process involves creating a Speedment instance that is connected to the database and one Hazelcast client instance connected to the Hazelcast server cluster.
-The following example shows a method that will invoke `IngestUtil::ingest` to ingest data from all tables in the the database into the Hazelcast server grid:
+Ingesting data from a database into the Hazelcast server nodes is greatly simplified with a provided utility class named `IngestUtil`. 
+The following example shows a method that will invoke a method `IngestUtil::ingest` to ingest data from all tables in the the database into the Hazelcast server grid:
 
 ``` java
     public void ingestAll() {
