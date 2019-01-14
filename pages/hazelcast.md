@@ -491,6 +491,7 @@ The following example shows a method that will invoke a method `IngestUtil::inge
         app.getOrThrow(HazelcastInstanceComponent.class).get()
             .getDistributedObjects()
             .stream()
+            .sorted(comparing(Object::toString))
             .forEach(System.out::println);
 
         // Close the app and thereby also the hazelcastInstance
@@ -498,32 +499,41 @@ The following example shows a method that will invoke a method `IngestUtil::inge
 
     }
 ```
-This might produce the following output showing all the `IMap` objects in which data was ingested:
+This produces the following output showing all the `IMap` objects in which data was ingested:
 ```text
-IMap{name='sakila.sakila.nicer_but_slower_film_list'}
-IMap{name='sakila.sakila.film'}
-IMap{name='sakila.sakila.payment'}
-IMap{name='sakila.sakila.film_list'}
-IMap{name='sakila.sakila.sales_by_store'}
-IMap{name='sakila.sakila.address'}
-IMap{name='sakila.sakila.rental'}
-IMap{name='sakila.sakila.staff'}
-IMap{name='sakila.sakila.country'}
-IMap{name='sakila.sakila.store'}
-IMap{name='sakila.sakila.category'}
-IMap{name='sakila.sakila.customer'}
-IMap{name='sakila.sakila.staff_list'}
+FlakeIdGenerator{name='sakila.sakila.actor_info'}
+FlakeIdGenerator{name='sakila.sakila.customer_list'}
+FlakeIdGenerator{name='sakila.sakila.film_list'}
+FlakeIdGenerator{name='sakila.sakila.nicer_but_slower_film_list'}
+FlakeIdGenerator{name='sakila.sakila.sales_by_film_category'}
+FlakeIdGenerator{name='sakila.sakila.sales_by_store'}
+FlakeIdGenerator{name='sakila.sakila.staff_list'}
 IMap{name='sakila.sakila.actor'}
-IMap{name='sakila.sakila.inventory'}
-IMap{name='sakila.sakila.film_text'}
-IMap{name='sakila.sakila.customer_list'}
-IMap{name='sakila.sakila.film_actor'}
-IMap{name='sakila.sakila.language'}
-IMap{name='sakila.sakila.film_category'}
 IMap{name='sakila.sakila.actor_info'}
+IMap{name='sakila.sakila.address'}
+IMap{name='sakila.sakila.category'}
 IMap{name='sakila.sakila.city'}
+IMap{name='sakila.sakila.country'}
+IMap{name='sakila.sakila.customer'}
+IMap{name='sakila.sakila.customer_list'}
+IMap{name='sakila.sakila.film'}
+IMap{name='sakila.sakila.film_actor'}
+IMap{name='sakila.sakila.film_category'}
+IMap{name='sakila.sakila.film_list'}
+IMap{name='sakila.sakila.film_text'}
+IMap{name='sakila.sakila.inventory'}
+IMap{name='sakila.sakila.language'}
+IMap{name='sakila.sakila.nicer_but_slower_film_list'}
+IMap{name='sakila.sakila.payment'}
+IMap{name='sakila.sakila.rental'}
 IMap{name='sakila.sakila.sales_by_film_category'}
+IMap{name='sakila.sakila.sales_by_store'}
+IMap{name='sakila.sakila.staff'}
+IMap{name='sakila.sakila.staff_list'}
+IMap{name='sakila.sakila.store'}
 ```
+Note: The `FlakeIdGenerator` objects are used for tables/views that have no primary key.
+
 The utility class `IngestUtil` contains a number of related methods that can be used to control the ingest process in more detail, including:
 - Selecting a custom `ExecutorService` used to ingest data
 - Selecting a database transaction to use during data ingest
@@ -630,6 +640,14 @@ public final class GeneratedSakilaIndexUtil {
 }
 ```  
 As can be seen, creating a `HazelcastInstance` and then just invoking the method `GeneratedSakilaIndexUtil::setupIndex` will create the same indexes in the Hazelcast grid that were present in the database.
+
+## Joins
+Hazelcast tables can be joined using the [Stream Join](https://speedment.github.io/speedment-doc/join.html#stream-joins-) functionality. The current version does __not__ support joining of Hazelcast Maps using the `JoinCOmponent`. Read more about joins with Speedment [here](#join).
+
+## Aggregations
+Aggregations using the Speedment `Aggregator` are supported with Hazelcast maps but are __not__ fully optimized in the current version.
+
+Aggregations using the Hazelcast `IMap::aggregate` method is fully supported.
 
 ## Performance
 Thanks to the `Portable` entity classes, Hazelcast server nodes can benefit from indexing and partial deserialization when applying predicates on large data sets. This greatly speeds up querying in many cases. 
