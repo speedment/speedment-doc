@@ -608,7 +608,21 @@ Remember to check for `null` values explicitly in your predicates if you have Wr
 " %}
  
 ## Persistence
-TBW
+The standard [Speedment CRUD](https://speedment.github.io/speedment-doc/crud.html) 
+operations API apply to Hazelcast in the same way as for other data sources. Please
+refer to that section of the user guide for examples of Speedment powered CRUD 
+operations.
+
+
+A Speedment application configured with a Hazelcast bundle will provide
+managers that handle persistence to both the Hazelcast grid and the underlying 
+database making sure the underlying database serves as source of truth and that 
+the Hazelcast data grid is eventually consistent with that source of truth. 
+
+By persisting to both, the Speedment runtime maintains the consistency 
+between the relational database and the data grid. This of course assumes that only
+Speedment applications perform data altering operations on the data grid. 
+
 
 ## Indexing
 Upon generation, Speedment examines the database metadata and suggests indexing based on how the database is indexed. This provides a solid baseline for grid indexing.
