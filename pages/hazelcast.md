@@ -50,6 +50,12 @@ The application can query and manipulate data in the Hazelcast server grid witho
 
 Since the database is no longer involved in querying, application speed may be greatly improved in many cases.  
 
+### Consistency across Domains
+The database is considered the "Source of Truth" and the Hazelcast server grid can reflect a consistent view of the underlying database at an unspecified time. Thus, it is wrong to use data from one domain and then use it in the other domain.
+
+If updates are made to the database by a non-Speedment application, those updates are not reflected in the Hazelcast server grid and a new ingest of data must be done to ensure consistency. 
+
+
 ## Installing the Hazelcast Bundles
 There are two Hazelcast bundles that need to be installed: 
 - `HazelcastToolBundle` that is needed by the UI Tool to generate entity classes and other support classes (generation)
@@ -642,7 +648,7 @@ public final class GeneratedSakilaIndexUtil {
 As can be seen, creating a `HazelcastInstance` and then just invoking the method `GeneratedSakilaIndexUtil::setupIndex` will create the same indexes in the Hazelcast grid that were present in the database.
 
 ## Joins
-Hazelcast tables can be joined using the [Stream Join](https://speedment.github.io/speedment-doc/join.html#stream-joins-) functionality. The current version does __not__ support joining of Hazelcast Maps using the `JoinCOmponent`. Read more about joins with Speedment [here](#join).
+Hazelcast tables can be joined using the [Stream Join](https://speedment.github.io/speedment-doc/join.html#stream-joins-) functionality. The current Hazelcast version does __not__ support joining of Hazelcast Maps using the `JoinCOmponent`. Read more about joins with Speedment [here](#join).
 
 ## Aggregations
 Aggregations using the Speedment `Aggregator` are supported with Hazelcast maps but are __not__ fully optimized in the current version.
