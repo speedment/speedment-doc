@@ -613,7 +613,6 @@ operations API apply to Hazelcast in the same way as for other data sources. Ple
 refer to that section of the user guide for examples of Speedment powered CRUD 
 operations.
 
-
 A Speedment application configured with a Hazelcast bundle will provide
 managers that handle persistence to both the Hazelcast grid and the underlying 
 database making sure the underlying database serves as source of truth and that 
@@ -622,6 +621,14 @@ the Hazelcast data grid is eventually consistent with that source of truth.
 By persisting to both, the Speedment runtime maintains the consistency 
 between the relational database and the data grid. This of course assumes that only
 Speedment applications perform data altering operations on the data grid. 
+
+
+## Transactions
+Speedment transaction handling is further described [here](https://speedment.github.io/speedment-doc/crud.html#transactions)
+and applies to the relational database in the same way when using the Hazelcast bundle.
+In the current version of the Hazelcast bundle, the operations on the Hazelcast data grid
+are not covered by transactional locks. This is likely to change in some future release
+of the Hazelcast bundle where also operations on the data grid may support transactions.
 
 
 ## Indexing
