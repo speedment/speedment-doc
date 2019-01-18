@@ -631,7 +631,12 @@ entries:
     - title: MariaBD
       url: connectors.html#mariadb
       output: web, pdf
-      type: homepage      
+      type: homepage
+
+    - title: SQLite
+      url: connectors.html#sqlite 
+      output: web, pdf
+      type: homepage
     
     - title: Oracle
       enterprise: true

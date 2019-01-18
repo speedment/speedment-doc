@@ -84,7 +84,7 @@ Pre 2.0.1 MariaDB JDBC drivers contain significant bugs. Users are highly encour
 " %}
 
 ## SQLite
-Starting from Speedment version 3.1.10 or higher, SQLite is supported.
+Starting from Speedment version 3.1.10, SQLite is supported.
 
 Speedment supports SQLite out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your SQLite project.
 
@@ -94,10 +94,10 @@ Speedment officially supports the following SQLite version(s):
 | :------- | :--------------- | :------------------- | :------ |
 | SQLite   | org.xerial       | sqlite-jdbc          | 3.25.2  |
 
-Generally, SQLLite itself does not implement all features found on more full fledged database types. Limitations for the SQLite database includes, but are not limited to, the following:
+Generally, SQLLite itself does not implement all features found on more full-fledged database types. Limitations for the SQLite database includes, but are not limited to, the following:
 
 * Only one database connection can be allocated at any given time. This limits the use of multi-threaded database access and nested database procedures.
-* Default database column values must be explicitly excluded using [`FieldSet`](crud.html#selecting-fields-to-update) objects. 
+* Default database column values must be explicitly excluded using `FieldSet` objects. Read more [here](crud.html#selecting-fields-to-update). 
 
 
 ## Enterprise Connectors
