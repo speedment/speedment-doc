@@ -33,7 +33,7 @@ These values can be set to custom values using the application builder as depict
 ```
 The selected collations will be used for all MySQL tables.
 
-Speedment officially support the following MySQL JDBC versions:
+Speedment officially supports the following MySQL JDBC version(s):
 
 | Database | groupId   | artifactId           | version |
 | :------- | :-------- | :------------------- | :------ |
@@ -42,7 +42,7 @@ Speedment officially support the following MySQL JDBC versions:
 ## PostgreSQL
 Speedment supports PostgreSQL out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your PostgreSQL project.
 
-Speedment officially support the following PostgreSQL JDBC versions:
+Speedment officially supports the following PostgreSQL JDBC version(s):
 
 | Database | groupId        | artifactId           | version |
 | :------- | :------------- | :------------------- | :------ |
@@ -73,7 +73,7 @@ The selected collations will be used for all MariaDB tables.
 Some Linux distributions (notable Debian/Ubuntu) requires the utf8mb4 collations to be used as per instructions above.
 " %}
 
-Speedment officially support the following MariaDB JDBC versions:
+Speedment officially supports the following MariaDB JDBC version(s):
 
 | Database | groupId          | artifactId           | version |
 | :------- | :--------------- | :------------------- | :------ |
@@ -82,6 +82,23 @@ Speedment officially support the following MariaDB JDBC versions:
 {% include important.html content= "
 Pre 2.0.1 MariaDB JDBC drivers contain significant bugs. Users are highly encouraged to upgrade to 2.x.x drivers.
 " %}
+
+## SQLite
+Starting from Speedment version 3.1.10 or higher, SQLite is supported.
+
+Speedment supports SQLite out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your SQLite project.
+
+Speedment officially supports the following SQLite version(s):
+
+| Database | groupId          | artifactId           | version |
+| :------- | :--------------- | :------------------- | :------ |
+| SQLite   | org.xerial       | sqlite-jdbc          | 3.25.2  |
+
+Generally, SQLLite itself does not implement all features found on more full fledged database types. Limitations for the SQLite database includes, but are not limited to, the following:
+
+* Only one database connection can be allocated at any given time. This limits the use of multi-threaded database access and nested database procedures.
+* Default database column values must be explicitly excluded using [`FieldSet`](crud.html#selecting-fields-to-update) objects. 
+
 
 ## Enterprise Connectors
 Support for additional enterprise database types can easily be obtained by adding an appropriate connector. Adding a connector is straight forward:
