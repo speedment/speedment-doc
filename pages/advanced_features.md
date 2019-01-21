@@ -211,6 +211,8 @@ It is possible to inspect the current settings and state of the `ConnectionPoolC
 ```
 
 ### Singleton Connection Pool
+(Requires Speedment 3.1.10 or later)
+
 When using file-based databases (like SQLite), it is often important to make sure that multiple connections do not try to modify the file at the same time. This is normally done automatically by the JDBC-driver, but a common way to deal with the issue is to throw an exception, which is not always what you want. To deal with it in a more elegant way is to use the `SingletonConnectionPoolComponent`. It is an alternative implementation of the `ConnectionPoolComponent` that uses a dedicated connection per database to avoid issues with locking.
 
 ```java
