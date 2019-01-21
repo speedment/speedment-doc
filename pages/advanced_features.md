@@ -210,6 +210,23 @@ It is possible to inspect the current settings and state of the `ConnectionPoolC
     );
 ```
 
+### Singleton Connection Pool
+When using file-based databases (like SQLite), it is often important to make sure that multiple connections do not try to modify the file at the same time. This is normally done automatically by the JDBC-driver, but a common way to deal with the issue is to throw an exception, which is not always what you want. To deal with it in a more elegant way is to use the `SingletonConnectionPoolComponent`. It is an alternative implementation of the `ConnectionPoolComponent` that uses a dedicated connection per database to avoid issues with locking.
+
+```java
+    SakilaApplication app = new SakilaApplicationBuilder()
+        .withComponent(SingletonConnectionPoolComponent.class)
+        .withParam("connectionpool.blocking", "true")
+        .withLogging(LogType.CONNECTION)
+        .build();
+```
+
+This will replace the default connection pool with the `SingletonConnectionPoolComponent` implementation. The `connectionpool.blocking` controls how to deal with multiple connections requesting access at the same time. When it is `true`, additional connections will be blocked until the resource is available. When `false`, it will throw a `SpeedmentException` with a better error message if it happens. The default value is `false`.
+
+{% include note.html content = "
+Some Stream-operations may require multiple connections to work correctly. If they are executed when `connectionpool.blocking` is `true`, they may cause the application to hang indefinetly. To fix this, wrap the stream expression in a [transaction](crud.html#transactions).
+" %}
+
 ## Custom Stream Suppliers
 If you want to work with data from another data source than originally selected, you could easily plug in your own `StreamSupplierComponent` and replace the standard one that reads from the original data source (e.g. the database).
 

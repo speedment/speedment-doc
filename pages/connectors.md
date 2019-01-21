@@ -112,7 +112,7 @@ org.sqlite.SQLiteException: [SQLITE_LOCKED]  A table in the database is locked (
 
 To fix this, you need to do one of the following:
 * Wrap your streams [in transactions](crud.html#transactions) using the `TransactionComponent`
-* Use the `SingletonConnectionPoolComponent` with the `connectionpool.blocking` option set to `true`
+* Use the `SingletonConnectionPoolComponent` as [described here](advanced_features.html#connection-pooling)
 
 The two steps above can also be used togather.
 
