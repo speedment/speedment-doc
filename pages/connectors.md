@@ -84,9 +84,7 @@ Pre 2.0.1 MariaDB JDBC drivers contain significant bugs. Users are highly encour
 " %}
 
 ## SQLite
-Starting from Speedment version 3.1.10, SQLite is supported.
-
-Speedment supports SQLite out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your SQLite project.
+Starting from Speedment version 3.1.10, SQLite is supported. SQLite is a lightweight database that can either be backed by a single file or run in-memory. Speedment supports both these, but the in-memory option is only usable once the `speedment.json`-file has been generated.
 
 Speedment officially supports the following SQLite version(s):
 
@@ -94,11 +92,37 @@ Speedment officially supports the following SQLite version(s):
 | :------- | :--------------- | :------------------- | :------ |
 | SQLite   | org.xerial       | sqlite-jdbc          | 3.25.2  |
 
-Generally, SQLLite itself does not implement all features found on more full-fledged database types. Limitations for the SQLite database includes, but are not limited to, the following:
+### SQLite Metadata
+When Speedment parses the metadata given by the JDBC-connector, a lot of information is given that is not necessary enforced by the database. This involves (but is not limited to) the type and size of certain columns. Speedment will do its best to use such information to decide which Java types to use when representing the entity in generated code. This can, however, mean that the generated entity does not perfectly match the bounds enforced in the database. When the table definition in the metadata and the actual bounds enforced by the database conflict, Speedment will prioritize the former.
 
-* Only one database connection can be allocated at any given time. This limits the use of multi-threaded database access and nested database procedures.
-* Default database column values must be explicitly excluded using `FieldSet` objects. Read more [here](crud.html#selecting-fields-to-update). 
+For an example, if a column is specified as `INTEGER PRIMARY KEY` in the table definition, Speedment will interpret that as an `int` in java. SQLite will however use 64-bits to store the value since that column will be considered an alias for the `rowid`. You could therefore argue that Speedment should interpret the column as a `long`, but it does not since it prioritizes the SQL-definition above the internal implementation used by the database engine.
 
+### Working with File-Based Databases
+When SQLite is backed by a file, it is important to make sure that the file is not accessed by multiple threads at the same time. If you see the following error, this is likely the issue:
+
+```
+org.sqlite.SQLiteException: [SQLITE_LOCKED]  A table in the database is locked (database table is locked)
+    at org.sqlite.core.DB.newSQLException(DB.java:909)
+    at org.sqlite.core.DB.newSQLException(DB.java:921)
+    at org.sqlite.core.DB.execute(DB.java:822)
+    at org.sqlite.core.CoreStatement.exec(CoreStatement.java:75)
+    at org.sqlite.jdbc3.JDBC3Statement.execute(JDBC3Statement.java:61)
+    ...
+```
+
+To fix this, you need to do one of the following:
+* Wrap your streams [in transactions](crud.html#transactions) using the `TransactionComponent`
+* Use the `SingletonConnectionPoolComponent` with the `connectionpool.blocking` option set to `true`
+
+The two steps above can also be used togather.
+
+### Auto-Incrementing Columns
+A table in SQLite always has a column named `rowid` that is used as the primary key. If a column in the table definition is set as `INTEGER PRIMARY KEY`, that column will be considered an alias for the `rowid`. This can be a bit confusing, and requires Speedment to make some decisions on how to interpret the database metadata. Speedment will create the `rowid` column and show it in entities only as long as there is no `INTEGER PRIMARY KEY` column present in the metadata. If a different primary key have been specified (for an example a `CHAR PRIMARY KEY`), that one will instead be considered a regular column with a `UNIQUE INDEX`.
+
+There are two types of auto-increments in SQLite. A column specified as `AUTOINCREMENT` will work slightly different than the increment that is always present in the `rowid` column. For the intents and purposes in Speedment, these are equivalent and both are therefore considered auto-incrementing columns by Speedment.
+
+### Default values
+If the table defintion has columns with default values specified, these has to be excluded when persisting and updating entities using Speedment. This can be done by defining a `FieldSet` object as explained [here](crud.html#selecting-fields-to-update).
 
 ## Enterprise Connectors
 Support for additional enterprise database types can easily be obtained by adding an appropriate connector. Adding a connector is straight forward:
