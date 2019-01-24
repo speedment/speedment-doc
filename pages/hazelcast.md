@@ -623,6 +623,18 @@ between the relational database and the data grid. This of course assumes that o
 Speedment applications perform data altering operations on the data grid. 
 
 
+### Persisting to Hazelcast Grid only
+The Speedment application can be configured to operate on the Hazelcast grid only and not persist any data to the
+relational database by setting the 'hazelcast.writethrough' parameter to "false" as follows.
+
+```java
+        Speedment hazelcastApp = new SakilaApplicationBuilder()
+            .withPassword("sakila-password")
+            .withBundle(HazelcastBundle.class)
+            .withParam("hazelcast.writethrough", "false")
+            .build();
+```
+
 ## Transactions
 Speedment transaction handling is further described [here](https://speedment.github.io/speedment-doc/crud.html#transactions)
 and applies to the relational database in the same way when using the Hazelcast bundle.
