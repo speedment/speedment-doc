@@ -12,7 +12,9 @@ next: integration.html
 {% include prev_next.html %}
 
 This chapter contains a number of typical database queries that can be expressed using Speedment streams. For users that are accustomed to SQL, this chapter provides an overview of how to translate SQL to Streams.
-The example below are based on the ["Sakila"](#database-schema) example database. An object that corresponds to a row in the database are, by convention, called an "Entity'.
+The example below are based on the ["Sakila"](#database-schema) example database. 
+
+An object that corresponds to a row in the database are, by convention, called an "Entity'.
 
 ## SQL Equivalences
 
@@ -633,8 +635,7 @@ CAMERON ZELLWEGER  {PG-13=8, R=2, NC-17=3, PG=15, G=5}
 
 
 ## Database Schema
-
-The film database example "Sakila" used in this manual can be downloaded directly from Oracle [here](https://dev.mysql.com/doc/index-other.html)
+The film example database "Sakila" used in this manual can be downloaded directly from Oracle [here](https://dev.mysql.com/doc/index-other.html) or as a Docker image [here](https://hub.docker.com/r/restsql/mysql-sakila)
 
 
 {% include prev_next.html %}

@@ -18,7 +18,7 @@ With Speedment you can write database applications using Java only. No SQL codin
 
 ### One-liner
 Search for a long `Film` (of length greater than 120 minutes):
-```java
+``` java
 // Searches are optimized in the background!
 Optional<Film> longFilm = films.stream()
     .filter(Film.LENGTH.greaterThan(120))
@@ -96,6 +96,8 @@ Here are some fast facts about Speedment:
 ### Supported Java Versions
 Speedment supports Java 8 and upwards. Earlier Java versions are not supported because they do not support Streams. Under Java 9, the new {{site.data.javadoc.StreamTakeWhile}} and {{site.data.javadoc.StreamDropWhile}} Stream operations will be automatically available under Speedment too.
 
+When *OpenJDK 1.8* is used, JavaFX needs to be installed separately (e.g. `sudo apt-get install openjfx`) because JavaFX is used by the UI tool and was not shipped in that particular JDK version.
+
 ### Speedment Editions
 This Reference Manual covers all editions of Speedment:
   * **Speedment** referes to the open-source edition of the product that can connect to open-source databases. It is also the name of the company (Speedment, Inc.) that provides the Speedment products.
@@ -117,5 +119,6 @@ Speedment is open-source and so we are happy to accept pull requests and improve
 
 ### Phone Home
 Speedment sends certain data back to our servers as described [here](https://github.com/speedment/speedment/blob/master/DISCLAIMER.MD) 
+If you must and/or want to disable this function, contact us.
 
 {% include prev_next.html %}
