@@ -88,6 +88,24 @@ If you want to update the DataStore to the latest state of the underlying databa
 
 This will load a new version of the database in the background and when completed, new streams will use the new data. Old ongoing streams will continue to use the old version of the DataStore content. Once all old streams are completed, the old version of the DataStore content will be released.
 
+Automatic periodic refresh of the `DataStoreComponent` can easily be made using a `Timer` (or an `ExecutorService`) as shown hereunder:
+
+``` java
+    long delay  = 10 * 60 * 1_000L; 
+    long period = 10 * 60 * 1_000L; // Refresh each 10:th minute
+    Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                app.get(DataStoreComponent.class)
+                        .ifPresent(DataStoreComponent::load);
+            }
+        },
+        delay,
+        period
+        );
+```
+
 ### Loading/Reloading with a Particular ExecutorService
 By default, DataStore will load and structure data from the database using the common `ForkJoinPool`. Sometimes loading can take minutes and then it might be desirable to perform loading using a custom executor with perhaps a limited number of threads so that the application can continue to serve requests while loading in the background.
 You can provide any executor to the `load()` and `reload()` methods like this:
