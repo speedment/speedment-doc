@@ -648,6 +648,7 @@ Instead of using persistence via a client, it is also possible to use server-sid
 * The server nodes need to know the database password
 * The server nodes need to be able to access the database
 
+
 The `HazelcastToolBundle` automatically generates `MapStore` objects for each entity type:
 
 ```java
@@ -671,12 +672,15 @@ public abstract class GeneratedFilmMapStore extends AbstractMapStore<Integer, Fi
 In order to initialize a `FilmMapStore` we need a `Manager<Film>` that can be retrieved directly from a Speedment instance as shown in the following example:
 
 ``` java
+    public static final String MAP_NAME = HazelcastMapUtil.mapName(FilmManager.IDENTIFIER);
+
+    public static void main(String... args) {
+
         final Speedment speedment = new SakilaApplicationBuilder()
             .withPassword("sakila-password")
             .build();
 
         final Config config = new Config();
-        config.getManagementCenterConfig().setEnabled(true).setUrl("http://localhost:8080/hazelcast-mancenter/");
 
         MapStoreConfig mapStoreConfig = new MapStoreConfig();
         mapStoreConfig.setImplementation(new FilmMapStore(speedment.getOrThrow(FilmManager.class)));
@@ -694,6 +698,11 @@ In order to initialize a `FilmMapStore` we need a `Manager<Film>` that can be re
         IMap<Integer, Film> map = instance.getMap(MAP_NAME);
 
         System.out.println("map.size() = " + map.size());
+        
+        instance.shutdown();
+        speedment.close();
+        
+    }
 ```
 This will produce the following output:
 ```text
