@@ -134,7 +134,7 @@ final Speedment hazelcastApp = new SakilaApplicationBuilder()
 ## Entities
 Hazelcast compatible data entities are automatically generated from the database metadata. The generated entities implements Hazelcast's [`Portable`](https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#implementing-portable-serialization) interface.
 Hazelcast serialization and `Map` handling involves several aspects as described in this chapter.
-In all the code examples below, the [Sakila](https://dev.mysql.com/doc/index-other.html) sample database are being used.
+In all the code examples below, the [Sakila](https://dev.mysql.com/doc/index-other.html) sample database are being used. The Sakila database is also available as a [Docker instance}(https://hub.docker.com/r/restsql/mysql-sakila).
 
 ### Serialization
 The `HazelcastToolBundle` automatically generates the necessary entity POJO objects including `Portable` serialization. For example, the implementation of the `Film` interface is generated like this:
@@ -467,7 +467,7 @@ public class GeneratedSakilaHazelcastConfigComponent implements HazelcastConfigC
 ``` 
 Thus, the generated configuration class adds all the portable serialization factories and all class definitions that has been automatically generated. This class is automatically added as a component by the application builder. 
 
-## Ingesting Data
+## Ingesting Data via a Client
 Ingesting data from a database into the Hazelcast server nodes is greatly simplified with a provided utility class named `IngestUtil`. 
 The following example shows a method that will invoke a method `IngestUtil::ingest` to ingest data from all tables in the the database into the Hazelcast server grid:
 
@@ -627,7 +627,7 @@ Speedment applications perform data altering operations on the data grid.
 The Speedment application can be configured to operate on the Hazelcast grid only and not persist any data to the
 relational database by setting the 'hazelcast.writethrough' parameter to "false" as follows.
 
-```java
+``` java
         Speedment hazelcastApp = new SakilaApplicationBuilder()
             .withPassword("sakila-password")
             .withBundle(HazelcastBundle.class)
@@ -635,13 +635,80 @@ relational database by setting the 'hazelcast.writethrough' parameter to "false"
             .build();
 ```
 
+## Persisting Server-Side via MapStore/MapLoader
+Instead of using persistence via a client, it is also possible to use server-side persistence via the `MapStore`/`MapLoad` interfaces. There are different pros and cons of this compared to Client based persistence.
+
+#### Pros
+* Server nodes can load entities that belongs to its partitions directly
+* Server nodes can load entities in parallel, independent of other server nodes
+* Hazelcast maps can be loaded lazilly.
+
+#### Cons
+* The Java Domain Model needs to be present on the server classpath
+* The server nodes need to know the database password
+* The server nodes need to be able to access the database
+
+The `HazelcastToolBundle` automatically generates `MapStore` objects for each entity type:
+
+```java
+public class FilmMapStore extends GeneratedFilmMapStore {
+    
+    public FilmMapStore(Manager<Film> manager) {
+        super(manager);
+    }
+}
+``` 
+As can be seen, an entity implementation class just inherits all its methods from another generated class. This allows the possibility to override generated methods with custom code that is retained between re-generation of code.
+```java
+@GeneratedCode("Speedment")
+public abstract class GeneratedFilmMapStore extends AbstractMapStore<Integer, Film> {
+    
+    protected GeneratedFilmMapStore(Manager<Film> manager) {
+        super(manager, Film.FILM_ID, new FilmImpl()::setFilmId);
+    }
+}
+```
+In order to initialize a `FilmMapStore` we need a `Manager<Film>` that can be retrieved directly from a Speedment instance as shown in the following example:
+
+``` java
+        final Speedment speedment = new SakilaApplicationBuilder()
+            .withPassword("sakila-password")
+            .build();
+
+        final Config config = new Config();
+        config.getManagementCenterConfig().setEnabled(true).setUrl("http://localhost:8080/hazelcast-mancenter/");
+
+        MapStoreConfig mapStoreConfig = new MapStoreConfig();
+        mapStoreConfig.setImplementation(new FilmMapStore(speedment.getOrThrow(FilmManager.class)));
+        mapStoreConfig.setWriteDelaySeconds(0);
+        mapStoreConfig.setInitialLoadMode(MapStoreConfig.InitialLoadMode.EAGER);
+
+        MapConfig mapConfig = config.getMapConfig(MAP_NAME);
+        mapConfig.setMapStoreConfig(mapStoreConfig);
+
+        config.getSerializationConfig()
+            .addPortableFactory(1321754994, new SakilaPortableFactories.SakilaSakilaPortableFactory());
+
+        final HazelcastInstance instance = Hazelcast.newHazelcastInstance(config);
+
+        IMap<Integer, Film> map = instance.getMap(MAP_NAME);
+
+        System.out.println("map.size() = " + map.size());
+```
+This will produce the following output:
+```text
+map.size() = 1000
+```
+As can be seen, the film map was pre-loaded by the server using the generated `FilmMapLoader`.
+
+Both write-through and write-back modes are supported. 
+
 ## Transactions
 Speedment transaction handling is further described [here](https://speedment.github.io/speedment-doc/crud.html#transactions)
 and applies to the relational database in the same way when using the Hazelcast bundle.
 In the current version of the Hazelcast bundle, the operations on the Hazelcast data grid
 are not covered by transactional locks. This is likely to change in some future release
 of the Hazelcast bundle where also operations on the data grid may support transactions.
-
 
 ## Indexing
 Upon generation, Speedment examines the database metadata and suggests indexing based on how the database is indexed. This provides a solid baseline for grid indexing.
