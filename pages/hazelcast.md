@@ -416,7 +416,7 @@ public class SakilaHazelcastConfigComponent extends GeneratedSakilaHazelcastConf
 ```
 As can be seen, this class just inherits all its methods from another generated class. This allows the possibility to override generated methods with custom code that is retained between re-generation of code.  
 
-If you want to change the default configuration, there is a better way than overriding this class. Read about [HazelcastConfigModifierComponent]](#custom-configuration). 
+If you want to change the default configuration, there is a better way than overriding this class. Read about [HazelcastConfigModifierComponent](#custom-configuration). 
 ```java
 @GeneratedCode("Speedment")
 public class GeneratedSakilaHazelcastConfigComponent implements HazelcastConfigComponent {
@@ -472,7 +472,7 @@ Thus, the generated configuration class adds all the portable serialization fact
 Custom configuration can be injected using any class(es) that implements `HazelcastConfigModifierComponent` as examplified hereunder:
 
 ```java
-    private static class MyHazelcastConfigModifierComponent implements HazelcastConfigModifierComponent {
+    public class MyHazelcastConfigModifierComponent implements HazelcastConfigModifierComponent {
 
         @Override
         public ClientConfig apply(ClientConfig clientConfig) {
@@ -495,6 +495,8 @@ This will add the address 192.168.0.234:8234 to the Hazelcast client's network a
 ```text
 My custom changes were applied
 ``` 
+Any number of `HazelcastConfigModifierComponent` classes may be added to the builder and they will be applied in order of injection.
+
 
 ## Ingesting Data via a Client
 Ingesting data from a database into the Hazelcast server nodes is greatly simplified with a provided utility class named `IngestUtil`. 
@@ -739,7 +741,11 @@ map.size() = 1000
 ```
 As can be seen, the film map was pre-loaded by the server using the generated `FilmMapLoader`.
 
-Both write-through and write-back modes are supported. 
+Both write-through and write-back modes are supported.
+
+{% include note.html content = "
+In the current release, `MapStore`/`MapLoader` classes are only generated for tables with exactly one primary key.  
+" %}
 
 ## Transactions
 Speedment transaction handling is further described [here](https://speedment.github.io/speedment-doc/crud.html#transactions)
