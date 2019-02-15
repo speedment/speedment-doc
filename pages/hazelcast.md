@@ -416,6 +416,7 @@ public class SakilaHazelcastConfigComponent extends GeneratedSakilaHazelcastConf
 ```
 As can be seen, this class just inherits all its methods from another generated class. This allows the possibility to override generated methods with custom code that is retained between re-generation of code.  
 
+If you want to change the default configuration, there is a better way than overriding this class. Read about [HazelcastConfigModifierComponent]](#custom-configuration). 
 ```java
 @GeneratedCode("Speedment")
 public class GeneratedSakilaHazelcastConfigComponent implements HazelcastConfigComponent {
@@ -466,6 +467,34 @@ public class GeneratedSakilaHazelcastConfigComponent implements HazelcastConfigC
 }
 ``` 
 Thus, the generated configuration class adds all the portable serialization factories and all class definitions that has been automatically generated. This class is automatically added as a component by the application builder. 
+
+## Custom Configuration
+Custom configuration can be injected using any class(es) that implements `HazelcastConfigModifierComponent` as examplified hereunder:
+
+```java
+    private static class MyHazelcastConfigModifierComponent implements HazelcastConfigModifierComponent {
+
+        @Override
+        public ClientConfig apply(ClientConfig clientConfig) {
+            System.out.println("My custom changes were applied");
+            clientConfig.getNetworkConfig().addAddress("192.168.0.234:8234");
+            return clientConfig;
+        }
+    }
+```
+This class is then injected into the application builder as shown here:
+```java
+   final Speedment hazelcastApp = new SakilaApplicationBuilder()
+            .withPassword("sakila-password")
+            .withBundle(HazelcastBundle.class)
+            .withComponent(MyHazelcastConfigModifierComponent.class)
+            .build();
+```
+This will add the address 192.168.0.234:8234 to the Hazelcast client's network address and will print:
+
+```text
+My custom changes were applied
+``` 
 
 ## Ingesting Data via a Client
 Ingesting data from a database into the Hazelcast server nodes is greatly simplified with a provided utility class named `IngestUtil`. 
