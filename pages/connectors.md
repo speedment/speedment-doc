@@ -227,6 +227,26 @@ The Oracle JDBC driver has many features (e.g. redundancy, pooling and other opt
 The JDBC driver version above is the one officially supported by Speedment. Other JDBC versions may also work.
 " %}
 
+### Dbms Application Info
+The Oracle specific feature `DBMS_APPLICATION_INFO` is supported by Speedment. This feature allows application and module names to be visible in a number of locations such as Enterprise Manager performance graphs, ASH and AWR reports.
+Here is an example of how it might look like in the Enterprise Manager:
+
+{% include image.html file="01-top-activity-modules.jpg" url="https://www.speedment.com/" alt="Enterprise Manager: app info" caption="Enterprise Manager: app info" %}
+
+Here is an example how to activate the feature:
+
+``` java
+SpeedmentApplicationBuilder builder = new SpeedmentApplicationBuilder()
+       .withPassword("speedmentpw")
+       .withBundle(OracleBundle.class)
+       .withComponent(OracleConnectionDecorator.class)
+       .withParam(OracleConnectionDecorator.CLIENT_INFO, "test-client")
+       .withParam(OracleConnectionDecorator.MODULE_NAME, "test-module");
+```
+This will mark ever connection to the database with these parameters. 
+
+Read more about `DBMS_APPLICATION_INFO` [here](https://oracle-base.com/articles/8i/dbms_application_info)
+
 ## SQL Server
 This chapter shows how to add support for Microsoft SQL Server in Speedment.
 
