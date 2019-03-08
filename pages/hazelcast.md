@@ -1,10 +1,10 @@
 ---
 permalink: hazelcast.html
 sidebar: mydoc_sidebar
-title: Hazelcast
-keywords: Hazelcast
+title: Hazelcast Auto DB Integration
+keywords: Hazelcast Auto DB Integration, Hazelcast, Hazelcast ADBI
 toc: false
-Tags: Hazelcast
+Tags: Hazelcast Auto DB Integration
 previous: hazelcast.html
 next: hazelcast.html
 ---
