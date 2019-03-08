@@ -11,8 +11,10 @@ next: hazelcast.html
 
 {% include prev_next.html %}
 
-## What is Hazelcast?
-Hazelcast is an open-source In Memory Data Grid (IMDG) written i Java. In a Hazelcast grid, data is distributed amongst the nodes that participate in the cluster, allowing horizontal scaling of data storage and computation of data.
+## What is Hazelcast Auto DB Integration?
+Hazelcast Auto DB Integration is a development tool for projects involving RDBMS and [Hazelcast IMDG](https://hazelcast.com/products/imdg/). 
+
+It can be used to automatically extract metadata from an existing database and generate code that supports features of the underlying database, the Hazelcast client, and IMDG. It provides an automatically generated domain model including POJOs (Portable), SerializationFactories, ClassDefinitions, MapStores, MapLoaders, ClientConfiguration, Ingest, Index and more. The generated domain model is compatible with Hazelcast Enterprise functions such as High-Density Memory Store, Hot Restart Store, Management Center etc.
 
 ## The Hazelcast Bundles
 
