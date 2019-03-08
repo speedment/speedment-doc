@@ -19,7 +19,7 @@ It can be used to automatically extract metadata from an existing database and g
 ## The Hazelcast Bundles
 
 {% include warning.html content = "
-In the current release, Hazelcast support is experimental and it is not advised to use it in production systems. 
+Note: Hazelcast Auto DB Integration is not yet released.  
 " %}
 
 **Requires Speedment Enterprise 3.1.10 or later.**
