@@ -22,10 +22,10 @@ It can be used to automatically extract metadata from an existing database and g
 Note: Hazelcast Auto DB Integration is not yet released.  
 " %}
 
-**Requires Speedment Enterprise 3.1.10 or later.**
+**Hazelcast Auto DB Integration is a part of the Speedment Enterprise Suite since version 3.1.10.**
 
 Using the Hazelcast Bundles, Speedment can greatly simplify working with Hazelcast and can, from an existing database, automatically generate:
-- Java domain data model (e.g. entities) 
+- Java domain data model (e.g. entities)
 - Hazelcast Serialization support
 - Hazelcast configuration handling
 - Hazelcast indexing based on the underlying database indexing
