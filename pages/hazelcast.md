@@ -12,13 +12,13 @@ next: hazelcast.html
 {% include prev_next.html %}
 
 ## What is Hazelcast Auto DB Integration?
-Hazelcast Auto DB Integration is a development tool for projects involving RDBMS and [Hazelcast IMDG](https://hazelcast.com/products/imdg/). 
+Hazelcast Auto DB Integration is a development tool for projects involving connecting existing RDBMS to [Hazelcast IMDG](https://hazelcast.com/products/imdg/). 
 
 It can be used to automatically extract metadata from an existing database and generate code that supports features of the underlying database, the Hazelcast client, and IMDG. It provides an automatically generated domain model including POJOs (Portable), SerializationFactories, ClassDefinitions, MapStores, MapLoaders, ClientConfiguration, Ingest, Index and more. The generated domain model is compatible with Hazelcast Enterprise functions such as High-Density Memory Store, Hot Restart Store, Management Center etc.
 
-## Hazelcast Auto DB Integration
-
 **Hazelcast Auto DB Integration is a part of the Speedment Enterprise Suite since version 3.1.13.**
+
+## Main Features
 
 Using the Hazelcast Auto DB Integration, Speedment can greatly simplify working with Hazelcast and can, from an existing database, automatically generate:
 - Java domain data model (e.g. entities)
@@ -26,6 +26,7 @@ Using the Hazelcast Auto DB Integration, Speedment can greatly simplify working 
 - Hazelcast MapStore/MapLoad support
 - Hazelcast configuration handling
 - Hazelcast indexing based on the underlying database indexing
+- Persistence handling 
 
 In addition to this, the Hazelcast Auto DB Integration also provides:
 - Automatic ingest of data from an existing database to the Hazelcast grid
