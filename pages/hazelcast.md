@@ -5,8 +5,8 @@ title: Hazelcast Auto DB Integration
 keywords: Hazelcast Auto DB Integration, Hazelcast, Hazelcast ADBI
 toc: false
 Tags: Hazelcast Auto DB Integration
-previous: hazelcast.html
-next: hazelcast.html
+previous: enterprise_plugins.html
+next: connectors.html
 ---
 
 {% include prev_next.html %}

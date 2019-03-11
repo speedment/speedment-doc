@@ -7,7 +7,7 @@ enterprise: true
 toc: false
 Tags: Enterprise, Plugin
 last: datastore.html
-next: connectors.html
+next: hazelcast.html
 ---
 
 ## Enterprise Plugins

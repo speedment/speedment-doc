@@ -5,7 +5,7 @@ title: Connectors
 keywords: Connector, Connectors, Oracle, SQL Server, DB2, AS400
 toc: false
 Tags: Connector, Connectors, Oracle, SQL Server, DB2, AS400
-previous: enterprise_plugins.html
+previous: hazelcast.html
 next: author.html
 ---
 

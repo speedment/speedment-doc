@@ -613,6 +613,55 @@ entries:
       output: web, pdf
       type: homepage
 
+  - title: Hazelcast Auto DB Integration
+    enterprise: true
+    url: hazelcast.html#top
+    output: web, pdf
+    folderitems:
+
+      - title: What is Hazelcast Auto DB Integration
+        enterprise: true
+        url: hazelcast.html#what-is-hazelcast-auto-db-integration
+        output: web, pdf
+        type: homepage
+
+      - title: Installation
+        enterprise: true
+        url: hazelcast.html#installing-the-hazelcast-bundles
+        output: web, pdf
+        type: homepage
+
+      - title: Entities
+        enterprise: true
+        url: hazelcast.html#entities
+        output: web, pdf
+        type: homepage
+
+      - title: Configuration
+        enterprise: true
+        url: hazelcast.html#configuration
+        output: web, pdf
+        type: homepage
+
+      - title: Ingest
+        enterprise: true
+        url: hazelcast.html#ingesting-data-via-a-client
+        output: web, pdf
+        type: homepage
+
+      - title: Query Data
+        enterprise: true
+        url: hazelcast.html#query-data
+        output: web, pdf
+        type: homepage
+
+      - title: Persistence
+        enterprise: true
+        url: hazelcast.html#persistence
+        output: web, pdf
+        type: homepage
+
+
   - title: Database Connectors
     url: connectors.html#top
     output: web, pdf
