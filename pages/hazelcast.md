@@ -16,21 +16,18 @@ Hazelcast Auto DB Integration is a development tool for projects involving RDBMS
 
 It can be used to automatically extract metadata from an existing database and generate code that supports features of the underlying database, the Hazelcast client, and IMDG. It provides an automatically generated domain model including POJOs (Portable), SerializationFactories, ClassDefinitions, MapStores, MapLoaders, ClientConfiguration, Ingest, Index and more. The generated domain model is compatible with Hazelcast Enterprise functions such as High-Density Memory Store, Hot Restart Store, Management Center etc.
 
-## The Hazelcast Bundles
+## Hazelcast Auto DB Integration
 
-{% include warning.html content = "
-Note: Hazelcast Auto DB Integration is not yet released.  
-" %}
+**Hazelcast Auto DB Integration is a part of the Speedment Enterprise Suite since version 3.1.13.**
 
-**Hazelcast Auto DB Integration is a part of the Speedment Enterprise Suite since version 3.1.10.**
-
-Using the Hazelcast Bundles, Speedment can greatly simplify working with Hazelcast and can, from an existing database, automatically generate:
+Using the Hazelcast Auto DB Integration, Speedment can greatly simplify working with Hazelcast and can, from an existing database, automatically generate:
 - Java domain data model (e.g. entities)
 - Hazelcast Serialization support
+- Hazelcast MapStore/MapLoad support
 - Hazelcast configuration handling
 - Hazelcast indexing based on the underlying database indexing
 
-In addition to this, Speedment and the Hazelcast Bundles also provides:
+In addition to this, the Hazelcast Auto DB Integration also provides:
 - Automatic ingest of data from an existing database to the Hazelcast grid
 - Access to the Hazelcast grid for additional languages such as
   -  C++
@@ -42,7 +39,7 @@ In addition to this, Speedment and the Hazelcast Bundles also provides:
      
 
 ## Architecture
-The Hazelcast Bundles support storage of entities in distributed maps in a client/server architecture whereby the `HazelcastBundle` only needs to reside on the client side. No extra software is required on the server side which allows easy setup, migration and management of Hazelcast clusters.
+The Hazelcast Auto DB Integration support storage of entities in distributed maps in a client/server architecture whereby the `HazelcastBundle` runtime only needs to reside on the client side. No extra software is required on the server side which allows easy setup, migration and management of Hazelcast clusters.
 
 {% include image.html file="hazelcast-architecture.png" alt="Hazelcast Architecture" caption="The Hazelcast client/server architecture" %}
 
@@ -55,13 +52,13 @@ Since the database is no longer involved in querying, application speed may be g
 ### Consistency across Domains
 The database is considered the "Source of Truth" and the Hazelcast server grid can reflect a consistent view of the underlying database at an unspecified time. Thus, it is wrong to use data from one domain and then use it in the other domain.
 
-If updates are made to the database by a non-Speedment application, those updates are not reflected in the Hazelcast server grid and a new ingest of data must be done to ensure consistency. 
+If updates are made to the database by a non-Auto DN Integration application, those updates are not reflected in the Hazelcast server grid and a new ingest of data must be done to ensure consistency. 
 
 
 ## Installing the Hazelcast Bundles
 There are two Hazelcast bundles that need to be installed: 
 - `HazelcastToolBundle` that is needed by the UI Tool to generate entity classes and other support classes (generation)
-- `HazelcastBundle`  that is needed at runtime by the Hazelcast client application (runtime)
+- `HazelcastBundle` that is needed at runtime by the Hazelcast client application (runtime)
  
 ### Installing the HazelcastToolBundle
 In the `pom.xml` file, the `speedment-enterprise-maven-plugin` configuration needs to be updated so that the `HazelcastToolBundle` class is added and the `hazelcast-tool` dependency is added:
@@ -264,7 +261,7 @@ public abstract class GeneratedFilmImpl implements Film {
 Because `Portable` objects cannot handle nullable wrapper classes in Hazelcast, these fields are handled with an extra synthetic fields beginning with `__null__` (two understrokes at both ends).
 
 {% include warning.html content = "
-When writing your own predicates using the Hazelcast IMap API, make sure to check the null state or else your predicate will not work as expected. Applications using the Speedment Stream API will handle the null fields automatically. 
+When writing your own predicates using the Hazelcast IMap API, make sure to check the null state for nullable fields or else your predicate will not work as expected. Applications using the Speedment Stream API will handle nullable fields automatically. 
 " %}  
 
 ### Primary Keys
@@ -410,7 +407,7 @@ For each column, there are a number of [type mapping](maven.html#adding-a-type-m
 Via the UI Tool, nullable columns can be configured to use getters returning either `null` (i.e standard POJO) or `Optional` objects. 
 
 ## Configuration
-Speedment generates a complete class that provides a Hazelcast `ClientConfiguration` containing all serialization factories and class definitions already pre-configured.
+The Hazelcast Auto DB Integration tool generates a complete class that provides a Hazelcast `ClientConfiguration` containing all serialization factories and class definitions already pre-configured.
 This class is named after the project name. For example, for a project named "Sakila", then the configuration class will be named `SakilaHazelcastConfigComponent`. 
 This is how an exemplary generated class looks like:
 ```java
@@ -501,6 +498,33 @@ Any number of `HazelcastConfigModifierComponent` classes may be added to the bui
 
 
 ## Ingesting Data via a Client
+Ingest of data from the database into the Hazelcast cluster can be made in many ways. 
+
+### Generated Ingest Main Method
+The '`HazelcastToolBundle`' generates a default ingest main method that can be used to ingest data as depicted below:
+
+```java
+public final class SakilaIngest {
+    
+    public static void main(final String... argv) {
+        if (argv.length == 0) { 
+            System.out.println("Usage: " + SakilaIngest.class.getSimpleName() + " database_password");
+         } else {
+            try (Speedment app = new SakilaApplicationBuilder()
+                .withPassword(argv[0]) // Get the password from the first command line parameter
+                .withBundle(HazelcastBundle.class)
+                .build()) {
+            
+                IngestUtil.ingest(app).join();
+            }
+        }
+    }
+}
+```
+Just calling this main method with a single command line argument with the password of the database will take care of the
+entire ingest procedure.
+
+### Custom Ingest Methods
 Ingesting data from a database into the Hazelcast server nodes is greatly simplified with a provided utility class named `IngestUtil`. 
 The following example shows a method that will invoke a method `IngestUtil::ingest` to ingest data from all tables in the the database into the Hazelcast server grid:
 
@@ -757,7 +781,7 @@ are not covered by transactional locks. This is likely to change in some future 
 of the Hazelcast bundle where also operations on the data grid may support transactions.
 
 ## Indexing
-Upon generation, Speedment examines the database metadata and suggests indexing based on how the database is indexed. This provides a solid baseline for grid indexing.
+Upon generation, the Hazelcast Auto DB integration tool examines the database metadata and suggests indexing based on how the database is indexed. This provides a solid baseline for grid indexing.
 In the following example, an index utility method was automatically generated when working with the Sakila database (the class has been shortened for brevity):
 ```java
 @GeneratedCode("Speedment")
@@ -794,7 +818,7 @@ public final class GeneratedSakilaIndexUtil {
 As can be seen, creating a `HazelcastInstance` and then just invoking the method `GeneratedSakilaIndexUtil::setupIndex` will create the same indexes in the Hazelcast grid that were present in the database.
 
 ## Joins
-Hazelcast tables can be joined using the [Stream Join](https://speedment.github.io/speedment-doc/join.html#stream-joins-) functionality. The current Hazelcast version does __not__ support joining of Hazelcast Maps using the `JoinCOmponent`. Read more about joins with Speedment [here](#join).
+Hazelcast tables can be joined using the [Stream Join](https://speedment.github.io/speedment-doc/join.html#stream-joins-) functionality. The current Hazelcast version does __not__ support joining of Hazelcast Maps using the `JoinComponent`. Read more about joins with Speedment [here](#join).
 
 ## Aggregations
 Aggregations using the Speedment `Aggregator` are supported with Hazelcast maps but are __not__ fully optimized in the current version.
