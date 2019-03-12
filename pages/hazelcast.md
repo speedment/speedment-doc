@@ -925,6 +925,16 @@ The code above can be shortened like this:
         }
 ```
 
+### Obtaining a license
+
+In order to use Hazelcast Auto DB Integration you need a commercial license or a trial license key. 
+The most straight forward way of obtaining a trial license is to download 
+an pre+initialized project via the [Initializer](https://www.speedment.com/hazelcast-initializer/).
+
+From that page, a minimalistic starter project can be downloaded. The included ```pom.xml``` file can be used
+as it is or be merged with an existing project. The first time the code generation tool is started,
+the user is prompted to apply for a trial license.
+
 {% include prev_next.html %}
 
 ## Discussion
