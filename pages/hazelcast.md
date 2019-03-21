@@ -939,6 +939,25 @@ For more details, see the general [information about how to handle licenses](mav
 
 {% include prev_next.html %}
 
+### Hazelcast cloud
+
+Hazelcast Auto DB integration verison 3.1.14 and later are ready for usage in Hazelcast cloud. A cloud instance is defined by three
+parameters - the name, the group password and the discovery token. These three are supplied to Hazelcast Auto DB integration
+via a `HazelcastCloudConfig` as follows.
+
+``` java
+        Speedment hazelcastApp = new SakilaApplicationBuilder()
+            .withPassword("sakila-password")
+            .withBundle(HazelcastBundle.class)
+            .withComponent(HazelcastCloudConfig.class, () -> HazelcastCloudConfig.create(
+                            "<name of cluster>",
+                            "<cluster password>",
+                            "<discovery token>")
+            )
+            .build();
+```
+
+
 ## Discussion
 Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
 
