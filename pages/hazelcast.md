@@ -782,7 +782,7 @@ are not covered by transactional locks. This is likely to change in some future 
 of the Hazelcast bundle where also operations on the data grid may support transactions.
 
 ## Indexing
-Upon generation, the Hazelcast Auto DB integration tool examines the database metadata and suggests indexing based on how the database is indexed. This provides a solid baseline for grid indexing.
+Upon generation, the Hazelcast Auto DB Integration tool examines the database metadata and suggests indexing based on how the database is indexed. This provides a solid baseline for grid indexing.
 In the following example, an index utility method was automatically generated when working with the Sakila database (the class has been shortened for brevity):
 ```java
 @GeneratedCode("Speedment")
@@ -941,8 +941,8 @@ For more details, see the general [information about how to handle licenses](mav
 
 ### Hazelcast cloud
 
-Hazelcast Auto DB integration verison 3.1.14 and later are ready for usage in Hazelcast cloud. A cloud instance is defined by three
-parameters - the name, the group password and the discovery token. These three are supplied to Hazelcast Auto DB integration
+Hazelcast Auto DB Integration verison 3.1.14 and later are ready for usage in Hazelcast cloud. A cloud instance is defined by three
+parameters - the name, the group password and the discovery token. These three are supplied to Hazelcast Auto DB Integration
 via a `HazelcastCloudConfig` as follows.
 
 ``` java
