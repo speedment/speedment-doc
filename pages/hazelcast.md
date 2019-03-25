@@ -55,6 +55,17 @@ The database is considered the "Source of Truth" and the Hazelcast server grid c
 
 If updates are made to the database by a non-Auto DN Integration application, those updates are not reflected in the Hazelcast server grid and a new ingest of data must be done to ensure consistency. 
 
+## Obtaining a license
+
+In order to use Hazelcast Auto DB Integration you need a commercial license or a trial license key. 
+The most straight forward way of obtaining a trial license is to download 
+a pre-initialized project via the [Hazelcast Auto DB Integration Initializer](https://www.speedment.com/hazelcast-initializer/).
+
+From that page, a minimalistic starter project can be downloaded. The included ```pom.xml``` file can be used
+as it is or be merged with an existing project. The first time the code generation tool is started,
+the user is prompted to apply for a trial license.
+
+For more details, see the general [information about how to handle licenses](maven.md#license-keys) in Speedment products.
 
 ## Installing the Hazelcast Bundles
 There are two Hazelcast bundles that need to be installed: 
@@ -134,7 +145,7 @@ final Speedment hazelcastApp = new SakilaApplicationBuilder()
 ## Entities
 Hazelcast compatible data entities are automatically generated from the database metadata. The generated entities implements Hazelcast's [`Portable`](https://docs.hazelcast.org/docs/latest/manual/html-single/index.html#implementing-portable-serialization) interface.
 Hazelcast serialization and `Map` handling involves several aspects as described in this chapter.
-In all the code examples below, the [Sakila](https://dev.mysql.com/doc/index-other.html) sample database are being used. The Sakila database is also available as a [Docker instance}(https://hub.docker.com/r/restsql/mysql-sakila).
+In all the code examples below, the [Sakila](https://dev.mysql.com/doc/index-other.html) sample database are being used. The Sakila database is also available as a [Docker instance](https://hub.docker.com/r/restsql/mysql-sakila).
 
 ### Serialization
 The `HazelcastToolBundle` automatically generates the necessary entity POJO objects including `Portable` serialization. For example, the implementation of the `Film` interface is generated like this:
@@ -925,19 +936,7 @@ The code above can be shortened like this:
         }
 ```
 
-### Obtaining a license
 
-In order to use Hazelcast Auto DB Integration you need a commercial license or a trial license key. 
-The most straight forward way of obtaining a trial license is to download 
-a pre-initialized project via the [Hazelcast Auto DB Integration Initializer](https://www.speedment.com/hazelcast-initializer/).
-
-From that page, a minimalistic starter project can be downloaded. The included ```pom.xml``` file can be used
-as it is or be merged with an existing project. The first time the code generation tool is started,
-the user is prompted to apply for a trial license.
-
-For more details, see the general [information about how to handle licenses](maven.md#license-keys) in Speedment products.
-
-{% include prev_next.html %}
 
 ### Hazelcast cloud
 
@@ -957,6 +956,7 @@ via a `HazelcastCloudConfig` as follows.
             .build();
 ```
 
+{% include prev_next.html %}
 
 ## Discussion
 Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
