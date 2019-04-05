@@ -747,9 +747,11 @@ In order to initialize a `FilmMapStore` we need a `Manager<Film>` that can be re
 
         final Speedment speedment = new SakilaApplicationBuilder()
             .withPassword("sakila-password")
+            .withBundle(HazelcastServerBundle.class) // Use this Bundle server-side
             .build();
 
-        final Config config = new Config();
+        // Creates a config with pre-configured serialization factories an more
+        final Config config = new SakilaHazelcastServerConfigComponent().get();
 
         MapStoreConfig mapStoreConfig = new MapStoreConfig();
         mapStoreConfig.setImplementation(new FilmMapStore(speedment.getOrThrow(FilmManager.class)));
@@ -758,9 +760,6 @@ In order to initialize a `FilmMapStore` we need a `Manager<Film>` that can be re
 
         MapConfig mapConfig = config.getMapConfig(MAP_NAME);
         mapConfig.setMapStoreConfig(mapStoreConfig);
-
-        config.getSerializationConfig()
-            .addPortableFactory(1321754994, new SakilaPortableFactories.SakilaSakilaPortableFactory());
 
         final HazelcastInstance instance = Hazelcast.newHazelcastInstance(config);
 
