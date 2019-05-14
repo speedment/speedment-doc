@@ -472,6 +472,44 @@ long is false has 543 films
 long is  true has 457 films
 ```
 
+### Join, Group By and Order By
+The following example shows a Join with a Group By operation where keys are sorted in a certain way:
+```` java
+    Join<Tuple3<FilmActor, Film, Actor>> join = joinComponent
+        .from(FilmActorManager.IDENTIFIER)
+        .innerJoinOn(Film.FILM_ID).equal(FilmActor.FILM_ID)
+        .innerJoinOn(Actor.ACTOR_ID).equal(FilmActor.ACTOR_ID)
+        .build(Tuples::of);
+
+    Comparator<Tuple2<String, String>> comparator = Comparator.comparing((Function<Tuple2<String, String>, String>) Tuple2::get0).thenComparing(Tuple2::get1);
+
+    Map<Tuple2<String, String>, Long> grouped = join.stream()
+        .collect(
+            groupingBy(t -> Tuples.of(t.get1().getRating().orElse("Unknown"), t.get2().getLastName()), () -> new TreeMap<>(comparator), counting())
+        );
+
+    grouped.forEach((k, v) -> {
+        System.out.format("%-32s, %,d%n", k, v);
+    });
+
+````
+This will produce the following output (shortened for brevity):
+``` text
+Tuple2Impl {G, AKROYD}          , 7
+Tuple2Impl {G, ALLEN}           , 13
+Tuple2Impl {G, ASTAIRE}         , 6
+Tuple2Impl {G, BACALL}          , 2
+Tuple2Impl {G, BAILEY}          , 3
+Tuple2Impl {G, BALE}            , 2
+...
+Tuple2Impl {NC-17, AKROYD}      , 13
+Tuple2Impl {NC-17, ALLEN}       , 13
+Tuple2Impl {NC-17, ASTAIRE}     , 11
+Tuple2Impl {NC-17, BACALL}      , 5
+...
+
+```
+
 ### One-to-Many relations
 A One-to-Many relationship is defined as a relationship between two tables where a row from a first table can have multiple matching rows in a second table. For example, many films can be in the same language.
 
