@@ -473,7 +473,7 @@ long is  true has 457 films
 ```
 
 ### Join, Group By and Order By
-The following example shows a Join with a Group By operation where keys are sorted in a certain way:
+The following example shows a Join with a Group By operation where keys are sorted in a certain way. In the example, we group on two keys: `Film::getRating` and `Actor::getLastName` and we also sort on these two keys:
 ```` java
     Join<Tuple3<FilmActor, Film, Actor>> join = joinComponent
         .from(FilmActorManager.IDENTIFIER)
