@@ -64,7 +64,7 @@ Grouping several persist operations in a single transaction will often improve p
 " %}
 
 {% include important.html content= "
-The `persist()` operation will return an entity that is updated with auto-generated keys from the database (if any) nut not default and trigger calculated column values. Remember that you have to query the database to make sure that you have the latest version of your entity that was stored in the database.
+The `persist()` operation will return an entity that is updated with auto-generated keys from the database (if any) and not default and trigger calculated column values. Remember that you have to query the database to make sure that you have the latest version of your entity that was stored in the database.
 " %}
 
 ### Selecting fields to persist
@@ -93,6 +93,10 @@ that only explicitly sets the `NAME` column.
 ``` java
     Persister<Language> persister = languages.persister(FieldSet.of(Language.NAME));
 ``` 
+
+{% include important.html content= "
+Just as normal `persist()`, a `persist()` with selected fields to persist will return an entity that is updated with auto-generated keys from the database (if any) and not default and trigger calculated column values. Remember that you have to query the database to make sure that you have the latest version of your entity that was stored in the database.
+" %}
 
 
 ## Read with Stream
