@@ -321,10 +321,14 @@ You can explicitly clear the content of the DataStore by calling the `clear()` m
 ```
 If `load()` is called after `clear()`, streams can again be served by DataStore.
 
+## Limiting Memory Usage
+It is possible to set the maximum amount of allowable off-heap memory to be allocated by using the "-XX:MaxDirectMemorySize" JVM flag. 
+
 ## Performance
 The DataStore module will sort each table and each column upon load/re-load. This means that you can benefit from low latency regardless on which column you use in stream filters, sorters, etc.
 
 When the DataStore module is being used, Stream latency will be orders of magnitudes better.
+
 
 {% include prev_next.html %}
 
