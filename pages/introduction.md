@@ -101,21 +101,22 @@ When *OpenJDK 1.8* is used, JavaFX needs to be installed separately (e.g. `sudo 
 ### Speedment Editions
 This Reference Manual covers all editions of Speedment:
   * **Speedment** referes to the open-source edition of the product that can connect to open-source databases. It is also the name of the company (Speedment, Inc.) that provides the Speedment products.
-  * **Speedment Enterprise**, is a commercially licensed product providing connectivity to commercial databases like Oracle, SQL Server, DB2, AS400 etc. Speedment Enterprise also contains in-JVM-memory acceleration and other enterprise features.
+  * **Speedment Stream** provides connectivity to commercial databases (Oracle, SQL Server, DB2, AS400). Learn more at [speedment.com/stream](www.speedment.com/stream). 
+  * **Speedment HyperStream** includes the same great features as Stream but also allow queries to be performed off-heap at hypersonic speeds by leveraging DataStore, a unique JVM-memory manager. Learn more at [speedment.com/hyperstream](www.speedment.com/hyperstream). 
 
 ### Speedment Plugins
-We can extend Speedment's functionality by using one or several plugins in the form of {{site.data.javadoc.TypeMapper}}s, Components and/or {{site.data.javadoc.InjectBundle}}s. These plugins have their own lifecycles. It is possible for anyone to write a Speedment plugin.
+Speedment's functionality can be extended by using one or several plugins in the form of {{site.data.javadoc.TypeMapper}}s, Components and/or {{site.data.javadoc.InjectBundle}}s. These plugins have their own lifecycles. It is possible for anyone to write a Speedment plugin.
 
 ### Licensing
-Speedment open-source is licensed under the Apache 2 license. Speedment Enterprise is licensed under a commercial license.
+Speedment open-source is licensed under the Apache 2 license. Speedment Stream and HyperStream is licensed under a commercial license.
 
 ### Customer Support
 Open-source support for Speedment is provided on a best effort basis via [GitHub](https://github.com/speedment/speedment/issues), [Gitter](https://gitter.im/speedment/speedment) and [StackOverflow](http://stackoverflow.com/questions/tagged/speedment?sort=newest)
 
-Commercial support can be purchased for both Speedment and Speedment Enterprise. Read more on [speedment.com](http://www.speedment.com)
+Commercial support for any licensed software can be purchased. Read more on [Speedment Licensing and Pricing](http://www.speedment.com/pricing)
 
 ### Contributing to Speedment
-Speedment is open-source and so we are happy to accept pull requests and improvement suggestions from the community. Read more [here](https://github.com/speedment/speedment/blob/master/CONTRIBUTING.md) on how to contribute to Speedment.
+We gladly welcome, and encourage contributions to Speedment open-source from the community. Read more [here](https://github.com/speedment/speedment/blob/master/CONTRIBUTING.md) on how to make a contribution.
 
 ### Phone Home
 Speedment sends certain data back to our servers as described [here](https://github.com/speedment/speedment/blob/master/DISCLAIMER.MD) 
