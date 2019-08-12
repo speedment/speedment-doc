@@ -360,7 +360,7 @@ The features described in this chapter are only available in Speedment Enterpris
 
 ### Stream Joins {% include star.html %}
 
-The Enterprise Versions of Speedment come with general joining of Streams whereby any type of stream can be joined (using left or inner joins) to an initial stream. Any Stream source can be used including Speedment streams and vanilla custom Streams.
+Speedment Stream and HyperStream come with general joining of Streams whereby any type of stream can be joined (using left or inner joins) to an initial stream. Any Stream source can be used including Speedment streams and vanilla custom Streams.
 
 The stream join features are available via the `StreamJoinUtil` class. Here is an example of how to use stream joins:
 
@@ -406,8 +406,9 @@ Because we are using pure streams, we can apply *any* stream operation including
 
 It should be noted that the stream join feature will not be able to optimize away object creation under most conditions. Instead, an exhaustive cartesian produce will be produced by the Join object upon stream invocation.
 
+{% include note.html content = "
 Currently, stream joins up to 5 levels are supported and joins can only be made with the initial stream.
-
+" %}
 
 {% include prev_next.html %}
 
