@@ -10,7 +10,15 @@ body {
 
 h1, h2, h3, h4, h5, h6{
         font-family: "Source Sans Pro"; 
-        font-weight: 600; 
+        font-weight: 600;
+}
+
+h3, h4 {
+    color: #3A9B79; 
+}
+
+a {
+    color: #155D89;
 }
 
 .bs-callout {
