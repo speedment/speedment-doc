@@ -1,5 +1,10 @@
 body {
-    font-size:15px;
+    font-size:16px;
+    font-family: "Source Sans Pro"; 
+}
+
+.language-java {
+    font-family: "Source Code Pro; 
 }
 
 .bs-callout {
