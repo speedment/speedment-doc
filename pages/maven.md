@@ -622,8 +622,8 @@ You can also change this without launching the tool by setting the property `pac
     </build>
 ```
 
-## Speedment Enterprise
-Speedment Enterprise is configured the same way except that we have to use different group and artifact ids. Here is an example of a Speedment Enterprise plugin definition:
+## Speedment HyperStream
+Speedment HyperStream is configured the same way except that we have to use different group and artifact ids. Here is an example of a Speedment HyperStream plugin definition:
 
 ``` xml
 <plugin>
@@ -656,10 +656,10 @@ Speedment Enterprise is configured the same way except that we have to use diffe
 Always use the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your pom file and to request a free trial license.
 " %}
 
-The Speedment Enterprise Maven Plugin works the same way as the Speedment Maven Plugin but the plugins come with more Components and Bundles pre-installed.
+The Speedment HyperStream Maven Plugin works the same way as the Speedment Maven Plugin but the plugins come with more Components and Bundles pre-installed.
 
 ### License Keys
-Speedment Enterprise requires a valid License Key to be used. The key must be available for **both** the Speedment tool and the runtime for you to be able to build and run the application.
+[Speedment HyperStream](www.speedment.com/hyperstream) requires a valid License Key to be used. The key must be available for **both** the Tool and the Runtime for you to be able to build and run the application.
 
 There are two ways to enter a license key. The easiest way is to specify it as a string to both the tool (as a Maven tag) and in the `ApplicationBuilder` in your application. Here is an example of that:
 
