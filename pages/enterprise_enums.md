@@ -54,7 +54,5 @@ When the column is configured, press "Generate" to update your project.
 
 {% include prev_next.html %}
 
-## Discussion
-Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
-
-{% include messenger.html page-url="integration.html" %}
+## Questions and Discussion
+If you have any question, don't hesitate to reach out to the Speedment developers on [Gitter](https://gitter.im/speedment/speedment).

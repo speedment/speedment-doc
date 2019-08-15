@@ -13,7 +13,7 @@ next:
 {% include prev_next.html %}
 
 ## About
-When working with large datavolumes, it is sometimes unnecessary to have a database at all. It can be more performant to read binary data directly from a file and then analyze it in Speedment. One such format for storing binary data is [Avro](https://avro.apache.org/).
+When working with large datavolumes, it is sometimes unnecessary to have a database at all. It can be more perfoxrmant to read binary data directly from a file and then analyze it in Speedment. One such format for storing binary data is [Avro](https://avro.apache.org/).
 
 ## Generating Code
 Speedment uses the metadata in a database as the domain model when generating code. The metadata is stored in a `speedment.json`-file, and unless you call `mvn speedment:reload`, it will only connect to the database if that file doesn't exist. When working with Avro-files, we use this to our advantage. Instead of using the database metadata to generate the `speedment.json`-file, we can use a Maven plugin called `speedment-avro-maven-plugin` to create it from a number of Avro-schemas. We can then run `mvn speedment:generate` as usual to generate Java code.
@@ -200,7 +200,5 @@ And it will be used instead.
 
 {% include prev_next.html %}
 
-## Discussion
-Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
-
-{% include messenger.html page-url="integration.html" %}
+## Questions and Discussion
+If you have any question, don't hesitate to reach out to the Speedment developers on [Gitter](https://gitter.im/speedment/speedment).

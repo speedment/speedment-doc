@@ -159,7 +159,5 @@ The following example shows a solution where we set different database passwords
 
 {% include prev_next.html %}
 
-## Discussion
-Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
-
-{% include messenger.html page-url="application-configuration.html" %}
+## Questions and Discussion
+If you have any question, don't hesitate to reach out to the Speedment developers on [Gitter](https://gitter.im/speedment/speedment).

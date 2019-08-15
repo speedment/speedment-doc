@@ -254,7 +254,5 @@ The Initializer also supports Speedment Enterprise. Always use the [Initializer]
 
 {% include prev_next.html %}
 
-## Discussion
-Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
-
-{% include messenger.html page-url="getting-started.html" %}
+## Questions and Discussion
+If you have any question, don't hesitate to reach out to the Speedment developers on [Gitter](https://gitter.im/speedment/speedment).

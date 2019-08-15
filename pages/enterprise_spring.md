@@ -540,7 +540,5 @@ curl -G localhost:8080/sakila/film --data-urlencode \
    &limit50'
 ```
 
-## Discussion
-Join the discussion in the comment field below or on [Gitter](https://gitter.im/speedment/speedment)
-
-{% include messenger.html page-url="enterprise_spring.html" %}
+## Questions and Discussion
+If you have any question, don't hesitate to reach out to the Speedment developers on [Gitter](https://gitter.im/speedment/speedment).
