@@ -27,9 +27,11 @@ topnav_dropdowns:
         
     - title: Products
       folderitems:
-        - title: Speedment Enterprise
-          external_url: https://www.speedment.com/solutions/enterprise
-        - title: Speedment Open Source
-          external_url: https://www.speedment.com/solutions/open-source
+        - title: Speedment Stream
+          external_url: https://www.speedment.com/stream
+        - title: Speedment HyperStream
+          external_url: https://www.speedment.com/hyperstream
+        - title: Speedment Open-Source
+          external_url: https://www.speedment.com/open-source
         - title: Ext Speeder
-          external_url: https://www.speedment.com/solutions/ext-speeder
+          external_url: https://www.speedment.com/ext-speeder

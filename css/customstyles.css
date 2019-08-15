@@ -1208,3 +1208,7 @@ h1#top {
     margin-top: -40px;
     float: right;
 }
+
+#page-wrapper {
+    max-width: 800px;
+}
