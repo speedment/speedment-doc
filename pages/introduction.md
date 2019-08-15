@@ -2,7 +2,7 @@
 permalink: introduction.html
 sidebar: mydoc_sidebar
 title: Introduction
-keywords: Speedment, Preface, Editions, Arcitecture, Plugins, Licensing, Support, JavaDoc, Contributing
+keywords: Speedment, Preface, Editions, Architecture, Plugins, Licensing, Support, JavaDoc, Contributing
 toc: false
 Tags: Introduction, Preface, License
 previous: introduction.html
@@ -11,115 +11,67 @@ next: stream_fundamentals.html
 
 {% include prev_next.html %}
 
-## What is Speedment?
-__Speedment is a Java 8 Stream ORM Toolkit and Runtime__ 
+Welcome to the Speedment User Guide. This manual includes instructions and examples on how you can configure and use Speedment in you Java database applications. 
 
-With Speedment you can write database applications using Java only. No SQL coding is needed.
+The reader of this User Guide needs to be familiar with the Java language and [Apache Maven](https://maven.apache.org/). 
 
-### One-liner
-Search for a long `Film` (of length greater than 120 minutes):
-``` java
-// Searches are optimized in the background!
-Optional<Film> longFilm = films.stream()
-    .filter(Film.LENGTH.greaterThan(120))
-    .findAny();
-``` 
+## Speedment Editions
+This User Guide covers all editions of Speedment. Throughout this manual:
 
-Results in the following SQL query:
-```sql
-SELECT 
-    `film_id`,`title`,`description`,`release_year`,
-    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
-    `length`,`replacement_cost`,`rating`,`special_features`,
-    `last_update` 
-FROM 
-     `sakila`.`film
-WHERE
-    (`length` > 120)
-```
+__Speedment__ refers to all editions of Speedment (including OSS, Stream and HyperStream). Speedment is also the name of the company (Speedment, Inc.) providing the Speedment products.
 
-No need for manually writing SQL-queies any more. Remain in a pure Java world!
+__Speedment OSS__ is the open-source edition of Speedment which is licensed under Apache 2.0 and available on [GitHub](www.github.com/speedment/speedment). 
 
-### Expressing SQL as Java 8 Streams
-When we started the open-source project Speedment, the main objective was to remove the polyglot requirement for Java database application developers. After all, we all love Java and why should we need to know SQL when, instead, we could derive the same semantics directly from Java streams? When one takes a closer look at this objective, it turns out that there is a remarkable resemblance between Java streams and SQL as summarized in this simplified table:
+__Speedment Stream__ is a commercially licensed edition of Speedment which includes enterprise database connectors (Oracle, SQLServer, DB2 and AS400). Learn more at [speedment.com/stream](https://speedment.com/stream).
 
-| SQL         | Java 8 Stream Equivalent          |
-| :---------- | :-------------------------------- |
-| `FROM`       | `stream()`   |
-| `SELECT`     | `map()`      |
-| `WHERE`      | `filter()` (before collecting) |
-| `HAVING`     | `filter()` (after collecting) |
-| `JOIN`       | `flatMap()`  |
-| `DISTINCT`   | `distinct()` |
-| `UNION`      | `concat(s0, s1).distinct()` |
-| `ORDER BY`   | `sorted()`   |
-| `OFFSET`     | `skip()`     |
-| `LIMIT`      | `limit()`    |
-| `GROUP BY`   | `collect(groupingBy())` |
-| `COUNT`      | `count()`    |
+__Speedment HyperStream__ is a commercially licensed edition of Speedment which provides hypersonic performance by leveraging the DataStore Memory Management Component in addition to Speedment Stream. Learn more at [speedment.com/hyperstream](https://speedment.com/hyperstream).
 
-Speedment allows all these Stream operations to be used. Read more on Stream to SQL Equivalences [here](https://speedment.github.io/speedment-doc/speedment_examples.html#sql-equivalences).
+__Speedment Enterprise__ refers to all commercially licensed editions of Speedment which provides high-value enterprise features in addition to Speedment OSS.
 
-## Features
+A full comparison of software licenses is available [here](https://speedment.com/pricing). 
 
-### View Database Tables as Standard Java Streams
+## Speedment Plugins
+Speedment's functionality can be extended by using one or several plugins in the form of {{site.data.javadoc.TypeMapper}}s, Components and/or {{site.data.javadoc.InjectBundle}}s. These plugins have their own lifecycles. It is possible for anyone to write a third party Speedment plugin.
 
-* **Pure Java** - Stream API instead of SQL eliminates the need of a query language<br>
-* **Dynamic Joins** - Ability to perform joins as Java streams on the application side<br>
-* **Parallel Streams** - Workload can automatically be divided over several threads<br>
+See the [Speedment Enterprise Plugins Chapter](enterprise_plugins#top) to view currently available plugins. 
 
-### Short and Concise Type Safe Code 
+## Speedment Licensing 
 
-* **Code Generation** - Automatic Java representation of the latest state of your database eliminates boilerplate code and the need of manually writing Java Entity classes while minimizing the risk for bugs.<br>
-* **Null Protection** - Minimizes the risk involved with database null values by wrapping to Java Optionals<br>
-* **Enum Integration** - Mapping of String columns to Java Enums increases memory efficiency and type safety<br>
+Speedment OSS and Speedment User Guide are free and provided under the Apache 2.0 License. Speedment Stream and Speedment HyperStream are commercially licensed by Speedment, Inc.
 
-### Lazy Evaluation for Increased Performance
+To license your software, please visit [Speedment Licensing and Pricing](https://speedment.com/pricing). 
 
-* **Streams are Lazy** - Content from the database is pulled as elements are needed and consumed<br>
-* **Pipeline Introspection** - Optimized performance by short circuiting of stream operations<br>
+## Support
+Support for Speedment is provided on a best effort basis via [GitHub](https://github.com/speedment/speedment/issues), [Gitter](https://gitter.im/speedment/speedment) and [StackOverflow](http://stackoverflow.com/questions/tagged/speedment?sort=newest)
 
-## Speedment Resources
+For information about professional support, see [Speedment Licensing and Pricing](https://speedment.com/pricing). 
 
-### Initializer
-An on-line Initializer that can create pom.xml and application templates are available [here](http://www.speedment.com/initializer)
+## Resources 
+In addition to the information provided in this User Guide the following resources are available: 
 
-### JavaDoc
+__JavaDoc__
+
 The latest online JavaDocs are available [here](http://www.javadoc.io/doc/com.speedment/runtime-deploy)
 
-### Release Notes
+__Video Tutorials__
+
+Some topics of this User Guide are covered in Video Guides which are freely available [here](https://speedment.com/video-tutorials). 
+
+__Release Notes__
+
 Please refer to the [Release Notes documents](https://github.com/speedment/speedment/releases) for new features, enhancements and fixes performed for each Speedment release.
 
-## Fast Facts About Speedment
-Here are some fast facts about Speedment:
+__Initializer__
 
-### Supported Java Versions
-Speedment supports Java 8 and upwards. Earlier Java versions are not supported because they do not support Streams. Under Java 9, the new {{site.data.javadoc.StreamTakeWhile}} and {{site.data.javadoc.StreamDropWhile}} Stream operations will be automatically available under Speedment too.
+An online [Initializer](https://speedment.com/download) that can automatically generate a custom pom-file including the needed Maven dependencies to suit your project. 
 
-When *OpenJDK 1.8* is used, JavaFX needs to be installed separately (e.g. `sudo apt-get install openjfx`) because JavaFX is used by the UI tool and was not shipped in that particular JDK version.
+{% include image.html file="Initializer.png" url="https://www.speedment.com/initializer" alt="The Speedment Initializer" caption="The Speedment Initializer" %}
 
-### Speedment Editions
-This Reference Manual covers all editions of Speedment:
-  * **Speedment** referes to the open-source edition of the product that can connect to open-source databases. It is also the name of the company (Speedment, Inc.) that provides the Speedment products.
-  * **Speedment Stream** provides connectivity to commercial databases (Oracle, SQL Server, DB2, AS400). Learn more at [speedment.com/stream](www.speedment.com/stream). 
-  * **Speedment HyperStream** includes the same great features as Stream but also allow queries to be performed off-heap at hypersonic speeds by leveraging DataStore, a unique JVM-memory manager. Learn more at [speedment.com/hyperstream](www.speedment.com/hyperstream). 
+## Contributing to Speedment
+We gladly welcome, and encourage contributions to Speedment OSS from the community. Read more [here](https://github.com/speedment/speedment/blob/master/CONTRIBUTING.md) on how to make a contribution.
 
-### Speedment Plugins
-Speedment's functionality can be extended by using one or several plugins in the form of {{site.data.javadoc.TypeMapper}}s, Components and/or {{site.data.javadoc.InjectBundle}}s. These plugins have their own lifecycles. It is possible for anyone to write a Speedment plugin.
-
-### Licensing
-Speedment open-source is licensed under the Apache 2 license. Speedment Stream and HyperStream is licensed under a commercial license.
-
-### Customer Support
-Open-source support for Speedment is provided on a best effort basis via [GitHub](https://github.com/speedment/speedment/issues), [Gitter](https://gitter.im/speedment/speedment) and [StackOverflow](http://stackoverflow.com/questions/tagged/speedment?sort=newest)
-
-Commercial support for any licensed software can be purchased. Read more on [Speedment Licensing and Pricing](http://www.speedment.com/pricing)
-
-### Contributing to Speedment
-We gladly welcome, and encourage contributions to Speedment open-source from the community. Read more [here](https://github.com/speedment/speedment/blob/master/CONTRIBUTING.md) on how to make a contribution.
-
-### Phone Home
-Speedment sends certain data back to our servers as described [here](https://github.com/speedment/speedment/blob/master/DISCLAIMER.MD) 
-If you must and/or want to disable this function, contact us.
+## Phone Home
+Speedment sends certain data back to our servers as described [here](https://github.com/speedment/speedment/blob/master/DISCLAIMER.MD).
+If you must and/or want to disable this function, [contact us](https://speedment.com/contact).
 
 {% include prev_next.html %}

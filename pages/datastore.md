@@ -1,7 +1,7 @@
 ---
 permalink: datastore.html
 sidebar: mydoc_sidebar
-title: Data Store
+title: DataStore Acceleration
 keywords: Data Store, In, Memory, Acceleration
 toc: false
 Tags: Data Store
@@ -12,7 +12,7 @@ next: aggregations.html
 {% include prev_next.html %}
 
 ## What is DataStore?
-The Speedment Enterprise Datastore is a proprietary module for Speedment that stores database entities in-memory, allowing database queries to be performed extremely fast, utilizing the Java 8 Stream API to the fullest.
+The Speedment Enterprise DataStore is a proprietary module for Speedment that stores database entities in-memory, allowing database queries to be performed extremely fast, utilizing the Java 8 Stream API to the fullest.
 
 A Stream does not describe any details about how data is retrieved, in fact this is delegated to the framework defining the pipeline source and termination. There is nothing in the design of a stream entailing data must come from a SQL query. This fact is used by Speedment Enterprise that contains an in-JVM-memory analytics engine called DataStore, allowing streams to connect directly to RAM instead of remote databases.
 
@@ -26,7 +26,7 @@ In order to use DataStore you need a commercial Speedment license or a trial lic
 The DataStore module needs to be referenced both in your pom.xml file and in you application.
 
 ### POM File
-Use the [Initializer](https://www.speedment.com/initializer/) to get a POM file template. To use DataStore, add it as a dependency to the speedment-enterprise-maven-plugin and mention it as a component:
+Use the [Initializer](https://www.speedment.com/initializer/) to get a POM-file template. To use DataStore, add it as a dependency to the speedment-enterprise-maven-plugin and mention it as a component:
 ``` xml
     <plugin>
         <groupId>com.speedment.enterprise</groupId>

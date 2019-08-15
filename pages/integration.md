@@ -15,7 +15,7 @@ next: advanced_features.html
 Speedment is a completely self-contained runtime with no external transitive dependencies. This is important because it allows you to avoid potential version conflicts with other libraries and the ever lurking “Jar Hell”. Furthermore, there is a “deploy” variant available where all Speedment runtime modules have been packed together into a single compound JAR.
 
 ## Spring Boot
-It is easy to integrate Speedment with Spring Boot. Here is an example of a Speedment Configuration file for Spring:
+It is easy to integrate any Speedment project with Spring Boot. Here is an example of a Speedment Configuration file for Spring:
 ``` java
 @Configuration
 public class AppConfig {
@@ -46,9 +46,7 @@ So, when you need to use a `Manager` in a Spring MVC Controller, you can now sim
 private @Autowired FilmManager films;
 ```
 
-There is a specific Spring Boot plugin that you can add to your speedment maven plugin of you use the Enterprise version.
-
-Read more on how to use the Speedment with Spring Boot [here](https://github.com/speedment/speedment/wiki/Tutorial:-Speedment-Spring-Boot-Integration)
+There is a specific [Spring Boot plugin](https://github.com/speedment/speedment/wiki/Tutorial:-Speedment-Spring-Boot-Integration) that you can add to your Speedment Maven-plugin if you use Speedment Stream or HyperStream. 
 
 
 ## Java EE
@@ -122,7 +120,7 @@ This is how you add the Speedment JSON plugin to your project:
 ```
 Once the plugin is added, you gain access to a number of additional methods related to JSON handling.
 
-A more advanced JSON Plugin is available in Speedment Enterprise. [Read more about that here](enterprise_json#top).
+A more advanced JSON Plugin is available for Speedment Stream and HyperStream. [Read more about it here](enterprise_json#top).
 
 ## Enum
 If you have a database where String columns are stored as a limited number of distinct values (i.e. has low cardinality), consider using the Speedment Enum plugin. It will enable mapping of String columns to java enums, allowing more efficient use of memory and increased type safety.
