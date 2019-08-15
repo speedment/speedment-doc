@@ -2,8 +2,6 @@
 layout: default
 ---
 
-<div class="container" id="page-wrapper">
-
     <div class="post-header">
         <h1 id="top" class="post-title-main">{{ page.title }}{% if page.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</h1>
         {% if site.github_editme_path %}
@@ -33,6 +31,8 @@ layout: default
 
     {% endif %}
 
+<div class="container" id="page-wrapper">
+
     <div class="post-content">
 
         {% if page.summary %}
@@ -52,19 +52,15 @@ layout: default
             {% for tag in page.tags %}
             {% if projectTags contains tag %}
             <a href="{{ "tag_" | append: tag | append: ".html" }}" class="btn btn-default navbar-btn cursorNorm" role="button">{{page.tagName}}{{tag}}</a>
-            {% endif %}
+            {% endif %}di
             {% endfor %}
             {% endif %}
         </div>
 
-        {% if site.disqus %}
-        {% include disqus.html %}
-        {% endif %}
-
     </div>
 
+</div>
 
     {{site.data.alerts.hr_shaded}}
 
     {% include footer.html %}
-</div>

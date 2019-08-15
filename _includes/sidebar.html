@@ -1,6 +1,6 @@
 {% include custom/sidebarconfigs.html %}
 
-<ul class="nav accordion">
+<ul class="nav">
     <li class="sidebarTitle">{{sidebar[0].product}} {{sidebar[0].version}}</li>
     {% for entry in sidebar %}
     {% for folder in entry.folders %}
@@ -21,7 +21,7 @@
             {% if subfolders.output contains "web" %}
             <li class="subfolders">
                 <a href="#">{{ subfolders.title }}{% if subfolders.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a>
-                <ul class="sub-menu">
+                <ul>
                     {% for subfolderitem in subfolders.subfolderitems %}
                     {% if subfolderitem.output contains "web" %}
                     {% if subfolderitem.external_url %}
