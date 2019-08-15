@@ -26,7 +26,7 @@
 .highlight .kr { font-weight: bold } /* Keyword.Reserved */
 .highlight .kt { color: #5abf95; font-weight: bold } /* Keyword.Type */
 .highlight .m { color: #cce7ff } /* Literal.Number */
-.highlight .s { color: #d14 } /* Literal.String */
+.highlight .s { color: #33b88a } /* Literal.String */
 .highlight .na { color: #fce390 } /* Name.Attribute */
 .highlight .nb { color: #cce7ff } /* Name.Builtin */
 .highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
@@ -59,3 +59,4 @@
 .highlight .vg { color: #cce7ff } /* Name.Variable.Global */
 .highlight .vi { color: #cce7ff } /* Name.Variable.Instance */
 .highlight .il { color: #cce7ff } /* Literal.Number.Integer.Long */
+.code { color: #cce7ff; }
