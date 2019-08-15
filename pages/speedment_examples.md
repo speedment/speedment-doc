@@ -671,7 +671,6 @@ CAMERON ZELLWEGER  {PG-13=8, R=2, NC-17=3, PG=15, G=5}
 ...
 ```
 
-
 ## Database Schema
 The film example database "Sakila" used in this manual can be downloaded directly from Oracle [here](https://dev.mysql.com/doc/index-other.html) or as a Docker image [here](https://hub.docker.com/r/restsql/mysql-sakila)
 

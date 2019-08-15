@@ -1,3 +1,12 @@
+/*** Load Custom Fonts ***/
+
+@font-face { src: url("../css/fonts/SourceSansPro-Bold.ttf"); }
+@font-face { src: url("../css/fonts/SourceSansPro-BoldItalic.ttf"); }
+@font-face { src: url("../css/fonts/SourceSansPro-Italic.ttf"); }
+@font-face { src: url("../css/fonts/SourceSansPro-Regular.ttf"); }
+@font-face { src: url("../css/fonts/SourceSansPro-SemiBold.ttf"); }
+@font-face { src: url("../css/fonts/SourceSansPro-SemiBoldItalic.ttf"); }
+
 body {
     font-size:16px;
     font-family: "Source Sans Pro";
@@ -234,6 +243,7 @@ p.post-meta {font-size: 80%; color: #777;}
 #search-demo-container ul#results-container {
     list-style: none;
     font-size: 12px;
+    padding: 0em 0.5em;
     background-color: white;
     position: absolute;
     top: 40px; /* if you change anything about the nav, you'll prob. need to reset the top and left values here.*/
@@ -261,7 +271,7 @@ ul#results-container a:hover {
     float: right;
     width:        14em;
     font-size:    .8em;
-    padding:      .5em;
+    padding:      0em .5em;
     margin-left:  20px;
     margin-top:   10px;
     margin-right:  6px;
@@ -1250,4 +1260,8 @@ h1#top {
     cursor: pointer;
     cursor: hand;
     transition: all .3s ease;
+}
+
+.edit-github {
+    margin-top: 3em;
 }
