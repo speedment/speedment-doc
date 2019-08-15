@@ -24,10 +24,10 @@
 .highlight .kd { font-weight: bold } /* Keyword.Declaration */
 .highlight .kp { font-weight: bold } /* Keyword.Pseudo */
 .highlight .kr { font-weight: bold } /* Keyword.Reserved */
-.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .kt { color: #5abf95; font-weight: bold } /* Keyword.Type */
 .highlight .m { color: #cce7ff } /* Literal.Number */
 .highlight .s { color: #d14 } /* Literal.String */
-.highlight .na { color: #ffda64 } /* Name.Attribute */
+.highlight .na { color: #fce390 } /* Name.Attribute */
 .highlight .nb { color: #cce7ff } /* Name.Builtin */
 .highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
 .highlight .no { color: #cce7ff } /* Name.Constant */
