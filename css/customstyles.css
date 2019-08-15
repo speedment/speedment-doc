@@ -14,11 +14,16 @@ h1, h2, h3, h4, h5, h6{
 }
 
 h3, h4 {
-    color: #3A9B79;
+    color: black;
 }
 
-a {
+a,
+a code {
     color: #155D89;
+}
+
+b, strong {
+    font-weight: 600;
 }
 
 .bs-callout {
@@ -955,7 +960,7 @@ span.soft {
     padding:10px;
 }
 
-/* this part adds an icon after external links, using FontAwesome*/
+/* this part adds an icon after external links, using FontAwesome
 a[href^="http://"]:after, a[href^="https://"]:after {
     content: "\f08e";
     font-family: FontAwesome;
@@ -965,6 +970,7 @@ a[href^="http://"]:after, a[href^="https://"]:after {
     text-decoration: none;
     padding-left: 3px;
 }
+*/
 
 /* Strip the outbound icon when this class is present */
 a[href].noCrossRef::after,
