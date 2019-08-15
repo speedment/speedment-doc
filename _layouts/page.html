@@ -2,11 +2,16 @@
 layout: default
 ---
 
+<div class="edit-github">
+    {% if site.github_editme_path %}
+    <a target="_blank" href="https://github.com/{{site.github_editme_path}}{% unless page.url contains "index.html" %}pages/{% endunless %}{{page.folder}}{{page.url | remove: ".html" | append: ".md"}}" class="btn btn-default githubEditButton" role="button"><i class="fa fa-github fa-lg"></i> Edit me</a>
+    {% endif %}
+</div>
+
+<div class="container" id="page-wrapper">
+
     <div class="post-header">
         <h1 id="top" class="post-title-main">{{ page.title }}{% if page.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</h1>
-        {% if site.github_editme_path %}
-        <a target="_blank" href="https://github.com/{{site.github_editme_path}}{% unless page.url contains "index.html" %}pages/{% endunless %}{{page.folder}}{{page.url | remove: ".html" | append: ".md"}}" class="btn btn-default githubEditButton" role="button"><i class="fa fa-github fa-lg"></i> Edit me</a>
-        {% endif %}
     </div>
 
     {% if page.simple_map == true %}
@@ -30,8 +35,6 @@ layout: default
     {% include custom/{{page.map_name}}.html %}
 
     {% endif %}
-
-<div class="container" id="page-wrapper">
 
     <div class="post-content">
 
@@ -57,18 +60,18 @@ layout: default
             {% endif %}
         </div>
 
-    <!-- Hide Facebook Disqus
-        {% if site.disqus %}
-        {% include disqus.html %}
-        {% endif %}-->
+        <!-- Hide Facebook Disqus
+            {% if site.disqus %}
+            {% include disqus.html %}
+            {% endif %}-->
 
     </div>
 
 </div>
 
-    {{site.data.alerts.hr_shaded}}
+{{site.data.alerts.hr_shaded}}
 
-    {% include footer.html %}
+{% include footer.html %}
 
 <!-- Gitter Chatroom Tab -->
 <button class="js-gitter-toggle-chat-button" data-gitter-toggle-chat-state="true">Open Gitter Chat</button>

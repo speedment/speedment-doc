@@ -1212,3 +1212,34 @@ h1#top {
 #page-wrapper {
     max-width: 700px;
 }
+
+/** Gitter Chatroom */
+.gitter-chat-embed-action-bar {
+    margin-top: 3.2em;
+}
+
+.gitter-chat-embed {
+    z-index: 1000;
+}
+
+.js-gitter-toggle-chat-button {
+    z-index: 100;
+    position: fixed;
+    bottom: 0;
+    right: 2em;
+    padding: 0.7em 1.5em;
+    background-color: #155d89;
+    border: 0;
+    border-top-left-radius: .5em;
+    border-top-right-radius: .5em;
+    font-family: 'Source Sans Pro';
+    font-size: 1em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    cursor: hand;
+    transition: all .3s ease;
+}
