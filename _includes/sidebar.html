@@ -21,7 +21,7 @@
             {% if subfolders.output contains "web" %}
             <li class="subfolders">
                 <a href="#">{{ subfolders.title }}{% if subfolders.enterprise %}<i class="fa fa-star enterprise-icon" aria-hidden="true"></i>{% endif %}</a>
-                <ul>
+                <ul class="sub-menu">
                     {% for subfolderitem in subfolders.subfolderitems %}
                     {% if subfolderitem.output contains "web" %}
                     {% if subfolderitem.external_url %}

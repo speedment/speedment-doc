@@ -1,20 +1,20 @@
 body {
     font-size:16px;
-    font-family: "Source Sans Pro"; 
-    line-height: 1.5em; 
+    font-family: "Source Sans Pro";
+    line-height: 1.5em;
 }
 
 .language-java {
-        font-family: "Source Code Pro"; 
+    font-family: "Source Code Pro";
 }
 
 h1, h2, h3, h4, h5, h6{
-        font-family: "Source Sans Pro"; 
-        font-weight: 600;
+    font-family: "Source Sans Pro";
+    font-weight: 600;
 }
 
 h3, h4 {
-    color: #3A9B79; 
+    color: #3A9B79;
 }
 
 a {
@@ -98,8 +98,8 @@ h4[id],
 h5[id],
 h6[id],
 dt[id]{
-padding-top: 60px;
-margin-top: -40px
+    padding-top: 60px;
+    margin-top: -40px
 }
 
 body h1 {margin-top:40px;}
@@ -260,11 +260,11 @@ ul#results-container a:hover {
     margin-left:  20px;
     margin-top:   10px;
     margin-right:  6px;
-    
+
     box-sizing:         border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing:    border-box;
-} 
+}
 
 /* end search */
 
@@ -398,7 +398,7 @@ a.accordion-toggle, a.accordion-collapsed {
 }
 
 .nav > li.active > a  {
-background-color: #347DBE;
+    background-color: #347DBE;
 }
 
 .nav li a {
@@ -969,7 +969,7 @@ a[href^="http://"]:after, a[href^="https://"]:after {
 /* Strip the outbound icon when this class is present */
 a[href].noCrossRef::after,
 a.no_icon:after
- {
+{
     content:"" !important;
     padding-left: 0;
 }
@@ -1039,7 +1039,7 @@ span.label.label-primary {
     background-color: whitesmoke;
     font-weight: bold;
     color: black;
-    }
+}
 
 a code {
     color: #248EC2;
@@ -1107,7 +1107,7 @@ h2.userMapTitle {
 
 #userMap a:hover {
     text-decoration: none;
-  }
+}
 
 div.arrow {
     max-width: 50px;
@@ -1163,13 +1163,13 @@ div.box.box1 {
 }
 
 #userMap .btn-lg  {
-        white-space: pre-wrap;       /* css-3 */
-        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-        white-space: -pre-wrap;      /* Opera 4-6 */
-        white-space: -o-pre-wrap;    /* Opera 7 */
-        word-wrap: break-word;       /* Internet Explorer 5.5+ */
-        font-size: 14px;
-    }
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    font-size: 14px;
+}
 
 /*
  * Let's target IE to respect aspect ratios and sizes for img tags containing SVG files
@@ -1197,11 +1197,11 @@ h4.panel-title {
 /** Fix first header on each page */
 h1#top {
     margin-top: -65px;
-    padding-top: 65px;   
+    padding-top: 65px;
 }
 
 #side-menu-wrapper {
-    margin-bottom: 35px;   
+    margin-bottom: 35px;
 }
 
 .githubEditButton {
@@ -1211,4 +1211,21 @@ h1#top {
 
 #page-wrapper {
     max-width: 700px;
+}
+
+/* Accordion styling sidebar */
+
+.accordion li > .sub-menu {
+    height: 0;
+    overflow: hidden;
+
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    -ms-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.accordion li:target > .sub-menu {
+    height: 98px;
 }
