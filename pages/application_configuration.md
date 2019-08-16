@@ -12,9 +12,9 @@ next: maven.html
 {% include prev_next.html %}
 
 ## Why Configure?
-Most Speedment configuration is done automatically during inspection of the database meta data model including things like tables, columns, user name and connection URL. However, many times we need to override one or several configuration parameters, for example if we deploy our application and want it to connect to a different database compared to what we used for development.
+Most Speedment configuration is done automatically during inspection of the database meta data model including things like tables, columns, user name and connection URL. However, it is common to override one or several configuration parameters, for example when deploying an application and want to connect to a different database than used for development.
 
-There is one thing that we always need to configure and that is the database password. For security reasons, Speedment never stores the database password in generated classes or configuration files.
+One thing that always needs to be configured is the database password. For security reasons, Speedment never stores the database password in generated classes or configuration files.
 
 Configuration is done using an `ApplicationBuilder` that is generated for your project. Once the `ApplicationBuilder` is configured, its `build()` method is called and a configured `Application` is returned. Upon building, all the configuration parameters are frozen (made immutable) in the returned `Application`. 
 
@@ -79,7 +79,7 @@ There are also some Enterprise specific logger name defined for features that ar
 
 Custom components can have other log names.
 
-If we want to enable logging of the application platform, stream and stream optimization we can do like this:
+Logging of the application platform, stream and stream optimization can be achieved as following: 
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
         .withPassword("Jz237@h1J19!")
@@ -88,7 +88,6 @@ If we want to enable logging of the application platform, stream and stream opti
         .withLogging(LogType.STREAM_OPTIMIZER)
         .build();
 ```
-
 
 ## The Speedment Lifecycle
 A Speedment application can move its state from Building to Started to Closed.
@@ -132,13 +131,12 @@ The example below shows a complete Speedment lifecycle from configuration to clo
 ## Examples
 
 ### Default Configuration
-The following example shows the most simple solution where we accept all the default configurations and where we do not have a password set for the database (needless to say, you should always protect your database with a password).
+The following example shows the most simple solution where the default configurations are used and no password is set for the database (needless to say, you should always protect your database with a password).
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder().build();
 ```
-
 ### Setting the Database Password
-The following example shows the most typical solution where we accept all the default configurations but where we set the database password.
+The following example shows the most typical solution where the default configurations are used and a database password is provided.
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
         .withPassword("Jz237@h1J19!")
@@ -146,7 +144,7 @@ The following example shows the most typical solution where we accept all the de
 ```
 
 ### Setting the Database Password for Different Databases
-The following example shows a solution where we set different database passwords for two different databases.
+The following example demonstrates the use of two database passwords for two different databases.
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
         // Set the password for the database that holds Film etc.

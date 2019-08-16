@@ -1,11 +1,11 @@
 ---
 permalink: enterprise_enums.html
 sidebar: mydoc_sidebar
-title: Enterprise Enum Serializer Plugin
-keywords: Serializer, Enum, Enterprise, Plugin
+title: HyperStream Enum Serializer Plugin
+keywords: Serializer, Enum, Enterprise, Plugin, HyperStream
 enterprise: true
 toc: false
-Tags: Serializer, Enum, Enterprise, Plugin
+Tags: Serializer, Enum, Enterprise, Plugin, HyperStream
 previous: enterprise_spring.html
 next: enterprise_virtualcolumns.html
 ---

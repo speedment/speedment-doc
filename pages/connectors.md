@@ -125,10 +125,10 @@ There are two types of auto-increments in SQLite. A column specified as `AUTOINC
 If the table defintion has columns with default values specified, these has to be excluded when persisting and updating entities using Speedment. This can be done by defining a `FieldSet` object as explained [here](crud.html#selecting-fields-to-update).
 
 ## Enterprise Connectors
-Support for additional enterprise database types can easily be obtained by adding an appropriate connector. Adding a connector is straight forward:
+Support for enterprise database types can easily be obtained by adding an appropriate connector. Adding a connector is straight forward:
 
 * Add a connector dependency in your pom file
-* Mention the connector's `Bundle` in the speedment enterprise plugin
+* Mention the connector's `Bundle` in the Speedment Enterprise plugin
 * Mention the connector's `Bundle` in your `ApplicationBuilder `
 
 {% include important.html content= "
@@ -156,7 +156,7 @@ When the application runs, only the CREATE SESSION and the SELECT privileges are
 ### Oracle POM
 Always use the [Initializer](https://www.speedment.com/initializer/) to get a complete POM file template as the POM snipes hereunder just show portions of what is needed.
 
-Here is how you configure the speedment enterprise plugin:
+Here is how you configure the Speedment Enterprise plugin for use with an Oracle database:
 ``` xml
     <plugin>
         <groupId>com.speedment.enterprise</groupId>
@@ -185,7 +185,7 @@ Here is how you configure the speedment enterprise plugin:
         </configuration>
     </plugin>
 ```
-You also have to depend on the Oracle connector and JDBC connector as a runtime dependency for your application:
+You also have to depend on the Oracle connector and JDBC connector as a Runtime dependency for your application:
 ``` xml
     <dependencies>
         <dependency>
@@ -207,8 +207,6 @@ You also have to depend on the Oracle connector and JDBC connector as a runtime 
         </dependency>
     </dependencies>
 ```
-
-
 
 ### Oracle Application
 When you build the application, the `OracleBundle` needs to be added to the runtime like this:
@@ -253,7 +251,7 @@ This chapter shows how to add support for Microsoft SQL Server in Speedment.
 ### SQL Server POM
 Always use the [Initializer](https://www.speedment.com/initializer/) to get a complete POM file template as the POM snipes hereunder just show portions of what is needed.
 
-Here is how you configure the speedment enterprise plugin:
+This is how you configure the Speedment Enterprise plugin for use with a SQL Server database:
 ``` xml
     <plugin>
         <groupId>com.speedment.enterprise</groupId>
@@ -328,7 +326,7 @@ This chapter shows how to add support for IBM DB2 in Speedment. Unfortunately, I
 ### DB2 POM
 Always use the [Initializer](https://www.speedment.com/initializer/) to get a complete POM file template as the POM snipes hereunder just show portions of what is needed.
 
-Here is how you configure the speedment enterprise plugin:
+This is how you configure the Speedment Enterprise plugin for a DB2 database:
 ``` xml
     <plugin>
         <groupId>com.speedment.enterprise</groupId>
@@ -403,7 +401,7 @@ This chapter shows how to add support for IBM AS400 in Speedment.
 ### AS400 POM
 Always use the [Initializer](https://www.speedment.com/initializer/) to get a complete POM file template as the POM snipes hereunder just show portions of what is needed.
 
-Here is how you configure the speedment enterprise plugin:
+This is how you configure the Speedment Enterprise plugin for use with an AS400 database:
 ``` xml
     <plugin>
         <groupId>com.speedment.enterprise</groupId>

@@ -16,15 +16,15 @@ Data aggregation is any process in which information is gathered and expressed i
 
 ## Aggregating
 
-**Requires Speedment Enterprise 1.2.0 or later.** 
+**Requires Speedment HyperStream 1.2.0 or later.** 
 A common use case in analytical applications is to aggregate many results into a few composite values. 
 This can be done very efficiently using the specialized collectors built into 
-Speedment Enterprise by leveraging the standard Java Streams API.
+Speedment HyperStream by leveraging the standard Java `Stream` API.
 
 Since the Aggregator is designed to perform all steps of the aggregation off-heap, aggregations 
 of large data sets can be performed with minimal heap memory footprint. 
 
-In the following examples we will aggregate data entities of the type `Person`, defined by the following fields.
+The following examples demonstrate how data entities of the type `Person` can be aggregated, defined by the following fields:
 
 ``` java
     private static class Person {
@@ -37,7 +37,7 @@ In the following examples we will aggregate data entities of the type `Person`, 
     }
 ```
 
-To represent results of aggregations we will be using a data class called `AgeSalary` which 
+To represent results of aggregations `AgeSalary` is used to 
 associates a certain age with an average salary.
 
 ``` java
@@ -50,7 +50,7 @@ associates a certain age with an average salary.
 
 #### Aggregation to Explicitly Typed Results
 
-To compute the average salary for each age, we will first create an `Aggregator<Person, ?, AgeSalary>` as follows.
+To compute the average salary for each age, an `Aggregator<Person, ?, AgeSalary>` is created as follows:
 
 ``` java
     Aggregator<Person, ?, AgeSalary> aggregator = Aggregator.builder(AgeSalary::new)
@@ -65,8 +65,8 @@ first in terms of how to find the key value in an incoming `Person` instance and
 how to set the key value in our result object. The third line is similar, but instead of
 a key it defines an average value to be computed from the salaries of `Person` instances.
 
-An `Aggregator` can produce a collector that can be used in any standard Java stream. 
-Thus, having a `Stream<Person> persons` we can compute the aggregation of average salaries as follows.
+An `Aggregator` can produce a collector that can be used in any standard Java`Stream`. 
+Thus, `Stream<Person> persons` allows computation of the average salaries as follows:
 
 ``` java
     Aggregation<AgeSalary> aggregation = persons().collect(aggregator.createCollector());

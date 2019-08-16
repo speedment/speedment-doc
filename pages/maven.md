@@ -13,7 +13,7 @@ next: predicate.html
 
 ## Installation
 
-To install the Speedment Maven Plugin, we just add it as a plugin in our pom.xml file as described hereunder:
+To install the Speedment Maven Plugin, include it as a plugin in your pom.xml file as described hereunder:
 
 ``` xml
     <build>
@@ -27,11 +27,11 @@ To install the Speedment Maven Plugin, we just add it as a plugin in our pom.xml
     </build>
 ```
 
-Once the file has been saved, the new Maven targets are immediately available to our project.
+Once the file has been saved, the new Maven targets are immediately available to your project.
 
 Set the property `${speedment.version}` to the latest Speedment version released (currently {{ site.data.speedment.version }}). A list of all versions of the Speedment Maven Plugin can be found [here](https://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.speedment%22%20AND%20a%3A%22speedment-maven-plugin%22).
 
-Since Speedment generates code from a database, you usually need to specify a JDBC Driver as a dependency so that Speedment knows how to connect to it. In the example below, we specify the MySql JDBC Driver:
+Since Speedment generates code from a database, you usually need to specify a JDBC Driver as a dependency so that Speedment knows how to connect to it. In the example below, the MySql JDBC Driver is specified:
 
 ``` xml
     <build>
@@ -108,7 +108,7 @@ Always use the Speedment [Initializer](https://www.speedment.com/initializer/) t
 
 
 ## Maven Targets
-The Speedment Maven Plugin has Maven targets that can be used to simplify and/or automate the build process. These Maven targets can be used to read the meta data (e.g. schemas, tables and columns) from the database. They are also used to generate code that we can use in our applications. Therefore, before we can use Speedment, we must run at least one of the Maven targets.
+The Speedment Maven Plugin has Maven targets that can be used to simplify and/or automate the build process. These Maven targets can be used to read the meta data (e.g. schemas, tables and columns) from the database. They are also used to generate code that can used in your applications. Therefore, before you can use Speedment, you must run at least one of the Maven targets.
 
 These are the seven Maven targets in the Speedment Maven Plugin:
 
@@ -124,11 +124,12 @@ These are the seven Maven targets in the Speedment Maven Plugin:
 
 Most of the operations can be performed inside the graphical tool.
 
-### Tool
-By using the `speedment:tool` target we can start the Speedment Graphical Tool that can be used to connect to the database and generate code. All settings are saved in a JSON configuration file. Click [here](tool.html) to read more about the graphical tool.
+#### Tool
+The `speedment:tool` target is used to launch the Speedment Graphical Tool that can be used to connect to the database and generate code. All settings are saved in a JSON configuration file. Click [here](tool.html) to read more about the graphical tool.
 
-### Init
-By using the `speedment:init` target we can create a new `speedment.json`-file from scratch without having to connect to the database. This can for an example be used to setup the database-connection from a script instead of launching the tool and doing it manually. This command is usually followed by `speedment:reload` or `speedment:edit`.
+#### Init
+The `speedment:init` target
+ is used to create a new `speedment.json`-file from scratch without having to connect to the database. This can for an example be used to setup the database-connection from a script instead of launching the tool and doing it manually. This command is usually followed by `speedment:reload` or `speedment:edit`.
 
 Here is a full example of how a new Speedment project can be setup:
 
@@ -150,8 +151,8 @@ mvn speedment:init \
 
 Typically, you will want to specify atleast `-Ddbms.schemas` and `-Ddbms.type` to be able to call `mvn speedment:reload`. If your database root account is password protected, you probably also need to specify `-Ddbms.password` and/or `-Ddbms.username`.
 
-### Edit
-By using the `speedment:init` target we can search and insert/replace something in the `speedment.json`-file without having to do it manually in the tool. A common use case for this is to batch-disable multiple tables that you don't need or to change the `typeMapper` of all columns of a particular type.
+#### Edit
+By using the `speedment:init` target you can search and insert/replace something in the `speedment.json`-file without having to do it manually in the tool. A common use case for this is to batch-disable multiple tables that you don't need or to change the `typeMapper` of all columns of a particular type.
 
 The following parameters are available:
 
@@ -240,23 +241,23 @@ mvn speedment:reload -Ddbms.password=password \
     speedment:generate
 ```
 
-### Generate
-By using the `speedment:generate` target we can generate code directly from the JSON configuration file without connecting to the database and without starting the Tool. 
+#### Generate
+The `speedment:generate` target is used to generate code directly from the JSON configuration file without connecting to the database and without starting the Tool. 
 
-### Reload
-By using the `speedment:reload` target we can reload the metadata from the database and merges any changes with the existing JSON configuration file without starting the Tool.
+#### Reload
+The `speedment:reload` target is used to reload the metadata from the database and merges any changes with the existing JSON configuration file without starting the Tool.
 
-### Clear
-By using the `speedment:clear` target we can remove all the generated files from our project without starting the Tool. Files that are manually changed are protected by a cryptographic hash code and will not be removed.
+#### Clear
+The `speedment:clear` target is used to remove all the generated files from your project without starting the Tool. Files that are manually changed are protected by a cryptographic hash code and will not be removed.
 
-### Clear Tables
-By using the `speedment:clearTables` target we can remove all tables, columns, indexes and foreign keys from the configuration file. This is useful if you want clear you config file and then run Reload to obtain an exact copy of the database, regardless of the configuration file's previous state.
+#### Clear Tables
+The `speedment:clearTables` target is used to remove all tables, columns, indexes and foreign keys from the configuration file. This is useful if you want clear you config file and then run Reload to obtain an exact copy of the database, regardless of the configuration file's previous state.
 
 ## Configuration
 The Speedment Maven Plugin can be configured in many ways. A special debug mode can be set and new functionality can be added dynamically by adding {{site.data.javadoc.TypeMapper}}s, Components and {{site.data.javadoc.InjectBundle}}s.
 
 ### Enable Debug Mode
-If we want to follow more closely what is going on in one or several of the Speedment Maven Plugin Maven  targets, we can enable *Debug Mode*. In this mode, information about what classes are being initiated are shown in the standard logger together with other data. This makes it easier to trouble-shoot problems and can provide valuable information in many cases.
+If you want to follow more closely what is going on in one or several of the Speedment Maven Plugin Maven targets, you can enable *Debug Mode*. In this mode, information about what classes are being initiated is shown in the standard logger together with other data. This makes it easier to trouble-shoot problems and can provide valuable information in many cases.
 
 Enable debug mode by adding a `<debug>true</debug>` element in the POM as described hereunder:
 
@@ -504,7 +505,7 @@ skipClear=true
     </build>
 ```
 
-If you call the Maven goal `mvn speedment:clear`, then it will still clear everything, even if the `skipClear` property is set to `true`.
+Calling the Maven target `mvn speedment:clear` will still clear everything, even if the `skipClear` property is set to `true`.
 
 ### Setting Other Plugin POM Parameters 
 A number of Plugin parameters can be set in the POM file as shown in this table:
@@ -524,7 +525,7 @@ A number of Plugin parameters can be set in the POM file as shown in this table:
 | components     | String[]      | Adds one or several components or bundles to the plugin       | `com.company.MyComponent`      |
 | configFile     | String        | Specify a custom location for the `speedment.properties`-file | `<typeMapper></typeMapper>`    |
 
-Here is an example where we set a number of database parameters for the plugins.
+Here is an example that sets a number of database parameters for the plugins.
 ``` xml
     <build>
         <plugins>
@@ -543,7 +544,7 @@ Here is an example where we set a number of database parameters for the plugins.
 ```
 
 ## Automated Maven Builds
-Automated builds can save time and enables continues integration on our projects. We can instruct Maven to generate code for us automatically on each build by attaching our plugin to certain goals like this:
+Automated builds can save time and enables continues integration on our projects. Mven can be instructed to generate code for you automatically on each build by attaching the plugin to certain goals like this:
 
 ``` xml
 <plugin>
@@ -560,9 +561,9 @@ Automated builds can save time and enables continues integration on our projects
     </executions>        
 </plugin>
 ```
-Now, all Speedment code will be generated automatically for us upon re-build.
+Now, all Speedment code will be generated automatically for you upon re-build.
 
-If we want to perform an automatic reload (and merge potential changes in the database structure with our JSON configuration file) and then re-generate code we can do that like this:
+To perform an automatic reload (and merge potential changes in the database structure with our JSON configuration file) and then re-generate code, do this:
 ``` xml
     <plugin>
         <groupId>com.speedment</groupId>
@@ -596,7 +597,7 @@ If we want to perform an automatic reload (and merge potential changes in the da
         </executions>
     </plugin>
 ```
-This way, each time we rebuilt, the code will always reflect the current database structure.
+This way, each time you rebuild, the code will always reflect the current database structure.
 
 ### Using target/generated-sources
 If you have an automated build, you might not want the generated code to sit in the same folder as all your other code. A common convention for these situations are to generate the code into the `target/generated-sources/`-folder. Most IDEs scan this folder automatically so you will still have access to the in-IDE documentation, but you have a clear separation between generated and hand-written code.
@@ -623,7 +624,7 @@ You can also change this without launching the tool by setting the property `pac
 ```
 
 ## Speedment HyperStream
-Speedment HyperStream is configured the same way except that we have to use different group and artifact ids. Here is an example of a Speedment HyperStream plugin definition:
+Speedment HyperStream is configured the same way except that you have to use different group and artifact ids. Here is an example of a Speedment HyperStream plugin definition:
 
 ``` xml
 <plugin>
@@ -738,7 +739,7 @@ licenseKey = YOUR LICENSE KEY!!!
 The default value for `licensePath` is `[User Home]/.speedment/.licenses`. If you create that folder and file and enter your license key into it, it will be loaded automatically.
 
 ## Command Line Parameters
-When running the maven targets, we can set a number of command line parameters to configure the plugins. The following command line parameters are available:
+When running the Maven targets, a number of command line parameters can be used to configure the plugins. The following command line parameters are available:
 
 | Name             | Type          | Purpose                                                       | Example                        |
 | :--------------- | :------------ | :------------------------------------------------------------ | :----------------------------- |
@@ -788,13 +789,13 @@ Make sure that coma-separated items do not contain any space characters after a 
 ## The Configuration File
 Speedment stores the configuration of the database metadata in a special JSON file that, by default, is located in the file `src/main/json/speedment.json`
 
-The Tool's purpose is basically to maintain this file and to generate code. We can do manual changes to the file and the changes will immediately affect the plugins and how code is generate, once the plugin are started.
+The Tool's purpose is basically to maintain this file and to generate code. Manual changes to the file can be done and the changes will immediately affect the plugins and how code is generate, once the plugins are started.
 
 ## Specifying a Configuration File
 See [Command Line Parameters]({{page.permalink}}#command-line-parameters) for information on how to specify a custom configuration file.
 
 ## Resetting the Configuration File
-If the configuration file is removed, the Tool will be reset and we can start all over with a clean sheet.
+If the configuration file is removed, the Tool will be reset and you can start all over with a clean sheet.
 
 {% include prev_next.html %}
 

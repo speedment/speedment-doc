@@ -11,36 +11,69 @@ next: application_configuration.html
 
 {% include prev_next.html %}
 
-## Installation
-Speedment is installed in your pom.xml file. We recommend that you use the on-line [Speedment Initializer](https://www.speedment.com/initializer/) to setup your pom file. You need to setup both the `speedment-maven-plugin` (for code generation) and the `speedment-runtime` (used by the application at runtime). 
 
+## Speedment Requirements 
+Before proceeding with the installation, please make sure that you have the following installed: 
 
-### Speedment
-Speedment Open Source (or just Speedment for short) contains stream handling, code generation, runtime and connectors to MySQL, MariaDB and PostgreSQL. [Here](#speedment-pom-example) is an example of a pom.xml file for Speedment.
+* Apache Maven version 3.3.9 or later 
+* Java version 8.0.40 or later 
 
-### Speedment Enterprise
-Speedment Enterprise contains additional features that are useful in enterprise environments, for example an in-memory DataStore accelerator and support for commercial databases like Oracle, Sql Server, DB2 and AS400.
-In order to activate Speedment Enterprise, you need a license that can either be purchased or downloaded for free (trial) from [www.speedment.com](https::/www.speedment.com). Again, we encourage you to use the on-line [Speedment Initializer](https://www.speedment.com/initializer/) to setup your pom file. [Here](#speedment-enterprise-pom-example) is an example of a pom.xml file for Speedment Enterprise.
+## Installation with Maven
+Speedment is installed using [Apache Maven](https://maven.apache.org/) by including the Speedment dependencies in your pom.xml-file. You need to setup both the `speedment-maven-plugin` (for code generation) and the `speedment-runtime` (used by the application at runtime).
+
+If starting a project from scratch, the Initializer can help you automatically generate a custom project pom-file. There are two different versions of the Initializer depending on which version of Speedment you intend to use: 
+* [Speedment Open Source Initializer](https://speedment.com/oss-download) is used to generate a pom-file for a Speedment OSS project.
+* [Speedment Initializer](https://speedment.com/download) is used to generate a pom-file for any Speedment Stream/HyperStream project, including trials and free-licenses. 
+
+If you prefer to manually configure your pom.xml, see the [Maven guide](maven.html#top) for more detailed information about configuring the correct dependencies. 
 
 ## Starting the Tool
-The code generation and configuration tool is started using the Maven target `speedment:tool`. Once run, you can elect to use the tool to graphically maintain your project or you can use any text editor and modify the `speedment.json` file that holds the configuration model for your project.
+Speedment uses JSON configuration files to generate Java code from your database. The JSON files will be created using the Speedment Tool. You can choose to start the Tool from your IDE* or run it from the command line.
 
-The process is divided in two steps:
-  1 Connecting to the Database
-  2 Configuration of the Project and Code Generation
+#### With the Command Line
+Locate the directory of your pom.xml-file and run the following:
 
-### Step 1, Connecting to the Database
+`mvn speedment:tool`
+
+#### With Your IDE
+Launch the project as a Maven project in your IDE. A number of Maven goals associated with Speedment will be available. Use `speedment:tool` to connect to your database and generate a Java representation of the domain model.
+
+{% include image.html file="mvn-goals.png" alt="Speedment Maven Goals" caption="Speedment Maven Goals as shown in IntelliJ" %}
+
+{% include note.html content = "
+If you wish to use an existing JSON file, use `speedment:generate` instead.
+" %}
+
+The following process is divided in three steps:
+  1. Select a preferred license type (only applies to Enterprise projects)
+  1. Connect to the database
+  2. Configure the project and generate a Java Domain Model from the database
+
+### Step 1. Select a license type (For Enterprise projects only)
+When the tool launches for the first time you need to license your software. The graphical interface will leave you with three options: 
+
+* Use an existing license key for Stream or HyperStream
+* Request a 30-day HyperStream trial 
+* Start a Free license which will provide access to all features of HyperStream for databases under 500 MB 
+
+### Step 2. Connect to the database
+Next, simply fill out the database credentials and hit Connect. 
+
+{% include note.html content = "
+For security reasons, Speedment __never stores__ the database password in generated classes or configuration files.
+" %}
+
 {% include image.html file="tool_connect_screenshot.png" url="https://www.speedment.com/" alt="The Speedment Tool - Connecting to the Database" caption="The Speedment Tool - Connecting to the Database" %}
 
-### Step 2, Configuration of the Project and Code Generation
+### Step 3. Configure the project and generate code
+Speedment now analyses the underlying data sources’ metadata and automatically creates code which directly reflects the structure (i.e. the “domain model”) of the data sources. Once finished, the database structure is visualized as a tree in the appearing window. To generate the object-oriented Java representation, press "Generate".
+
 {% include image.html file="tool_screenshot.png" url="https://www.speedment.com/" alt="The Speedment Tool - Configuration and Code Generation" caption="The Speedment Tool - Configuration and Code Generation" %}
 
-Read more on the Speedment Maven Plugin [here](https://speedment.github.io/speedment-doc/maven.html)
-
 ## Hello World
-Once your project has been setup properly and you have run the Maven target `speedment:tool` and generated code, you can start writing Speedment applications.
+Once the files are generated, you are ready to write your first Java Stream query. 
 
-Here is a small example that will count the number of films that is rated "PG-13" from an example database named "Sakila".
+Here is a an application that will count the number of films that is rated "PG-13" from an example database named "Sakila".
 ``` java
      // Configure and start Speedment
      Speedment app = new SakilaApplicationBuilder()
@@ -80,7 +113,7 @@ FROM (
 
 ## Speedment POM Example
 
-Here is an example of a pom.xml file setup for Speedment and MySQL that has been used for the examples in this manual.
+Here is an example of a pom.xml file setup for Speedment OSS and MySQL that has been used for the examples in this manual.
 
 ``` xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -139,7 +172,7 @@ Here is an example of a pom.xml file setup for Speedment and MySQL that has been
 ```
 
 {% include tip.html content = "
-Always use the Initializer to get the most recent pom template for your project.
+Always use the [Speedment Open Source Initializer](https://speedment.com/oss-download) to get the most recent pom template for your project.
 " %}
 
 ## Speedment Enterprise POM Example
@@ -248,9 +281,8 @@ Here is an example of a pom.xml file setup for [Speedment Enterprise](datastore#
 </project> 
 ```
 {% include tip.html content = "
-The Initializer also supports Speedment Enterprise. Always use the [Initializer](https://speedment.com/initializer) to get the most recent pom template for your project.
-" %}
-
+Always use the [Initializer](https://speedment.com/initializer) to get the most recent pom-template for your project.
+"%}
 
 {% include prev_next.html %}
 

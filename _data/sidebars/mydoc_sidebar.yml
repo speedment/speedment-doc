@@ -20,7 +20,7 @@ entries:
       type: frontmatter
 
   - title: Introduction
-    url: introduction.html#top
+    url: index.html#top
     output: web, pdf
 
   - title: Speedment Overview
@@ -858,20 +858,20 @@ entries:
 #      type: homepage
 
 
-  - title: About the Author
-    url: about.html#top
-    output: web, pdf
-    folderitems:
+#  - title: About the Author
+#    url: about.html#top
+#    output: web, pdf
+#    folderitems:
 
-    - title: Per Minborg
-      url: about.html#per-minborg
-      output: web, pdf
-      type: homepage
+#    - title: Per Minborg
+#      url: about.html#per-minborg
+#      output: web, pdf
+#      type: homepage
       
-    - title: Emil Forslund
-      url: about.html#emil-forslund
-      output: web, pdf
-      type: homepage
+#    - title: Emil Forslund
+#      url: about.html#emil-forslund
+#      output: web, pdf
+#      type: homepage
 
 
 

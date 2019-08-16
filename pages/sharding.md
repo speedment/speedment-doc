@@ -12,8 +12,8 @@ next: computation.html
 {% include prev_next.html %}
 
 ## Sharding
-Sharding can be used to sub-divide different data sets into several Speedment instances. This can potentially increase performance since we are able to reduce the data set to search using a known sharding key. The sharding key can be of any type but are many times a `String` or an `int`.
-For example, if we have a number of countries, we can shard them using the first character of the name. When we later use the name (and potentially other search arguments), we can immediately look up the correct shard that contains the name we are looking for.
+Sharding can be used to sub-divide different data sets into several Speedment instances. This can potentially increase performance since you are able to reduce the data set to search using a known sharding key. The sharding key can be of any type but are many times a `String` or an `int`.
+Say for example that you have a number of countries, then these be can sharded using the first character of the name. When the same name is later reused (and potentially other search arguments), you can immediately look up the correct shard that contains the name you are looking for.
 
 Sharded Speedment instances come in two different flavors:
 
@@ -30,8 +30,8 @@ The following example will shard all countries that starts with an "A" in one sh
 ``` java
 
 // Creates a builder from a sharding key.
-// In this example we are not considering the sharding key for
-// the builder itself.
+// In this example the sharding key for the builder itself 
+// is not considered.
 Function<String, SpeedmentTestApplicationBuilder> builderMapper = shardKey ->
     new SpeedmentTestApplicationBuilder()
         .withPassword("speedment_test")
@@ -163,8 +163,8 @@ There is a specialized `IntShardedSpeedment` implemetation that can be used if s
 
 ``` java
 // Creates a builder from an int sharding key.
-// In this example we are not considering the sharding key for
-// the builder itself.
+// In this example, the sharding key for the builder itself
+// is not considered.
 IntFunction<SpeedmentTestApplicationBuilder> builderMapper = shardKey ->
     new SpeedmentTestApplicationBuilder()
     .withPassword("speedment_test")

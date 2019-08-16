@@ -2,10 +2,10 @@
 permalink: enterprise_json.html
 sidebar: mydoc_sidebar
 title: Enterprise JSON Plugin
-keywords: Encoder, JSON, Enterprise, Aggregate
+keywords: Encoder, JSON, Enterprise, Aggregate, HyperStream, Stream
 enterprise: true
 toc: false
-Tags: Encoder, JSON, Enterprise, Aggregate
+Tags: Encoder, JSON, Enterprise, Aggregate, HyperStream, Stream
 previous: enterprise_plugins.html
 next: enterprise_spring.html
 ---
@@ -15,7 +15,7 @@ next: enterprise_spring.html
 ## About
 Speedment Enterprise offers an advanced JSON Stream Plugin that allows streams of entities to be turned into JSON very efficiently. It is similar to the Open Source Plugin with the same name, but also supports aggregating operations as well as in-place deserialization of individual fields if the Enterprise Datastore module is used.
 
-For information about the Open Source JSON Stream Plugin, see here.
+For information about the Open Source JSON Stream Plugin, see [JSON Integration for Open Source](integration.html#Json).
 
 ### Integration
 To include the Enterprise JSON Stream Plugin in your Speedment project, add the following dependency:
@@ -123,7 +123,7 @@ final JsonCollector<Film, ?> filmCollector = json.collector(Film.class)
     .build();
 ```
 
-We have now created an aggregate collector that can be applied to a stream.
+This creates an aggregate `Collector` that can be applied to a `Stream`.
 
 ```java
 films.stream().collect(filmCollector);

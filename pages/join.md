@@ -14,8 +14,7 @@ next: crud.html
 
 ## The Join Component
 
-The `JoinComponent` (available in Speedment 3.1.0 and later) can be used to create type safe joins between tables. It allows up to ten (10) tables to be joined in different ways as described in this chapter.
-
+The `JoinComponent` (available in Speedment 3.1.0 and later) can be used to create type safe JOINs between tables. It allows up to ten (10) tables to be joined in different ways as described in this chapter.
 
 ## Join Types
 The following join types are supported:
@@ -66,7 +65,7 @@ public interface Join<T> {
     Stream<T> stream();
 }
 ```
-Thus, once a `Join` object of a certain type `T` has been obtained, we can use that `Join` object over and over again to create streams with elements of type `T`. It should be noted that the order in which elements appear in the stream is unspecified, even between different invocations on the same Join object. It shall further be noted that by default, elements appearing in the stream may be deeply immutable meaning that Tuples in the stream are immutable and that entities contained in the Tuple may also be immutable.
+Thus, once a `Join` object of a certain type `T` has been obtained, it can be used over and over again to create Streams with elements of type `T`. It should be noted that the order in which elements appear in the stream is unspecified, even between different invocations on the same Join object. It shall further be noted that by default, elements appearing in the stream may be deeply immutable meaning that Tuples in the stream are immutable and that entities contained in the Tuple may also be immutable.
 
 Here is a full example of how a `Join` object can be created and used:
 
@@ -123,7 +122,7 @@ Tuple2Impl {LanguageImpl { languageId = 1, name = English, ... }, FilmImpl { fil
 ...
 ```
 
-It might not look as a big difference compared to the default case where we got `Tuple2OfNullables` but `Tuple2` are slightly easier to use because they can be used to retrieve entities directly rather then indirectly via an `Optional` object. In the general case, *any* constructor can be provided upon building a `Join` object, allowing great flexibility. We might, for example, create a specialized object in the stream that can be constructed from a `Language` entity and a `Film` entity as shown hereunder:
+It might not look as a big difference compared to the default case which yielded `Tuple2OfNullables` but `Tuple2` are slightly easier to use because they can be used to retrieve entities directly rather then indirectly via an `Optional` object. In the general case, *any* constructor can be provided upon building a `Join` object, allowing great flexibility. You might, for example, create a specialized object in the stream that can be constructed from a `Language` entity and a `Film` entity as shown hereunder:
 
 ``` java
 
@@ -175,7 +174,7 @@ TitleLanguageName{title=ADAPTATION HOLES, languageName=English}
 ```
 
 ### Filtering Tables
-Many times, we want to restrict the number of entities from a table that can appear in a join stream. This can be done using the `.where()` method in the join builder as exemplified below:
+Often you want to restrict the number of entities from a table that can appear in a join stream. This can be done using the `.where()` method in the join builder as exemplified below:
 
 ``` java
     Join<Tuple2<Film, Language>> join = joinComponent
@@ -236,7 +235,7 @@ A join steam can easily be collected to a `Map` as shown hereunder:
             );
 
 ```
-If we only want lists of Film objects instead of Tuple2 we can re-map the down-stream elements like this:
+To lists of `Film` objects instead of `Tuple2` just re-map the down-stream elements like this:
 
 ``` java
         Join<Tuple2<Film, Language>> join = joinComponent
@@ -316,7 +315,7 @@ Here is an example of a self join where Actors with the same first name are matc
         .forEach(System.out::println);
 
 ```
-Note that we need to alias the table in the `innerJoinOn()` method to distiguish it from the original Actor table.
+Note that you need to alias the table in the `innerJoinOn()` method to distiguish it from the original Actor table.
 
 This might produce the following output:
 ``` text
@@ -334,7 +333,8 @@ See other join examples in the manual here:
 [Many-to-Many](https://speedment.github.io/speedment-doc/speedment_examples.html#many-to-many-relations)
 
 ## Joining Tables Several Times
-If there is a Join that mentions the same table several times, we need to specify which of these table instances we want to use when specifying join conditions. This can be done using the `tableAlias()` method as depicted below:
+If there is a Join that mentions the same table several times,you need to specify which of these table instances you want to use when specifying JOIN
+ conditions. This can be done using the `tableAlias()` method as depicted below:
 
 ``` java
 
@@ -360,7 +360,7 @@ The features described in this chapter are only available in Speedment Enterpris
 
 ### Stream Joins {% include star.html %}
 
-Speedment Stream and HyperStream come with general joining of Streams whereby any type of stream can be joined (using left or inner joins) to an initial stream. Any Stream source can be used including Speedment streams and vanilla custom Streams.
+Speedment Stream and HyperStream come with general joining of Streams whereby any type of `Stream` can be joined (using left or inner joins) to an initial stream. Any `Stream` source can be used including Speedment Streams and vanilla custom Streams.
 
 The stream join features are available via the `StreamJoinUtil` class. Here is an example of how to use stream joins:
 
@@ -389,7 +389,7 @@ Tuple2Impl {2, 5}
 Tuple2Impl {3, 6}
 Tuple2Impl {3, 7}
 ```
-Thus, we have joined two regular Streams. Here is another example where we join two Speedment streams of type T0 and T1 using a composite key consisting of the columns "col_a" and "col_b":
+Thus, two regular Streams are joined. Here is another example where two Speedment streams of type T0 and T1 are joined using a composite key consisting of the columns "col_a" and "col_b":
 
 ``` java
     Join<Tuples2<T0, T1>> join = streamJoin(
@@ -402,7 +402,7 @@ Thus, we have joined two regular Streams. Here is another example where we join 
         Tuples::of
      )
 ```
-Because we are using pure streams, we can apply *any* stream operation including mapping and flat mapping.
+Since Speedment leverages the standard Stream API, you can apply *any* `Stream? operation including mapping and flat mapping.
 
 It should be noted that the stream join feature will not be able to optimize away object creation under most conditions. Instead, an exhaustive cartesian produce will be produced by the Join object upon stream invocation.
 

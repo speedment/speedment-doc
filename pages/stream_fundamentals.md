@@ -33,7 +33,8 @@ Consider the following simple example:
         .sorted()                        // Sorts the remaining Strings in natural order
         .collect(Collectors.toList());   // Collects the remaining sorted Strings in a List
 ```
-First, we create a `Stream` using the statement `Stream.of()`. Note that nothing happens with the `Stream` at this point. We just have a stream that we can use to further build our "recipe" around. Now that we have a `Stream`, we add a `filter` that only lets through Strings that are longer than 2 characters. Again, the `Stream` is not started, we have just said that *when* the `Stream` starts, we want to filter the Strings. Next, we add a `sorted()` operation to our `Stream` recipe. This means that when the `Stream` is started, all Strings that passes the `filter` shall be sorted in natural order. Again, nothing is flowing through the `Stream`, we have just added yet an operation to the `Stream` recipe (the stream recipe can more formally be called a *stream pipeline*). The last operation we add to the `Stream` recipe is `collect`. 
+Start by creating a `Stream` using the statement `Stream.of()`. Note that nothing happens with the `Stream` at this point. This yields a `Stream` which can be used to further build a "recipe" around. By adding a `filter` only Strings that are longer than 2 characters will be included. Again, the `Stream` is not started, this only tells the `Stream` that *when* it starts, the Strings should be filtered. Next, a `sorted()` operation is added to the `Stream` recipe. This means that when the `Stream` is started, all Strings that passes the `filter` shall be sorted in natural order. 
+Again, nothing is flowing through the `Stream`, the `Stream` recipe (the stream recipe can more formally be called a *stream pipeline*) now holds yet an operation. The last operation to be added is `collect`. 
 
 This operation is different to all the previous operations in the way that it is a *Terminal operation*. Whenever a *Terminal operation* is applied to a `Stream`, the `Stream` cannot accept additional operations to its pipeline. It also means that the `Stream` is started.
 
@@ -46,7 +47,7 @@ Because the `sorted` operation needs to see all strings before it can decide on 
 ```
 
 ### Streams with Speedment
-With Speedment, it is possible to use exactly the same semantics as for Java 8 streams. Instead of Strings as shown in the example above, we can use rows in database tables. This way, we can view database tables as pure Java 8 streams as shown hereunder:
+With Speedment, it is possible to use exactly the same semantics as for Java 8 streams. Instead of Strings as shown in the example above, database rows can be streamed. This way, database tables can be viewed as pure Java 8 Streams as shown hereunder:
 ``` java
     users.stream()                       // Creates a Stream with users from a database 
         .map(u -> u.getName())           // Extract the name (a String) from a user
@@ -54,14 +55,14 @@ With Speedment, it is possible to use exactly the same semantics as for Java 8 s
         .sorted()                        // Sorts the remaining Strings in natural order
         .collect(Collectors.toList());   // Collects the remaining sorted Strings in a List
 ```
-Because a Java 8 Stream is an interface, Speedment can select from a variety of different implementations of a Stream depending on the pipeline we are setting up and other factors.
+Because a Java 8 Stream is an interface, Speedment can select from a variety of different implementations of a Stream depending on the pipeline that is used and other factors.
 
 
 #### Speedment Stream Order
 The order in which elements are produced by the stream is unspecified and may change from one invocation to another. Because of that, it is an error to assume any particular order. Use the intermediate operation `sorted(Comparator)` if you need a certain element order.
 
 ## Intermediate Operations
-An *Intermediate Operation* is an operation that allows further operations to be added to a `Stream`. For example, `filter` is an *Intermediate Operation* because we can add additional operations to a `Stream` pipeline after `filter` has been applied to the `Stream`.
+An *Intermediate Operation* is an operation that allows further operations to be added to a `Stream`. For example, `filter` is an *Intermediate Operation* because additional operations can be added to a `Stream` pipeline after `filter` has been applied to the `Stream`.
 
 ### Common Operations
 The following *Intermediate Operations* can be accepted by a `Stream`:
@@ -323,7 +324,7 @@ This completes the example list of *Intermediate Operation* examples.
 
 
 ## Terminal Operations
-A *Terminal Operations* starts the `Stream` and returns a result that depends on the `Stream` pipeline and content. For example, `collect` is a *Terminal Operation* because we cannot add additional operation to a `Stream` pipeline after `collect` has been called.
+A *Terminal Operations* starts the `Stream` and returns a result that depends on the `Stream` pipeline and content. For example, `collect` is a *Terminal Operation* because additional operation cannot be added to a `Stream` pipeline after `collect` has been called.
 
 ### Common Operations
 Here are some common examples of *Terminal Operations* that can be accepted by a `Stream`:
@@ -537,7 +538,7 @@ Returns the value of `Optional[10]` because 10 is the sum of all `Integer` eleme
     Stream.of(1, 2, 3, 4)
         .reduce(100, (a, b) -> a + b)
 ```
-Returns the value of 110 because we start with 100 and the add all the `Integer` elements in the stream. If the stream is empty, 100 is returned.
+Returns the value of 110 since all the `Integer` elements in the `Stream` are added to the `Integer` 100. If the `Stream` is empty, 100 is returned.
 ``` java
     Stream.of(1, 2, 3, 4)
         .parallel()
@@ -547,7 +548,7 @@ Returns the value of 110 because we start with 100 and the add all the `Integer`
             (a, b) -> a + b
         )
 ```
-Returns the value of 10 because we start with 0 and the add all the `Integer` elements in the stream. The stream can be executed i parallel whereby the last lambda will be used to combine results from each thread. If the stream is empty, 0 is returned.
+Returns the value of 10 since this example simply adds all the `Integer` elements in the `Stream` beginning with 0. The `Stream` can be executed i parallel whereby the last lambda will be used to combine results from each thread. If the `Stream` is empty, 0 is returned.
 
 
 ### iterator
@@ -556,7 +557,7 @@ Returns the value of 10 because we start with 0 and the add all the `Integer` el
         = Stream.of("B", "A", "C", "B")
             .iterator();
 ```
-Creates a new `Iterator` over all the elements in the Stream.
+Creates a new `Iterator` over all the elements in the `Stream`.
 
 ### spliterator
 ``` java
@@ -564,21 +565,21 @@ Creates a new `Iterator` over all the elements in the Stream.
         = Stream.of("B", "A", "C", "B")
             .spliterator();
 ```
-Creates a new `Spliterator` over all the elements in the Stream.
+Creates a new `Spliterator` over all the elements in the `Stream`.
 
 ### sum
 ``` java
     IntStream.of(1, 2, 3, 4)
         .sum()
 ```
-Returns 10 because 10 is the sum of all elements in the stream.
+Returns 10 because 10 is the sum of all elements in the `Stream`.
 
 ### average
 ``` java
     IntStream.of(1, 2, 3, 4)
         .average()
 ```
-Returns `OptionalDouble[2.5]` because 2.5 is the average of all elements in the stream. If the stream is empty, `OptionalDouble.empty()` is returned.
+Returns `OptionalDouble[2.5]` because 2.5 is the average of all elements in the `Stream`. If the `Stream` is empty, `OptionalDouble.empty()` is returned.
 
 ### summaryStatistics
 ``` java
@@ -633,7 +634,7 @@ Prints all elements in the stream and then closes the stream. Some streams (e.g.
 
 ## Examples
 
-In the examples below we are working with entities of type `User`. The thing with the `User`class is that the only thing we have to set is the `id` and all the other fields will be derived from the id field. This is good for tests and examples but of course not so useful in real applications.  The `User` class looks like this:
+The examples below operates on entities of type `User`. Note that the only thing that needs to be provided is the `id` and all the other fields will be derived from the this field. This is good for tests and examples but of course not so useful in real applications.  The `User` class looks like this:
 
 ``` java 
     static class User {
@@ -695,7 +696,7 @@ In the examples below we are working with entities of type `User`. The thing wit
     }
 
 ```
-As previously stated, users are really not real users but instead they are synthetically generated from the user id. Because the id defines all other fields, we use a "trick" and whereby we only need to use the id field in the `equals` and `hashCode` methods.
+As previously stated, users are really not real users but instead they are synthetically generated from the user id. Because the id defines all other fields, only the id field needs to be used in the `equals` and `hashCode` methods.
 
 The first users will thus be:
 
@@ -722,7 +723,7 @@ Note how the stream method creates an `IntStream` with elements from 0 to 999 an
 
 
 ### Count the Number of Ford Likers
-In this example, we want to count the number of users that like Ford. Here is one way of doing it:
+The example below counts the number of users that like Ford:
 ``` java
     long count = UserManager.stream()
         .filter(u -> "Ford".equals(u.getFavoriteCar()))
@@ -736,7 +737,7 @@ There are 200 users that supports Ford
 ```
 
 ### Calculate Average Age
-In this example, we want to calculate the average age of the users that like Tesla. Here is a solution assuming that the current year is 2017:
+The following example calculates the average age of the users that like Tesla assuming the current year is 2017:
 ``` java
     OptionalDouble avg = UserManager.stream()
         .filter(u -> "Tesla".equals(u.getFavoriteCar()))
@@ -755,7 +756,7 @@ The average age of Tesla likers are 42.500000 years
 ```
 
 ### Find the Youngest Volvo Digger
-Here we want to locate the youngest Volvo digger. The solution below sorts all users in bornYear order and then picks the first one. Is there another solution without sort?
+The next example sets out to locate the youngest Volvo digger. The solution imposed below sorts all users in bornYear order and then picks the first one. Is there another solution without sort?
 ``` java
 Comparator<User> comparator = Comparator.comparing(User::getBornYear).reversed();
         
@@ -774,7 +775,7 @@ Found the youngest Volvo digger which is :{id=46, name=Name46, password=PW782496
 ```
 
 ### Collect a Stream in a List
-In this example, we want to collect all users that love Fiat in a List. This can be done like this:
+The following example collects all users that love Fiat in a List:
 ``` java
         List<User> fiatLovers = UserManager.stream()
             .filter(u -> "Fiat".equals(u.getFavoriteCar()))
@@ -788,7 +789,8 @@ There are 200 fiat lovers
 ```
 
 ### Element Flow
-In the example below, the flow of elements and the different operations in the stream's pipeline are examined. We create a `Stream` with five names and then `filter` out only those having a name that starts with the letter "A". After that, we `sort` the remaining names and then we `map` the names to lower case. Finally, we print out the elements that have passed through the entire pipeline. In each operation we have inserted print statements so that we may observe what each operation is actually doing in the `Stream`:
+The example below examines the flow of elements and the different operations in the stream's pipeline. A `Stream` with five names is created and a `filter` is used to find those having a name that starts with the letter "A". 
+A `sort` operation is also applied to the remaining names and then lastly the names are mapped to lower case. Lastly the remaining elements are printed. Print statements are used in between operations to enable observation of the separate operation:
 ``` java
     Stream.of("Bert", "Alice", "Charlie", "Assian", "Adam")
         .filter(s -> {

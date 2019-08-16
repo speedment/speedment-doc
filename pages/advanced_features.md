@@ -16,9 +16,9 @@ next: datastore.html
 This chapter covers features and properties that are more advanced and that might not be needed or used by the average Speedment user. 
 
 ## Automatic Closing
-Speedment Streams from databases are closed automatically as apposed to ordinary `Collection` streams such as `List::stream`. This was an API decision taken early because otherwise the application logic would be cluttered with numerous try/catch/finally statements defying the purpose of having a fluent and simple API. It is important that streams are properly closed because as long as they are open, they will hold a database connection and other resources.
+Speedment Streams from databases are closed automatically as apposed to ordinary `Collection` streams such as `List::stream`. This intends to avoid cluttering the application logic with numerous try/catch/finally statements defying the purpose of having a fluent and simple API. It is important that streams are properly closed because as long as they are open, they will hold a database connection and other resources.
 
-If Speedment did not have automatically closed streams, then a Speedment application would look something like this:
+If Speedment did not automatically close the streams a Speedment application would look something like this:
 ``` java
    try (Stream<Film> stream = films.stream()) {
       long count = stream
@@ -26,7 +26,7 @@ If Speedment did not have automatically closed streams, then a Speedment applica
           .count();
    }
 ```
-instead of this:
+Instead of this:
 ``` java
     long count = films.stream()
         .filter(Film.RATING.equal("PG-13"))
@@ -34,13 +34,12 @@ instead of this:
    }
 ```
 {% include note.html content= "
-If a Speedment stream throws an `Exception`, then it will still perform a proper automatic close. Closing a Speedment stream explicitly after is has already been automatically closed is a no-op and it is guaranteed that the stream only calls its close handlers once.
+If a Speedment `Stream` throws an `Exception`, then it will still perform a proper automatic close. Closing a Speedment Stream` explicitly after is has already been automatically closed is a no-op and it is guaranteed that the `Stream` only calls its close handlers once.
 " %}
 
 {% include note.html content= "
-If you use `DataStore` in-JVM-memory acceleration, which does not hold any database resources, Speedment streams will not auto-close. If you have installed custom close handlers using the method `Stream::onClose` and want those handlers to run, you have to use try-resource with your streams to make sure they always run regardless of source: SQL or DataStore.  
+If you use the `DataStore` component, which does not hold any database resources, Speedment Streams will not auto-close. If you have installed custom close handlers using the method `Stream::onClose` and want those handlers to run, you have to use try-resource with your streams to make sure they always run regardless of source: SQL or DataStore.  
 " %}
-
 
 ## Iterator and Spliterator
 Calls to either `Stream::iterator` or `Spliteraor::spliterator` will produce an object where the automatic closing property can not be ensured (Partly because neither `Iterator` nor `Spliterator` have a close method).
@@ -83,7 +82,7 @@ Here is an example of how parallel streams can be used:
         }
     }
 ```
-As can be seen above, we have simulated an `extensiveOperaion` by inserting an artificial delay of 100 ms for each element in the stream. The code above will produce the following output:
+As can be seen above, an `extensiveOperaion` was simulated by inserting an artificial delay of 100 ms for each element in the stream. The code above will produce the following output:
 ``` text
 ForkJoinPool.commonPool-worker-1 InventoryImpl { inventoryId = 1, filmId = 1, storeId = 1, lastUpdate = 2006-02-15 05:09:17.0 }
                             main InventoryImpl { inventoryId = 1025, filmId = 229, storeId = 2, lastUpdate = 2006-02-15 05:09:17.0 }
@@ -96,13 +95,13 @@ ForkJoinPool.commonPool-worker-1 InventoryImpl { inventoryId = 3, filmId = 1, st
 ForkJoinPool.commonPool-worker-2 InventoryImpl { inventoryId = 3075, filmId = 676, storeId = 2, lastUpdate = 2006-02-15 05:09:17.0 }
 ...
 ```
-Read more about Parallel Database Streams with Speedment in this [blog post](http://minborgsjavapot.blogspot.com/2016/10/work-with-parallel-database-streams.html)
+Read more about Parallel Database Streams with Speedment in this [blog post](http://minborgsjavapot.blogspot.com/2016/10/work-with-parallel-database-streams.html).
 
 ## Parallel Strategy
-In the [previous chapter](#parallelism) we learned about parallelism. Because the number of rows that a stream is processing is unknown in the beginning, Speedment will apply a certain strategy of how to divide the stream elements over the available threads. By default, Speedment is using Java 8's default parallel strategy `Spliterators::spliteratorUnknownSize` whereby an arithmetic progression in split sizes 1024, 2048, 3072, 4096, etc. elements will be laid out over the available threads.
+Since the number of rows that a `Stream is processing is unknown in the beginning, Speedment will apply a certain strategy of how to divide the stream elements over the available threads. By default, Speedment is using Java 8's default parallel strategy `Spliterators::spliteratorUnknownSize` whereby an arithmetic progression in split sizes 1024, 2048, 3072, 4096, etc. elements will be laid out over the available threads.
 
 When the number of elements are relatively low, the default strategy will not work (for example if there are less than 1024 elements, then only one thread will be used). This is why Speedment supports different parallel strategies. You can set your own parallel strategy like this:
-``` java
+``` java`
     Manager<Inventory> inventoriesWithStategy = app
         .configure(InventoryManager.class)
         .withParallelStrategy(ParallelStrategy.computeIntensityHigh())
@@ -140,7 +139,7 @@ The following static methods are available in the `ParallelStrategy` interface:
 | `computeIntensityHigh()`      | 1, 1, 2, 2, 4, 4, ..., up to 256| A Parallel Strategy that favors relatively small to medium sets with high computational overhead
 | `computeIntensityExtreme()`   | 1 always                        | A Parallel Strategy that favors small sets with extremely high computational overhead. The set will be split up in solitary elements that are executed separately in their own thread
 
-It is relatively easy to implement a custom parallel strategy. Read more about that, Parallel Database Streams and Parallel strategies with Speedment in this [blog post](http://minborgsjavapot.blogspot.com/2016/10/work-with-parallel-database-streams.html)
+It is relatively easy to implement a custom parallel strategy. Read more about that, Parallel Database Streams and Parallel strategies with Speedment in this [blog post](http://minborgsjavapot.blogspot.com/2016/10/work-with-parallel-database-streams.html).
 
 ## Parallel Thread Pools
 By default, parallel streams are executed by the Common ForkJoin pool. If you want to execute parallel streams using another thread pool then do like this:
@@ -173,9 +172,9 @@ ForkJoinPool-1-worker-2 InventoryImpl { inventoryId = 3, filmId = 1, storeId = 1
 ForkJoinPool-1-worker-1 InventoryImpl { inventoryId = 1027, filmId = 230, storeId = 1, lastUpdate = 2006-02-15 05:09:17.0 }
 ForkJoinPool-1-worker-3 InventoryImpl { inventoryId = 3075, filmId = 676, storeId = 2, lastUpdate = 2006-02-15 05:09:17.0 }
 ```
-As can be seem, the parallel stream was executed by the thread pool we just created. 
+As can be seem, the parallel stream was executed by the thread pool.
 
-Read more about parallel streams in custom thread pools in this [blog post](http://minborgsjavapot.blogspot.com/2016/11/work-with-parallel-database-streams.html)
+Read more about parallel streams in custom thread pools in this [blog post](http://minborgsjavapot.blogspot.com/2016/11/work-with-parallel-database-streams.html).
 
 
 ## Connection Pooling

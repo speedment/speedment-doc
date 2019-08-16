@@ -11,29 +11,29 @@ next: hazelcast.html
 ---
 
 ## Enterprise Plugins
-Speedment Enterprise has a number of proprietary plugins to expand the functionality of the Speedment tool. These are included in the Speedment Enterprise License.
+Speedment Enterprise has a number of proprietary plugins to expand the functionality of the Speedment tool. All are included in the Speedment Enterprise License except for the Avro-plugin which is exclusive to Speedment HyperStream .
 
-### JSON Stream Plugin
+#### JSON Stream Plugin
 Stream, collect and aggregate JSON representations of database entities in a very efficient manner, utilizing the in-place deserialization of the Datastore Module.
 
 [Read More](enterprise_json#top)
 
-### Spring Boot REST/JSON Plugin
+#### Spring Boot REST/JSON Plugin
 Generates Spring Boot configurations automatically. Optionally generates complete REST API endpoints for your entire database schema.
 
 [Read More](enterprise_spring#top)
 
-### Enum Serializer Plugin
+#### Enum Serializer Plugin
 Convert String columns into Java Enums to reduce memory usage and get a cleaner API.
 
 [Read More](enterprise_enums#top)
 
-### Virtual Columns Plugin
+#### Virtual Columns Plugin
 Denormalize entities automatically when loading from the database.
 
 [Read More](enterprise_virtualcolumns#top)
 
-### Avro Plugin
+#### Avro Plugin
 Load data from .avro-files instead of a database.
 
 [Read More](enterprise_avro#top)

@@ -14,7 +14,7 @@ next: comparator.html
 ## What is a Predicate?
 
 An instance implementing the Java 8 interface `Predicate<T>` has a boolean function `test` that takes a parameter of type `T` and returns either `true` or `false` when called. Check out the official JavaDoc about {{site.data.javadoc.Predicate}}. 
-Let us take a closer look at an example where we have a `Predicate<String>` that we want to return `true` if the `String` begins with an "A" and `false` otherwise:
+Let us take a closer look at an example which includes a `Predicate<String>` which is used to return `true` if the `String` begins with an "A" and `false` otherwise:
 ``` java
     Predicate<String> startsWithA = (String s) -> s.startsWith("A");
 
@@ -77,7 +77,7 @@ Don't do This: `filter(\"He\".compareTo(f.getTitle()) <= 0)`
 " %}
 
 
-The rest of this chapter will be about how we can get predicates from different `Field` types and how these predicates can be combined and how they are rendered to SQL.
+The rest of this chapter will describe how to get predicates from different `Field` types, how these predicates can be combined, and how they are rendered to SQL.
 
 ## Reference Predicates
 
@@ -94,7 +94,7 @@ A {{site.data.javadoc.ReferenceField}} implements the interface trait {{site.dat
 Here is a list with examples for the *Reference Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/ReferencePredicates.java)
 
 ### isNull
-We can count all films with a rating that is null like this:
+All films with a rating that is null can be counted like this:
 ``` java
     long count = films.stream()
         .filter(Film.RATING.isNull())
@@ -122,7 +122,7 @@ FROM (
 ```
 
 ### isNotNull
-We can count all films with a rating that is *not* null like this:
+All films with a rating that is *not* null can be counted like this:
 ``` java
     long count = films.stream()
         .filter(Film.RATING.isNotNull())
@@ -182,7 +182,7 @@ A {{site.data.javadoc.ComparableField}} implements the interface traits {{site.d
 ## Comparable Predicate Examples
 Here is a list with examples for the *Comparable Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/ComparablePredicates.java)
 
-In the examples below, we assume that the database contains a number of films with ratings according to the Motion Picture Association of America (MPAA) film rating system:
+The examples below assume that the database contains a number of films with ratings according to the Motion Picture Association of America (MPAA) film rating system:
 
 | Rating | Meaning                                                              |
 | :--- | :---------------------------------------------------------------- |
@@ -194,7 +194,7 @@ In the examples below, we assume that the database contains a number of films wi
 
 
 ### equal
-If we want to count all films with a rating that equals "PG-13" we can write the following snippet:
+To count all films with a rating that equals "PG-13" you can write the following snippet:
 ``` java
     long count = films.stream()
         .filter(Film.RATING.equal("PG-13"))
@@ -224,7 +224,7 @@ FROM (
 ```
 
 ### notEqual
-The following example shows a solution where we print out all films that has a rating that is *not* "PG-13":
+The following example prints all films that has a rating that is *not* "PG-13":
 ``` java
     films.stream()
         .filter(Film.RATING.notEqual("PG-13"))
@@ -254,7 +254,7 @@ WHERE
 ```
 
 ### lessThan
-The following example shows a solution where we print out all films that has a length that is less than 120:
+The following example prints all films that has a length that is less than 120:
 ``` java
     films.stream()
         .filter(Film.LENGTH.lessThan(120))
@@ -282,7 +282,7 @@ WHERE
 ```
 
 ### lessThan
-The following example shows a solution where we print out all films that has a length that is less or equal to 120:
+The following example prints all films that has a length that is less or equal to 120:
 ``` java
     films.stream()
         .filter(Film.LENGTH.lessThan(120))
@@ -310,7 +310,7 @@ WHERE
 ```
 
 ### greaterThan
-The following example shows a solution where we print out all films that has a length that is greater than 120:
+The following example prints all films that has a length that is greater than 120:
 ``` java
     films.stream()
         .filter(Film.LENGTH.greaterThan(120))
@@ -336,7 +336,7 @@ WHERE
 ```
 
 ### greaterOrEqual
-The following example shows a solution where we print out all films that has a length that is greater than or equal to 120:
+The following example prints all films that has a length that is greater than or equal to 120:
 ``` java
     films.stream()
         .filter(Film.LENGTH.greaterOrEqual(120))
@@ -362,7 +362,7 @@ WHERE
 ```
 
 ### between
-The following example shows a solution where we print out all films that has a length that is between 60 (inclusive) and 120 (exclusive):
+The following example prints all films that has a length that is between 60 (inclusive) and 120 (exclusive):
 ``` java
     films.stream()
         .filter(Film.LENGTH.between(60, 120))
@@ -398,7 +398,7 @@ For an example, take the series [1 2 3 4 5]. If we select elements *in* the rang
 | 2 | `START_EXCLUSIVE_END_INCLUSIVE`                | [3, 4]            |
 | 3 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [3]               |
 
-Here is an example showing a solution where we print out all films that has a length that is between 3 (inclusive) and 9 (inclusive):
+Here is an example that prints all films that has a length that is between 3 (inclusive) and 9 (inclusive):
 ``` java
     films.stream()
         .filter(Film.LENGTH.between(60, 120, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
@@ -430,7 +430,7 @@ The order of the two parameters `start` and `end` is significant. If the `start`
 
 
 ### notBetween
-The following example shows a solution where we print out all films that has a length that is *not* between 60 (inclusive) and 120 (exclusive):
+The following example prints all films that has a length that is *not* between 60 (inclusive) and 120 (exclusive):
 ``` java
     films.stream()
         .filter(Film.LENGTH.notBetween(60, 120))
@@ -459,7 +459,7 @@ Note that a film with length 120 is printed because 120 is outside the range 60 
 
 There is also another variant of the `notBetween` predicate where an  {{site.data.javadoc.Inclusion}} parameter determines if a range of results should be start and/or end-inclusive. 
 
-For an example, take the series [1 2 3 4 5]. If we select elements *not in* the range (2, 4) from this series, we will get the following results:
+For an example, take the series [1 2 3 4 5]. If you select elements *not in* the range (2, 4) from this series, we will get the following results:
 
 | # | `Inclusive` Enum Constant                      | Included Elements |
 | - | :--------------------------------------------- | :---------------- |
@@ -468,7 +468,7 @@ For an example, take the series [1 2 3 4 5]. If we select elements *not in* the 
 | 2 | `START_EXCLUSIVE_END_INCLUSIVE`                | [1, 2, 5]         |
 | 3 | `START_EXCLUSIVE_END_EXCLUSIVE`                | [1, 2, 4, 5]      |
 
-Here is an example showing a solution where we print out all films that has a length that is *not* between 60 (inclusive) and 120 (inclusive):
+Here is an example that prints all films that has a length that is *not* between 60 (inclusive) and 120 (inclusive):
 ``` java
     films.stream()
         .filter(Film.LENGTH.notBetween(60, 120, Inclusion.START_INCLUSIVE_END_INCLUSIVE))
@@ -500,7 +500,7 @@ The order of the two parameters `start` and `end` is significant. If the `start`
 
 
 ### in
-Here is an example showing a solution where we print out all films that has a rating that is either "G", "PG" or "PG-13":
+Here is an example that prints all films that has a rating that is either "G", "PG" or "PG-13":
 ``` java
     films.stream()
         .filter(Film.RATING.in("G", "PG", "PG-13"))
@@ -552,7 +552,7 @@ WHERE
 ```
 
 ### notIn
-Here is an example showing a solution where we print out all films that has a rating that is *neither* "G", "PG" *nor* "PG-13":
+Here is an example that prints all films that has a rating that is *neither* "G", "PG" *nor* "PG-13":
 ``` java
     films.stream()
         .filter(Film.RATING.notIn("G", "PG", "PG-13"))
@@ -639,7 +639,7 @@ An informal notation of method references is made in the table above with \"!\" 
 Here is a list with examples for the *String Predicates*. The source code for the examples below can be found [here on GitHub](https://github.com/speedment/speedment-doc-examples/blob/master/src/main/java/com/speedment/documentation/predicate/StringPredicates.java)
 
 ### isEmpty
-The following example shows a solution where we print out the number of films that has a title that is empty (e.g. is equal to ""):
+The following example that prints the number of films that has a title that is empty (e.g. is equal to ""):
 ``` java
     long count = films.stream()
         .filter(Film.TITLE.isEmpty())
@@ -668,7 +668,7 @@ FROM (
 ```
 
 ### isNotEmpty
-The following example shows a solution where we print out the films that has a title that is *not* empty (e.g. is *not* equal to ""):
+The following example prints the films that has a title that is *not* empty (e.g. is *not* equal to ""):
 ``` java
     films.stream()
         .filter(Film.TITLE.isNotEmpty())
@@ -694,7 +694,7 @@ WHERE
 ```
 
 ### equalIgnoreCase
-The following example shows a solution where we print out the films that has a title that equals to "AlABama dEVil" ignoring case:
+The following example prints the films that has a title that equals to "AlABama dEVil" ignoring case:
 ``` java
     films.stream()
         .filter(Film.TITLE.equalIgnoreCase("AlABama dEVil"))
@@ -717,7 +717,7 @@ WHERE
 ```
 
 ### notEqualIgnoreCase
-The following example shows a solution where we print out the films that has a title that does *not* equal to "AlABama dEVil" ignoring case:
+The following example prints the films that has a title that does *not* equal to "AlABama dEVil" ignoring case:
 ``` java
     films.stream()
         .filter(Film.TITLE.notEqualIgnoreCase("AlABama dEVil"))
@@ -743,7 +743,7 @@ WHERE
 ```
 
 ### startsWith
-The following example shows a solution where we print out the films that has a title that starts with "ALABAMA":
+The following example prints the films that has a title that starts with "ALABAMA":
 ``` java
     films.stream()
         .filter(Film.TITLE.startsWith("ALABAMA"))
@@ -766,7 +766,7 @@ WHERE
 ```
 
 ### notStartsWith
-The following example shows a solution where we print out the films that has a title that does *not* start with "ALABAMA":
+The following example prints the films that has a title that does *not* start with "ALABAMA":
 ``` java
     films.stream()
         .filter(Film.TITLE.notStartsWith("ALABAMA"))
@@ -792,7 +792,7 @@ WHERE
 ```
 
 ### startsWithIgnoreCase
-The following example shows a solution where we print out the films that has a title that starts with "ala" ignoring case:
+The following example prints the films that has a title that starts with "ala" ignoring case:
 ``` java
     films.stream()
         .filter(Film.TITLE.startsWithIgnoreCase("ala"))
@@ -815,7 +815,7 @@ WHERE
 ```
 
 ### notStartsWithIgnoreCase
-The following example shows a solution where we print out the films that has a title that does *not* start with "ala" ignoring case:
+The following example prints the films that has a title that does *not* start with "ala" ignoring case:
 ``` java
     films.stream()
         .filter(Film.TITLE.notStartsWithIgnoreCase("ala"))
@@ -841,7 +841,7 @@ WHERE
 ```
 
 ### endsWith
-The following example shows a solution where we print out the films that has a title that ends with "DEVIL":
+The following example prints the films that has a title that ends with "DEVIL":
 ``` java
     films.stream()
         .filter(Film.TITLE.endsWith("DEVIL"))
@@ -866,7 +866,7 @@ WHERE
 ```
 
 ### notEndsWith
-The following example shows a solution where we print out the films that has a title that does *not* end with "DEVIL":
+The following example prints the films that has a title that does *not* end with "DEVIL":
 ``` java
     films.stream()
         .filter(Film.TITLE.notEndsWith("DEVIL"))
@@ -892,7 +892,7 @@ WHERE
 ```
 
 ### endsWithIgnoreCase
-The following example shows a solution where we print out the films that has a title that ends with "deVIL" ignoring case:
+The following example prints the films that has a title that ends with "deVIL" ignoring case:
 ``` java
     films.stream()
         .filter(Film.TITLE.endsWithIgnoreCase("deVIL"))
@@ -917,7 +917,7 @@ WHERE
 ```
 
 ### notEndsWithIgnoreCase
-The following example shows a solution where we print out the films that has a title that does *not* start with "deVIL" ignoring case:
+The following example prints the films that has a title that does *not* start with "deVIL" ignoring case:
 ``` java
     films.stream()
         .filter(Film.TITLE.notEndsWithIgnoreCase("deVIL"))
@@ -943,7 +943,7 @@ WHERE
 ```
 
 ### contains
-The following example shows a solution where we print out the films that has a title that contains the string "CON":
+The following example prints the films that has a title that contains the string "CON":
 ``` java
     films.stream()
         .filter(Film.TITLE.contains("CON"))
@@ -968,7 +968,7 @@ WHERE
 ```
 
 ### notContains
-The following example shows a solution where we print out the films that has a title that does *not* contain the string "CON":
+The following example prints the films that has a title that does *not* contain the string "CON":
 ``` java
     films.stream()
         .filter(Film.TITLE.notContains("CON"))
@@ -994,7 +994,7 @@ WHERE
 ```
 
 ### containsIgnoreCase
-The following example shows a solution where we print out the films that has a title that contains the string "CoN" ignoring case:
+The following example prints the films that has a title that contains the string "CoN" ignoring case:
 ``` java
     films.stream()
         .filter(Film.TITLE.containsIgnoreCase("CoN"))
@@ -1020,7 +1020,7 @@ WHERE
 ```
 
 ### notContainsIgnoreCase
-The following example shows a solution where we print out the films that has a title that does *not* contain the string "CoN" ignoring case:
+The following example prints the films that has a title that does *not* contain the string "CoN" ignoring case:
 ``` java
     films.stream()
         .filter(Film.TITLE.containsIgnoreCase("CoN"))
@@ -1179,7 +1179,7 @@ WHERE
         (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin)), values:[120, PG-13]
 ```
 
-As for the `and()` method, there is an equivalent way of expressing compositions with `or()`. Here is an example of how streams can be concatenated whereby we obtain the same functionality as above:
+As for the `and()` method, there is an equivalent way of expressing compositions with `or()`. Here is an example of how streams can be concatenated to obtain the same functionality as above:
 ``` java
     StreamComposition.concatAndAutoClose(
         films.stream().filter(Film.LENGTH.greaterThan(120)),
@@ -1244,7 +1244,7 @@ The following primitive types and their corresponding field types are supported 
 This is something that is handled automatically by Speedment under the hood and does not require any additional coding. Our code will simply run faster width these specializations.
 
 ## Predicate Examples
-In the example below we want to print all films that has a `rating` that is either "G" or "PG", has a `length` greater than 120 and has a `specialFeature` that includes "Commentaries":
+The example below prints all films that has a `rating` that is either "G" or "PG", has a `length` greater than 120 and has a `specialFeature` that includes "Commentaries":
 ``` java
     films.stream()
         .filter(Film.RATING.in("G", "PG"))

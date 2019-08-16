@@ -22,7 +22,7 @@ The term CRUD is a short for Create, Read, Update and Delete. Speedment supports
 | Update         | `update(entity)`       | `updater()`                | Updates an existing row in the database from the given entity based on primary key(s)|
 | Delete         | `remove(entity)`       | `remover()`                | Removes the row in the database that has the same primary key(s) as the given entity |
 
-As we will see, the functional references are often useful when composing streams that will update the underlying database.
+As you will see, the functional references are often useful when composing streams that will update the underlying database.
 
 ## Create with Persist
 The `persist()` and `persister()` methods persist a provided entity to the underlying database and return a potentially updated entity. If the persistence fails for any reason, an unchecked `SpeedmentException` is thrown.
@@ -259,7 +259,7 @@ Once a `TransactionHandler` has been obtained, new transactions can easily be cr
 | createAndApply | Function<Transaction, T> | Creates a new Transaction and applies the provided mapping function with the new transaction and returns the value. Any uncommitted data will be automatically rolled back when the method returns.
 
 
-Here is a hypothetical example where we add the number of films with a length greater than 75 with the number of languages and print out the result. Because we are computing the sum within a transaction, we are immune to any changes to the database while we are summing the data:
+Here is a hypothetical example where the number of films with a length greater than 75 are added with the number of languages and print out the result. Since the sum is computed within a transaction, the application is immune to any changes in the database while the computation is performed.
 
 ``` java
     txHandler.createAndAccept(
@@ -270,7 +270,7 @@ Here is a hypothetical example where we add the number of films with a length gr
     );
 ```
 
-Here is another example where we instead return the sum outside the transaction for later use:
+Here is another example that returns the sum outside the transaction for later use:
 
 ``` java
     long sumCount = txHandler.createAndApply(
@@ -278,7 +278,7 @@ Here is another example where we instead return the sum outside the transaction 
     );
 ```
 
-Uncommitted data changes are discarded unless we commit our changes explicitly as shown in this example:
+Uncommitted data changes are discarded unless you commit your changes explicitly as shown in this example:
 
 ``` java
     long noLanguagesInTransaction = txHandler.createAndApply(
@@ -303,7 +303,7 @@ This will produce the following output:
 ```
 no languages in tx 3, no languages after transaction 1 
 ```
-Thus, the two new `Language` entities we created and persisted to the database were rolled back.
+Thus, the two new `Language` entities that were created and persisted to the database were rolled back.
 
 Data changes are committed to the database upon invoking the `Transaction::commit` method as shown hereunder:
 

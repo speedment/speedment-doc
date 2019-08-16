@@ -13,7 +13,7 @@ next: join.html
 
 ## What is a Comparator?
 
-A {{site.data.javadoc.Comparator}} of type `T` is something that takes two objects of type `T` and returns a negative integer, zero, or a positive integer if the first argument is less than, equal to, or greater than the second when its `compare` method is called. Let us take a closer look at an example where we have a `Comparator<String>` that we want to compare two strings using their natural order:
+A {{site.data.javadoc.Comparator}} of type `T` is something that takes two objects of type `T` and returns a negative integer, zero, or a positive integer if the first argument is less than, equal to, or greater than the second when its `compare` method is called. Let us take a closer look at an example where a `Comparator<String>` is used to compare two Strings using their natural order:
 ``` java
     Comparator<String> naturalOrder = (String first, String second) -> first.compareTo(second);
     Stream.of("Snail", "Ape", "Bird", "Ant", "Alligator")
@@ -67,7 +67,7 @@ Do This: `sorted(Film.TITLE.comparator())`
 Don't do This: `sorted(Comparator.comparing(Film::getTitle))`
 " %}
 
-The rest of this chapter will be about how we can get comparators from different `Field` types and how these comparators can be used.
+The rest of this chapter will describe how to get comparators from different `Field` types and how these comparators can be used.
 
 
 ## Comparators
@@ -87,7 +87,7 @@ In the table below, the "Outcome" is a stream where the elements are `sorted()` 
 | comparatorNullFieldsFirst().reversed() | reversed (natural order will nulls first)   | B, A, null |
 
 ### comparator
-The following example shows a solution where we print out the films sorted by title:
+The following example prints all films sorted by title:
 ``` java
     films.stream()
         .sorted(Film.TITLE.comparator())
@@ -115,7 +115,7 @@ ORDER BY
 
 
 ### comparator reversed
-The following example shows a solution where we print out the films sorted by title in reversed order:
+The following example prints all films sorted by title in reversed order:
 ``` java
     films.stream()
         .sorted( Film.TITLE.comparator())
@@ -143,7 +143,7 @@ ORDER BY
 
 
 ### comparatorNullFieldsFirst
-The following example shows a solution where we print out the addresses sorted by the address2 field (which is nullable) with null values first:
+The following example prints the addresses sorted by the address2 field (which is nullable) with null values first:
 ``` java
     addresses.stream()
         .sorted(Address.ADDRESS2.comparatorNullFieldsFirst())
@@ -173,7 +173,7 @@ ORDER BY
 
 
 ### comparatorNullFieldsFirst reversed
-The following example shows a solution where we print out the addresses sorted by the address2 field (which is nullable) with null values first but reversed:
+The following example prints the addresses sorted by the address2 field (which is nullable) with null values first but reversed:
 ``` java
     addresses.stream()
         .sorted(Address.ADDRESS2.comparatorNullFieldsFirst().reversed())
@@ -231,7 +231,7 @@ This is something that is handled automatically by Speedment under the hood and 
 ## Combining Comparators
 Several comparators can be combined to form a composite comparator that will sort entities using a combination of sort keys with different priorities. 
 
-The following example shows a solution where we print out the films sorted firstly by rating in reversed order and then secondly (if the rating is the same) we sort by title:
+The following example prints the films sorted firstly by rating in reversed order and then secondly (if the rating is the same) by title:
 
 ``` java
     films.stream()
@@ -267,7 +267,7 @@ This feature is available starting from version 3.0.11
 " %}
 
 ## Examples
-The following example shows another solution where we print out the films sorted firstly by rating in reversed order and then secondly (if the rating is the same) we sort by title:
+The following example prints the films sorted firstly by rating in reversed order and then secondly (if the rating is the same) by title:
 
 ``` java
     films.stream()

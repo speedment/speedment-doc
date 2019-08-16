@@ -37,7 +37,7 @@ FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
 `WHERE` can be expressed using `.filter()`.
 
 By applying a `filter` to a `Stream`, certain entities can be retained in the `Stream` and other entities can be dropped. For example, 
-if we want to find a long film (of length greater than 120 minutes) then we can apply a `filter` like this:
+to find a long film (of length greater than 120 minutes) you can apply a `filter` like this:
 
 ``` java
 // Searches are optimized in the background!
@@ -68,7 +68,7 @@ This means that only the relevant entities are pulled in from the database into 
 ### Order By
 `ORDER BY` can be expressed using `.sorted()`.
 
-If we want to sort all our films in length order then we can do it like this:
+Sorting all our films in length order can be done this way:
 ``` java
     List<Film> filmsInLengthOrder = films.stream()
         .sorted(Film.LENGTH)
@@ -109,7 +109,7 @@ Descending order can be obtained by calling, for example, `Film.LENGHT.reversed(
 ### Offset
 `OFFSET` can be expressed using `.skip()`.
 
-If we want to skip a number of records before we are using them then the `.skip()` operation is useful. Suppose we want to print out the films in title order but staring from the 100:th film then we can do like this:
+The `.skip()` operation is useful to skip a number of records before using them. Suppose you want to print out the films in title order but staring from the 100:th film then the skip-operation can be used like this:
 ``` java
     films.stream()
         .sorted(Film.TITLE)
@@ -144,7 +144,7 @@ OFFSET
 ### Limit
 `LIMIT` can be expressed using `.limit()`.
 
-If we want to limit the number of records in a stream them then the `.limit()` operation is useful. Suppose we want to print out the 3 first films in title order then we can do like this:
+The number of records in a stream can be controlled using the `.limit()` operation. This example will print out the 3 first films in title order:
 ``` java
     films.stream()
         .sorted(Film.TITLE)
@@ -158,7 +158,7 @@ FilmImpl { filmId = 2, title = ACE GOLDFINGER, ...
 FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
 ```
 
-This stream is rendered to the following SQL query (for MySQL):
+and is rendered to the following SQL query (for MySQL):
 ``` sql
 SELECT 
     `film_id`,`title`,`description`,`release_year`,
@@ -175,7 +175,7 @@ LIMIT
 ### Combining Offset and Limit
 `LIMIT X OFFSET Y` can be expressed by `.skip(y).limit(x)` (note the order of `skip` and `limit`) 
 
-There are many applications where both `.skip()` and `.limit()` are used. Remember that the order of these stream operations matters and that the order is different from what you might be used to from SQL. In the following example we express a stream where we want to show 50 films starting from the 100:th film in title order:
+There are many applications where both `.skip()` and `.limit()` are used. Remember that the order of these stream operations matters and that the order is different from what you might be used to from SQL. The following example expresses a stream used to show 50 films starting from the 100:th film in title order:
 ``` java
     films.stream()
         .sorted(Film.TITLE)
@@ -238,7 +238,7 @@ FROM
 ### Group By
 `GROUP BY` can be expressed using `collect(groupingBy(...))`
 
-Java has its own group by collector. If we want to group all the Films by the films 'rating' then we can write the following code:
+Java has its own group-by `collector`. The example below groups all the Films by 'rating': 
 ``` java
     Map<String, List<Film>> filmCategories = films.stream()
         .collect(
@@ -264,7 +264,7 @@ Rating PG    has 194 films
 ```
 The entire table will be pulled into the application in this example because all films will be in the Map.
 
-If we only want to count the occurances of items for different classifications then a down-stream collector can be used instead:
+To only count the occurrences of items for different classifications a down-stream `Collector` can be used instead:
 
 ``` java
 Map<String, Long> map = films.stream()
@@ -288,7 +288,7 @@ This might produce the following output:
 ### Having
 `HAVING` can be expressed by `.filter()` applied on a Stream from a previously collected Stream.
 
-We can expand the previous Group By example by filtering out only those categories having more than 200 films. Such a Stream can be expressed by applying a new stream on a stream that has been previously collected:
+The previous Group By example can be expanded by filtering out only those categories having more than 200 films. Such a Stream can be expressed by applying a new stream on a stream that has been previously collected:
 ``` java 
     Map<String, List<Film>> filmCategories = films.stream()
         .collect(
@@ -312,7 +312,7 @@ Rating NC-17 has 210 films
 ### Join
 `JOIN` can be expressed using `.map()` and `.flatMap()`. However, since version 3.0.23, there is support for semantic joins that are much more efficient for large tables. See below. 
 
-In this example, we want to create a Map that holds which Language is spoken in a Film. This is done by joining the two tables "film" and "language". There is a foreign key from a film to the language table.
+The example creates a `Map` that holds which `Language` is spoken in a `Film`. This is done by joining the two tables "film" and "language". There is a foreign key from a film to the language table.
 ``` java
     Map<Language, List<Film>> languageFilmMap = films.stream()
         .collect(
@@ -320,7 +320,7 @@ In this example, we want to create a Map that holds which Language is spoken in 
             groupingBy(languages.finderBy(Film.LANGUAGE_ID))
         );
 ```
-So the classifier will take a Film and will lookup the corresponding Language when it is called. Upon inspection of the Map we can conclude:
+So the classifier will take a `Film` and will lookup the corresponding Language when it is called. Inspection of the `Map` yield the following conclusion:
 ``` text
  There are 1000 films in English 
 ```
@@ -331,7 +331,7 @@ Large tables will be less efficient using this join scheme so users are encourag
 " %}
 
 #### Semantic Joins
-Semantic joins creates a separate specialized `Stream` with tuples of entities that can be joined dynamically. Here is how we could create a Map that holds which Language is spoken in a Film using semantic joins:
+Semantic joins creates a separate specialized `Stream` with tuples of entities that can be joined dynamically. The following example creates a `Map` that holds which `Language` is spoken in a `Film` using semantic joins:
 ``` java
 Join<Tuple2<Film, Language>> join = joinComponent
     .from(FilmManager.IDENTIFIER)
@@ -349,7 +349,7 @@ Map<Language, List<Tuple2<Film, Language>>> languageFilmMap = join.stream()
 ### Distinct
 `DISTINCT` can be expressed using `.distinct()`.
 
-If we want to calculate what different ratings there are in the film tables then we can do it like this:
+The following code can be used to calculate what different ratings there are in the film tables:
 ``` java
     Set<String> ratings = films.stream()
         .map(Film.RATING)
@@ -361,7 +361,7 @@ In this example, the entire table will be pulled into the application.
 ### Select
 `SELECT` can be expressed using `.map()`
 
-If we do not want to use the entire entity but instead only select one or several fields, we can do that by applying a `map` operation to a `Stream`. Assuming we are only interested in the field 'id' of a `Film` we can select that field like this:
+If you do not want to use the entire entity but instead only select one or several fields, that can be done by applying a `Map` operation to a `Stream`. Assuming for example you are only interested in the field 'id' of a `Film` you can select that field like this:
 ``` java
 // Creates a stream with the ids of the films by applying the FILM_ID getter
 final IntStream ids = films.stream()
@@ -369,14 +369,14 @@ final IntStream ids = films.stream()
 ```
 This creates an `IntStream` consisting of the ids of all `Film`s by applying the Film.FILM_ID getter for each hare in the original stream.
 
-If we want to select several fields, we can create a new custom class that holds only the fields in question or we can use a {{site.data.javadoc.Tuple}} to dynamically create a type safe holder.
+To select several fields, you can create a custom class that holds only the fields in question or use a {{site.data.javadoc.Tuple}} to dynamically create a type-safe holder.
 ``` java
     // Creates a stream of Tuples with two elements: title and length
     Stream<Tuple2<String, Integer>> items = films.stream()
         .map(Tuples.toTuple(Film.TITLE, Film.LENGTH.getter()));
 
 ```
-This creates a stream of Tuples with two elements: title (of type `String`) and length (of type `Integer`).
+This creates a stream of `Tuples` with two elements: title (of type `String`) and length (of type `Integer`).
 
 {% include note.html content = "
 Currently, Speedment will read all the columns regardless of subsequent mappings. Future versions might cut down on the columns actually being read following `.map()`, `mapToInt()`, `mapToLong()` and `mapToDouble()` operations.
@@ -384,7 +384,7 @@ Currently, Speedment will read all the columns regardless of subsequent mappings
 
 ### Union all
 `UNION ALL` can be expressed using `StreamComposition.concatAndAutoClose(s0, s1, ..., sn)`.
-Suppose we want to create a resulting stream with all Films that are of length greater than 120 minutes and then all films that are of rating "PG-13":
+The following example creates a resulting `Stream` with all Films that are of length greater than 120 minutes and then all films that are of rating "PG-13":
 ``` java
     StreamComposition.concatAndAutoClose(
         films.stream().filter(Film.LENGTH.greaterThan(120)),
@@ -392,12 +392,11 @@ Suppose we want to create a resulting stream with all Films that are of length g
     )
         .forEachOrdered(System.out::println);
 ```
-The resulting stream will contain duplicates with films that have a length both greater than 120 minutes and have a rating "PG-13".
-
+The resulting `Stream` will contain duplicates with films that have a length both greater than 120 minutes and have a rating "PG-13".
 
 ### Union
 `UNION` can be expressed using `StreamComposition.concatAndAutoClose(s0, s1, ..., sn)` followed by `.distinct()`.
-Suppose we want to create a resulting stream with all Films that are of length greater than 120 minutes and then all films that are of rating "PG-13":
+The following example creates a resulting `Stream` with all Films that are of length greater than 120 minutes and then all films that are of rating "PG-13":
 ``` java
     StreamComposition.concatAndAutoClose(
         films.stream().filter(Film.LENGTH.greaterThan(120)),
@@ -420,7 +419,7 @@ Note: It would be more efficient to produce a stream with the same content (but 
 
 
 ### Paging
-The following example shows how we can serve request for pages from a GUI or similar applications. The page number (starting with page = 0) and ordering will be given as parameters:
+The following example demonstrates how to serve request for pages from a GUI or similar applications. The page number (starting with page = 0) and ordering will be given as parameters:
 ``` java
     private List<Film> getPage(int page, Comparator<Film> comparator) {
         log("getPage(" + page + ", " + comparator + ")");
@@ -454,7 +453,7 @@ LIMIT ? OFFSET ?, values:[50, 100]
 
 
 ### Partition By
-Partitioning is a special case of grouping in which there are only two different classes: `false` or `true`. Java has its own partitioner that can be used to classify database entities. In the example below, we want to classify the films in two different categories: films that are or are not long, where a long film is of length greater than 120 minutes.
+Partitioning is a special case of grouping in which there are only two different classes: `false` or `true`. Java has its own partitioner that can be used to classify database entities. The example below classifies the films in two different categories: films that are or are not long, where a long film is of length greater than 120 minutes.
 ``` java
     Map<Boolean, List<Film>> map = films.stream()
         .collect(
@@ -473,7 +472,7 @@ long is  true has 457 films
 ```
 
 ### Join, Group By and Order By
-The following example shows a Join with a Group By operation where keys are sorted in a certain way. In the example, we group on two keys: `Film::getRating` and `Actor::getLastName` and we also sort on these two keys:
+The following example shows a Join with a Group By operation where keys are sorted in a certain way. In the example, two keys are used for the grouping and sorting: `Film::getRating` and `Actor::getLastName`:
 ```` java
     Join<Tuple3<FilmActor, Film, Actor>> join = joinComponent
         .from(FilmActorManager.IDENTIFIER)
@@ -513,7 +512,7 @@ Tuple2Impl {NC-17, BACALL}      , 5
 ### One-to-Many relations
 A One-to-Many relationship is defined as a relationship between two tables where a row from a first table can have multiple matching rows in a second table. For example, many films can be in the same language.
 
-In this example we will print out all films and the corresponding language spoken. More formally, we create a stream of matching pairs (called Tuple2) of `Language` and `Film` entitites where the language ids are equal:
+The following example will print out all films and the corresponding language spoken. More formally, a `Stream` of matching pairs (called Tuple2) is created of `Language` and `Film` entities where the language ids are equal:
 
 ``` java
 
@@ -534,7 +533,7 @@ Tuple2Impl {LanguageImpl { languageId = 1, name = English, ... }, FilmImpl { fil
 ...
 ```
 
-When we are working with very small tables, we could use an alternate method where values are mapped in from another table for each iteration. In this example we will print out all films that are in the English language:
+If you are working with very small tables, an alternate method can be used where values are mapped in from another table for each iteration. The following example will print out all films that are in the English language:
 ``` java
     languages.stream()
         .filter(Language.NAME.equal("English"))
@@ -553,7 +552,7 @@ FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
 ### Many-to-One relations
 A Many-to-One relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.
 
-In this example we will print out the languages that are used for all films with a rating of "PG-13":
+The example below prints out the languages that are used for all films with a rating of "PG-13":
 ``` java
 
     Join<Tuple2<Film, Language>> join = joinComponent
@@ -572,7 +571,7 @@ Tuple2Impl {FilmImpl { filmId = 18, title = ALTER VICTORY, ..., rating = PG-13, 
 
 ```
 
-When we are working with very small tables, we could use an alternate method where values are mapped in from another table for each iteration.
+When you are working with very small tables, an alternate method can be used where values are mapped in from another table for each iteration.
 ``` java 
     films.stream()
         .filter(Film.RATING.equal("PG-13"))
@@ -587,12 +586,11 @@ LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.
 ...
 ```
 
-
 ### Many-to-Many relations
 
 A Many-to-Many relationship is defined as a relationship between two tables where many multiple rows from a first table can match multiple rows in a second table. Often a third table is used to form these relations. For example, an actor may participate in several films and a film usually have several actors.
 
-In this example we will create a filmography for all actors using a third table `film_actors` that contains foreign keys to both films and actors.
+The example below creates a filmography for all actors using a third table `film_actors` that contains foreign keys to both films and actors.
 
 ``` java 
     Join<Tuple3<FilmActor, Film, Actor>> join = joinComponent

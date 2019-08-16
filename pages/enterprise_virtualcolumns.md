@@ -24,7 +24,7 @@ To include the Enterprise Virtual Columns Plugin in your Speedment project, add 
 <dependency>
     <groupId>com.speedment.enterprise</groupId>
     <artifactId>virtualcolumn-runtime</artifactId>
-    <version>${speedment.enterprise.version}</version>
+    <version>${speedment.version}</version>
 </dependency>
 ```
 
@@ -36,7 +36,7 @@ You also need to add it as a `<component>` to the `speedment-enterprise-maven-pl
     <plugin>
       <groupId>com.speedment.enterprise</groupId>
       <artifactId>speedment-enterprise-maven-plugin</artifactId>
-      <version>${speedment.enterprise.version}</version>
+      <version>${speedment.version}</version>
 
       <configuration>
         <components>

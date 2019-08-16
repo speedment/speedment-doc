@@ -12,18 +12,18 @@ next: aggregations.html
 {% include prev_next.html %}
 
 ## What is DataStore?
-The Speedment Enterprise DataStore is a proprietary module for Speedment that stores database entities in-memory, allowing database queries to be performed extremely fast, utilizing the Java 8 Stream API to the fullest.
+The Speedment HyperStream `DataStore` is included in a proprietary module for Speedment that stores database entities in-JVM-memory, allowing database queries to be performed extremely fast, utilizing the Java 8 Stream API to the fullest.
 
-A Stream does not describe any details about how data is retrieved, in fact this is delegated to the framework defining the pipeline source and termination. There is nothing in the design of a stream entailing data must come from a SQL query. This fact is used by Speedment Enterprise that contains an in-JVM-memory analytics engine called DataStore, allowing streams to connect directly to RAM instead of remote databases.
+A `Stream` does not describe any details about how data is retrieved, in fact this is delegated to the framework defining the pipeline source and termination. There is nothing in the design of a `Stream` entailing data must come from a SQL query. This fact is used by `DataStore` which allows streams to connect directly to RAM instead of remote databases.
 
-The engine provides streams with exactly the same API semantics as for databases but will execute queries with orders of magnitude lower latencies. This creates a new way to write high performance data applications whereby the actual source-of-truth can remain with an existing database. It is possible to provision terabytes of data in the JVM with no garbage collection impact because data is stored off heap and can optionally be mapped to SSD files. Streams can have a latency well under one microsecond. Comparing this to a traditional application with a database connection, just the TCP round-trip delay in a high-performance network is hardly ever under 40 microseconds and then database latency and data transfer times have to be added on top.
+The engine provides streams through exactly the same API semantics as for databases but will execute queries with orders of magnitude lower latencies. This creates a new way to write high performance data applications whereby the actual source-of-truth can remain with an existing database. It is possible to provision terabytes of data in the JVM with no garbage collection impact because data is stored off-heap and can optionally be mapped to SSD files. Streams can have a latency well under one microsecond. Comparing this to a traditional application with a database connection, just the TCP round-trip delay in a high-performance network is hardly ever under 40 microseconds and then database latency and data transfer times have to be added on top.
 
-Thus, the DataStore module is best suited for read-intensive applications, like analytics. 
+Thus, the `DataStore` module is best suited for read-intensive applications, like analytics. 
 
 ## Enabling DataStore
-In order to use DataStore you need a commercial Speedment license or a trial license key. Download a free trial license using the Speedment [Initializer](https://www.speedment.com/initializer/).
+In order to use DataStore you need a Speedment HyperStream license or a trial license key. Download a free trial license using the Speedment [Initializer](https://www.speedment.com/initializer/) or use HyperStream for Free with databases up to 500 MB.
 
-The DataStore module needs to be referenced both in your pom.xml file and in you application.
+The `DataStore` module needs to be referenced both in your pom.xml file and in you application.
 
 ### POM File
 Use the [Initializer](https://www.speedment.com/initializer/) to get a POM-file template. To use DataStore, add it as a dependency to the speedment-enterprise-maven-plugin and mention it as a component:
@@ -138,7 +138,7 @@ Providing a custom `StreamSupplierComponentDecorator` means that you are assumin
 
 
 ### Load/Reload Individual Tables
-Sometimes it makes sense to just put a limited set of tables in the DataStore while other tables can be reached via the underlying database. By using the Speedment Enterprise module Meta Stream Supplier, we can select which tables are retrieved from the the DataStore and which tables will be retrieved from the database.
+Sometimes it makes sense to just put a limited set of tables in the DataStore while other tables can be reached via the underlying database. By using the Speedment HyperStream module Meta Stream Supplier, you can select which tables are retrieved from the the DataStore and which tables will be retrieved from the database.
 
 In order to run, the module first needs to be configured using a class that implements the interface `MetaStreamSupplierConfigurator`. This is how a custom configurator can look like:
 ``` java
@@ -155,7 +155,7 @@ public static class MyMetaStreamConfigurator implements MetaStreamSupplierConfig
 
 This will configure the Meta Stream Supplier to explicitly use the Data Store for the film table and the database for the artist table. Unconfigured tables will default to the top most `StreamSupplierComponent` (usually the DataStore) but if you like another behavior, just override the `MetaStreamSupplierConfigurator::defaultStreamSupplierComponentClass` method.
 
-By installing the bundle `MetaStreamSupplierBundle` we activate the module. Here is an example of how to install the Meta Stream Supplier module:
+The module is activated by installing the bundle `MetaStreamSupplierBundle`. Here is an example of how to install the Meta Stream Supplier module:
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
         .withBundle(DataStoreBundle.class);
@@ -244,7 +244,7 @@ You should take a moment to look over your indexes in the Speedment Tool to see 
 " %}
 
 ### Optimizing for Low Cardinality
-**Requires Speedment Enterprise 1.1.15 or later.** If you have a column in your database with a very low cardinality, you can get faster load and query times if you mark it as a "Low Cardinality" column in the Speedment Tool. 
+**Requires Speedment HyperStream 1.1.15 or later.** If you have a column in your database with a very low cardinality, you can get faster load and query times if you mark it as a "Low Cardinality" column in the Speedment Tool. 
 
 {% include image.html file="low_cardinality.png" url="https://www.speedment.com/" alt="Mark Column as Low Cardinality in Speedment Tool" caption="Mark Column as Low Cardinality" %}
 
@@ -260,7 +260,7 @@ If you have columns with low cardinality where the distinct values possible neve
 " %}
 
 ### Creating Multi-Indexes
-**Speedment Enterprise 1.1.10** introduced the concept of Multi-Indexes which can significantly increase the performance of filters that involve two columns of the same (or similar) type. Multi-Indexes take up the same amount of memory as a single-column index, but can filter both dimensions in `O(log N)` time-complexity.
+**Speedment HyperStream 1.1.10** introduced the concept of Multi-Indexes which can significantly increase the performance of filters that involve two columns of the same (or similar) type. Multi-Indexes take up the same amount of memory as a single-column index, but can filter both dimensions in `O(log N)` time-complexity.
 
 To create a Multi-Index for a pair of columns, open the Speedment Tool and right-click on the table.
 

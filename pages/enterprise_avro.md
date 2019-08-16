@@ -2,7 +2,7 @@
 permalink: enterprise_avro.html
 sidebar: mydoc_sidebar
 title: Avro Plugin
-keywords: Enterprise, Avro, Binary, File
+keywords: Enterprise, Avro, Binary, File, HyperStream
 enterprise: true
 toc: false
 Tags: Enterprise, Avro, Binary, File
@@ -13,10 +13,10 @@ next:
 {% include prev_next.html %}
 
 ## About
-When working with large datavolumes, it is sometimes unnescessary to have a database at all. It can be more performant to read binary data directly from a file and then analyze it in Speedment. One such format for storing binary data is [Avro](https://avro.apache.org/).
+When working with large data volumes, it is sometimes unnecessary to have a database at all. It can be more performant to read binary data directly from a file and then analyze it in Speedment HyperStream. One such format for storing binary data is [Avro](https://avro.apache.org/).
 
 ## Generating Code
-Speedment uses the metadata in a database as the domain model when generating code. The metadata is stored in a `speedment.json`-file, and unless you call `mvn speedment:reload`, it will only connect to the database if that file doesn't exist. When working with Avro-files, we use this to our advantage. Instead of using the database metadata to generate the `speedment.json`-file, we can use a Maven plugin called `speedment-avro-maven-plugin` to create it from a number of Avro-schemas. We can then run `mvn speedment:generate` as usual to generate Java code.
+Speedment generally uses the metadata in a database as the domain model when generating code. The metadata is then stored in a `speedment.json`-file, and unless you call `mvn speedment:reload`, it will only connect to the database if that file doesn't exist. When working with Avro-files, this can be used to your advantage. Instead of using the database metadata to generate the `speedment.json`-file, use the Maven plugin `speedment-avro-maven-plugin` (only available for Speedment HyperStream) to create it from a number of Avro-schemas. Then run `mvn speedment:generate` as usual to generate Java code.
 
 ```xml
 <plugin>
@@ -80,7 +80,7 @@ Here is an example of how `src/main/json/speedment_override.json` could look:
 }
 ```
 
-We set a custom `company` and `packageName` on the project-level and also specify a custom `alias` for both the generated `dbms` and the `schema`. Note that the `id` of both `project`, `dbms` and `schema` will be the value you specified as `projectName` in the maven plugin configuration.
+A custom `company` and `packageName` is set on the project-level and also a custom `alias` for both the generated `dbms` and the `schema` is specified. Note that the `id` of both `project`, `dbms` and `schema` will be the value you specified as `projectName` in the maven plugin configuration.
 
 ### Override Table Specific Settings
 Here is an example of how the table-specific `src/main/json/speedment_film_override.json` could look:
@@ -119,7 +119,7 @@ Here is an example of how the table-specific `src/main/json/speedment_film_overr
 }
 ```
 
-We specify the location of the binary data file for the `Film` table, and also change the default settings for two of the columns. The first one (`film_id`) we give an alias to so that it will be called just `id` in the code. The second one (`rating`) we disable since we don't want it to be generated at all.
+In this case the location of the binary data file for the `Film` table is specified, and some of the default settings are changed. First the column (`film_id`) is given an alias to be able reference it as `id` in the code. Secondly the column (`rating`) is disable since it is not needed in the application.
 
 ### Automating Build Process
 The next step is to invoke `mvn speedment:generate` automatically **after** the `speedment-avro-maven-plugin` has been invoked. This can be done like this:
