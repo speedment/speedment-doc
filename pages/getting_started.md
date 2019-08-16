@@ -68,7 +68,7 @@ For security reasons, Speedment __never stores__ the database password in genera
 ### Step 3. Configure the project and generate code
 Speedment now analyses the underlying data sources’ metadata and automatically creates code which directly reflects the structure (i.e. the “domain model”) of the data sources. Once finished, the database structure is visualized as a tree in the appearing window. To generate the object-oriented Java representation, press "Generate".
 
-{% include image.html file="tool_screenshot.png" url="https://www.speedment.com/" alt="The Speedment Tool - Configuration and Code Generation" caption="The Speedment Tool - Configuration and Code Generation" %}
+{% include image.html file="tool-screenshot.png" url="https://www.speedment.com/" alt="The Speedment Tool - Configuration and Code Generation" caption="The Speedment Tool - Configuration and Code Generation" %}
 
 ## Hello World
 Once the files are generated, you are ready to write your first Java Stream query. 
