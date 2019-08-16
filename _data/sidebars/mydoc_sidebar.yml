@@ -26,22 +26,6 @@ entries:
   - title: Speedment Overview
     url: overview.html#top
     output: web, pdf
-    folderitems:
-
-    - title: What is Speedment?
-      url: introduction.html#what-is-speedment
-      output: web, pdf
-      type: homepage
-
-    - title: Speedment Resources
-      url: introduction.html#speedment-resources
-      output: web, pdf
-      type: homepage
-
-    - title: Fast Facts About Speedment
-      url: introduction.html#fast-facts-about-speedment
-      output: web, pdf
-      type: homepage
 
   - title: Stream Fundamentals
     url: stream_fundamentals.html#top
