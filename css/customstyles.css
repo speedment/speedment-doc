@@ -1,30 +1,24 @@
 /*** Load Custom Fonts ***/
 
-@font-face { src: url("../css/fonts/SourceSansPro-Bold.ttf"); }
-@font-face { src: url("../css/fonts/SourceSansPro-BoldItalic.ttf"); }
-@font-face { src: url("../css/fonts/SourceSansPro-Italic.ttf"); }
-@font-face { src: url("../css/fonts/SourceSansPro-Regular.ttf"); }
-@font-face { src: url("../css/fonts/SourceSansPro-SemiBold.ttf"); }
-@font-face { src: url("../css/fonts/SourceSansPro-SemiBoldItalic.ttf"); }
+@font-face { font-family: "Source Sans Pro Bold"; font-weight: 700; src: url("../css/fonts/SourceSansPro-Bold.ttf"); }
+@font-face { font-family: "Source Sans Pro Bold Italic"; font-weight: 700; font-style: italic; src: url("../css/fonts/SourceSansPro-BoldItalic.ttf"); }
+@font-face { font-family: "Source Sans Pro Italic"; font-weight: 400; font-style: italic; src: url("../css/fonts/SourceSansPro-Italic.ttf"); }
+@font-face { font-family: "Source Sans Pro"; font-weight: 400;src: url("../css/fonts/SourceSansPro-Regular.ttf"); }
+@font-face { font-family: "Source Sans Pro SemiBold"; font-weight: 600; src: url("../css/fonts/SourceSansPro-SemiBold.ttf"); }
+@font-face { font-family: "Source Sans Pro SemiBold Italic"; font-weight: 600; font-style: italic; src: url("../css/fonts/SourceSansPro-SemiBoldItalic.ttf"); }
 
 body {
     font-size:16px;
     font-family: "Source Sans Pro", sans serif;
     line-height: 1.5em;
-    font-weight: 400;
-    font-style: normal;
 }
 
 .language-java {
     font-family: "Source Code Pro", sans serif;
-    font-weight: 400;
-    font-style: normal;
 }
 
 h1, h2, h3, h4, h5, h6{
-    font-family: "Source Sans Pro", sens serif;
-    font-weight: 600;
-    font-style: normal;
+    font-family: "Source Sans Pro SemiBold", sans serif;
 }
 
 h3, h4 {
