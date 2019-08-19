@@ -9,17 +9,22 @@
 
 body {
     font-size:16px;
-    font-family: "Source Sans Pro";
+    font-family: "Source Sans Pro", sans serif;
     line-height: 1.5em;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .language-java {
-    font-family: "Source Code Pro";
+    font-family: "Source Code Pro", sans serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 h1, h2, h3, h4, h5, h6{
-    font-family: "Source Sans Pro";
+    font-family: "Source Sans Pro", sens serif;
     font-weight: 600;
+    font-style: normal;
 }
 
 h3, h4 {
