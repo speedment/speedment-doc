@@ -72,8 +72,8 @@ When you build the application, the InMemoryBundle needs to be added to the runt
 Before DataStore can be used, it has to load all database content into the JVM. This is how it is done:
 ``` java
     // Load the in-JVM-memory content into the DataStore from the database
-    app.get(DataStoreComponent.class)
-        .ifPresent(DataStoreComponent::load);
+    app.getOrThrow(DataStoreComponent.class)
+        .load(); 
 ```
 
 After the DataStore module has been added and loaded, all stream queries will be made towards RAM instead of the remote database. No other change in the application is needed.
@@ -82,8 +82,8 @@ After the DataStore module has been added and loaded, all stream queries will be
 If you want to update the DataStore to the latest state of the underlying database, do like this:
 ``` java
     // Refresh the in-JVM-memory content from the database
-    app.get(DataStoreComponent.class)
-        .ifPresent(DataStoreComponent::reload);
+    app.getOrThrow(DataStoreComponent.class)
+        .reload(); 
 ```
 
 This will load a new version of the database in the background and when completed, new streams will use the new data. Old ongoing streams will continue to use the old version of the DataStore content. Once all old streams are completed, the old version of the DataStore content will be released.
@@ -97,8 +97,8 @@ Automatic periodic refresh of the `DataStoreComponent` can easily be made using 
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                app.get(DataStoreComponent.class)
-                        .ifPresent(DataStoreComponent::load);
+                app.getOrThrow(DataStoreComponent.class)
+                        .load(); 
             }
         },
         delay,
