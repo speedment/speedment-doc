@@ -59,11 +59,11 @@ You also have to depend on DataStore as a runtime dependency to your application
 ```
 
 ### Application
-When you build the application, the DataStoreBundle needs to be added to the runtime like this:
+When you build the application, the InMemoryBundle needs to be added to the runtime like this:
 ``` java
     SakilaApplicationBuilder builder = new SakilaApplicationBuilder()            
         .withPassword(password)
-        .withBundle(DataStoreBundle.class);
+        .withBundle(InMemoryBundle.class);
 ```
 
 ## Using DataStore
@@ -158,7 +158,7 @@ This will configure the Meta Stream Supplier to explicitly use the Data Store fo
 The module is activated by installing the bundle `MetaStreamSupplierBundle`. Here is an example of how to install the Meta Stream Supplier module:
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
-        .withBundle(DataStoreBundle.class);
+        .withBundle(InMemoryBundle.class);
         .withComponent(MyMetaStreamConfigurator.class)
         .withBundle(MetaStreamSupplierBundle.class)
         .build();
@@ -207,7 +207,7 @@ The load and organize process can be viewed in the log by enabling `APPLICATION_
     SakilaApplicationBuilder builder = new SakilaApplicationBuilder()        
         .withPassword(password)
         .withLogging(LogType.APPLICATION_BUILDER)
-        .withBundle(DataStoreBundle.class);
+        .withBundle(InMemoryBundle.class);
         .build();
 ```
 
