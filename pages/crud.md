@@ -30,7 +30,7 @@ The fields of returned entity instance may differ from the provided entity field
 
 Here is an example of how to create a new language in the Sakila database using the `persist()` method:
 ``` java
-    Language language = new LanguageImpl().setName("Deutsch");
+    Language language = languages.create().setName("Deutsch");
     try {
         languages.persist(language);
     } catch (SpeedmentException se) {
@@ -41,14 +41,14 @@ Here is an example of how to create a new language in the Sakila database using 
 It is often better to use the functional equivalent `persister()` in streams and optionals. This an example of how this can be done:
 ``` java
     Stream.of("Italiano", "Español")
-        .map(ln -> new LanguageImpl().setName(ln))
+        .map(ln -> languages.create().setName(ln))
         .forEach(languages.persister());
 ```
 This creates a Stream of two language names which are subsequently mapped to new languages with those names. Finally, the language persister is applied for the two new languages whereby two new language rows are inserted into the database.
 
 It is unspecified if the returned updated entity is the same provided entity instance or another entity instance. It is erroneous to assume either, so you should use only the returned entity after the method has been called. However, it is guaranteed that the provided entity is untouched if an exception is thrown.
 
-Developers are highly encouraged to use the provided `language.persister()` when obtaining persisters rather than using functional reference `languages::persist` because when used, it can be be recognizable by the Speedment and its stream optimizer.
+Developers are highly encouraged to use the provided `language.persister()` when obtaining persisters rather than using functional reference `languages::persist` because when used, it can be recognized by Speedment and its stream optimizer.
 
 {% include important.html content= "
 Do This: `.forEach(languages.persister())` 
@@ -83,7 +83,7 @@ value that equals `null`, since REF is not explicitly set in the `LanguageImpl`.
 ``` java
     Persister<Language> persister = languages.persister(FieldSet.allExcept(Language.REF));
     Stream.of("Italiano", "Español")
-        .map(ln -> new LanguageImpl().setName(ln))
+        .map(ln -> languages.create().setName(ln))
         .forEach(persister);
 ``` 
 
@@ -284,8 +284,8 @@ Uncommitted data changes are discarded unless you commit your changes explicitly
     long noLanguagesInTransaction = txHandler.createAndApply(
         tx -> {
             Stream.of(
-                new LanguageImpl().setName("Italian"),
-                new LanguageImpl().setName("German")
+                languages.create().setName("Italian"),
+                languages.create().setName("German")
             ).forEach(languages.persister());
             return languages.stream().count();
             // The transaction is implicitly rolled back 
