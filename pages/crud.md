@@ -311,8 +311,8 @@ Data changes are committed to the database upon invoking the `Transaction::commi
     long noLanguagesInTransaction = txHandler.createAndApply(
         tx -> {
             Stream.of(
-                new LanguageImpl().setName("Italian"),
-                new LanguageImpl().setName("German")
+                languages.create().setName("Italian"),
+                languages.create().setName("German")
             ).forEach(languages.persister());
             tx.commit(); // Commit the changes and make them visible outside the tx
             return languages.stream().count();
