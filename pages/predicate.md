@@ -173,7 +173,7 @@ The following additional methods are available to a {{site.data.javadoc.Referenc
 {% include tip.html content = "
 Fields that are `null` will never fulfill any of the predicates in the list above. Thus, neither `equals` nor `notEquals` will return `true` for null values.
 " %}
-{% include tip.html content = "
+{% include note.html content = "
 The reason `equal` is not named `equals` is that the latter name is already used as a method name by the `Object` class (that every other class inherits from). The latter method has a different meaning than function than `equal` so a new name had to be used.
 " %}
 
