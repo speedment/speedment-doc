@@ -254,34 +254,6 @@ WHERE
 ```
 
 ### lessThan
-The following example prints all films that has a length that is less than 120:
-``` java
-    films.stream()
-        .filter(Film.LENGTH.lessThan(120))
-        .forEachOrdered(System.out::println);
-```
-The code will produce the following output:
-``` text
-FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
-FilmImpl { filmId = 2, title = ACE GOLDFINGER, ..., length = 48, ...
-FilmImpl { filmId = 3, title = ADAPTATION HOLES, ..., length = 50, ...
-FilmImpl { filmId = 4, title = AFFAIR PREJUDICE, ..., length = 117, ...
-FilmImpl { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
-...
-```
-and will be rendered to the following SQL query (for MySQL):
-``` sql
-SELECT 
-    `film_id`,`title`,`description`,`release_year`,
-    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
-    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
-FROM 
-    `sakila`.`film` 
-WHERE 
-    (`sakila`.`film`.`length` < ?), values:[120]
-```
-
-### lessThan
 The following example prints all films that has a length that is less or equal to 120:
 ``` java
     films.stream()
