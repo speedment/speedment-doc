@@ -16,7 +16,7 @@ next: application_configuration.html
 Before proceeding with the installation, please make sure that you have the following installed: 
 
 * Apache Maven version 3.3.9 or later 
-* Java version 8.0.40 or later 
+* Java version 8.0.40 or later (e.g. Java 11)
 
 ## Installation with Maven
 Speedment is installed using [Apache Maven](https://maven.apache.org/) by including the Speedment dependencies in your pom.xml-file. You need to setup both the `speedment-maven-plugin` (for code generation) and the `speedment-runtime` (used by the application at runtime).
