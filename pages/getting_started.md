@@ -77,6 +77,7 @@ Here is a an application that will count the number of films that is rated "PG-1
 ``` java
      // Configure and start Speedment
      Speedment app = new SakilaApplicationBuilder()
+        .withBundle(MySqlBundle.class)
         .withPassword("sakila-password")
         .build();
 
