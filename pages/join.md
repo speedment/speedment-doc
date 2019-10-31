@@ -13,8 +13,13 @@ next: crud.html
 
 
 ## The Join Component
+The `JoinComponent` can be used to create type safe JOINs between tables. It allows up to ten (10) tables to be joined in different ways as described in this chapter.
 
-The `JoinComponent` (available in Speedment 3.1.0 and later) can be used to create type safe JOINs between tables. It allows up to ten (10) tables to be joined in different ways as described in this chapter.
+## Installation
+The `JoinComponent` is optional and must be installed before being used:
+
+* If the application is run under the Java Module System (JPMS) it needs to `require com.speedment.runtime.join;` in the `module-info.java` file.
+* Add the component and all necessary classes by invoking `withModule(JoinModule.class)` in the `ApplicationBuilder`.
 
 ## Join Types
 The following join types are supported:
