@@ -15,7 +15,7 @@ next: application_configuration.html
 ## Speedment Requirements 
 Before proceeding with the installation, please make sure that you have the following installed: 
 
-* Apache Maven version 3.3.9 or later 
+* Apache Maven version 3.5.0 or later 
 * Java version 8.0.40 or later (e.g. Java 11)
 
 ## Installation with Maven
