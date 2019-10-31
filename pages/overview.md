@@ -42,10 +42,10 @@ WHERE
 
 No need for manually writing SQL-queries any more. Remain in a pure Java world!
 
-### Expressing SQL as Java 8 Streams
+### Expressing SQL as Java Streams
 When we started the open-source project Speedment, the main objective was to remove the polyglot requirement for Java database application developers. After all, we all love Java and why should we need to know SQL when, instead, we could derive the same semantics directly from Java streams? When one takes a closer look at this objective, it turns out that there is a remarkable resemblance between Java streams and SQL as summarized in this simplified table:
 
-| SQL         | Java 8 Stream Equivalent          |
+| SQL         | Java Stream Equivalent          |
 | :---------- | :-------------------------------- |
 | `FROM`       | `stream()`   |
 | `SELECT`     | `map()`      |
@@ -84,8 +84,9 @@ Speedment allows all these Stream operations to be used. Read more on Stream to 
 ### Supported Java Versions
 Speedment supports Java 8 and upwards. Earlier Java versions are not supported because they do not support Streams. Under Java 9, the new {{site.data.javadoc.StreamTakeWhile}} and {{site.data.javadoc.StreamDropWhile}} Stream operations will be automatically available under Speedment too.
 
-When *OpenJDK 1.8* is used, JavaFX needs to be installed separately (e.g. `sudo apt-get install openjfx`) because JavaFX is used by the UI tool and was not shipped in that particular JDK version.
+Starting at 3.2.0, Speedment supports the Java Module System (JPMS). The use of the Java Module System is optional (and is not available in Java 8).
 
+When *OpenJDK 1.8* is used, JavaFX needs to be installed separately (e.g. `sudo apt-get install openjfx`) because JavaFX is used by the UI tool and was not shipped in that particular JDK version.
 
 
 {% include prev_next.html %}
