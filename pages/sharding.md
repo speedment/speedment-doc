@@ -21,6 +21,9 @@ Sharded Speedment instances come in two different flavors:
 
 `MutableShardedSpeedment` which can use dynamic sharding keys discovered at run-time
 
+Sharding applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.sharding;` in the `module-info.java` file.
+
+
 ### Immutable Sharding
 Immutable sharding means that the set of shard keys will be defined ahead-of-time. Once all shards have been defined, their corresponding data sets can all
 be loaded into memory in a single operation and once loaded, they are instantly available.
