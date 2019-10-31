@@ -694,7 +694,7 @@ public static void main(String... param) {
 
   // You are ready to go!
   
-  app.close();
+  app.stop();
 }
 ```
 

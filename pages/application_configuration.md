@@ -123,7 +123,7 @@ The example below shows a complete Speedment lifecycle from configuration to clo
     long count = films.stream().count();
 
     // This closes the application.
-    app.close();
+    app.stop();
 
 ```
 

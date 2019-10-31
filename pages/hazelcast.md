@@ -570,7 +570,7 @@ The following example shows a method that will invoke a method `IngestUtil::inge
             .forEach(System.out::println);
 
         // Close the app and thereby also the hazelcastInstance
-        app.close();
+        app.stop();
 
     }
 ```
@@ -870,7 +870,7 @@ public class IMapClientExample {
             .forEach(System.out::println);
 
         // Close the hazelcastApp which, in turn, closes the hazelcastClient
-        hazelcastApp.close();
+        hazelcastApp.stop();
 
     }
 
@@ -914,7 +914,7 @@ public class StreamClientExample {
             .forEach(System.out::println);
 
         // Close the hazelcastApp which, in turn, closes the hazelcastClient
-        hazelcastApp.close();
+        hazelcastApp.stop();
 
     }
 
