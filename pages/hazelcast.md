@@ -72,6 +72,8 @@ There are two Hazelcast bundles that need to be installed:
 - `HazelcastToolBundle` that is needed by the UI Tool to generate entity classes and other support classes (generation)
 - `HazelcastBundle` that is needed at runtime by the Hazelcast client application (runtime)
  
+Hazelcast applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.hazelcast.runtime;` in the `module-info.java` file. 
+ 
 ### Installing the HazelcastToolBundle
 In the `pom.xml` file, the `speedment-enterprise-maven-plugin` configuration needs to be updated so that the `HazelcastToolBundle` class is added and the `hazelcast-tool` dependency is added:
  
