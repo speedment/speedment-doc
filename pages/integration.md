@@ -49,6 +49,9 @@ Depending on optional feature usage, additional modules are required:
 | AvroFiles      | com.speedment.enterprise.plugins    | avro-runtime         | com.speedment.enterprise.plugins.avro.runtime  |
 | Spring Plugin  | com.speedment.enterprise.plugins    | spring-runtime       | com.speedment.enterprise.plugins.spring.runtime, spring.boot, spring.web, java.annotation, spring.webmvc, spring.beans, spring.context, spring.core, spring.boot.autoconfigure |
 
+By adding the following line to the `ApplicationBuilder` we can log JPMS module related information 
+`.withLogging(LogType.MODULE_SYSTEM)`
+
 ## Spring Boot
 It is easy to integrate any Speedment project with Spring Boot. Here is an example of a Speedment Configuration file for Spring:
 ``` java
