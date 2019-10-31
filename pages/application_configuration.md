@@ -67,6 +67,8 @@ The class {{site.data.javadoc.ApplicationBuilder.LogType}} contains a number of 
 | `UPDATE`             | Updating existing entities from the database.                                             |
 | `TRANSACTION`        | Handling of transactions.                                                                 |
 | `JOIN`               | Creating and performing table joins.                                                      |
+| `SQL_RETRY`          | Retrying SQL commands                                                                     |
+| `MODULE_SYSTEM`      | The Java Module System (JPMS)                                                             |
 
 These are the standard logging alternatives.
 
@@ -82,6 +84,7 @@ Custom components can have other log names.
 Logging of the application platform, stream and stream optimization can be achieved as following: 
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
+        .withBundle(MySqlBundle.class)
         .withPassword("Jz237@h1J19!")
         .withLogging(LogType.APPLICATION_BUILDER)
         .withLogging(LogType.STREAM)
@@ -133,12 +136,15 @@ The example below shows a complete Speedment lifecycle from configuration to clo
 ### Default Configuration
 The following example shows the most simple solution where the default configurations are used and no password is set for the database (needless to say, you should always protect your database with a password).
 ``` java
-    SakilaApplication app = new SakilaApplicationBuilder().build();
+    SakilaApplication app = new SakilaApplicationBuilder()
+        .withBundle(MySqlBundle.class)
+        .build();
 ```
 ### Setting the Database Password
 The following example shows the most typical solution where the default configurations are used and a database password is provided.
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
+        .withBundle(MySqlBundle.class)
         .withPassword("Jz237@h1J19!")
         .build();
 ```
@@ -147,6 +153,7 @@ The following example shows the most typical solution where the default configur
 The following example demonstrates the use of two database passwords for two different databases.
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
+        .withBundle(MySqlBundle.class)
         // Set the password for the database that holds Film etc.
         .withPassword(Film.FILM_ID.identifier(), "Jz237@h1J19!")
         // Set the password for the database that holds Book etc.
