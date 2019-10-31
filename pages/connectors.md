@@ -12,6 +12,13 @@ next: author.html
 {% include prev_next.html %}
 
 ## Open Source Connectors
+Support for open-source database types can easily be obtained by adding an appropriate connector. Adding a connector is straight forward:
+
+* Add a connector dependency in your pom file
+* If run under the Java Module System (JPMS), add `require com.speedment.runtime.connector.xxxx;` to the applications `module-info.java` file.
+* Mention the connector's `Bundle` in your `ApplicationBuilder` using `.withBundle()`
+
+The Speedment plugin automatically installs all open-source bundles.
 
 ## MySQL
 Speedment supports MySQL out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your MySQL project.
@@ -28,7 +35,8 @@ These values can be set to custom values using the application builder as depict
      ApplicationBuilder app = new SakilaApplicationBuilder()
         .withPassword("sakila-password")
         .withParam("db.mysql.collationName", "utf8mb4_general_ci")
-        .withParam("db.mysql.binaryCollationName", "utf8mb4_bin");
+        .withParam("db.mysql.binaryCollationName", "utf8mb4_bin")
+        .withBundle(MySqlBundle.class)
         .build();
 ```
 The selected collations will be used for all MySQL tables.
@@ -39,6 +47,12 @@ Speedment officially supports the following MySQL JDBC version(s):
 | :------- | :-------- | :------------------- | :------ |
 | MySQL    | mysql     | mysql-connector-java | 8.0.18  |
 
+### Java Module System (JPMS)
+MySQL applications running under the Java Module System (JPMS) needs to `require com.speedment.runtime.connector.mysql;`
+
+### Bundle Installation
+Add the following line to you `ApplicationBuilder` to install the connector specific classes `.withBundle(MySqlBundle.class)`
+
 ## PostgreSQL
 Speedment supports PostgreSQL out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your PostgreSQL project.
 
@@ -48,6 +62,11 @@ Speedment officially supports the following PostgreSQL JDBC version(s):
 | :------- | :------------- | :------------------- | :------ |
 | PosgreSQL| org.postgresql | postgresql           | 42.2.8  |
 
+### Java Module System (JPMS)
+PostgreSQL applications running under the Java Module System (JPMS) needs to `require com.speedment.runtime.connector.postgres;`
+
+### Bundle Installation
+Add the following line to you `ApplicationBuilder` to install the connector specific classes `.withBundle(PostgresBundle.class)`
 
 ## MariaDB
 Speedment supports MariaDB out-of-the-box. Please refer to the Speedment [Initializer](https://www.speedment.com/initializer/) to setup your MariaDB project.
@@ -64,7 +83,8 @@ These values can be set to custom values using the application builder as depict
      ApplicationBuilder app = new SakilaApplicationBuilder()
         .withPassword("sakila-password")
         .withParam("db.mysql.collationName", "utf8mb4_general_ci")
-        .withParam("db.mysql.binaryCollationName", "utf8mb4_bin");
+        .withParam("db.mysql.binaryCollationName", "utf8mb4_bin")
+        .withBundle(MySqlBundle.class)
         .build();
 ```
 The selected collations will be used for all MariaDB tables.
@@ -82,6 +102,12 @@ Speedment officially supports the following MariaDB JDBC version(s):
 {% include important.html content= "
 Pre 2.0.1 MariaDB JDBC drivers contain significant bugs. Users are highly encouraged to upgrade to 2.x.x drivers.
 " %}
+
+### Java Module System (JPMS)
+MariaDB applications running under the Java Module System (JPMS) needs to `require com.speedment.runtime.connector.mariadb;`
+
+### Bundle Installation
+Add the following line to you `ApplicationBuilder` to install the connector specific classes `.withBundle(MariaDbBundle.class)`
 
 ## SQLite
 Starting from Speedment version 3.1.10, SQLite is supported. SQLite is a lightweight database that can either be backed by a single file or run in-memory. Speedment supports both these, but the in-memory option is only usable once the `speedment.json`-file has been generated.
@@ -114,7 +140,7 @@ To fix this, you need to do one of the following:
 * Wrap your streams [in transactions](crud.html#transactions) using the `TransactionComponent`
 * Use the `SingletonConnectionPoolComponent` as [described here](advanced_features.html#connection-pooling)
 
-The two steps above can also be used togather.
+The two steps above can also be used together.
 
 ### Auto-Incrementing Columns
 A table in SQLite always has a column named `rowid` that is used as the primary key. If a column in the table definition is set as `INTEGER PRIMARY KEY`, that column will be considered an alias for the `rowid`. This can be a bit confusing, and requires Speedment to make some decisions on how to interpret the database metadata. Speedment will create the `rowid` column and show it in entities only as long as there is no `INTEGER PRIMARY KEY` column present in the metadata. If a different primary key have been specified (for an example a `CHAR PRIMARY KEY`), that one will instead be considered a regular column with a `UNIQUE INDEX`.
@@ -122,14 +148,21 @@ A table in SQLite always has a column named `rowid` that is used as the primary 
 There are two types of auto-increments in SQLite. A column specified as `AUTOINCREMENT` will work slightly different than the increment that is always present in the `rowid` column. For the intents and purposes in Speedment, these are equivalent and both are therefore considered auto-incrementing columns by Speedment.
 
 ### Default values
-If the table defintion has columns with default values specified, these has to be excluded when persisting and updating entities using Speedment. This can be done by defining a `FieldSet` object as explained [here](crud.html#selecting-fields-to-update).
+If the table definition has columns with default values specified, these has to be excluded when persisting and updating entities using Speedment. This can be done by defining a `FieldSet` object as explained [here](crud.html#selecting-fields-to-update).
+
+### Java Module System (JPMS)
+SQLite applications running under the Java Module System (JPMS) needs to `require com.speedment.runtime.connector.sqlite;`
+
+### Bundle Installation
+Add the following line to you `ApplicationBuilder` to install the connector specific classes `.withBundle(SqliteBundle.class)`
 
 ## Enterprise Connectors
 Support for enterprise database types can easily be obtained by adding an appropriate connector. Adding a connector is straight forward:
 
 * Add a connector dependency in your pom file
-* Mention the connector's `Bundle` in the Speedment Enterprise plugin
-* Mention the connector's `Bundle` in your `ApplicationBuilder `
+* Mention the connector's `Bundle` in the Speedment Enterprise plugin (in the `pom.xml` file)
+* If run under the Java Module System (JPMS), add `require com.speedment.enterprise.connectors.oracle.xxxx;` to the applications `module-info.java` file.
+* Mention the connector's `Bundle` in your `ApplicationBuilder` using `.withBundle()`
 
 {% include important.html content= "
 In order to use the connectors in this chapter, you need a commercial Speedment license or a trial license key. Download a free trial license using the Speedment [Initializer](https://www.speedment.com/initializer/).
@@ -137,7 +170,6 @@ In order to use the connectors in this chapter, you need a commercial Speedment 
 
 ## Oracle
 This chapter shows how to add support for Oracle in Speedment. 
-
 
 ### Privileges
 In order for the Speedment tool to read the schema metadata you need the following privileges:
@@ -207,6 +239,9 @@ You also have to depend on the Oracle connector and JDBC connector as a Runtime 
         </dependency>
     </dependencies>
 ```
+
+### Java Module System (JPMS)
+Oracle applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.connectors.oracle;`
 
 ### Oracle Application
 When you build the application, the `OracleBundle` needs to be added to the runtime like this:
@@ -301,7 +336,8 @@ You also have to depend on the Sql Server connector and JDBC connector as a runt
     </dependencies>
 ```
 
-
+### Java Module System (JPMS)
+Sql Server applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.connectors.sqlserver;`
 
 ### SQL Server Application
 When you build the application, the `SqlServerBundle` needs to be added to the runtime like this:
@@ -376,7 +412,8 @@ You also have to depend on the DB2 connector and JDBC connector as a runtime dep
     </dependencies>
 ```
 
-
+### Java Module System (JPMS)
+DB2 applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.connectors.tbtwo;`
 
 ### DB2 Application
 When you build the application, the `Db2Bundle` needs to be added to the runtime like this:
@@ -443,6 +480,8 @@ You also have to depend on the AS400 connector and JDBC connector as a runtime d
     </dependencies>
 ```
 
+### Java Module System (JPMS)
+AS400 applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.connectors.tbtwo;`
 
 ### AS400 Application
 When you build the application, the `Db2Bundle` needs to be added to the runtime like this:
