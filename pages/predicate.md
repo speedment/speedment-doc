@@ -173,7 +173,7 @@ The following additional methods are available to a {{site.data.javadoc.Referenc
 {% include tip.html content = "
 Fields that are `null` will never fulfill any of the predicates in the list above. Thus, neither `equals` nor `notEquals` will return `true` for null values.
 " %}
-{% include tip.html content = "
+{% include note.html content = "
 The reason `equal` is not named `equals` is that the latter name is already used as a method name by the `Object` class (that every other class inherits from). The latter method has a different meaning than function than `equal` so a new name had to be used.
 " %}
 
@@ -251,34 +251,6 @@ FROM
     `sakila`.`film` 
 WHERE 
     (NOT (`sakila`.`film`.`rating`  = ? COLLATE utf8_bin)), values:[PG-13]
-```
-
-### lessThan
-The following example prints all films that has a length that is less than 120:
-``` java
-    films.stream()
-        .filter(Film.LENGTH.lessThan(120))
-        .forEachOrdered(System.out::println);
-```
-The code will produce the following output:
-``` text
-FilmImpl { filmId = 1, title = ACADEMY DINOSAUR, ..., length = 86, ...
-FilmImpl { filmId = 2, title = ACE GOLDFINGER, ..., length = 48, ...
-FilmImpl { filmId = 3, title = ADAPTATION HOLES, ..., length = 50, ...
-FilmImpl { filmId = 4, title = AFFAIR PREJUDICE, ..., length = 117, ...
-FilmImpl { filmId = 7, title = AIRPLANE SIERRA, ..., length = 62, ...
-...
-```
-and will be rendered to the following SQL query (for MySQL):
-``` sql
-SELECT 
-    `film_id`,`title`,`description`,`release_year`,
-    `language_id`,`original_language_id`,`rental_duration`,`rental_rate`,
-    `length`,`replacement_cost`,`rating`,`special_features`,`last_update`
-FROM 
-    `sakila`.`film` 
-WHERE 
-    (`sakila`.`film`.`length` < ?), values:[120]
 ```
 
 ### lessThan

@@ -358,6 +358,9 @@ The predicates used in the `where()` clause cannot be anonymous lambdas because 
 
 The current API does not support general join conditions with several join expressions. This limitation can be overcomed if the Enterprise Version is used under some conditions. See [stream joins](#stream-joins) below.
 
+{% include tip.html content= "
+A way of circumventing many of these limitations (for example, joins with several join expressions) is to create a database view and then use Speedment to query that view. Streaming over views works in the same way as streaming over regular tables in Speedment.
+" %}
 
 ## Enterprise Join Features {% include star.html %}
 
