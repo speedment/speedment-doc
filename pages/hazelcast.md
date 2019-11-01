@@ -770,7 +770,7 @@ In order to initialize a `FilmMapStore` we need a `Manager<Film>` that can be re
         System.out.println("map.size() = " + map.size());
         
         instance.shutdown();
-        speedment.close();
+        speedment.stop();
         
     }
 ```
@@ -871,7 +871,7 @@ public class IMapClientExample {
         collection
             .forEach(System.out::println);
 
-        // Close the hazelcastApp which, in turn, closes the hazelcastClient
+        // Close the hazelcastApp which, in turn, stops the hazelcastClient
         hazelcastApp.stop();
 
     }
@@ -915,7 +915,7 @@ public class StreamClientExample {
             .filter(Film.LENGTH.greaterOrEqual(180))
             .forEach(System.out::println);
 
-        // Close the hazelcastApp which, in turn, closes the hazelcastClient
+        // Close the hazelcastApp which, in turn, stops the hazelcastClient
         hazelcastApp.stop();
 
     }

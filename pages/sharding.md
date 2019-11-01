@@ -67,8 +67,8 @@ shardedSpeedemnt
     .stream()
     .forEachOrdered(System.out::println);
 
-// Closes all the shards
-shardedSpeedemnt.close();
+// Stops all the shards
+shardedSpeedemnt.stop();
 
 ```
 
@@ -154,8 +154,8 @@ aCountryManager.stream().forEach(System.out::println);
 // Prints all countries in an "B" shard
 bCountryManager.stream().forEach(System.out::println);
 
-// Closes all the shards
-shardedSpeedemnt.close();
+// Stops all the shards
+shardedSpeedemnt.stop();
 
 ```
 
@@ -196,8 +196,8 @@ shardedSpeedemnt
     .stream()
     .forEachOrdered(System.out::println);
 
-// Closes all the shards
-shardedSpeedemnt.close();
+// Stops all the shards
+shardedSpeedemnt.stop();
 
 ```
 

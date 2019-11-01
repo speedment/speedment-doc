@@ -104,7 +104,7 @@ A `SpeedmentApplication` is built using a `SpeedmentApplicationBuilder`. During 
 | INITIALIZED       | `build()`    | The Injectable has been initialized
 | RESOLVED          | `build()`    | The Injectable has been initialized and resolved
 | STARTED           | `build()`    | The Injectable has been initialized, resolved and started.
-| CLOSED            | `close()`    | The Injectable has been initialized, resolved, started and closed
+| STOPPED           | `stop()`     | The Injectable has been initialized, resolved, started and stopped
 
 So, upon `build()` each and every component will traverse the sequence CREATED -> INITIALIZED -> RESOLVED -> STARTED
 
@@ -112,9 +112,9 @@ So, upon `build()` each and every component will traverse the sequence CREATED -
 A `SpeedmentApplication` is automatically started by the `SpeedmentApplicationBuilder::build` method.
 
 ### Closing an Application
-Once the application has completed, is it advised to call the `SpeedmentApplication::close` method so that the application can release any resources it is holding and clean up external resources if any. 
+Once the application has completed, is it advised to call the `SpeedmentApplication::stop` method so that the application can release any resources it is holding and clean up external resources if any. 
 
-The example below shows a complete Speedment lifecycle from configuration to close.
+The example below shows a complete Speedment lifecycle from configuration to stop.
 ``` java
     // This builds and starts the application
     SakilaApplication app = new SakilaApplicationBuilder()
@@ -125,7 +125,7 @@ The example below shows a complete Speedment lifecycle from configuration to clo
 
     long count = films.stream().count();
 
-    // This closes the application.
+    // This stops the application.
     app.stop();
 
 ```
