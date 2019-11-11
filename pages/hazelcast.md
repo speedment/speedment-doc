@@ -72,6 +72,8 @@ There are two Hazelcast bundles that need to be installed:
 - `HazelcastToolBundle` that is needed by the UI Tool to generate entity classes and other support classes (generation)
 - `HazelcastBundle` that is needed at runtime by the Hazelcast client application (runtime)
  
+Hazelcast applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.hazelcast.runtime;` in the `module-info.java` file. 
+ 
 ### Installing the HazelcastToolBundle
 In the `pom.xml` file, the `speedment-enterprise-maven-plugin` configuration needs to be updated so that the `HazelcastToolBundle` class is added and the `hazelcast-tool` dependency is added:
  
@@ -570,7 +572,7 @@ The following example shows a method that will invoke a method `IngestUtil::inge
             .forEach(System.out::println);
 
         // Close the app and thereby also the hazelcastInstance
-        app.close();
+        app.stop();
 
     }
 ```
@@ -768,7 +770,7 @@ In order to initialize a `FilmMapStore` we need a `Manager<Film>` that can be re
         System.out.println("map.size() = " + map.size());
         
         instance.shutdown();
-        speedment.close();
+        speedment.stop();
         
     }
 ```
@@ -869,8 +871,8 @@ public class IMapClientExample {
         collection
             .forEach(System.out::println);
 
-        // Close the hazelcastApp which, in turn, closes the hazelcastClient
-        hazelcastApp.close();
+        // Close the hazelcastApp which, in turn, stops the hazelcastClient
+        hazelcastApp.stop();
 
     }
 
@@ -913,8 +915,8 @@ public class StreamClientExample {
             .filter(Film.LENGTH.greaterOrEqual(180))
             .forEach(System.out::println);
 
-        // Close the hazelcastApp which, in turn, closes the hazelcastClient
-        hazelcastApp.close();
+        // Close the hazelcastApp which, in turn, stops the hazelcastClient
+        hazelcastApp.stop();
 
     }
 

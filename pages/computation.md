@@ -63,8 +63,8 @@ public class SimpleTwoStepExample {
         // Print out the first 4 Films, Data was read from the first step
         filmsStep1.stream().limit(4).forEach(System.out::println);
 
-        step0.close();
-        step1.close();
+        step0.stop();
+        step1.stop();
     }
 
     private static class StepStreamSupplierComponent implements SqlStreamSupplierComponent {

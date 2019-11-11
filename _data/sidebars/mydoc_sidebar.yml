@@ -415,10 +415,15 @@ entries:
     output: web, pdf
     folderitems:      
 
+    - title: Java Platform Module System
+      url: integration.html#java-platform-module-system
+      output: web, pdf
+      type: homepage
+
     - title: Spring Boot
       url: integration.html#spring-boot
       output: web, pdf
-      type: homepage  
+      type: homepage
 
     - title: Java EE
       url: integration.html#java-ee
@@ -436,7 +441,7 @@ entries:
       type: homepage
       
     - title: Enum
-      url: integration.html#json
+      url: integration.html#enum
       output: web, pdf
       type: homepage 
 

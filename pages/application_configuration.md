@@ -67,6 +67,8 @@ The class {{site.data.javadoc.ApplicationBuilder.LogType}} contains a number of 
 | `UPDATE`             | Updating existing entities from the database.                                             |
 | `TRANSACTION`        | Handling of transactions.                                                                 |
 | `JOIN`               | Creating and performing table joins.                                                      |
+| `SQL_RETRY`          | Retrying SQL commands                                                                     |
+| `MODULE_SYSTEM`      | The Java Module System (JPMS)                                                             |
 
 These are the standard logging alternatives.
 
@@ -82,6 +84,7 @@ Custom components can have other log names.
 Logging of the application platform, stream and stream optimization can be achieved as following: 
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
+        .withBundle(MySqlBundle.class)
         .withPassword("Jz237@h1J19!")
         .withLogging(LogType.APPLICATION_BUILDER)
         .withLogging(LogType.STREAM)
@@ -101,7 +104,7 @@ A `SpeedmentApplication` is built using a `SpeedmentApplicationBuilder`. During 
 | INITIALIZED       | `build()`    | The Injectable has been initialized
 | RESOLVED          | `build()`    | The Injectable has been initialized and resolved
 | STARTED           | `build()`    | The Injectable has been initialized, resolved and started.
-| CLOSED            | `close()`    | The Injectable has been initialized, resolved, started and closed
+| STOPPED           | `stop()`     | The Injectable has been initialized, resolved, started and stopped
 
 So, upon `build()` each and every component will traverse the sequence CREATED -> INITIALIZED -> RESOLVED -> STARTED
 
@@ -109,9 +112,9 @@ So, upon `build()` each and every component will traverse the sequence CREATED -
 A `SpeedmentApplication` is automatically started by the `SpeedmentApplicationBuilder::build` method.
 
 ### Closing an Application
-Once the application has completed, is it advised to call the `SpeedmentApplication::close` method so that the application can release any resources it is holding and clean up external resources if any. 
+Once the application has completed, is it advised to call the `SpeedmentApplication::stop` method so that the application can release any resources it is holding and clean up external resources if any. 
 
-The example below shows a complete Speedment lifecycle from configuration to close.
+The example below shows a complete Speedment lifecycle from configuration to stop.
 ``` java
     // This builds and starts the application
     SakilaApplication app = new SakilaApplicationBuilder()
@@ -122,8 +125,8 @@ The example below shows a complete Speedment lifecycle from configuration to clo
 
     long count = films.stream().count();
 
-    // This closes the application.
-    app.close();
+    // This stops the application.
+    app.stop();
 
 ```
 
@@ -133,12 +136,15 @@ The example below shows a complete Speedment lifecycle from configuration to clo
 ### Default Configuration
 The following example shows the most simple solution where the default configurations are used and no password is set for the database (needless to say, you should always protect your database with a password).
 ``` java
-    SakilaApplication app = new SakilaApplicationBuilder().build();
+    SakilaApplication app = new SakilaApplicationBuilder()
+        .withBundle(MySqlBundle.class)
+        .build();
 ```
 ### Setting the Database Password
 The following example shows the most typical solution where the default configurations are used and a database password is provided.
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
+        .withBundle(MySqlBundle.class)
         .withPassword("Jz237@h1J19!")
         .build();
 ```
@@ -147,6 +153,7 @@ The following example shows the most typical solution where the default configur
 The following example demonstrates the use of two database passwords for two different databases.
 ``` java
     SakilaApplication app = new SakilaApplicationBuilder()
+        .withBundle(MySqlBundle.class)
         // Set the password for the database that holds Film etc.
         .withPassword(Film.FILM_ID.identifier(), "Jz237@h1J19!")
         // Set the password for the database that holds Book etc.

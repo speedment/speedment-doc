@@ -14,6 +14,44 @@ next: advanced_features.html
 ## Integration
 Speedment is a completely self-contained runtime with no external transitive dependencies. This is important because it allows you to avoid potential version conflicts with other libraries and the ever lurking “Jar Hell”. Furthermore, there is a “deploy” variant available where all Speedment runtime modules have been packed together into a single compound JAR.
 
+## Java Platform Module System
+As of version 3.2.0, Speedment is internally modularized and fully supports the Java Platform Module System (JSR 376, JPMS). In order to run the application under JPMS, a `module-info.java` file has to be added in the project. The recommended place for this file is under the directory `src/java`. This is how a standard `module-info.java` file for use with a MySQL database should look like:
+```java
+module mymodule {
+    requires com.speedment.runtime.application;
+    requires com.speedment.runtime.connector.mysql;
+}
+```
+The module `com.speedment.runtime.application` will transitively pull in other modules that are required to run speedment. This is how the module graph looks like for the example above:
+{% include image.html file="module-dependencies.png" alt="Module Dependencies" caption="Module Dependencies as per jdeps" %}
+
+Depending on database type usage, additional modules are required:
+
+| Feature        | GroupId                             | ArtifactId           | Required module(s)                             |
+| :------------- | :---------------------------------- | :------------------- | :--------------------------------------------- |
+| MySQL          | com.speedment.runtime               | connector-mysql      | com.speedment.runtime.connector.mysql          |
+| MariaDB        | com.speedment.runtime               | connector-mariadb    | com.speedment.runtime.connector.mariadb        |
+| PostgreSQL     | com.speedment.runtime               | connector-postgres   | com.speedment.runtime.connector.postgres       |
+| SQLite         | com.speedment.runtime               | connector-sqlite     | com.speedment.runtime.connector.sqlite         |
+| DB2/AS400      | com.speedment.enterprise.connectors | db2-connector        | com.speedment.enterprise.connectors.dbtwo      |
+| Oracle         | com.speedment.enterprise.connectors | oracle-connector     | com.speedment.enterprise.connectors.oracle     |
+| SQL Server     | com.speedment.enterprise.connectors | sqlserver-connector  | com.speedment.enterprise.connectors.sqlserver  |
+  
+Depending on optional feature usage, additional modules are required:  
+
+| Feature        | GroupId                             | ArtifactId           | Required module(s)                             |
+| :------------- | :---------------------------------- | :------------------- | :--------------------------------------------- |
+| HyperStream    | com.speedment.enterprise            | datastore-runtime    | com.speedment.enterprise.datastore.runtime     |
+| Sharding       | com.speedment.enterprise            | sharding             | com.speedment.enterprise.sharding              |
+| VirtualColumn  | com.speedment.enterprise            | virtualcolumn-runtime| com.speedment.enterprise.virtualcolumn.runtime |
+| Enum Plugin    | com.speedment.enterprise.plugins    | enum-serializer      | com.speedment.enterprise.plugins.enums         |
+| JSON Plugin    | com.speedment.enterprise.plugins    | json-stream          | com.speedment.enterprise.plugins.json          |
+| AvroFiles      | com.speedment.enterprise.plugins    | avro-runtime         | com.speedment.enterprise.plugins.avro.runtime  |
+| Spring Plugin  | com.speedment.enterprise.plugins    | spring-runtime       | com.speedment.enterprise.plugins.spring.runtime, spring.boot, spring.web, java.annotation, spring.webmvc, spring.beans, spring.context, spring.core, spring.boot.autoconfigure |
+
+By adding the following line to the `ApplicationBuilder` we can log JPMS module related information 
+`.withLogging(LogType.MODULE_SYSTEM)`
+
 ## Spring Boot
 It is easy to integrate any Speedment project with Spring Boot. Here is an example of a Speedment Configuration file for Spring:
 ``` java

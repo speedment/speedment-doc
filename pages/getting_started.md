@@ -15,8 +15,8 @@ next: application_configuration.html
 ## Speedment Requirements 
 Before proceeding with the installation, please make sure that you have the following installed: 
 
-* Apache Maven version 3.3.9 or later 
-* Java version 8.0.40 or later 
+* Apache Maven version 3.5.0 or later 
+* Java version 8.0.40 or later (e.g. Java 11)
 
 ## Installation with Maven
 Speedment is installed using [Apache Maven](https://maven.apache.org/) by including the Speedment dependencies in your pom.xml-file. You need to setup both the `speedment-maven-plugin` (for code generation) and the `speedment-runtime` (used by the application at runtime).
@@ -77,6 +77,7 @@ Here is a an application that will count the number of films that is rated "PG-1
 ``` java
      // Configure and start Speedment
      Speedment app = new SakilaApplicationBuilder()
+        .withBundle(MySqlBundle.class)
         .withPassword("sakila-password")
         .build();
 
