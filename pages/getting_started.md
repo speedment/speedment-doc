@@ -197,7 +197,7 @@ Here is an example of a pom.xml file setup for [Speedment Enterprise](datastore#
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <speedment.enterprise.version>3.1.18</speedment.enterprise.version>
+    <speedment.enterprise.version>3.2.0</speedment.enterprise.version>
   </properties>
   
   <dependencies>
@@ -224,8 +224,8 @@ Here is an example of a pom.xml file setup for [Speedment Enterprise](datastore#
     </dependency>
     <dependency>
       <groupId>com.oracle</groupId>
-      <artifactId>ojdbc7</artifactId>
-      <version>12.1.0.1.0</version>
+      <artifactId>ojdbc8</artifactId>
+      <version>19.3.0.0</version>
       <scope>runtime</scope>
     </dependency>
   </dependencies>
@@ -255,8 +255,8 @@ Here is an example of a pom.xml file setup for [Speedment Enterprise](datastore#
         <dependencies>
           <dependency>
             <groupId>com.oracle</groupId>
-            <artifactId>ojdbc7</artifactId>
-            <version>12.1.0.1.0</version>
+            <artifactId>ojdbc8</artifactId>
+            <version>19.3.0.0</version>
             <scope>runtime</scope>
           </dependency>
         </dependencies>
