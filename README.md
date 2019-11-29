@@ -11,7 +11,7 @@ Speedment does currently not provide the documentation in PDF-format. Although, 
 The plugin enables Markdown-documents hosted on Github to be rendered as PDF by replacing "github" in the file-path to the md-file with "gitprint". All chapter source files can be found [here](https://github.com/speedment/speedment-doc/blob/master/pages/).
 
 For example: 
-"https://gitprint.com/speedment/speedment-doc/blob/master/pages/advanced_features.md" will yield a PDF-version of the chapter on Advanced Features. Although, do note that the PDF-rendering has some flaws. 
+"https://gitprint.com/speedment/speedment-doc/blob/master/pages/advanced_features.md" will yield a PDF-version of the chapter on Advanced Features. 
 
 ### Copyright 
 All righs reserved by Speedment, Inc., Palo Alto, California, United States
