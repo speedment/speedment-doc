@@ -13,7 +13,7 @@ next: speedment_examples.html
 
 
 ## CRUD Operations
-The term CRUD is a short for Create, Read, Update and Delete. Speedment supports all these operations via table {{site.data.javadoc.Manager}} objects according to the following table:
+The term CRUD is a short for Create, Read, Update and Delete. Speedment supports all these operations via table {{site.data.javadoc.Manager}} objects and more according to the following table:
 
 | Operation      | Direct Method          | Functional Reference       | Effect
 | :------------- | :--------------------  | :------------------------- | :----------------------------------------------------------------------------------- |
@@ -21,6 +21,7 @@ The term CRUD is a short for Create, Read, Update and Delete. Speedment supports
 | Read           | `stream()`             |                            | Returns a Stream over all the rows in the database table                             |
 | Update         | `update(entity)`       | `updater()`                | Updates an existing row in the database from the given entity based on primary key(s)|
 | Delete         | `remove(entity)`       | `remover()`                | Removes the row in the database that has the same primary key(s) as the given entity |
+| Merge          | `merge(entity)`        | `merger()`                 | If the row does not exists; Creates the row, otherwise Updates the row in the database that has the same primary key(s) as the given entity |
 
 As you will see, the functional references are often useful when composing streams that will update the underlying database.
 
@@ -230,6 +231,36 @@ Don't do This: `.forEach(languages::remove)`
 
 {% include tip.html content= "
 Enable logging of the `remove()` and `remover()` operations using the `ApplicationBuilder` method `.withLogging(LogType.REMOVE)`. Read more about logging [here](application_configuration.html#logging)
+" %}
+
+## Merge with Merge
+Merge is available from version 3.2.2 and onwards.
+The `merge()` and `merger()` methods really rely on a combination of `persist()` and `update()`. If the provided entity does not exist in the underlying database, it is created. If the provided entity does exist, it is updated in the underlying database.
+
+If the merging fails for any reason, an unchecked `SpeedmentException` is thrown. Entities are uniquely identified by their primary key and merge does only support entities with exactly one primary key.
+
+Here is an example of how to merge an existing language in the Sakila database using the `merge()` method:
+``` java
+    Language italiano = languages.create()
+        .setName("Italiano")
+        ... // other setters not shown
+
+    languages.merge(italiano);
+```
+
+If there are several entities to merge, it is often better to use the method `MergeUtil::merge` because of its ability to handle existence check for several entities in a single sweep. 
+``` java
+    Set<Languages> languagesToMerge = ...;
+    
+    Set<Languages> resultingDbLanguages = MergeUtil.merge(languages, languagesToMerge);
+```
+This will merge all the entities in the `languageToMerge` Set in a single operation. The returned
+set `resultingDbLanguages` will contain the entities as they look in the database after the merge operation.
+
+{% include important.html content= "
+If there are several entities to merge:
+Do This: `MergeUtil.merge(manager, entitiesToMerge)` 
+Don't do This: `entitiesToMerge.forEach(languages.merger())`
 " %}
 
 ## Transactions
