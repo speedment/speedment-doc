@@ -537,7 +537,7 @@ curl -G localhost:8080/sakila/film --data-urlencode \
    &limit50'
 ```
 
-## CUD Operations
+### CUD Operations
 
 To generate REST routes that enable Create, Update and Delete operations on a table, the "REST Enable Create/Update/Delete" options must be enabled as shown in the picture above.
 
