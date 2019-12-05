@@ -550,7 +550,7 @@ CUD operations are supported for entities with exactly one Primary Key column.
 Entity creation via the REST API is done by executing a POST request to the base REST route of the table you are creating the entity in. For example, to create a new "film" entity we would execute the following request:
 
 ```
-curl -d '{“id”: 1,“name”: “Jane”,“age”: 25}' -H "Content-Type: application/json" -X POST localhost:8080/db/person
+curl -d '{“filmId”: 1000,“title”: “Interstellar”,"languageId": 1,"rentalDuration": 100,"rentalRate": 100,"replacementCost": 15}' -H "Content-Type: application/json" -X POST localhost:8080/sakila/film
 ```
 
 The POST body of the request, by default, consists of all columns of the table that is being used to create an entity. Additionally, all included fields are required by default. See ['Customizing Request Bodies'](#customizing-request-bodies) for information on request body options.
@@ -560,7 +560,7 @@ The POST body of the request, by default, consists of all columns of the table t
 Entity updating via the REST API is done by executing a PATCH request to the base REST route of the table you are updating the entity in. This route must be suffixed by the Primary Key column value of the entity that is being updated. For example, to update a "film" entity we would execute the following request:
 
 ```
-curl -d '{“name”: “Jane”,“age”: 25}' -H "Content-Type: application/json" -X PATCH localhost:8080/db/person/1
+curl -d '{“title”: Some other great movie}' -H "Content-Type: application/json" -X PATCH localhost:8080/sakila/film/1000
 ```
 
 The PATCH body of the request, by default, consists of all columns, except the Primary Key column, of the table that is being used to create an entity. Additionally, all included fields are required by default. See ['Customizing Request Bodies'](#customizing-request-bodies) for information on request body options.
@@ -570,7 +570,7 @@ The PATCH body of the request, by default, consists of all columns, except the P
 Entity deletion via the REST API is done by executing a DELETE request to the base REST route of the table you are deleting the entity from. This route must be suffixed by the Primary Key column value of the entity that is being deleted. For example, to delete a "film" entity we would execute the following request:
 
 ```
-curl -X DELETE localhost:8080/db/person/1
+curl -X DELETE localhost:8080/sakila/film/1000
 ```
 
 #### Customizing Request Bodies
