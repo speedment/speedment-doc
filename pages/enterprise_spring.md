@@ -524,9 +524,6 @@ This also begins at the 26th element, but only returns 5 elements instead of 25 
 ]
 ```
 
-
-{% include prev_next.html %}
-
 #### Combinations
 Filters, sorters and paging can be combined to create a compound REST backend operation.
 
@@ -539,6 +536,56 @@ curl -G localhost:8080/sakila/film --data-urlencode \
    &start=150 \
    &limit50'
 ```
+
+### CUD Operations
+
+To generate REST routes that enable Create, Update and Delete operations on a table, the "REST Enable Create/Update/Delete" options must be enabled as shown in the picture above.
+
+{% include note.html content = "
+CUD operations are supported for entities with exactly one Primary Key column.
+" %}
+
+### Creating entities
+
+Entity creation via the REST API is done by executing a POST request to the base REST route of the table you are creating the entity in. For example, to create a new "film" entity we would execute the following request:
+
+```
+curl -d '{“id”: 1,“name”: “Jane”,“age”: 25}' -H "Content-Type: application/json" -X POST localhost:8080/db/person
+```
+
+The POST body of the request, by default, consists of all columns of the table that is being used to create an entity. Additionally, all included fields are required by default. See ['Customizing Request Bodies'](#customizing-request-bodies) for information on request body options.
+
+### Updating entities
+
+Entity updating via the REST API is done by executing a PATCH request to the base REST route of the table you are updating the entity in. This route must be suffixed by the Primary Key column value of the entity that is being updated. For example, to update a "film" entity we would execute the following request:
+
+```
+curl -d '{“name”: “Jane”,“age”: 25}' -H "Content-Type: application/json" -X PATCH localhost:8080/db/person/1
+```
+
+The PATCH body of the request, by default, consists of all columns, except the Primary Key column, of the table that is being used to create an entity. Additionally, all included fields are required by default. See ['Customizing Request Bodies'](#customizing-request-bodies) for information on request body options.
+
+### Deleting entities
+
+Entity deletion via the REST API is done by executing a DELETE request to the base REST route of the table you are deleting the entity from. This route must be suffixed by the Primary Key column value of the entity that is being deleted. For example, to delete a "film" entity we would execute the following request:
+
+```
+curl -X DELETE localhost:8080/db/person/1
+```
+
+#### Customizing Request Bodies
+
+When creating and updating entities, a JSON request body with specific key value pairs as value is required to be present. By default, the request bodies must include all columns (except the Primary Key column if updating) of the table we are try to act upon.
+
+These requirements can be customized by enabling/disabling specific options in the tool, as shown in the picture below:
+
+{% include image.html file="spring-plugin-column-props.png" alt="Spring Plugin Column Properties" caption="Tool: Spring Table Properties" %}
+
+The "Include in Create Body" and "Include in Update Body" options tell the Spring plugin whether or not to expect that specific column in the request body.
+
+In order to ensure that a specific column must be present in the request body, the option "Required in Create Body" or "Create in Update Body" must be enabled.
+
+{% include prev_next.html %}
 
 ## Questions and Discussion
 If you have any question, don't hesitate to reach out to the Speedment developers on [Gitter](https://gitter.im/speedment/speedment).
