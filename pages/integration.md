@@ -52,6 +52,40 @@ Depending on optional feature usage, additional modules are required:
 By adding the following line to the `ApplicationBuilder` we can log JPMS module related information 
 `.withLogging(LogType.MODULE_SYSTEM)`
 
+## Gradle
+Even though there is no official Gradle plugin available for the Speedment Tool, using the Speedment Runtime with Gradle is certainly possible. A `build.gradle` file for a Speedment project running a MySQL database would look like so:
+``` groovy
+plugins {
+    id 'java'
+}
+
+group 'com.speedment'
+version '1.0.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'mysql', name: 'mysql-connector-java', version: "$mysqlVersion"
+    implementation group: 'com.speedment', name: "runtime", version: "$speedmentVersion"
+}
+```
+
+The `$mysqlVersion` and `$speedmentVersion` properties are stored in the `gradle.properties` file:
+```
+mysqlVersion=8.0.18
+speedmentVersion=3.2.2
+```
+
+Depending on what your underlying database is, the connector used in the `build.gradle` file will change.
+
+{% include note.html content = "
+To generate the required Speedment files in a fresh Gradle project, we recommend creating a new Maven project to generate the files and copy them over to you Gradle project.
+" %}
+
 ## Spring Boot
 It is easy to integrate any Speedment project with Spring Boot. Here is an example of a Speedment Configuration file for Spring:
 ``` java
