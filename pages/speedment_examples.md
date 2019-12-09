@@ -310,7 +310,24 @@ Rating NC-17 has 210 films
 ```
 
 ### Join
-`JOIN` can be expressed using `.map()` and `.flatMap()`. However, since version 3.0.23, there is support for semantic joins that are much more efficient for large tables. See below. 
+
+#### Semantic Joins
+Semantic joins creates a separate specialized `Stream` with tuples of entities that can be joined dynamically. The following example creates a `Map` that holds which `Language` is spoken in a `Film` using semantic joins:
+``` java
+Join<Tuple2<Film, Language>> join = joinComponent
+    .from(FilmManager.IDENTIFIER)
+    .innerJoinOn(Language.LANGUAGE_ID).equal(Film.LANGUAGE_ID)
+    .build(Tuples::of);
+
+Map<Language, List<Tuple2<Film, Language>>> languageFilmMap = join.stream()
+    .collect(
+        // Apply this classifier
+        groupingBy(Tuple2::get1)
+     ); 
+ 
+```
+
+`JOIN` can also be expressed using `.map()` and `.flatMap()`. Semantic joins that are much more efficient for large tables. See above. 
 
 The example creates a `Map` that holds which `Language` is spoken in a `Film`. This is done by joining the two tables "film" and "language". There is a foreign key from a film to the language table.
 ``` java
@@ -330,21 +347,6 @@ Apparently all films were in English in the database.
 Large tables will be less efficient using this join scheme so users are encouraged to use semantic joins that will improve performance for joins of large tables with Speedment.
 " %}
 
-#### Semantic Joins
-Semantic joins creates a separate specialized `Stream` with tuples of entities that can be joined dynamically. The following example creates a `Map` that holds which `Language` is spoken in a `Film` using semantic joins:
-``` java
-Join<Tuple2<Film, Language>> join = joinComponent
-    .from(FilmManager.IDENTIFIER)
-    .innerJoinOn(Language.LANGUAGE_ID).equal(Film.LANGUAGE_ID)
-    .build(Tuples::of);
-
-Map<Language, List<Tuple2<Film, Language>>> languageFilmMap = join.stream()
-    .collect(
-        // Apply this classifier
-        groupingBy(Tuple2::get1)
-     ); 
- 
-```
 
 ### Distinct
 `DISTINCT` can be expressed using `.distinct()`.
@@ -548,6 +550,10 @@ FilmImpl { filmId = 3, title = ADAPTATION HOLES, ...
 ...
 ```
 
+{% include warning.html content = "
+Flattmapping with `finderBy` cannot be used in conjunction with transactions.
+" %}
+
 
 ### Many-to-One relations
 A Many-to-One relationship is defined as a relationship between two tables where many multiple rows from a first table can match the same single row in a second table. For example, a single language may be used in many films.
@@ -585,6 +591,11 @@ LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.
 LanguageImpl { languageId = 1, name = English, lastUpdate = 2006-02-15 05:02:19.0 }
 ...
 ```
+
+{% include warning.html content = "
+Flattmapping with `finderBy` cannot be used in conjunction with transactions.
+" %}
+
 
 ### Many-to-Many relations
 
