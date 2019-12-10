@@ -59,7 +59,7 @@ plugins {
     id 'java'
 }
 
-group 'com.speedment'
+group 'my-app'
 version '1.0.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
@@ -70,7 +70,7 @@ repositories {
 
 dependencies {
     implementation group: 'mysql', name: 'mysql-connector-java', version: "$mysqlVersion"
-    implementation group: 'com.speedment', name: "runtime", version: "$speedmentVersion"
+    implementation group: 'com.speedment', name: 'runtime', version: "$speedmentVersion"
 }
 ```
 
