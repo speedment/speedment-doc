@@ -164,6 +164,14 @@ The module is activated by installing the bundle `MetaStreamSupplierBundle`. Her
         .build();
 ```
 
+You must also add the following dependency to your `pom.xml` file:
+```xml
+    <dependency>
+        <groupId>com.speedment.enterprise</groupId>
+         <artifactId>metastreamsupplier</artifactId>
+    </dependency>
+```
+
 When you elect to used some tables from the database rather than the DataStore then you usually do not want those tables to take up valuable space in the DataStore since you are not going to use them anyhow. Read more on how to control what data goes into the DataStore [here](#loadreload-individual-rows).
 
 {% include warning.html content = "
