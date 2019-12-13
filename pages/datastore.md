@@ -168,7 +168,7 @@ You must also add the following dependency to your `pom.xml` file:
 ```xml
     <dependency>
         <groupId>com.speedment.enterprise</groupId>
-         <artifactId>metastreamsupplier</artifactId>
+        <artifactId>metastreamsupplier</artifactId>
     </dependency>
 ```
 
