@@ -174,9 +174,18 @@ You must also add the following dependency to your `pom.xml` file:
 
 When you elect to used some tables from the database rather than the DataStore then you usually do not want those tables to take up valuable space in the DataStore since you are not going to use them anyhow. Read more on how to control what data goes into the DataStore [here](#loadreload-individual-rows).
 
+{% include tip.html content = "
+The different `StreamSupplierComponent` objects are added in a stack. Make sure that you add the `MetaStreamSupplierBundle` last in you builder and in any case before the `InMemoryBundle`; 
+" %}
+
 {% include warning.html content = "
 Providing a custom `MetaStreamSupplierComponent` means that you are assuming the responsibility of ensuring referential integrity. If the `MetaStreamSupplierComponent` are using components that are from different transaction states, then these component views might violate referential integrity. This must now be handled by your application.
 " %}
+
+{% include warning.html content = "
+It is not possible to create semantic Joins between tables that are scattered across DataStore and the Database.
+" %}
+
 
 ### Custom Loading/Reloading
 Since 1.1.15, there is a general way of configuring the load process. This way will eventually replace other ways of loading. Loading/reloading is invoked using the `DataStoreComponent.createSnapshotJob(LoadConfiguration loadConfiguration)`. The `LoadConfiguration` can be obtained using a builder as exemplified below:
