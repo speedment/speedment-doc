@@ -139,6 +139,21 @@ spring:
 It is also possible to use `application.properties` files instead if the property file format is preferred
 " %}
 
+### Automatic Loading of DataStore
+If you use DataStore in combination with the Spring Plugin, a method will automatically be generated that will load the `DataStoreComponent` from the database. By default, all the database content will be loaded. If you want to provide your own custom loader (e.g. if you only want to load a subset of the data), override the `populateCahe()` method as exemplified below:
+```java
+public final class SakilaApplicationImpl 
+extends GeneratedSakilaApplicationImpl 
+implements SakilaApplication {
+
+    @Override
+    public void populateCache() {
+        DataStoreComponent dataStoreComponent= getOrThrow(DataStoreComponent.class);
+        dataStoreComponent.load(/* provide custom settings here */);
+    }
+}
+```
+
 
 ### REST Controllers
 In order to open up a table for REST access, The REST controllers must be enabled in the Speedment Tool for the corresponding table as shown in the picture below:
