@@ -68,6 +68,52 @@ entries:
       url: getting_started.html#hello-world
       output: web, pdf
 
+  - title: Tutorials
+    url: tutorials.html#top
+    output: web, pdf
+    folderitems:
+
+    - title: Hello Speedment
+      url: tutorials.html#tutorial-1---hello-speedment
+      output: web, pdf
+      type: homepage
+
+    - title: A First Stream from Speedment
+      url: tutorials.html#tutorial-2---a-first-stream-from-speedment
+      output: web, pdf
+
+    - title: Spring Boot Integration
+      url: tutorials.html#tutorial-3---speedment-spring-boot-integration
+      output: web, pdf
+
+    - title: Filters based on Json Web Tokens
+      url: tutorials.html#tutorial-4---speedment-filters-based-on-json-web-tokens
+      output: web, pdf
+
+    - title: Log errors in a database
+      url: tutorials.html#tutorial-5---log-errors-in-a-database
+      output: web, pdf
+
+    - title: Use Speedment with Java EE
+      url: tutorials.html#tutorial-6---use-speedment-with-java-ee
+      output: web, pdf
+
+    - title: Create Event Sourced Systems
+      url: tutorials.html#tutorial-7---create-event-sourced-systems
+      output: web, pdf
+
+    - title: Writing Your Own Extensions
+      url: tutorials.html#tutorial-8---writing-your-own-extensions
+      output: web, pdf
+
+    - title: Formatting Your Output as JSON
+      url: tutorials.html#tutorial-9---formatting-your-output-as-json
+      output: web, pdf
+
+    - title: Working with Blobs and Clobs
+      url: tutorials.html#tutorial-10---working-with-blobs-and-clobs
+      output: web, pdf
+
   - title: Application Configuration
     url: application_configuration.html#top
     output: web, pdf

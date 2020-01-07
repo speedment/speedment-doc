@@ -6,7 +6,7 @@ keywords: Speedment, Start, Quick Start
 toc: false
 Tags: Getting Started, Start, Setup
 previous: stream_fundamentals.html
-next: application_configuration.html
+next: tutorials.html
 ---
 
 {% include prev_next.html %}
