@@ -755,6 +755,13 @@ entries:
       output: web, pdf
       type: homepage
 
+    - title: Informix
+      enterprise: true
+      url: connectors.html#informix
+      output: web, pdf
+      type: homepage
+
+
 #  
 #  - title: Data Types
 #    url: maven.html#top
