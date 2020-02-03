@@ -502,6 +502,81 @@ The AS400 JDBC driver has some features that can be controlled using the connect
 The JDBC driver version above is the one officially supported by Speedment. Other JDBC versions may also work.
 " %}
 
+## Informix
+This chapter shows how to add support for Informix in Speedment.
+
+### Informix POM
+Always use the [Initializer](https://www.speedment.com/initializer/) to get a complete POM file template as the POM snipes hereunder just show portions of what is needed.
+
+This is how you configure the Speedment Enterprise plugin for use with a SQL Server database:
+``` xml
+    <plugin>
+        <groupId>com.speedment.enterprise</groupId>
+        <artifactId>speedment-enterprise-maven-plugin</artifactId>
+        <version>${speedment.enterprise.version}</version>
+        <dependencies>
+            <dependency>
+                <groupId>com.ibm.informix</groupId>
+                <artifactId>jdbc</artifactId>
+                <version>4.50.3</version>
+                <scope>runtime</scope>
+            </dependency>
+        </dependencies>
+        <configuration>
+            <components>
+                <component>com.speedment.enterprise.connectors.informix.InformixBundle</component>
+            </components>
+            <parameters>
+                <parameter>
+                    <name>licenseKey</name>
+                    <value>(YOUR LICENSE CODE)</value>
+                </parameter>
+            </parameters>
+        </configuration>
+    </plugin>
+```
+You also have to depend on the Informix connector and JDBC connector as a runtime dependency for your application:
+``` xml
+    <dependencies>
+        <dependency>
+            <groupId>com.ibm.informix</groupId>
+            <artifactId>jdbc</artifactId>
+            <version>4.50.3</version>
+            <scope>runtime</scope>
+        </dependency>
+            <dependency>
+            <groupId>com.speedment.enterprise.connectors</groupId>
+            <artifactId>informix-connector</artifactId>
+            <version>${speedment.enterprise.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.speedment.enterprise</groupId>
+            <artifactId>runtime</artifactId>
+            <version>${speedment.enterprise.version}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+```
+
+### Java Module System (JPMS)
+Sql Server applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.connectors.informix;`
+
+### SQL Server Application
+When you build the application, the `SqlServerBundle` needs to be added to the runtime like this:
+``` java
+    YourApplication app = new YourApplicationBuilder()
+        .withPassword("your-dbms-password")
+        .withParam("licenseKey", "(YOUR LICENSE CODE)")
+        .withBundle(InformixBundle.class)
+        .build();
+```
+{% include tip.html content= "
+The Informix JDBC driver has some other features (e.g. file locations) that can be controlled using the connection URL. To activate these functions, use the method `ApplicationBuilder::withConnectionUrl` to specify a custom connection URL.
+" %}
+
+{% include note.html content= "
+The JDBC driver version above is the one officially supported by Speedment. Other JDBC versions may also work.
+" %}
 
 {% include prev_next.html %}
 
