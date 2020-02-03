@@ -508,7 +508,7 @@ This chapter shows how to add support for Informix in Speedment.
 ### Informix POM
 Always use the [Initializer](https://www.speedment.com/initializer/) to get a complete POM file template as the POM snipes hereunder just show portions of what is needed.
 
-This is how you configure the Speedment Enterprise plugin for use with a SQL Server database:
+This is how you configure the Speedment Enterprise plugin for use with an Informix Server database:
 ``` xml
     <plugin>
         <groupId>com.speedment.enterprise</groupId>
@@ -561,7 +561,7 @@ You also have to depend on the Informix connector and JDBC connector as a runtim
 ### Java Module System (JPMS)
 Sql Server applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.connectors.informix;`
 
-### SQL Server Application
+### Informix Application
 When you build the application, the `SqlServerBundle` needs to be added to the runtime like this:
 ``` java
     YourApplication app = new YourApplicationBuilder()
