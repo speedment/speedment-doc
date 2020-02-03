@@ -559,10 +559,10 @@ You also have to depend on the Informix connector and JDBC connector as a runtim
 ```
 
 ### Java Module System (JPMS)
-Sql Server applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.connectors.informix;`
+Informix applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.connectors.informix;`
 
 ### Informix Application
-When you build the application, the `SqlServerBundle` needs to be added to the runtime like this:
+When you build the application, the `InformixBundle` needs to be added to the runtime like this:
 ``` java
     YourApplication app = new YourApplicationBuilder()
         .withPassword("your-dbms-password")
