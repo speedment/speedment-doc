@@ -578,6 +578,86 @@ The Informix JDBC driver has some other features (e.g. file locations) that can 
 The JDBC driver version above is the one officially supported by Speedment. Other JDBC versions may also work.
 " %}
 
+## Snowflake
+This chapter shows how to add support for Snowflake in Speedment.
+
+### Snowflake POM
+Always use the [Initializer](https://www.speedment.com/initializer/) to get a complete POM file template as the POM snipes hereunder just show portions of what is needed.
+
+This is how you configure the Speedment Enterprise plugin for use with an Snowflake database:
+``` xml
+    <plugin>
+        <groupId>com.speedment.enterprise</groupId>
+        <artifactId>speedment-enterprise-maven-plugin</artifactId>
+        <version>${speedment.enterprise.version}</version>
+        <dependencies>
+            <dependency>
+                <groupId>net.snowflake</groupId>
+                <artifactId>snowflake-jdbc</artifactId>
+                <version>3.10.3</version>
+                <scope>runtime</scope>
+            </dependency>
+        </dependencies>
+        <configuration>
+            <components>
+                <component>com.speedment.enterprise.connectors.snowflake.SnowflakeBundle</component>
+            </components>
+            <parameters>
+                <parameter>
+                    <name>licenseKey</name>
+                    <value>(YOUR LICENSE CODE)</value>
+                </parameter>
+            </parameters>
+        </configuration>
+    </plugin>
+```
+You also have to depend on the Snowflake connector and JDBC connector as a runtime dependency for your application:
+``` xml
+    <dependencies>
+        <dependency>
+            <groupId>net.snowflake</groupId>
+            <artifactId>snowflake-jdbc</artifactId>
+            <version>3.10.3</version>
+            <scope>runtime</scope>
+        </dependency>
+            <dependency>
+            <groupId>com.speedment.enterprise.connectors</groupId>
+            <artifactId>snowflake-connector</artifactId>
+            <version>${speedment.enterprise.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.speedment.enterprise</groupId>
+            <artifactId>runtime</artifactId>
+            <version>${speedment.enterprise.version}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+```
+
+### Java Module System (JPMS)
+Snowflake applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.connectors.snowflake;`.
+
+### Informix Application
+When you build the application, the `Snowflake` needs to be added to the runtime like this:
+``` java
+    YourApplication app = new YourApplicationBuilder()
+        .withPassword("your-dbms-password")
+        .withParam("licenseKey", "(YOUR LICENSE CODE)")
+        .withBundle(SnowflakeBundle.class)
+        .build();
+```
+{% include tip.html content= "
+The Snowflake JDBC driver has some other features (e.g. file locations) that can be controlled using the connection URL. To activate these functions, use the method `ApplicationBuilder::withConnectionUrl` to specify a custom connection URL.
+" %}
+
+{% include note.html content= "
+The Snowflake connector does not allow timestamp conversions. The only supported timestamp type is TIMESTAMP_LTZ. 
+" %}
+
+{% include note.html content= "
+The JDBC driver version above is the one officially supported by Speedment. Other JDBC versions may also work.
+" %}
+
 {% include prev_next.html %}
 
 ## Questions and Discussion
