@@ -761,6 +761,12 @@ entries:
       output: web, pdf
       type: homepage
 
+      - title: Snowflake
+        enterprise: true
+        url: connectors.html#snowflake
+        output: web, pdf
+        type: homepage
+
 
 #  
 #  - title: Data Types
