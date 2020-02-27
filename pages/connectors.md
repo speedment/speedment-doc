@@ -637,7 +637,7 @@ You also have to depend on the Snowflake connector and JDBC connector as a runti
 ### Java Module System (JPMS)
 Snowflake applications running under the Java Module System (JPMS) needs to `require com.speedment.enterprise.connectors.snowflake;`.
 
-### Informix Application
+### Snowflake Application
 When you build the application, the `Snowflake` needs to be added to the runtime like this:
 ``` java
     YourApplication app = new YourApplicationBuilder()
