@@ -19,7 +19,7 @@ The `JoinComponent` can be used to create type safe JOINs between tables. It all
 The `JoinComponent` is optional and must be installed before being used:
 
 * If the application is run under the Java Module System (JPMS) it needs to `require com.speedment.runtime.join;` in the `module-info.java` file.
-* Add the component and all necessary classes by invoking `withModule(JoinModule.class)` in the `ApplicationBuilder`.
+* Add the component and all necessary classes by invoking `withBundle(JoinBundle.class)` in the `ApplicationBuilder`.
 
 ## Join Types
 The following join types are supported:
