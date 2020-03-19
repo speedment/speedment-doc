@@ -494,7 +494,12 @@ entries:
     - title: Enum
       url: integration.html#enum
       output: web, pdf
-      type: homepage 
+      type: homepage
+
+    - title: Custom Traits
+      url: integration.html#custom-traits
+      output: web, pdf
+      type: homepage
 
   - title: Advanced Features
     url: advanced_features.html#top

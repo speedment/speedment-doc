@@ -218,6 +218,10 @@ When the plugin has been configured, you gain access to additional methods relat
 
 A more advanced Enum Plugin is available in Speedment Enterprise. [Read more about that here](enterprise_enums#top).
 
+## Custom Traits
+This feature is available form 3.2.9 and onwards and allows entities to implement any custom interface(s).
+TBW
+
 {% include prev_next.html %}
 
 ## Questions and Discussion
