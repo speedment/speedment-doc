@@ -220,7 +220,12 @@ A more advanced Enum Plugin is available in Speedment Enterprise. [Read more abo
 
 ## Custom Traits
 This feature is available form 3.2.9 and onwards and allows entities to implement any custom interface(s).
-TBW
+
+A comma-separated list of interface name can be provided via the Speedment Tool. Upon generation, those interfaces will be added to the generated classes.
+
+To add a custom interface to a table, select that table in the Speedment Tool and and add the interface name to the text field called `Implements`:
+
+{% include image.html file="Implements.png" url="https://www.speedment.com/" alt="Implements" caption="Implements" %}
 
 {% include prev_next.html %}
 
