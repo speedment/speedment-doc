@@ -164,7 +164,7 @@ In order to enable CRUD functionality, the REST controllers must be enabled in t
 
 ### Listing Entities
 
-When the `REST Enable LIST` is enabled for a table, its contents can be retrieved through a GET request. For example, elements from the "film" table can be retrieved like this:
+When the `REST Enable LIST` option is enabled for a table, its contents can be retrieved through a GET request. For example, elements from the "film" table can be retrieved like this:
 
  ```
  curl localhost:8080/sakila/film
@@ -556,7 +556,7 @@ curl -G localhost:8080/sakila/film --data-urlencode \
 
 ### Retrieving specific Entities
 
-When the `REST Enable GET` is enabled for a table, a specific entity can be retrieved through a GET request. For example, an entity from the "film" table can be retrieved like this:
+When the `REST Enable GET` option is enabled for a table, a specific entity can be retrieved through a GET request. For example, an entity from the "film" table can be retrieved like this:
 
  ```
  curl localhost:8080/sakila/film/1
@@ -588,7 +588,7 @@ Single entity retrieval is supported for entities with exactly one Primary Key c
 
 ### Creating Entities
 
-Entity creation via the REST API is done by executing a POST request to the base REST route of the table you are creating the entity in. For example, to create a new "film" entity we would execute the following request:
+When the `REST Enable CREATE` option is enabled for a table, new entities can be created through a POST request. To create a new "film" entity we would execute the following request:
 
 ```
 curl -d '{“filmId”: 1000,“title”: “Interstellar”,"languageId": 1,"rentalDuration": 100,"rentalRate": 100,"replacementCost": 15}' -H "Content-Type: application/json" -X POST localhost:8080/sakila/film
@@ -598,7 +598,7 @@ The POST body of the request, by default, consists of all columns of the table t
 
 ### Updating Entities
 
-Entity updating via the REST API is done by executing a PATCH request to the base REST route of the table you are updating the entity in. This route must be suffixed by the Primary Key column value of the entity that is being updated. For example, to update a "film" entity we would execute the following request:
+When the `REST Enable UPDATE` option is enabled for a table, existing entites can be updated through a PATCH request. To update a "film" entity we would execute the following request:
 
 ```
 curl -d '{“title”: Some other great movie}' -H "Content-Type: application/json" -X PATCH localhost:8080/sakila/film/1000
@@ -612,7 +612,7 @@ Entity updating is supported for entities with exactly one Primary Key column.
 
 ### Deleting Entities
 
-Entity deletion via the REST API is done by executing a DELETE request to the base REST route of the table you are deleting the entity from. This route must be suffixed by the Primary Key column value of the entity that is being deleted. For example, to delete a "film" entity we would execute the following request:
+When the `REST Enable DELETE` option is enabled for a table, existing entities can be deleted through a DELETE request. To delete a "film" entity we would execute the following request:
 
 ```
 curl -X DELETE localhost:8080/sakila/film/1000
