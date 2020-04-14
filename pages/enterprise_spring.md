@@ -118,6 +118,7 @@ There are a number of custom application settings that can be set without modify
 | spring.speedment.port     | The port number of the Spring web server (1 - 65535). If not set, uses the same port that was used for code generation |
 | spring.speedment.logging  | If set to `true`, enables logging of various evenst such as streaming and application build |
 | spring.speedment.url      | The database connection URL to be used when connecting to the backing database. If not set, a default conneciton URL is used|
+| spring.speedment.license  | The licnse key to be used when initializing a Speedment application|
 
 These parameters can be set in resource files and/or on the command line.
 
@@ -155,14 +156,15 @@ implements SakilaApplication {
 ```
 
 
-### REST Controllers
-In order to open up a table for REST access, The REST controllers must be enabled in the Speedment Tool for the corresponding table as shown in the picture below:
+### CRUD Operations
+In order to enable CRUD functionality, the REST controllers must be enabled in the Speedment Tool for the corresponding table as shown in the picture below:\
 
 {% include image.html file="spring-plugin-table-props.png" alt="Spring Plugin Table Properties" caption="Tool: How to Enable REST Table Access." %}
 
 
-### REST Syntax
-When REST is enabled for a table, it contents can be retrieved by invoking a rest call. For example, elements from the "film" table can be retrieved like this:
+### Listing Entities
+
+When the `REST Enable LIST` is enabled for a table, its contents can be retrieved through a GET request. For example, elements from the "film" table can be retrieved like this:
 
  ```
  curl localhost:8080/sakila/film
@@ -552,15 +554,39 @@ curl -G localhost:8080/sakila/film --data-urlencode \
    &limit50'
 ```
 
-### CUD Operations
+### Retrieving specific Entities
 
-To generate REST routes that enable Create, Update and Delete operations on a table, the "REST Enable Create/Update/Delete" options must be enabled as shown in the picture above.
+When the `REST Enable GET` is enabled for a table, a specific entity can be retrieved through a GET request. For example, an entity from the "film" table can be retrieved like this:
 
-{% include note.html content = "
-CUD operations are supported for entities with exactly one Primary Key column.
+ ```
+ curl localhost:8080/sakila/film/1
+ ```
+
+ This will retrieve a film entity with which has a PK column with the value of `1`:
+ 
+ ```json
+ {
+    "description": "A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies",
+    "filmId": 1,
+    "languageId": 1,
+    "lastUpdate": "2006-02-15 14:03:42.0",
+    "length": "86",
+    "originalLanguageId": null,
+    "rating": "PG",
+    "releaseYear": "2006-01-01",
+    "rentalDuration": 6,
+    "rentalRate": "0.99",
+    "replacementCost": "20.99",
+    "specialFeatures": "Deleted Scenes,Behind the Scenes",
+    "title": "ACADEMY DINOSAUR"
+}
+ ```
+
+ {% include note.html content = "
+Single entity retrieval is supported for entities with exactly one Primary Key column.
 " %}
 
-### Creating entities
+### Creating Entities
 
 Entity creation via the REST API is done by executing a POST request to the base REST route of the table you are creating the entity in. For example, to create a new "film" entity we would execute the following request:
 
@@ -570,7 +596,7 @@ curl -d '{“filmId”: 1000,“title”: “Interstellar”,"languageId": 1,"re
 
 The POST body of the request, by default, consists of all columns of the table that is being used to create an entity. Additionally, all included fields are required by default. See ['Customizing Request Bodies'](#customizing-request-bodies) for information on request body options.
 
-### Updating entities
+### Updating Entities
 
 Entity updating via the REST API is done by executing a PATCH request to the base REST route of the table you are updating the entity in. This route must be suffixed by the Primary Key column value of the entity that is being updated. For example, to update a "film" entity we would execute the following request:
 
@@ -580,13 +606,21 @@ curl -d '{“title”: Some other great movie}' -H "Content-Type: application/js
 
 The PATCH body of the request, by default, consists of all columns, except the Primary Key column, of the table that is being used to create an entity. Additionally, all included fields are required by default. See ['Customizing Request Bodies'](#customizing-request-bodies) for information on request body options.
 
-### Deleting entities
+ {% include note.html content = "
+Entity updating is supported for entities with exactly one Primary Key column.
+" %}
+
+### Deleting Entities
 
 Entity deletion via the REST API is done by executing a DELETE request to the base REST route of the table you are deleting the entity from. This route must be suffixed by the Primary Key column value of the entity that is being deleted. For example, to delete a "film" entity we would execute the following request:
 
 ```
 curl -X DELETE localhost:8080/sakila/film/1000
 ```
+
+ {% include note.html content = "
+Entity deletion is supported for entities with exactly one Primary Key column.
+" %}
 
 #### Customizing Request Bodies
 
