@@ -562,7 +562,7 @@ When the `REST Enable GET` option is enabled for a table, a specific entity can 
  curl localhost:8080/sakila/film/1
  ```
 
- This will retrieve a film entity which has a PK column with the value of `1`:
+ This will retrieve a film entity which has a private key column with the value of `1`:
  
  ```json
  {
