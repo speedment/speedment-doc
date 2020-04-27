@@ -84,6 +84,112 @@ Repeat this process for every remote column you would like to access in the same
 #### Selecting a Root Table
 A common mistake when setting up virtual columns is that they are placed on the wrong table. For them to work as intended, they need to have many-to-one or one-to-one relationships with other tables, not one-to-many. If there are one-to-many relationships in the table, you probably need to select another table as the root.`
 
+### Explicit Join Modeling
+
+Starting with version 3.2.10, users are able to explicitly model the Joins used to retrieve their Virtual Columns, allowing them to bypass some of the restrictions tied with the automatic path generation. To do so, some modifications to the _speedment.json_ file are required. 
+
+The _speedment.json_ represents your database as a tree with the following format: `dbmses.schemas.tables`. If your table has Virtual Columns attached to it, a `virtualColumns` array will be present inside of that table object. Every element inside of that array represent your Virtual Columns. To explicitly model the Join for a Virtual Column, two new objects must be added to that Virtual Column element - `joinTarget` and `joinModel`.
+
+The `joinTarget` object represents the column that will be included in the query and has the following format:
+```json
+"joinTarget": {
+  "name" : "db.tableA.columnA",
+  "schemaName" : "db",
+  "tableName" : "tableA",
+  "columnName" : "columnA"
+}
+```
+
+The `joinModel` array is more complex as it contains the actual information needed to model the Join. Entries in the `joinModel` array have the following format:
+```json
+"joinModel": [
+  {
+    "condition": {
+      "leftReference": {
+        "name" : "db.tableB.columnB",
+        "schemaName" : "db",
+        "tableName" : "tableB",
+        "columnName" : "columnB"
+      },
+      "conditionType": "EQUALS",
+      "rightReference": {
+        "name" : "db.tableA.columnA",
+        "schemaName" : "db",
+        "tableName" : "tableA",
+        "columnName" : "columnA"
+      }
+    }
+  }
+]
+```
+
+The `condition` object is the only required object in a Join Model entry needed to construct a correct Join and it contains the following components:
+- **leftReference** - the left-hand side of the Join condition; must be an existing column in the table you are referencing
+- **conditionType** - the condition type used in the Join (`EQUALS`, `NOT_EQUALS`, `GREATER_THAN`, `GREATER_OR_EQUAL`, `LESS_THAN`, `LESS_OR_EQUAL`)
+- **rightReference** - the right-hand side of the Join condtion; must be an existing column in the table you are referencing
+
+The Join Model above would result in the following Join:
+```SQL
+LEFT JOIN db.tableA ON db.tableB.columnB = db.tableA.columnA
+``` 
+
+The number of Join Model entries you can add is not limited by Speedment.
+#### Additional conditions
+
+With the new explicit Join modeling, tables can be joined on multiple columns. This can be achieved by adding a `additionalCondtions` array inside of a Join Model entry:
+```json
+"joinModel": [
+  {
+    "condition": {
+      "leftReference": {
+        "name" : "db.tableB.columnB",
+        "schemaName" : "db",
+        "tableName" : "tableB",
+        "columnName" : "columnB"
+      },
+      "conditionType": "EQUALS",
+      "rightReference": {
+        "name" : "db.tableA.columnA",
+        "schemaName" : "db",
+        "tableName" : "tableA",
+        "columnName" : "columnA"
+      }
+    },
+    "additionalConditions": [
+      {
+        "conditionLink": "AND",
+        "condition": {
+          "leftReference": {
+            "name": "db.tableB.columnB",
+            "schemaName": "db",
+            "tableName": "tableB",
+            "columnName": "columnB"
+          },
+          "conditionType": "NOT_EQUALS",
+          "rightReference": {
+            "name": "db.tableA.columnC",
+            "schemaName": "db",
+            "tableName": "tableA",
+            "columnName": "columnC"
+          }
+        }
+      }
+    ]
+  }
+]
+```
+
+Every additional condition entry consists of 2 components:
+- **conditionLink** - the logical condition that will link the additional condition to the previous one (`AND`, `OR`)
+- **condition** - the actual condition; same format as the condition in the Join Model entry
+
+The Join Model above would result in the following Join:
+```SQL
+LEFT JOIN db.tableA ON db.tableb.columnB = db.tableA.columnA AND db.tableB.columnB <> db.tableA.columnC
+```
+
+The number of additional conditions you can add is not limited by Speedment.
+
 {% include prev_next.html %}
 
 ## Questions and Discussion
