@@ -45,7 +45,7 @@ Speedment officially supports the following MySQL JDBC version(s):
 
 | Database | groupId   | artifactId           | version |
 | :------- | :-------- | :------------------- | :------ |
-| MySQL    | mysql     | mysql-connector-java | 8.0.18  |
+| MySQL    | mysql     | mysql-connector-java | 8.0.21  |
 
 ### Java Module System (JPMS)
 MySQL applications running under the Java Module System (JPMS) needs to `require com.speedment.runtime.connector.mysql;`

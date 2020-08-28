@@ -131,7 +131,7 @@ Here is an example of a pom.xml file setup for Speedment OSS and MySQL that has 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <speedment.version>3.2.9</speedment.version>
+        <speedment.version>3.2.10</speedment.version>
     </properties>    
     
     <build>
@@ -145,7 +145,7 @@ Here is an example of a pom.xml file setup for Speedment OSS and MySQL that has 
                      <dependency>
                          <groupId>mysql</groupId>
                          <artifactId>mysql-connector-java</artifactId>
-                         <version>8.0.18</version>
+                         <version>8.0.21</version>
                          <scope>runtime</scope>
                      </dependency>
                  </dependencies>
@@ -164,7 +164,7 @@ Here is an example of a pom.xml file setup for Speedment OSS and MySQL that has 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.18</version>
+            <version>8.0.21</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
