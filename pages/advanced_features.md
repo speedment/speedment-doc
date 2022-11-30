@@ -82,7 +82,7 @@ Here is an example of how parallel streams can be used:
         }
     }
 ```
-As can be seen above, an `extensiveOperaion` was simulated by inserting an artificial delay of 100 ms for each element in the stream. The code above will produce the following output:
+As can be seen above, an `expensiveOperation` was simulated by inserting an artificial delay of 100 ms for each element in the stream. The code above will produce the following output:
 ``` text
 ForkJoinPool.commonPool-worker-1 InventoryImpl { inventoryId = 1, filmId = 1, storeId = 1, lastUpdate = 2006-02-15 05:09:17.0 }
                             main InventoryImpl { inventoryId = 1025, filmId = 229, storeId = 2, lastUpdate = 2006-02-15 05:09:17.0 }

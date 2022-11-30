@@ -369,7 +369,7 @@ If you do not want to use the entire entity but instead only select one or sever
 final IntStream ids = films.stream()
     .mapToInt(Film.FILM_ID);
 ```
-This creates an `IntStream` consisting of the ids of all `Film`s by applying the Film.FILM_ID getter for each hare in the original stream.
+This creates an `IntStream` consisting of the ids of all `Film`s by applying the Film.FILM_ID getter for each entity in the original stream.
 
 To select several fields, you can create a custom class that holds only the fields in question or use a {{site.data.javadoc.Tuple}} to dynamically create a type-safe holder.
 ``` java
